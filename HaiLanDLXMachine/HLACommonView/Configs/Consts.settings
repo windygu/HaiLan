@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HLACommonView.Configs" GeneratedClassName="Consts">
+  <Profiles />
+  <Settings>
+    <Setting Name="EPC_WEI_ZHU_CE" Type="System.String" Scope="User">
+      <Value Profile="(Default)">商品未注册</Value>
+    </Setting>
+    <Setting Name="TWO_NUMBER_ERROR" Type="System.String" Scope="User">
+      <Value Profile="(Default)">主条码和辅条码数量不对应</Value>
+    </Setting>
+    <Setting Name="WEI_SAO_DAO_EPC" Type="System.String" Scope="User">
+      <Value Profile="(Default)">未扫描到商品</Value>
+    </Setting>
+    <Setting Name="XIANG_MA_BU_YI_ZHI" Type="System.String" Scope="User">
+      <Value Profile="(Default)">箱号不一致</Value>
+    </Setting>
+    <Setting Name="WEI_SAO_DAO_XIANG_MA" Type="System.String" Scope="User">
+      <Value Profile="(Default)">未扫描到箱号</Value>
+    </Setting>
+    <Setting Name="XIANG_MA_CHONG_FU_SHI_YONG" Type="System.String" Scope="User">
+      <Value Profile="(Default)">箱号重复使用</Value>
+    </Setting>
+    <Setting Name="EPC_YI_SAO_MIAO" Type="System.String" Scope="User">
+      <Value Profile="(Default)">商品已扫描</Value>
+    </Setting>
+    <Setting Name="BU_FU_HE_XIANG_GUI" Type="System.String" Scope="User">
+      <Value Profile="(Default)">箱规不符</Value>
+    </Setting>
+    <Setting Name="CHONG_TOU" Type="System.String" Scope="User">
+      <Value Profile="(Default)">重投</Value>
+    </Setting>
+    <Setting Name="RIGHT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">正常</Value>
+    </Setting>
+    <Setting Name="DUO_GE_SHANG_PIN" Type="System.String" Scope="User">
+      <Value Profile="(Default)">多个商品</Value>
+    </Setting>
+    <Setting Name="DUO_GE_PIN_SE" Type="System.String" Scope="User">
+      <Value Profile="(Default)">多个品色</Value>
+    </Setting>
+    <Setting Name="SHU_LIANG_DA_YU_XIANG_GUI" Type="System.String" Scope="User">
+      <Value Profile="(Default)">数量大于箱规</Value>
+    </Setting>
+    <Setting Name="SHANG_PIN_DA_YU_SHI" Type="System.String" Scope="User">
+      <Value Profile="(Default)">商品数量大于10个</Value>
+    </Setting>
+    <Setting Name="PIN_SE_BU_FU" Type="System.String" Scope="User">
+      <Value Profile="(Default)">品色不符</Value>
+    </Setting>
+    <Setting Name="JIAO_JIE_HAO_BU_YI_ZHI" Type="System.String" Scope="User">
+      <Value Profile="(Default)">交接号不一致</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

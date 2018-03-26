@@ -1,0 +1,87 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HLACommonView.Configs" GeneratedClassName="DataSetting">
+  <Profiles />
+  <Settings>
+    <Setting Name="DBAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">172.18.10.98</Value>
+    </Setting>
+    <Setting Name="DBName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">heilandb</Value>
+    </Setting>
+    <Setting Name="DBUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sa</Value>
+    </Setting>
+    <Setting Name="DBPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">xindeco.123456</Value>
+    </Setting>
+    <Setting Name="UseFormalEnvironmemt" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FormalSAPServerAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">172.18.200.86</Value>
+    </Setting>
+    <Setting Name="FormalSystemNum" Type="System.String" Scope="User">
+      <Value Profile="(Default)">04</Value>
+    </Setting>
+    <Setting Name="FormalIdleTimeout" Type="System.String" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="FormalSAPUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RFC_RFID01</Value>
+    </Setting>
+    <Setting Name="FormalSAPPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">xinda01</Value>
+    </Setting>
+    <Setting Name="FormalClient" Type="System.String" Scope="User">
+      <Value Profile="(Default)">800</Value>
+    </Setting>
+    <Setting Name="FormalLanguage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ZH</Value>
+    </Setting>
+    <Setting Name="FormalPeakConnectionsLimit" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="FormalPollSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="TestSAPServerAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">172.18.200.14</Value>
+    </Setting>
+    <Setting Name="TestSystemNum" Type="System.String" Scope="User">
+      <Value Profile="(Default)">00</Value>
+    </Setting>
+    <Setting Name="TestIdleTimeout" Type="System.String" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="TestSAPUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">093482</Value>
+    </Setting>
+    <Setting Name="TestSAPPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sunrain</Value>
+    </Setting>
+    <Setting Name="TestClient" Type="System.String" Scope="User">
+      <Value Profile="(Default)">300</Value>
+    </Setting>
+    <Setting Name="TestLanguage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">zh</Value>
+    </Setting>
+    <Setting Name="TestPeakConnectionsLimit" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="TestPollSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="TestDBAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">172.18.10.76</Value>
+    </Setting>
+    <Setting Name="TestDBName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">heilandb</Value>
+    </Setting>
+    <Setting Name="TestDBUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">sa</Value>
+    </Setting>
+    <Setting Name="TestDBPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">xindeco.123456</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
