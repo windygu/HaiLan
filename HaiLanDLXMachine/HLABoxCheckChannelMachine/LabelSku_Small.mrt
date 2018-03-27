@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="6">
+      <value>,PINHAO,PINHAO,System.String,,False,False</value>
+      <value>,SEHAO,SEHAO,System.String,,False,False</value>
+      <value>,GUIGE,GUIGE,System.String,,False,False</value>
+      <value>,SHULIANG,SHULIANG,System.String,,False,False</value>
+      <value>,HU,HU,System.String,,False,False</value>
+      <value>,STORAGETYPE,STORAGETYPE,System.String,,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="2" type="Page" isKey="true">
+      <Border>None;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="12">
+        <Text1 Ref="3" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.2,0.63,1.8,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,18,Bold,Point,False,134</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>品号：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text1>
+        <Text2 Ref="4" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.2,3.5,1.8,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,18,Bold,Point,False,134</Font>
+          <Guid>56dda753abc24a40a27f0df718d8320e</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>色号：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text2>
+        <Text3 Ref="5" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.2,6.37,1.8,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,18,Bold,Point,False,134</Font>
+          <Guid>0eed464c950244d7a02cf8faff1bc140</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text3</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>规格：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text3>
+        <Text4 Ref="6" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.2,9.07,1.8,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,18,Bold,Point,False,134</Font>
+          <Guid>81956a54f926426fae6a3893b7293a04</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text4</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>数量：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text4>
+        <Text6 Ref="7" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>16.4,0.83,7.8,1.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,26,Bold</Font>
+          <Guid>8738339cfdbf4f279d3165234bf9fdbd</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text6</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{PINHAO}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text6>
+        <Text7 Ref="8" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2,2.7,7.8,2.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,65,Bold</Font>
+          <Guid>c6a6acc11e2442e29f60ea9b364516d0</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text7</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{SEHAO}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text7>
+        <Text8 Ref="9" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2,5.6,7.8,2.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,28,Bold</Font>
+          <Guid>dc12c13b7bd54f4fbb97534c6fe606df</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text8</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{GUIGE}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text8>
+        <Text9 Ref="10" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2,8.4,7.8,2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,40,Bold</Font>
+          <Guid>afff20ac304641baae59f28e0a62abc3</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text9</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{SHULIANG}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text9>
+        <Text5 Ref="11" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2,13.6,7.8,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,18,Bold</Font>
+          <Guid>8c5d85d867dd49da960ce97188187729</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text5</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{HU}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text5>
+        <Text12 Ref="12" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.2,12.2,1.8,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,18,Bold,Point,False,134</Font>
+          <Guid>57c56d08d4484b37a140b7fd4f7482ff</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text12</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>箱号：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text12>
+        <Text13 Ref="13" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2,0.1,7.8,1.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,25,Bold</Font>
+          <Guid>b5449c31d7fd49dea1af4ae86b2ced7d</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text13</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{PINHAO}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text13>
+        <BarCode1 Ref="14" type="Stimulsoft.Report.BarCodes.StiBarCode" isKey="true">
+          <AutoScale>True</AutoScale>
+          <BackColor>Transparent</BackColor>
+          <BarCodeType Ref="15" type="Stimulsoft.Report.BarCodes.StiCode128AutoBarCodeType" isKey="true" />
+          <ClientRectangle>2,11.2,7.8,2.4</ClientRectangle>
+          <Code>{HU}</Code>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,15,Bold,Pixel</Font>
+          <ForeColor>Black</ForeColor>
+          <Guid>d584e89f1f2e4b5b94efe5b14b523f32</Guid>
+          <Name>BarCode1</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <ShowLabelText>False</ShowLabelText>
+        </BarCode1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>a1ba2dc647f542bb8a45b8a78b392140</Guid>
+      <Margins>0,0,0,0</Margins>
+      <Name>Page1</Name>
+      <PageHeight>15</PageHeight>
+      <PageWidth>10</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="16" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <ShowImageBehind>False</ShowImageBehind>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268427775</PreviewSettings>
+  <PrinterSettings Ref="17" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>报表</ReportAlias>
+  <ReportChanged>8/26/2016 11:19:05 AM</ReportChanged>
+  <ReportCreated>5/29/2013 8:48:17 AM</ReportCreated>
+  <ReportFile>E:\HaiLan\Code\ChannelMachine for Xinglin\HLABoxCheckChannelMachine\LabelSku_Small.mrt</ReportFile>
+  <ReportGuid>2a517c62f89b49afbdb668950567e54b</ReportGuid>
+  <ReportName>报表</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2012.3.1500</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class 报表 : Stimulsoft.Report.StiReport
+    {
+        public 报表()
+
+        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

@@ -33,7 +33,7 @@ namespace HLABigChannel
         {
             this.btnReciever.Enabled = false;
 
-            //StartProgram(sender, "ReceiverDir", "ReceiverExe", "receiver");
+            StartProgram(sender, "HLAChannelMachine.exe", "receiver");
 
             this.btnReciever.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
@@ -85,7 +85,7 @@ namespace HLABigChannel
         {
             btnYk.Enabled = false;
 
-            //StartProgram(sender, "YkDir", "YkExe", "yk");
+            StartProgram(sender, "HLAYKChannelMachine.exe", "yk");
 
             btnYk.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
@@ -230,7 +230,7 @@ namespace HLABigChannel
         {
             this.boxReviewButton.Enabled = false;
 
-           // StartProgram(sender, "BoxReviewDir", "BoxReviewExe", "boxreview");
+            StartProgram(sender, "HLABoxCheckChannelMachine.exe", "boxreview");
 
             this.boxReviewButton.Enabled = true;
             this.WindowState = FormWindowState.Maximized;

@@ -273,9 +273,10 @@ namespace HLAPKChannelMachine
             }
 
             timer1.Enabled = false;
-            reader.Disconnect();
             if (threadLoad != null)
                 threadLoad.Abort();
+
+            CloseWindow();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
