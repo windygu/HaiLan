@@ -52,8 +52,6 @@ namespace HLABoxCheckChannelMachine
                 SysConfig.CurrentLoginUser = new HLACommonLib.Model.UserInfo() { UserId = User, Password = Password };
                 SysConfig.DeviceInfo.LOUCENG = cboLouceng.Text;
 
-                string small = ConfigurationManager.AppSettings["Small"] == null ? "0" : ConfigurationManager.AppSettings["Small"];
-
                 InventoryForm form = new InventoryForm();
                 form.ShowDialog();
             }

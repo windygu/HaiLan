@@ -17,7 +17,7 @@ namespace HLAPKChannelMachine
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main(String[] arg)
+        static void Main(string[] arg)
         {
             Process[] processes = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
             Process curProcess = Process.GetCurrentProcess();
@@ -40,7 +40,6 @@ namespace HLAPKChannelMachine
                 }
             }
 
-            //载入默认配置
             AppConfig.Load();
 
 #if DEBUG
@@ -70,5 +69,7 @@ namespace HLAPKChannelMachine
                 Application.Run(new LoginForm());
             }
         }
+
+        
     }
 }

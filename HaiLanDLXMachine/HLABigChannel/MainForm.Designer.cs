@@ -34,7 +34,6 @@
             this.dmButton9_jiehuodan = new DMSkin.Controls.DMButton();
             this.dmButton9_Cancel = new DMSkin.Controls.DMButton();
             this.boxReviewButton = new DMSkin.Controls.DMButton();
-            this.sortReviewButton = new DMSkin.Controls.DMButton();
             this.lowLibButton = new DMSkin.Controls.DMButton();
             this.lblTime = new System.Windows.Forms.Label();
             this.lblSayHello = new System.Windows.Forms.Label();
@@ -64,7 +63,6 @@
             this.pnMain.Controls.Add(this.dmButton9_jiehuodan);
             this.pnMain.Controls.Add(this.dmButton9_Cancel);
             this.pnMain.Controls.Add(this.boxReviewButton);
-            this.pnMain.Controls.Add(this.sortReviewButton);
             this.pnMain.Controls.Add(this.lowLibButton);
             this.pnMain.Controls.Add(this.lblTime);
             this.pnMain.Controls.Add(this.lblSayHello);
@@ -179,31 +177,6 @@
             this.boxReviewButton.Text = "箱复核";
             this.boxReviewButton.UseVisualStyleBackColor = true;
             this.boxReviewButton.Click += new System.EventHandler(this.boxReviewButton_Click);
-            // 
-            // sortReviewButton
-            // 
-            this.sortReviewButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.sortReviewButton.AutoEllipsis = true;
-            this.sortReviewButton.BackColor = System.Drawing.Color.Transparent;
-            this.sortReviewButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.sortReviewButton.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
-            this.sortReviewButton.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(166)))), ((int)(((byte)(124)))), ((int)(((byte)(16)))));
-            this.sortReviewButton.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(212)))), ((int)(((byte)(100)))));
-            this.sortReviewButton.DM_NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.sortReviewButton.DM_Radius = 8;
-            this.sortReviewButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.sortReviewButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.sortReviewButton.Font = new System.Drawing.Font("微软雅黑", 24F);
-            this.sortReviewButton.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.sortReviewButton.Image = null;
-            this.sortReviewButton.Location = new System.Drawing.Point(423, 98);
-            this.sortReviewButton.Margin = new System.Windows.Forms.Padding(0);
-            this.sortReviewButton.Name = "sortReviewButton";
-            this.sortReviewButton.Size = new System.Drawing.Size(221, 62);
-            this.sortReviewButton.TabIndex = 19;
-            this.sortReviewButton.Text = "分拣复核";
-            this.sortReviewButton.UseVisualStyleBackColor = true;
-            this.sortReviewButton.Click += new System.EventHandler(this.sortReviewButton_Click);
             // 
             // lowLibButton
             // 
@@ -552,7 +525,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.SteelBlue;
+            this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(1068, 649);
             this.Controls.Add(this.label2_IP);
             this.Controls.Add(this.dmButton3);
@@ -594,7 +567,6 @@
         private DMSkin.Controls.DMButton netStatusButton;
         private DMSkin.Controls.DMButton lowLibButton;
         private DMSkin.Controls.DMButton boxReviewButton;
-        private DMSkin.Controls.DMButton sortReviewButton;
         private System.Windows.Forms.Panel pnMain;
         private DMSkin.Controls.DMButton dmButton3;
         private DMSkin.Controls.DMButton dmButton9_Cancel;

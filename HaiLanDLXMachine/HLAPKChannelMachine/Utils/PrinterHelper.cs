@@ -69,7 +69,6 @@ namespace HLAPKChannelMachine.Utils
                 stiReport["ZSDABW_DES"] = label.ZSDABW_DES;
                 stiReport["HWK_JIDATE"] = getJiDate(label.PICK_DATE);
 
-                StiOptions.Engine.HideMessages = true;
                 PrinterSettings printerSettings = new PrinterSettings();
                 stiReport.Print(false, printerSettings);
 
@@ -124,7 +123,6 @@ namespace HLAPKChannelMachine.Utils
                 stiReport["ZSDABW_DES"] = label.ZSDABW_DES;
                 stiReport["HWK_HU"] = HU;//箱码条形码
 
-                StiOptions.Engine.HideMessages = true;
                 PrinterSettings printerSettings = new PrinterSettings();
                 stiReport.Print(false, printerSettings);
 
@@ -176,6 +174,7 @@ namespace HLAPKChannelMachine.Utils
                                 int qty = (int)pkDeliverErrorBox.REAL;
                                 int addqty = (int)pkDeliverErrorBox.ADD_REAL;
                                 string newzsiztx = zsiztx;
+
                                 int yingfa = 0;
                                 int boxyingfa = 0;
                                 int addboxyingfa = 0;
@@ -186,7 +185,7 @@ namespace HLAPKChannelMachine.Utils
                                     boxyingfa = temp.QTY - temp.REALQTY;
                                     addboxyingfa = temp.QTY_ADD - temp.REALQTY_ADD;
                                 }
-                                if (boxyingfa != qty) //将列表的数据都显示出来
+                                if (boxyingfa != qty || addqty != addboxyingfa) //将列表的数据都显示出来
                                 {
                                     DataRow row = content.NewRow();
                                     row["ZSATNR"] = zsatnr;
@@ -214,8 +213,9 @@ namespace HLAPKChannelMachine.Utils
                     row["ADDYQTY"] = 0;
                     content.Rows.Add(row);
                 }
+
                 stiReport["REMARK"] = msg;
-                StiOptions.Engine.HideMessages = true;
+
                 PrinterSettings printerSettings = new PrinterSettings();
                 stiReport.RegData("Inventory", content);
                 stiReport.Print(false, printerSettings);
@@ -229,7 +229,6 @@ namespace HLAPKChannelMachine.Utils
 
             return false;
         }
-
 
         private const string XIANG_MA_AND_XIA_JIA_DAN_GUAN_LIAN_BU_CUN_ZAI = "箱号和下架单未关联";
 

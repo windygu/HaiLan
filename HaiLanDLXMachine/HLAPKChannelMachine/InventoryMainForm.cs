@@ -14,22 +14,52 @@ using HLACommonLib.Model;
 using HLACommonLib.Model.PK;
 using HLAPKChannelMachine.DialogForms;
 using HLAPKChannelMachine.Utils;
+using Xindeco.Device;
 using Newtonsoft.Json;
-using HLACommonView.Views;
-using HLACommonView.Model;
-using Xindeco.Device.Model;
 
 namespace HLAPKChannelMachine
 {
-    public partial class InventoryMainForm : CommonInventoryForm
+    public partial class InventoryMainForm : MetroForm
     {
+        #region 属性
+        private List<MaterialInfo> materialList = new List<MaterialInfo>();
+        private List<HLATagInfo> tagList = new List<HLATagInfo>();
         private List<DeliverEpcDetail> deliverEpcDetailList = null;
+        /// <summary>
+        /// 读写器是否正在盘点
+        /// </summary>
+        private bool isInventory = false;
+        /// <summary>
+        /// 读写器
+        /// </summary>
+        UHFReader reader = new UHFReader(Xindeco.Device.Model.UHFReaderType.ImpinjR420);
+        private int inventoryResult = 0;
+        /// <summary>
+        /// 箱码列表
+        /// </summary>
+        private Queue<string> boxNoList = new Queue<string>();
+        /// <summary>
+        /// 处理PLC信息的线程
+        /// </summary>
+        private Thread logicThread = null;
         /// <summary>
         /// 窗体加载操作线程
         /// </summary>
         private Thread threadLoad = null;
-
+        /// <summary>
+        /// 本轮扫描的EPC列表
+        /// </summary>
+        private List<string> epcList = new List<string>();
+        /// <summary>
+        /// 读写器最后读取时间
+        /// </summary>
+        private DateTime lastReadTime = DateTime.Now;
+        /// <summary>
+        /// 本轮扫描到的标签总数
+        /// </summary>
+        private int currentNum = 0;
         private StringBuilder errorMsg = new StringBuilder();
+        private List<TagDetailInfo> tagDetailList = new List<TagDetailInfo>();
         /// <summary>
         /// 当前错误记录
         /// </summary>
@@ -63,6 +93,28 @@ namespace HLAPKChannelMachine
         private string mFYDT = "";
         private string mVsart = "";
 
+        #region PLC
+        /// <summary>
+        /// PLC串口
+        /// </summary>
+        SerialPort port = null;
+        /// <summary>
+        /// PLC串口缓存
+        /// </summary>
+        private List<byte> comBuffer = new List<byte>(4096);
+        private Queue<string> comDataQueue = new Queue<string>();
+        #endregion
+
+        #region 条码扫描模组相关属性
+        /// <summary>
+        /// 条码扫描模组1
+        /// </summary>
+        SerialPort scannerPort_1 = null;  //条码扫描枪串口
+        /// <summary>
+        /// 条码扫描模组2
+        /// </summary>
+        SerialPort scannerPort_2 = null;  //条码扫描枪串口
+        #endregion
 
         #region 扫描结果
         /// <summary>
@@ -114,15 +166,40 @@ namespace HLAPKChannelMachine
 
         #endregion
 
+        #region PLC指令-漳州 FS代表工控机发送给PLC的指令 JS代表PLC发送给工控机的指令
+        /// <summary>
+        /// 打开射频指令
+        /// </summary>
+        private const string ZZ_JS_KAI_SHE_PIN = "010100000001FDCA";
+        /// <summary>
+        /// 关闭射频指令
+        /// </summary>
+        private const string ZZ_JS_GUAN_SHE_PIN = "010200000001B9CA";
+        /// <summary>
+        /// 询问结果指令
+        /// </summary>
+        private const string ZZ_JS_XUN_WEN_JIE_GUO = "010300000001840A";
+        /// <summary>
+        /// 正常指令
+        /// </summary>
+        private const string ZZ_FS_ZHENG_CHANG = "010300000001840A";
+        /// <summary>
+        /// 异常指令
+        /// </summary>
+        private const string ZZ_FS_YI_CHANG = "01030000000305CB";
+        #endregion
+        #endregion
+
+        //private DateTime shipDate = DateTime.Now;
 
         public InventoryMainForm()
         {
             InitializeComponent();
-            InitDevice(UHFReaderType.ImpinjR420, true);
         }
 
         private void InventoryMainForm_Load(object sender, EventArgs e)
         {
+            timer.Enabled = false;
             timer1.Enabled = false;
 
             btnGetData.Visible = SysConfig.LGNUM == "ET01" ? true : false;
@@ -139,6 +216,46 @@ namespace HLAPKChannelMachine
                 }
             }
 
+            #region TEST CODE
+            /* For Test
+            gridDeliverErrorBox.Rows.Add("H001", "24568974", "1000004879", "HNZAD3A187A", "R7C", "165/84A(46)", 50, 20, "正常");
+            gridDeliverErrorBox.Rows.Add("H001", "24568974", "1000004879", "HNZAD3A187A", "R7C", "165/84A(46)", 50, 20, "正常");
+            gridDeliverErrorBox.Rows.Add("H001", "24568974", "1000004879", "HNZAD3A187A", "R7C", "165/84A(46)", 50, 20, "正常");
+            gridDeliverErrorBox.Rows.Add("H001", "24568974", "1000004879", "HNZAD3A187A", "R7C", "165/84A(46)", 50, 20, "正常");
+            gridDeliverErrorBox.Rows.Add("H001", "24568974", "1000004879", "HNZAD3A187A", "R7C", "165/84A(46)", 50, 20, "正常");
+            gridDeliverDetail.Rows.Add("H001", "HNZAD3A187A", "R7C", "165/84A(46)", 50, 20, 30);
+            gridDeliverDetail.Rows.Add("H001", "HNZAD3A187A", "R7C", "170/88A(48)", 50, 20, 30);
+            gridDeliverDetail.Rows.Add("H001", "HNZAD3A187A", "R7C", "175/92A(50)", 50, 20, 30);
+
+            PKDeliverErrorBox pkeb = new PKDeliverErrorBox();
+            pkeb.PARTNER = "H001";
+            pkeb.HU = "22225548";
+            pkeb.ZSATNR = "HNZAD3A187A";
+            pkeb.ZCOLSN = "R7C";
+            pkeb.ZSIZTX = "165/84A(46)";
+            pkeb.DIFF = 10;
+            pkeb.REMARK = "窜规格;箱码不一致;门店不存在";
+            AddRecordToDeliverErrorBoxGrid(pkeb);
+            pkeb = new PKDeliverErrorBox();
+            pkeb.PARTNER = "H001";
+            pkeb.HU = "22225548";
+            pkeb.ZSATNR = "HNZAD3A187A";
+            pkeb.ZCOLSN = "R7C";
+            pkeb.ZSIZTX = "170/88A(48)";
+            pkeb.DIFF = 5;
+            pkeb.REMARK = "窜规格;箱码不一致;门店不存在";
+            AddRecordToDeliverErrorBoxGrid(pkeb);
+            pkeb = new PKDeliverErrorBox();
+            pkeb.PARTNER = "H001";
+            pkeb.HU = "22225548";
+            pkeb.ZSATNR = "HNZAD3A187A";
+            pkeb.ZCOLSN = "R7C";
+            pkeb.ZSIZTX = "175/92A(50)";
+            pkeb.DIFF = 10;
+            pkeb.REMARK = "窜规格;箱码不一致;门店不存在";
+            AddRecordToDeliverErrorBoxGrid(pkeb);
+             */
+            #endregion
             UpdateUIControl(InventoryControlType.SHIP_DATE_LABEL, "");
             UpdateUIControl(InventoryControlType.DEVICE_NO_LABEL, SysConfig.DeviceInfo != null ? SysConfig.DeviceInfo.EQUIP_HLA : "");
             UpdateUIControl(InventoryControlType.LOGIN_NO_LABEL, SysConfig.CurrentLoginUser != null ? SysConfig.CurrentLoginUser.UserId : "");
@@ -152,64 +269,100 @@ namespace HLAPKChannelMachine
             
             threadLoad = new Thread(new ThreadStart(() =>
             {
+                bool closed = false;
+
                 Invoke(new Action(() =>
                 {
                     lblLoading.Text = "正在连接PLC...";
                 }));
-                if(!ConnectPlc())
-                {
-                    UpdateUIControl(InventoryControlType.PLC_STATUS_LABEL, "异常");
-                    lblPLCStatus.ForeColor = Color.OrangeRed;
-                }
+                initPlcPort();
                 Invoke(new Action(() =>
                 {
                     lblLoading.Text = "正在连接条码扫描枪...";
                 }));
-                ConnectBarcode();
+                initScannerPort();
 
                 Invoke(new Action(() =>
                 {
                     lblLoading.Text = "正在连接读写器...";
                 }));
-                if(!ConnectReader())
-                {
-                    UpdateUIControl(InventoryControlType.READER_STATUS_LABEL, "异常");
-                    lblReaderStatus.ForeColor = Color.OrangeRed;
-                }
+                #region 连接读写器
+                reader.OnTagReported += Reader_OnTagReported;
+                bool result = reader.Connect(SysConfig.ReaderIp, Xindeco.Device.Model.ConnectType.TCP, SynchronizationContext.Current);
 
+                if (!result)
+                {
+                    Invoke(new Action(() =>
+                    {
+                        MessageBox.Show("连接读写器失败!", "错误", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LocalDataService.InsertErrorDataRecord(ERRORDATATYPE.读写器未连接, "设备号：" + lblDeviceNo.Text + " 楼层号：" + lblLOUCENG.Text);
+
+                    }));
+                    UpdateUIControl(InventoryControlType.READER_STATUS_LABEL, "异常");
+
+                }
+                else
+                {
+                    UpdateUIControl(InventoryControlType.READER_STATUS_LABEL, "正常");
+                    Xindeco.Device.Model.ReaderConfig config = new Xindeco.Device.Model.ReaderConfig();
+                    config.SearchMode = SysConfig.ReaderConfig.SearchMode;
+                    config.Session = SysConfig.ReaderConfig.Session;
+                    if (config.AntennaList == null) config.AntennaList = new List<Xindeco.Device.Model.ReaderAntenna>();
+                    if (SysConfig.ReaderConfig.UseAntenna1)
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(1, true, SysConfig.ReaderConfig.AntennaPower1));
+                    else
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(1, false, SysConfig.ReaderConfig.AntennaPower1));
+
+                    if (SysConfig.ReaderConfig.UseAntenna2)
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(2, true, SysConfig.ReaderConfig.AntennaPower2));
+                    else
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(2, false, SysConfig.ReaderConfig.AntennaPower2));
+
+                    if (SysConfig.ReaderConfig.UseAntenna3)
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(3, true, SysConfig.ReaderConfig.AntennaPower3));
+                    else
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(3, false, SysConfig.ReaderConfig.AntennaPower3));
+
+                    if (SysConfig.ReaderConfig.UseAntenna4)
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(4, true, SysConfig.ReaderConfig.AntennaPower4));
+                    else
+                        config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(4, false, SysConfig.ReaderConfig.AntennaPower4));
+                    reader.SetParameter(config);
+                }
+                
+                
+                #endregion
                 this.Invoke(new Action(() => {
                     panelLoading.Show();
                     lblLoading.Text = "正在下载物料和吊牌数据...";
                 }));
 
+                lblLoading.Text = "正在更新SAP最新物料数据...";
                 materialList = SAPDataService.GetMaterialInfoListAll(SysConfig.LGNUM);
                 if (materialList == null || materialList.Count <= 0)
                 {
+
                     this.Invoke(new Action(() =>
                     {
-                        MetroMessageBox.Show(this, "未下载到物料主数据，请检查网络情况", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Invoke(new Action(() =>
-                        {
-                            panelLoading.Hide();
-                            lblLoading.Text = "";
-                        }));
+                        MetroMessageBox.Show(this, "未下载到物料主数据，请检查网络情况", "提示");
+                        closed = true;
+                        Close();
                     }));
-                    return;
                 }
-                hlaTagList = LocalDataService.GetAllRfidHlaTagList();
-                if (hlaTagList == null || hlaTagList.Count <= 0)
+                if (closed) return;
+
+                tagList = LocalDataService.GetAllRfidHlaTagList();
+                if (tagList == null || tagList.Count <= 0)
                 {
                     this.Invoke(new Action(() =>
                     {
-                        MetroMessageBox.Show(this, "未下载到吊牌数据，请检查网络情况", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Invoke(new Action(() =>
-                        {
-                            panelLoading.Hide();
-                            lblLoading.Text = "";
-                        }));
+                        MetroMessageBox.Show(this, "未下载到吊牌主数据，请检查网络情况", "提示");
+                        closed = true;
+                        Close();
                     }));
-                    return;
                 }
+
+                if (closed) return;
 
                 this.Invoke(new Action(() =>
                 {
@@ -253,15 +406,47 @@ namespace HLAPKChannelMachine
             threadLoad.IsBackground = true;
             threadLoad.Start();
 
+            logicThread = new Thread(new ThreadStart(LogicThreadFunc));
+            logicThread.IsBackground = true;
+            logicThread.Start();
+
             //启动上传队列
             UploadServer.GetInstance().Start();
         }
 
-        public override void UpdateView()
+        private void Reader_OnTagReported(Xindeco.Device.Model.TagInfo taginfo)
         {
-            UpdateUIControl(InventoryControlType.SCAN_NUM_LABEL, epcList.Count.ToString());//更新扫描总数
-            UpdateUIControl(InventoryControlType.RIGHT_NUM_LABEL, mainEpcNumber.ToString());
-            UpdateUIControl(InventoryControlType.ERROR_NUM_LABEL, errorEpcNumber.ToString());
+            if (!isInventory || taginfo == null || string.IsNullOrEmpty(taginfo.Epc) || epcList.Contains(taginfo.Epc))
+                return;
+
+            if (SysConfig.RssiLimit != 0)
+            {
+                if (taginfo.Rssi < SysConfig.RssiLimit)
+                    return;
+            }
+
+            lastReadTime = DateTime.Now;
+            currentNum++;
+            UpdateUIControl(InventoryControlType.SCAN_NUM_LABEL, currentNum.ToString());//更新扫描总数
+
+            epcList.Add(taginfo.Epc);
+
+            TagDetailInfo tdi = getTagDetailInfoByEpc(taginfo.Epc);
+            if (tdi != null)
+            {
+                tagDetailList.Add(tdi);
+                if (!tdi.IsAddEpc)  //当扫描到主条码时合法数 + 1
+                {
+                    UpdateUIControl(InventoryControlType.RIGHT_NUM_LABEL, (int.Parse(lblRightNum.Text) + 1).ToString());
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+                UpdateUIControl(InventoryControlType.ERROR_NUM_LABEL, (int.Parse(lblErrorNum.Text) + 1).ToString());
+            }
         }
 
         private void InventoryMainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -272,11 +457,24 @@ namespace HLAPKChannelMachine
                     e.Cancel = true;
             }
 
+            timer.Enabled = false;
             timer1.Enabled = false;
+
+            StopInventory();
+            timer.Stop();
+            reader.Disconnect();
+            if (port != null)
+            {
+                port.Close();
+            }
+            if (scannerPort_1 != null)
+                scannerPort_1.Close();
+            if (scannerPort_2 != null)
+                scannerPort_2.Close();
             if (threadLoad != null)
                 threadLoad.Abort();
-
-            CloseWindow();
+            if (logicThread != null)
+                logicThread.Abort();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -284,14 +482,109 @@ namespace HLAPKChannelMachine
             Close();
         }
 
-        public override CheckResult CheckData()
+
+        /// <summary>
+        /// 获取吊牌详细信息
+        /// </summary>
+        /// <param name="epc"></param>
+        /// <returns></returns>
+        private TagDetailInfo getTagDetailInfoByEpc(string epc)
         {
-            CheckResult checkResult = base.CheckData();
+            if (string.IsNullOrEmpty(epc) || epc.Length < 20)
+                return null;
+
+            string rfidEpc = epc.Substring(0, 14) + "000000";
+            string rfidAddEpc = rfidEpc.Substring(0, 14);
+            if (tagList == null || materialList == null)
+                return null;
+            List<HLATagInfo> tags = tagList.FindAll(i => i.RFID_EPC == rfidEpc || i.RFID_ADD_EPC == rfidAddEpc);
+            if (tags == null || tags.Count == 0)
+                return null;
+            else
+            {
+                HLATagInfo tag = tags.First();
+                MaterialInfo mater = materialList.FirstOrDefault(i => i.MATNR == tag.MATNR);
+                if (mater == null)
+                    return null;
+                else
+                {
+                    TagDetailInfo item = new TagDetailInfo();
+                    item.EPC = epc;
+                    item.RFID_EPC = tag.RFID_EPC;
+                    item.RFID_ADD_EPC = !string.IsNullOrEmpty(tag.RFID_ADD_EPC) ? tag.RFID_ADD_EPC.Trim() : "";
+                    item.CHARG = tag.CHARG;
+                    item.MATNR = tag.MATNR;
+                    item.BARCD = tag.BARCD;
+                    item.ZSATNR = mater.ZSATNR;
+                    item.ZCOLSN = mater.ZCOLSN;
+                    item.ZSIZTX = mater.ZSIZTX;
+                    item.PXQTY = mater.PXQTY;
+
+                    item.BRGEW = mater.BRGEW;
+
+                    //判断是否为辅条码epc
+                    if (rfidEpc == item.RFID_EPC)
+                        item.IsAddEpc = false;
+                    else
+                        item.IsAddEpc = true;
+                    return item;
+                }
+            }
+        }
+        void logBoxDetial_no_short(List<PKPickTaskInfo> pkPickTaskInfoList)
+        {
+            try
+            {
+                foreach (PKPickTaskInfo pkPickTaskInfo in pkPickTaskInfoList)
+                {
+                    /*
+                    PKDeliverErrorBox pb = new PKDeliverErrorBox()
+                    {
+                        BOXGUID = currentBoxGuid,
+                        PICK_TASK = pkPickTaskInfo.PICK_TASK,
+                        PICK_TASK_ITEM = pkPickTaskInfo.PICK_TASK_ITEM,
+                        LOUCENG = SysConfig.DeviceInfo.LOUCENG,
+                        PARTNER = "007",
+                        SHIP_DATE = pkPickTaskInfo.SHIP_DATE,
+                        HU = lblHU.Text,
+                        MATNR = pkPickTaskInfo.MATNR,
+                        ZSATNR = pkPickTaskInfo.ZSATNR,
+                        ZCOLSN = pkPickTaskInfo.ZCOLSN,
+                        ZSIZTX = pkPickTaskInfo.ZSIZTX,
+                        QUAN = pkPickTaskInfo.QTY,
+                        SHORTQTY = 0,
+                        REAL = pkPickTaskInfo.Current_QTY,
+                        ADD_REAL = pkPickTaskInfo.ADD_Current_QTY,
+                        DIFF = pkPickTaskInfo.REAL_QTY + pkPickTaskInfo.Current_QTY - pkPickTaskInfo.QTY,
+                        IsError = true,
+                        REMARK = (pkPickTaskInfo.REAL_QTY + pkPickTaskInfo.Current_QTY - pkPickTaskInfo.QTY > 0 ? SHI_FA_SHU_LIANG_CHAO_GUO_YING_FA_SHU_LIANG : SHI_FA_SHU_LIANG_SHAO_YU_YING_FA_SHU_LIANG) + ";",
+                        RecordType = pkPickTaskInfo.REAL_QTY + pkPickTaskInfo.Current_QTY - pkPickTaskInfo.QTY > 0 ? DeliverRecordType.多拣 : DeliverRecordType.少拣
+                    };
+                    */
+                    string msg = JsonConvert.SerializeObject(pkPickTaskInfo);
+
+                    LogHelper.Error("", msg);
+                }
+            }
+            catch (Exception e)
+            { }
+        }
+        private CheckResultInfo CheckData()
+        {
+            CheckResultInfo checkResult = new CheckResultInfo() { Result = true, IsReCheck = false };
 
             if (string.IsNullOrEmpty(lblHU.Text.Trim()))
             {
-                checkResult.UpdateMessage(WEI_SAO_DAO_XIANG_MA);
-                checkResult.InventoryResult = false;
+                SetInventoryResult(0, WEI_SAO_DAO_XIANG_MA);
+                checkResult.Result = false;
+
+                LocalDataService.InsertErrorDataRecord(ERRORDATATYPE.未扫描到箱号, "设备号：" + lblDeviceNo.Text + " 楼层号：" + lblLOUCENG.Text);
+
+            }
+            else
+            {
+                LocalDataService.InsertErrorDataRecord(ERRORDATATYPE.正常, "设备号：" + lblDeviceNo.Text + " 楼层号：" + lblLOUCENG.Text);
+
             }
 
             if (currentOutLogList != null && currentOutLogList.Count > 0)
@@ -300,24 +593,37 @@ namespace HLAPKChannelMachine
                 {
                     if(info.ZXJD_TYPE == "5")
                     {
-                        checkResult.UpdateMessage("无法出库类型为5的下架单");
-                        checkResult.InventoryResult = false;
+                        SetInventoryResult(0, "无法出库类型为5的下架单");
+                        checkResult.Result = false;
                         break;
                     }
                 }
             }
 
+            if (boxNoList.Count > 0)
+            {
+                boxNoList.Clear();
+                SetInventoryResult(0, XIANG_MA_BU_YI_ZHI);
+                checkResult.Result = false;
+            }
+
             if(currentBoxPickTaskMapInfoList == null || currentBoxPickTaskMapInfoList.Count == 0)
             {
-                checkResult.UpdateMessage(XIANG_MA_AND_XIA_JIA_DAN_GUAN_LIAN_BU_CUN_ZAI);
-                checkResult.InventoryResult = false;
+                SetInventoryResult(0, XIANG_MA_AND_XIA_JIA_DAN_GUAN_LIAN_BU_CUN_ZAI);
+                checkResult.Result = false;
+            }
+
+            if (epcList.Count == 0)
+            {
+                SetInventoryResult(0, WEI_SAO_DAO_EPC);
+                checkResult.Result = false;
             }
 
             List<string> huParters = LocalDataService.GetParterByHu(lblHU.Text.Trim());
             if (huParters.Distinct().Count() > 1)
             {
-                checkResult.UpdateMessage(HU_MULTIPARTER);
-                checkResult.InventoryResult = false;
+                SetInventoryResult(0, HU_MULTIPARTER);
+                checkResult.Result = false;
             }
 
             if (lblErrorNum.Text.Trim() != "0")
@@ -346,7 +652,7 @@ namespace HLAPKChannelMachine
                     RecordType = DeliverRecordType.其他
                 });
                 lvtagList.Add(new ListViewTagInfo("", "", "", "", "", int.Parse(lblErrorNum.Text)));
-                checkResult.InventoryResult = false;
+                checkResult.Result = false;
             }
             if (tagDetailList != null)
             {
@@ -357,6 +663,11 @@ namespace HLAPKChannelMachine
                             tagDetailList.FindAll(x => x.MATNR == tag.MATNR && !x.IsAddEpc).Count));
                 }));
             }
+            //if(mainCount!=addCount)
+            //{
+            //    SetInventoryResult(0, ZHU_FU_TIAO_MA_BU_YI_ZHI);
+            //    checkResult.Result = false;
+            //}
             //检查是否是短拣的箱子，如果是，则走短拣流程
             bool isShort = (currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 && currentBoxPickTaskMapInfoList[0].IS_SHORT_PICK )? true : false;
 
@@ -488,7 +799,7 @@ namespace HLAPKChannelMachine
                         if (string.IsNullOrEmpty(shortDetailItem.ZCOLSN))
                         {
                             //var minfo = materialList != null ? materialList.First(o => o.MATNR == shortDetailItem.MATNR) : null;
-                            MaterialInfo minfo = materialList.FirstOrDefault(i => i.MATNR == shortDetailItem.MATNR);
+                            MaterialInfo minfo = materialList.FirstOrDefault(i => i.MAKTX == shortDetailItem.MATNR);
                             shortDetailItem.ZCOLSN = minfo != null ? minfo.ZCOLSN : "";
                             shortDetailItem.ZSATNR = minfo != null ? minfo.ZSATNR : "";
                             shortDetailItem.ZSIZTX = minfo != null ? minfo.ZSIZTX : "";
@@ -496,7 +807,7 @@ namespace HLAPKChannelMachine
 
                         string remark = shortDetailItem.HAS_ADD_TAG.HasValue && shortDetailItem.HAS_ADD_TAG.Value && shortDetailItem.REAL_QTY != shortDetailItem.ADD_REAL_QTY ? ZHU_FU_TIAO_MA_BU_YI_ZHI : "";
                         if (!string.IsNullOrEmpty(remark))
-                            checkResult.InventoryResult = false;
+                            checkResult.Result = false;
                         var outLogDetail = currentOutLogList.FirstOrDefault(o => o.PICK_TASK == shortDetailItem.PICK_TASK && o.PICK_TASK_ITEM == shortDetailItem.PICK_TASK_ITEM && o.PRODUCTNO == shortDetailItem.MATNR);
                         if (outLogDetail != null)
                         {
@@ -504,7 +815,7 @@ namespace HLAPKChannelMachine
                             {
                                 //多拣、少拣
                                 //SetInventoryResult(0, countCurrent - countShort > 0 ? SHI_FA_SHU_LIANG_CHAO_GUO_YING_FA_SHU_LIANG : SHI_FA_SHU_LIANG_SHAO_YU_YING_FA_SHU_LIANG);
-                                checkResult.InventoryResult = false;
+                                checkResult.Result = false;
                                 currentDeliverErrorBox.Add(new PKDeliverErrorBox()
                                 {
                                     BOXGUID = currentBoxGuid,
@@ -559,7 +870,7 @@ namespace HLAPKChannelMachine
                         {
                             //下架单中不存在指定sku数据
                             //SetInventoryResult(0, PIN_SE_GUI_BU_FU);
-                            checkResult.InventoryResult = false;
+                            checkResult.Result = false;
 
                             currentDeliverErrorBox.Add(new PKDeliverErrorBox()
                             {
@@ -639,30 +950,30 @@ namespace HLAPKChannelMachine
                     if (isSame)
                     {
                         //两批EPC对比，完全一样，示为重投
-                        checkResult.InventoryResult = true;
-                        checkResult.IsRecheck = true;
-                        checkResult.UpdateMessage(CHONG_TOU); //重投
+                        checkResult.Result = true;
+                        checkResult.IsReCheck = true;
+                        SetInventoryResult(0, CHONG_TOU); //重投
                     }
                     else if (isAllNotSame)
                     {
                         //数据完全不一致
-                        checkResult.InventoryResult = false;
-                        checkResult.IsRecheck = false;
-                        checkResult.UpdateMessage(XIANG_MA_CHONG_FU_SHI_YONG);  //箱码重复使用
+                        checkResult.Result = false;
+                        checkResult.IsReCheck = false;
+                        SetInventoryResult(0, XIANG_MA_CHONG_FU_SHI_YONG);  //箱码重复使用
                     }
                     else
                     {
                         //数据部分一致
-                        checkResult.InventoryResult = false;
-                        checkResult.IsRecheck = false;
-                        checkResult.UpdateMessage(EPC_YI_SAO_MIAO);  //商品已扫描
+                        checkResult.Result = false;
+                        checkResult.IsReCheck = false;
+                        SetInventoryResult(0, EPC_YI_SAO_MIAO);  //商品已扫描
                     }
                 }
 
                 string partner = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PARTNER : "";
 
                 //如果重投不再重新计算品色规数量;如果不是重投才计算品色规
-                if (!checkResult.IsRecheck)
+                if (!checkResult.IsReCheck)
                 {
                     //begin edit by wuxw
                     List<PKPickTaskInfo> pkPickTaskInfoList = new List<PKPickTaskInfo>();
@@ -680,6 +991,15 @@ namespace HLAPKChannelMachine
                             pkPickTaskInfo.REAL_QTY = outLogDetail.REALQTY;
                             pkPickTaskInfo.ADD_REAL_QTY = outLogDetail.REALQTY_ADD;
                             //如果列表中存在此下架单号，则直接使用列表中的是否尾箱判断
+                            //var temp = pkPickTaskInfoList.FirstOrDefault(o => o.PICK_TASK == outLogDetail.PICK_TASK);
+                            //if (temp == null)
+                            //    pkPickTaskInfo.ISLASTBOX = LocalDataService.CountUnScanDeliverBox(outLogDetail.PICK_TASK) == 1 ? true : false;
+                            //else
+                            //    pkPickTaskInfo.ISLASTBOX = temp.ISLASTBOX;
+
+
+                            //pkPickTaskInfo.ISLASTBOX = outLogDetail.UnScanBoxCount == 1 ? true : false;
+
                             pkPickTaskInfo.ISLASTBOX = LocalDataService.CountUnScanDeliverBox(outLogDetail.PICK_TASK) == 1 ? true : false;
 
                             pkPickTaskInfoList.Add(pkPickTaskInfo);
@@ -850,7 +1170,7 @@ namespace HLAPKChannelMachine
 
                             string remark = pkPickTaskInfo.HAS_ADD_TAG.HasValue && pkPickTaskInfo.HAS_ADD_TAG.Value && pkPickTaskInfo.ADD_Current_QTY != pkPickTaskInfo.Current_QTY ? ZHU_FU_TIAO_MA_BU_YI_ZHI : "";
                             if (!string.IsNullOrEmpty(remark))
-                                checkResult.InventoryResult = false;
+                                checkResult.Result = false;
 
                             if (!string.IsNullOrEmpty(pkPickTaskInfo.PICK_TASK))
                             {
@@ -860,7 +1180,7 @@ namespace HLAPKChannelMachine
                                     if (pkPickTaskInfo.REAL_QTY + pkPickTaskInfo.Current_QTY != pkPickTaskInfo.QTY)
                                     {
                                         //SetInventoryResult(0, outLogDetail.REALQTY + count - outLogDetail.QTY > 0 ? SHI_FA_SHU_LIANG_CHAO_GUO_YING_FA_SHU_LIANG : SHI_FA_SHU_LIANG_SHAO_YU_YING_FA_SHU_LIANG);
-                                        checkResult.InventoryResult = false;
+                                        checkResult.Result = false;
                                         currentDeliverErrorBox.Add(new PKDeliverErrorBox()
                                         {
                                             BOXGUID = currentBoxGuid,
@@ -924,7 +1244,7 @@ namespace HLAPKChannelMachine
                                     if (pkPickTaskInfo.REAL_QTY + pkPickTaskInfo.Current_QTY > pkPickTaskInfo.QTY)
                                     {
                                         //SetInventoryResult(0, SHI_FA_SHU_LIANG_CHAO_GUO_YING_FA_SHU_LIANG);
-                                        checkResult.InventoryResult = false;
+                                        checkResult.Result = false;
                                         currentDeliverErrorBox.Add(new PKDeliverErrorBox()
                                         {
                                             BOXGUID = currentBoxGuid,
@@ -982,7 +1302,7 @@ namespace HLAPKChannelMachine
                             {
                                 //下架单中不存在指定sku数据
                                 //SetInventoryResult(0, PIN_SE_GUI_BU_FU);
-                                checkResult.InventoryResult = false;
+                                checkResult.Result = false;
 
                                 currentDeliverErrorBox.Add(new PKDeliverErrorBox()
                                 {
@@ -1014,7 +1334,7 @@ namespace HLAPKChannelMachine
                     //end edit by wuxw
                 }
 
-                if (checkResult.InventoryResult == false && currentDeliverErrorBox.Count <= 0)
+                if (checkResult.Result == false && currentDeliverErrorBox.Count <= 0)
                 {
                     currentDeliverErrorBox.Add(new PKDeliverErrorBox()
                     {
@@ -1046,26 +1366,36 @@ namespace HLAPKChannelMachine
         }
 
         /// <summary>
+        /// 设置盘点结果 
+        /// </summary>
+        /// <param name="result">1正常 3异常</param>
+        /// <param name="message">错误信息</param>
+        private void SetInventoryResult(int result, string message)
+        {
+            inventoryResult = result;
+            if (!string.IsNullOrEmpty(message))
+            {
+                if(!errorMsg.ToString().Contains(message))
+                    errorMsg.AppendFormat("{0};", message);
+            }
+        }
+
+        /// <summary>
         /// 开始盘点
         /// </summary>
-        public override void StartInventory()
+        private bool StartInventory()
         {
             if (isInventory == false)
             {
                 try
                 {
-                    SetInventoryResult(0);
-                    checkResult.Init();
-                    errorEpcNumber = 0;
-                    mainEpcNumber = 0;
-                    addEpcNumber = 0;
                     epcList.Clear();
-                    tagDetailList.Clear();
-
                     currentBoxPickTaskMapInfoList = null;
                     currentOutLogList.Clear();
                     currentDeliverErrorBox.Clear();
                     errorMsg.Clear();
+                    tagDetailList.Clear();
+                    inventoryResult = 0;
                     lvtagList.Clear();
                     mVsart = "";
                     this.Invoke(new Action(() => {
@@ -1083,6 +1413,11 @@ namespace HLAPKChannelMachine
                     UpdateUIControl(InventoryControlType.ERROR_NUM_LABEL, "0");
                     UpdateUIControl(InventoryControlType.STATUS_LABEL, "正在扫描");
                     UpdateUIControl(InventoryControlType.RESULT_MESSAGE_LABEL, "");
+                    //Invoke(new Action(() =>
+                    //{
+                    //    gridDeliverDetail.Rows.Clear();
+                    //}));
+                    //UpdateSubFormDeliverDetailGrid(gridDeliverDetail.Rows);
 
                     if (boxNoList.Count > 0)
                     {
@@ -1122,6 +1457,16 @@ namespace HLAPKChannelMachine
                         {
                             currentOutLogList.AddRange(unionInfo.InventoryOutLogDetailList);
                         }
+                        //currentBoxPickTaskMapInfoList = LocalDataService.GetBoxPickTaskMapInfoListByHU(boxno);
+                        ////通过下架单号获取下架单明细列表
+                        //if (currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0)
+                        //{
+                        //    foreach (var item in currentBoxPickTaskMapInfoList)
+                        //    {
+                        //        var plist = LocalDataService.GetInventoryOutLogDetailByPicktask(item.PICK_TASK);
+                        //        currentOutLogList.AddRange(plist);
+                        //    }
+                        //}
 
                         SetCurrentOutLogListAddQty();
 
@@ -1129,17 +1474,22 @@ namespace HLAPKChannelMachine
                     }
 
                     lastReadTime = DateTime.Now;
-                    reader.StartInventory(mGhost, mTrigger, mR6ghost);
+                    currentNum = 0;
+                    int i, j,k;
+                    LocalDataService.GetGhostAndTrigger(out i, out j,out k);
+                    reader.StartInventory(i, j,k);
                     isInventory = true;
                     
                 }
                 catch (Exception ex)
                 {
                     LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-                    SetInventoryResult(3);
+                    SetInventoryResult(3, "");
+                    return false;
                 }
             }
 
+            return true;
         }
 
         private void SetCurrentOutLogListAddQty()
@@ -1147,7 +1497,7 @@ namespace HLAPKChannelMachine
             if(currentOutLogList?.Count>0)
             {
                 currentOutLogList.ForEach((i) => {
-                    if (!string.IsNullOrEmpty(hlaTagList.FirstOrDefault(j => j.MATNR == i.PRODUCTNO)?.RFID_ADD_EPC))
+                    if (!string.IsNullOrEmpty(tagList.FirstOrDefault(j => j.MATNR == i.PRODUCTNO)?.RFID_ADD_EPC))
                         i.QTY_ADD = i.QTY;
                 });
             }
@@ -1195,11 +1545,11 @@ namespace HLAPKChannelMachine
             }
             return re;
         }
-        void playSound(CheckResult cr)
+        void playSound(CheckResultInfo cr)
         {
             try
             {
-                if (cr.InventoryResult)
+                if (cr.Result)
                 {
                     AudioHelper.Play("success.wav");
                 }
@@ -1214,7 +1564,7 @@ namespace HLAPKChannelMachine
         /// <summary>
         /// 停止盘点
         /// </summary>
-        public override void StopInventory()
+        private bool StopInventory()
         {
             //判断是否正在盘点，正在盘点则停止盘点
             if (isInventory == true)
@@ -1224,16 +1574,16 @@ namespace HLAPKChannelMachine
                     UpdateUIControl(InventoryControlType.STATUS_LABEL, "停止扫描");
                     isInventory = false;
                     reader.StopInventory();
-                    CheckResult checkResult = CheckData();
+                    CheckResultInfo checkResult = CheckData();
                     playSound(checkResult);
-                    UploadPKBoxInfo upbi = GetCurrentUploadPKBox(checkResult.InventoryResult);
+                    UploadPKBoxInfo upbi = GetCurrentUploadPKBox(checkResult.Result);
 
-                    if (checkResult.IsRecheck == false)
+                    if (checkResult.IsReCheck == false)
                     {
                         //将需要上传SAP数据插入队列当中(需要先保存到队列，再去更新界面和数据库中的发运明细的实发数量，防止数据被更新后造成上传SAP再次判断数据不一致)
                         EnqueueUploadData(upbi);
 
-                        if (checkResult.InventoryResult)
+                        if (checkResult.Result)
                         {
                             //将epc加到缓存
                             foreach (string epc in epcList)
@@ -1255,9 +1605,9 @@ namespace HLAPKChannelMachine
                         LocalDataService.SaveDeliverEpcDetail(upbi);
                     }
 
-                    if (checkResult.InventoryResult)
+                    if (checkResult.Result)
                     {
-                        if (!checkResult.IsRecheck)
+                        if (!checkResult.IsReCheck)
                         {
                             //start edit by wuxw 更新下架单数据
                             if (upbi.DeliverErrorBoxList != null && upbi.DeliverErrorBoxList.Count > 0)
@@ -1328,8 +1678,35 @@ namespace HLAPKChannelMachine
                     }
                     if (currentDeliverErrorBox.Count > 0)
                     {
+                        //foreach (PKDeliverErrorBox item in currentDeliverErrorBox)
+                        //{
+                        //    item.REMARK = item.REMARK + ";" + errorMsg.ToString();
+                        //    item.REMARK = item.REMARK.Replace(";;", ";");
+                        //    item.REMARK = item.REMARK.TrimEnd(';');
+                        //    historyDeliverErrorBoxList.Add(item);
+                        //    AddRecordToDeliverErrorBoxGrid(item);
+                        //    EnqueueUploadData(item);
+                        //}
+
+                        //int jiecuoIndex = 0;
                         foreach (PKDeliverErrorBox item in currentDeliverErrorBox)
                         {
+                            //if (item.RecordType == DeliverRecordType.拣错 && currentOutLogList.Count>0)
+                            //{
+                            //    InventoryOutLogDetailInfo outLog = currentOutLogList[jiecuoIndex % currentOutLogList.Count];
+                            //    if (++jiecuoIndex >= currentOutLogList.Count)
+                            //        jiecuoIndex = 0;
+                            //    item.PICK_TASK = outLog.PICK_TASK;
+                            //    item.PICK_TASK_ITEM = outLog.PICK_TASK_ITEM;
+
+                            //    item.REMARK = item.REMARK + ";" + errorMsg.ToString();
+                            //    item.REMARK = item.REMARK.Replace(";;", ";");
+                            //    item.REMARK = item.REMARK.TrimEnd(';');
+                            //    historyDeliverErrorBoxList.Add(item);
+                            //    AddRecordToDeliverErrorBoxGrid(item);
+                            //    EnqueueUploadData(item);
+                            //}
+                            //else
                             if (item.RecordType == DeliverRecordType.拣错 && currentOutLogList.Count == 1)
                             {
                                 InventoryOutLogDetailInfo outLog = currentOutLogList[0];
@@ -1364,31 +1741,75 @@ namespace HLAPKChannelMachine
                         PARTNER = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PARTNER : "",
                         SHIP_DATE = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].SHIP_DATE.Value : DateTime.Now.Date,
                         HU = lblHU.Text,
-                        RESULT = checkResult.InventoryResult ? "S" : "E",
-                        REMARK = checkResult.IsRecheck ? "重投" : errorMsg.ToString()
+                        RESULT = checkResult.Result ? "S" : "E",
+                        REMARK = checkResult.IsReCheck ? "重投" : errorMsg.ToString()
                     };
                     historyDeliverBoxList.Add(deliverBox);
                     AddRecordToDeliverBoxGrid(deliverBox);
                     EnqueueUploadData(deliverBox);
 
-                    UpdateUIControl(InventoryControlType.RESULT_MESSAGE_LABEL, checkResult.InventoryResult ? (checkResult.IsRecheck == false ? "正常" : "重投") : "异常");
+                    UpdateUIControl(InventoryControlType.RESULT_MESSAGE_LABEL, checkResult.Result ? (checkResult.IsReCheck == false ? "正常" : "重投") : "异常");
 
                     //设置扫描结果，可以往plc发送指令了
-                    if (checkResult.InventoryResult)
-                        SetInventoryResult(1);
+                    if (checkResult.Result)
+                        SetInventoryResult(1, "");
                     else
-                        SetInventoryResult(3);
+                        SetInventoryResult(3, "");
 
                 }
                 catch (Exception ex)
                 {
                     LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-                    SetInventoryResult(3);
+                    SetInventoryResult(3, ex.Message);
+                    return false;
                 }
             }
+            return true;
         }
         double calWeight(List<TagDetailInfo> tags,string bzwl)
         {
+            //int guahao = bzwl.IndexOf('[');
+            //if(guahao!=-1)
+            //{
+            //    bzwl = bzwl.Substring(0, guahao);
+            //}
+            //else
+            //{
+            //    LogHelper.WriteLine("箱型找不到[");
+            //}
+            //double re = 0;
+            //if(tags!=null)
+            //{
+            //    foreach(TagDetailInfo t in tags)
+            //    {
+            //        re += t.BRGEW;
+            //    }
+
+            //    string fhbc = bzwl;
+            //    if (fhbc == "箱装标准箱")
+            //    {
+            //        re += 1.211;
+            //    }
+            //    else if (fhbc == "挂装标准箱")
+            //    {
+            //        re += 1.764;
+            //    }
+            //    else if (fhbc == "鞋子箱")
+            //    {
+            //        re += 1.041;
+            //    }
+            //    else if (fhbc == "小件箱")
+            //    {
+            //        re += 0.784;
+            //    }
+            //    else if (fhbc == "大衣箱")
+            //    {
+            //        re += 1.900;
+            //    }
+
+            //    return re;
+            //}
+
             double re = 0;
             if (tags != null)
             {
@@ -1426,6 +1847,15 @@ namespace HLAPKChannelMachine
                 UploadServer.GetInstance().addToQueue(obj as UploadPKBoxInfo);
             }
             return true;
+        }
+
+        /// <summary>
+        /// 更新副窗口发运箱明细Grid
+        /// 已过时-note by zjr 20160322
+        /// </summary>
+        /// <param name="rows"></param>
+        private void UpdateSubFormDeliverDetailGrid(DataGridViewRowCollection rows)
+        {
         }
 
         /// <summary>
@@ -1488,6 +1918,256 @@ namespace HLAPKChannelMachine
             };
         }
 
+        /// <summary>
+        /// PLC信息处理方法
+        /// </summary>
+        private void LogicThreadFunc()
+        {
+            while (true)
+            {
+                if (comDataQueue.Count > 0)
+                {
+                    string hexStr = comDataQueue.Dequeue();
+                    if (!string.IsNullOrEmpty(hexStr))
+                    {
+                        if (hexStr == ZZ_JS_KAI_SHE_PIN) //开射频
+                        {
+                            StartInventory();
+                        }
+                        else if (hexStr == ZZ_JS_GUAN_SHE_PIN) //关射频
+                        {
+                            StopInventory();
+                        }
+                        else if (hexStr == ZZ_JS_XUN_WEN_JIE_GUO) //询问结果
+                        {
+                            int result = inventoryResult;
+                            switch (result)
+                            {
+                                case 1: //正常
+                                    StopInventory();
+                                    WriteMsgToPlc(ZZ_FS_ZHENG_CHANG);
+                                    break;
+                                case 3: //异常
+                                    StopInventory();
+                                    WriteMsgToPlc(ZZ_FS_YI_CHANG);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                Thread.Sleep(20);
+            }
+        }
+
+        private void WriteMsgToPlc(string command)
+        {
+            byte[] responseBts = null;
+            responseBts = TypeConvert.HexStringToByteArray(command);
+            port.Write(responseBts, 0, 8);
+        }
+        /// <summary>
+        /// 初始化PLC串口通信
+        /// </summary>
+        private void initPlcPort()
+        {
+            #region 连接串口
+            port = new SerialPort(SysConfig.Port);
+            port.BaudRate = 9600;//波特率
+            port.Parity = Parity.None;//无奇偶校验位
+            port.StopBits = StopBits.One;//一个停止位
+            port.DataBits = 8;
+            port.ReadTimeout = 200;
+            port.ReadBufferSize = 8;
+
+            port.DataReceived += new SerialDataReceivedEventHandler(port_DataReceived);//DataReceived事件委托
+
+            try
+            {
+                port.Open();
+            }
+            catch { }
+
+            if (!port.IsOpen)
+            {
+                Invoke(new Action(() =>
+                {
+                    MessageBox.Show("连接串口设备失败！", "错误");
+                }));
+                //return;
+                UpdateUIControl(InventoryControlType.PLC_STATUS_LABEL, "异常");
+            }
+            else
+            {
+                UpdateUIControl(InventoryControlType.PLC_STATUS_LABEL, "正常");
+            }
+
+            #endregion
+        }
+
+        private void port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                int n = port.BytesToRead;
+                byte[] buf = new byte[n];
+                //默认是杏林的通道机
+
+                port.Read(buf, 0, n);
+
+                //缓存数据
+                comBuffer.AddRange(buf);
+
+                //判断数据是否达到8个字节
+                while (comBuffer.Count >= 8)
+                {
+                    //判断数据头是否为01
+                    if (comBuffer[0] == 0x01)
+                    {
+                        byte[] package = new byte[8];
+                        comBuffer.CopyTo(0, package, 0, 8);
+                        string hexStr = TypeConvert.ByteArrayToHexString(package);
+                        //移除该8个字节
+                        comBuffer.RemoveRange(0, 8);
+
+                        //检测校验位是否正确，不正确则跳过
+                        if (!TypeConvert.CheckCRC(hexStr))
+                        {
+                            continue;
+                        }
+                        comDataQueue.Enqueue(hexStr);
+                    }
+                    else
+                    {
+                        //数据头不正确，清除
+                        comBuffer.RemoveAt(0);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// 初始化扫描模组串口
+        /// </summary>
+        private void initScannerPort()
+        {
+            #region 连接条码扫描器串口-add by jrzhuang
+            scannerPort_1 = new SerialPort(SysConfig.ScannerPort_1);
+            scannerPort_1.BaudRate = 9600;//波特率
+            scannerPort_1.Parity = Parity.None;//无奇偶校验位
+            scannerPort_1.StopBits = StopBits.One;//一个停止位
+            scannerPort_1.DataBits = 8;
+            scannerPort_1.ReadTimeout = 200;
+            scannerPort_1.ReadBufferSize = 8;
+            scannerPort_1.DataReceived += new SerialDataReceivedEventHandler(scannerPort_1_DataReceived);
+            try
+            {
+                scannerPort_1.Open();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+            }
+
+            if (!scannerPort_1.IsOpen)
+            {
+                Invoke(new Action(() =>
+                {
+                    MessageBox.Show("连接条码扫描枪串口设备1失败！", "错误");
+                }));
+            }
+
+
+            scannerPort_2 = new SerialPort(SysConfig.ScannerPort_2);
+            scannerPort_2.BaudRate = 9600;//波特率
+            scannerPort_2.Parity = Parity.None;//无奇偶校验位
+            scannerPort_2.StopBits = StopBits.One;//一个停止位
+            scannerPort_2.DataBits = 8;
+            scannerPort_2.ReadTimeout = 200;
+            scannerPort_2.ReadBufferSize = 8;
+            scannerPort_2.DataReceived += new SerialDataReceivedEventHandler(scannerPort_2_DataReceived);
+            try
+            {
+                scannerPort_2.Open();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+            }
+
+            if (!scannerPort_2.IsOpen)
+            {
+                Invoke(new Action(() =>
+                {
+                    MessageBox.Show("连接条码扫描枪串口设备2失败！", "错误");
+                }));
+            }
+            #endregion
+        }
+
+        void scannerPort_2_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                int n = scannerPort_2.BytesToRead;
+                byte[] buf = new byte[n];
+                scannerPort_2.Read(buf, 0, n);
+                scannerPortReadHandle(buf, 1);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+            }
+        }
+
+        void scannerPort_1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                int n = scannerPort_1.BytesToRead;
+                byte[] buf = new byte[n];
+                scannerPort_1.Read(buf, 0, n);
+                scannerPortReadHandle(buf, 1);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+            }
+        }
+
+        private string barcode = "";
+        /// <summary>
+        /// 有两个扫描模组，重构出一个公共的数据读取接口
+        /// </summary>
+        /// <param name="buf"></param>
+        /// <param name="scannerPortNo"></param>
+        private void scannerPortReadHandle(byte[] buf, int scannerPortNo)
+        {
+            //string hexStr = TypeConvert.ByteArrayToHexString(buf);
+            if (barcode.EndsWith("\r\n"))
+                barcode = "";
+            barcode += System.Text.Encoding.Default.GetString(buf);
+            //LogHelper.WriteLine(barcode + DateTime.Now);
+
+            if (barcode.EndsWith("\r\n"))
+            {
+                //以回车和换行结尾，表示合法数据
+                string barcodestring = barcode.Replace("\r\n", "");
+
+                if (!boxNoList.Contains(barcodestring))
+                {
+                    boxNoList.Enqueue(barcodestring);
+                }
+            }
+        }
+
         private void timer_Tick(object sender, EventArgs e)
         {
             if (isInventory)
@@ -1502,7 +2182,7 @@ namespace HLAPKChannelMachine
 
         private void btnDetail_Click(object sender, EventArgs e)
         {
-            HLACommonView.Views.GxForm form = new HLACommonView.Views.GxForm();
+            GxForm form = new GxForm();
             form.ShowDialog();
         }
 
@@ -1550,6 +2230,7 @@ namespace HLAPKChannelMachine
                         break;
                 }
             }));
+
         }
 
         #region 测试代码
@@ -1709,6 +2390,7 @@ namespace HLAPKChannelMachine
 
         private void InventoryMainForm_Shown(object sender, EventArgs e)
         {
+            timer.Enabled = true;
             timer1.Enabled = true;
         }
 

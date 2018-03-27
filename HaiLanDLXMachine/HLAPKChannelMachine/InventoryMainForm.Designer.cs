@@ -63,6 +63,7 @@
             this.lblRightNum = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblHU = new System.Windows.Forms.Label();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.pbLoading = new System.Windows.Forms.PictureBox();
             this.lblLoading = new System.Windows.Forms.Label();
             this.panelLoading = new System.Windows.Forms.Panel();
@@ -459,6 +460,11 @@
             this.lblHU.TabIndex = 21;
             this.lblHU.Text = "XXX";
             this.lblHU.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // pbLoading
             // 
@@ -868,17 +874,11 @@
             this.Controls.Add(this.metroTile2);
             this.Controls.Add(this.metroTile1);
             this.Controls.Add(this.gridDeliverErrorBox);
-            this.Location = new System.Drawing.Point(0, 0);
             this.Name = "InventoryMainForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InventoryMainForm_FormClosing);
             this.Load += new System.EventHandler(this.InventoryMainForm_Load);
             this.Shown += new System.EventHandler(this.InventoryMainForm_Shown);
-            this.Controls.SetChildIndex(this.gridDeliverErrorBox, 0);
-            this.Controls.SetChildIndex(this.metroTile1, 0);
-            this.Controls.SetChildIndex(this.metroTile2, 0);
-            this.Controls.SetChildIndex(this.label1, 0);
-            this.Controls.SetChildIndex(this.gbTestPanel, 0);
-            this.Controls.SetChildIndex(this.groupBox1, 0);
             ((System.ComponentModel.ISupportInitialize)(this.gridDeliverErrorBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).EndInit();
             this.panelLoading.ResumeLayout(false);
@@ -910,6 +910,7 @@
         private System.Windows.Forms.Label lblRightNum;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label lblHU;
+        private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.PictureBox pbLoading;
         private System.Windows.Forms.Label lblLoading;
         private System.Windows.Forms.Panel panelLoading;

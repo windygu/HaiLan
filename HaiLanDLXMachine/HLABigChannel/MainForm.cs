@@ -74,7 +74,7 @@ namespace HLABigChannel
         {
             btnPacking.Enabled = false;
 
-            //StartProgram(sender, "PackingDir", "PackingExe", "packing");
+            StartProgram(sender, "HLAPackingBoxChannelMachine.exe", "packing");
 
             btnPacking.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
@@ -105,7 +105,7 @@ namespace HLABigChannel
         {
             btnElectronic.Enabled = false;
 
-           // StartProgram(sender, "ElectronicDir", "ElectronicExe", "electronic");
+            StartProgram(sender, "HLAEBReceiveChannelMachine.exe", "electronic");
 
             btnElectronic.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
@@ -205,21 +205,11 @@ namespace HLABigChannel
             }
         }
 
-        private void sortReviewButton_Click(object sender, EventArgs e)
-        {
-            this.sortReviewButton.Enabled = false;
-
-           // StartProgram(sender, "SortReviewDir", "SortReviewExe", "sortreview");
-
-            this.sortReviewButton.Enabled = true;
-            this.WindowState = FormWindowState.Maximized;
-        }
-
         private void lowLibButton_Click(object sender, EventArgs e)
         {
             this.btnReciever.Enabled = false;
 
-           // StartProgram(sender, "ReceiverDir", "ReceiverExe", "receiverlow");
+            StartProgram(sender, "HLAChannelMachine.exe", "receiverlow");
 
             this.btnReciever.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
@@ -252,7 +242,7 @@ namespace HLABigChannel
         {
             this.boxReviewButton.Enabled = false;
 
-          //  StartProgram(sender, "CancelCheckDir", "CancelCheckExe", "cancelcheck");
+            StartProgram(sender, "HLACancelCheckChannelMachine.exe", "cancelcheck");
 
             this.boxReviewButton.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
@@ -262,7 +252,7 @@ namespace HLABigChannel
         {
             this.dmButton9_jiehuodan.Enabled = false;
 
-        //    StartProgram(sender, "JIANHUODIR", "JIANHUOExe", "jianhuo");
+            StartProgram(sender, "HLAPKJieHuoChannelMachine.exe", "jianhuo");
 
             this.dmButton9_jiehuodan.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
@@ -273,7 +263,7 @@ namespace HLABigChannel
         {
             this.dmButton9_jiaojiedan.Enabled = false;
 
-            //StartProgram(sender, "JiaoJieDanDir", "JiaoJieDanExe", "jiaojiedan");
+            StartProgram(sender, "HLAJiaoJieCheckChannelMachine.exe", "jiaojiedan");
 
             this.dmButton9_jiaojiedan.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
