@@ -75,7 +75,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
             this.splitContainer1.Panel1.Controls.Add(this.boxCheckCheckBox);
             this.splitContainer1.Panel1.Controls.Add(this.printCheckBox);
             this.splitContainer1.Panel1.Controls.Add(this.btnStart);

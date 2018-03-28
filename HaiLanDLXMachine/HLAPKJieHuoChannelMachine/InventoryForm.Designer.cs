@@ -88,7 +88,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
             this.splitContainer1.Panel1.Controls.Add(this.dmButton1);
             this.splitContainer1.Panel1.Controls.Add(this.dmButton_uploadlist);
             this.splitContainer1.Panel1.Controls.Add(this.dmButton_group);
@@ -136,9 +136,9 @@
             this.dmButton1.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton1.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton1.ForeColor = System.Drawing.Color.Teal;
             this.dmButton1.Image = null;
-            this.dmButton1.Location = new System.Drawing.Point(2, 712);
+            this.dmButton1.Location = new System.Drawing.Point(16, 712);
             this.dmButton1.Margin = new System.Windows.Forms.Padding(0);
             this.dmButton1.Name = "dmButton1";
             this.dmButton1.Size = new System.Drawing.Size(286, 45);
@@ -161,9 +161,9 @@
             this.dmButton_uploadlist.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton_uploadlist.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton_uploadlist.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton_uploadlist.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton_uploadlist.ForeColor = System.Drawing.Color.Teal;
             this.dmButton_uploadlist.Image = null;
-            this.dmButton_uploadlist.Location = new System.Drawing.Point(2, 547);
+            this.dmButton_uploadlist.Location = new System.Drawing.Point(16, 547);
             this.dmButton_uploadlist.Margin = new System.Windows.Forms.Padding(0);
             this.dmButton_uploadlist.Name = "dmButton_uploadlist";
             this.dmButton_uploadlist.Size = new System.Drawing.Size(286, 45);
@@ -186,9 +186,9 @@
             this.dmButton_group.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton_group.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton_group.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton_group.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton_group.ForeColor = System.Drawing.Color.Teal;
             this.dmButton_group.Image = null;
-            this.dmButton_group.Location = new System.Drawing.Point(2, 601);
+            this.dmButton_group.Location = new System.Drawing.Point(16, 601);
             this.dmButton_group.Margin = new System.Windows.Forms.Padding(0);
             this.dmButton_group.Name = "dmButton_group";
             this.dmButton_group.Size = new System.Drawing.Size(286, 45);
@@ -211,9 +211,9 @@
             this.dmButton_duanjie.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton_duanjie.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton_duanjie.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton_duanjie.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton_duanjie.ForeColor = System.Drawing.Color.Teal;
             this.dmButton_duanjie.Image = null;
-            this.dmButton_duanjie.Location = new System.Drawing.Point(2, 491);
+            this.dmButton_duanjie.Location = new System.Drawing.Point(16, 491);
             this.dmButton_duanjie.Margin = new System.Windows.Forms.Padding(0);
             this.dmButton_duanjie.Name = "dmButton_duanjie";
             this.dmButton_duanjie.Size = new System.Drawing.Size(286, 45);
@@ -229,9 +229,9 @@
             this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label12.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(-17, 299);
+            this.label12.Location = new System.Drawing.Point(9, 299);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(111, 32);
+            this.label12.Size = new System.Drawing.Size(97, 32);
             this.label12.TabIndex = 26;
             this.label12.Text = "扫描结果：";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -242,7 +242,7 @@
             this.label_inre.BackColor = System.Drawing.Color.White;
             this.label_inre.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_inre.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label_inre.Location = new System.Drawing.Point(93, 299);
+            this.label_inre.Location = new System.Drawing.Point(105, 299);
             this.label_inre.Name = "label_inre";
             this.label_inre.Size = new System.Drawing.Size(210, 32);
             this.label_inre.TabIndex = 27;
@@ -255,9 +255,9 @@
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(-17, 174);
+            this.label10.Location = new System.Drawing.Point(9, 174);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(111, 32);
+            this.label10.Size = new System.Drawing.Size(97, 32);
             this.label10.TabIndex = 24;
             this.label10.Text = "设备号：";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -268,7 +268,7 @@
             this.label_deviceNo.BackColor = System.Drawing.Color.White;
             this.label_deviceNo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_deviceNo.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label_deviceNo.Location = new System.Drawing.Point(93, 174);
+            this.label_deviceNo.Location = new System.Drawing.Point(105, 174);
             this.label_deviceNo.Name = "label_deviceNo";
             this.label_deviceNo.Size = new System.Drawing.Size(210, 32);
             this.label_deviceNo.TabIndex = 25;
@@ -281,9 +281,9 @@
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(-17, 215);
+            this.label8.Location = new System.Drawing.Point(9, 215);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(111, 32);
+            this.label8.Size = new System.Drawing.Size(97, 32);
             this.label8.TabIndex = 22;
             this.label8.Text = "作业楼层：";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -294,7 +294,7 @@
             this.label_loucheng.BackColor = System.Drawing.Color.White;
             this.label_loucheng.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_loucheng.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label_loucheng.Location = new System.Drawing.Point(93, 215);
+            this.label_loucheng.Location = new System.Drawing.Point(105, 215);
             this.label_loucheng.Name = "label_loucheng";
             this.label_loucheng.Size = new System.Drawing.Size(210, 32);
             this.label_loucheng.TabIndex = 23;
@@ -314,9 +314,9 @@
             this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnStart.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Image = null;
-            this.btnStart.Location = new System.Drawing.Point(2, 380);
+            this.btnStart.Location = new System.Drawing.Point(16, 380);
             this.btnStart.Margin = new System.Windows.Forms.Padding(0);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(286, 45);
@@ -340,9 +340,9 @@
             this.btnPause.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPause.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnPause.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnPause.ForeColor = System.Drawing.Color.Teal;
             this.btnPause.Image = null;
-            this.btnPause.Location = new System.Drawing.Point(2, 435);
+            this.btnPause.Location = new System.Drawing.Point(16, 435);
             this.btnPause.Margin = new System.Windows.Forms.Padding(0);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(286, 45);
@@ -365,9 +365,9 @@
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Image = null;
-            this.btnClose.Location = new System.Drawing.Point(2, 655);
+            this.btnClose.Location = new System.Drawing.Point(16, 655);
             this.btnClose.Margin = new System.Windows.Forms.Padding(0);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(286, 45);
@@ -383,9 +383,9 @@
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(-17, 257);
+            this.label6.Location = new System.Drawing.Point(9, 257);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(111, 32);
+            this.label6.Size = new System.Drawing.Size(97, 32);
             this.label6.TabIndex = 7;
             this.label6.Text = "工作状态：";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -397,9 +397,9 @@
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(-17, 340);
+            this.label3.Location = new System.Drawing.Point(9, 340);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(111, 32);
+            this.label3.Size = new System.Drawing.Size(97, 32);
             this.label3.TabIndex = 8;
             this.label3.Text = "当前箱号：";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -410,7 +410,7 @@
             this.lblWorkStatus.BackColor = System.Drawing.Color.White;
             this.lblWorkStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblWorkStatus.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lblWorkStatus.Location = new System.Drawing.Point(93, 257);
+            this.lblWorkStatus.Location = new System.Drawing.Point(105, 257);
             this.lblWorkStatus.Name = "lblWorkStatus";
             this.lblWorkStatus.Size = new System.Drawing.Size(210, 32);
             this.lblWorkStatus.TabIndex = 9;
@@ -423,7 +423,7 @@
             this.label_curBoxno.BackColor = System.Drawing.Color.White;
             this.label_curBoxno.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label_curBoxno.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label_curBoxno.Location = new System.Drawing.Point(93, 340);
+            this.label_curBoxno.Location = new System.Drawing.Point(105, 340);
             this.label_curBoxno.Name = "label_curBoxno";
             this.label_curBoxno.Size = new System.Drawing.Size(210, 32);
             this.label_curBoxno.TabIndex = 10;
@@ -435,7 +435,7 @@
             this.lblCurrentUser.BackColor = System.Drawing.Color.White;
             this.lblCurrentUser.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCurrentUser.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lblCurrentUser.Location = new System.Drawing.Point(93, 132);
+            this.lblCurrentUser.Location = new System.Drawing.Point(105, 132);
             this.lblCurrentUser.Name = "lblCurrentUser";
             this.lblCurrentUser.Size = new System.Drawing.Size(210, 32);
             this.lblCurrentUser.TabIndex = 11;
@@ -448,9 +448,9 @@
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(-17, 132);
+            this.label4.Location = new System.Drawing.Point(9, 132);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(111, 32);
+            this.label4.Size = new System.Drawing.Size(97, 32);
             this.label4.TabIndex = 12;
             this.label4.Text = "登录工号：";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -462,9 +462,9 @@
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(-17, 90);
+            this.label5.Location = new System.Drawing.Point(9, 90);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(111, 32);
+            this.label5.Size = new System.Drawing.Size(97, 32);
             this.label5.TabIndex = 13;
             this.label5.Text = "PLC状态：";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -475,7 +475,7 @@
             this.lblPlc.BackColor = System.Drawing.Color.White;
             this.lblPlc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblPlc.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lblPlc.Location = new System.Drawing.Point(93, 90);
+            this.lblPlc.Location = new System.Drawing.Point(105, 90);
             this.lblPlc.Name = "lblPlc";
             this.lblPlc.Size = new System.Drawing.Size(210, 32);
             this.lblPlc.TabIndex = 14;
@@ -489,9 +489,9 @@
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(-17, 50);
+            this.label7.Location = new System.Drawing.Point(9, 50);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(111, 32);
+            this.label7.Size = new System.Drawing.Size(97, 32);
             this.label7.TabIndex = 15;
             this.label7.Text = "读写器：";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -502,7 +502,7 @@
             this.lblReader.BackColor = System.Drawing.Color.White;
             this.lblReader.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblReader.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lblReader.Location = new System.Drawing.Point(93, 50);
+            this.lblReader.Location = new System.Drawing.Point(105, 50);
             this.lblReader.Name = "lblReader";
             this.lblReader.Size = new System.Drawing.Size(210, 32);
             this.lblReader.TabIndex = 16;
@@ -515,7 +515,7 @@
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label1.ForeColor = System.Drawing.Color.Teal;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(320, 40);
@@ -681,7 +681,7 @@
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label2.ForeColor = System.Drawing.Color.Teal;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(880, 40);

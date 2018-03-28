@@ -125,7 +125,7 @@ namespace HLAYKChannelMachine
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
             this.splitContainer1.Panel1.Controls.Add(this.uploadButton);
             this.splitContainer1.Panel1.Controls.Add(this.dmButtonStart);
             this.splitContainer1.Panel1.Controls.Add(this.dmButtonStop);
@@ -201,7 +201,7 @@ namespace HLAYKChannelMachine
             this.uploadButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.uploadButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.uploadButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.uploadButton.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.uploadButton.ForeColor = System.Drawing.Color.Teal;
             this.uploadButton.Image = null;
             this.uploadButton.Location = new System.Drawing.Point(10, 667);
             this.uploadButton.Margin = new System.Windows.Forms.Padding(0);
@@ -226,7 +226,7 @@ namespace HLAYKChannelMachine
             this.dmButtonStart.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButtonStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButtonStart.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.dmButtonStart.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.dmButtonStart.ForeColor = System.Drawing.Color.Teal;
             this.dmButtonStart.Image = null;
             this.dmButtonStart.Location = new System.Drawing.Point(10, 571);
             this.dmButtonStart.Margin = new System.Windows.Forms.Padding(0);
@@ -251,7 +251,7 @@ namespace HLAYKChannelMachine
             this.dmButtonStop.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButtonStop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButtonStop.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.dmButtonStop.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.dmButtonStop.ForeColor = System.Drawing.Color.Teal;
             this.dmButtonStop.Image = null;
             this.dmButtonStop.Location = new System.Drawing.Point(175, 571);
             this.dmButtonStop.Margin = new System.Windows.Forms.Padding(0);
@@ -267,7 +267,7 @@ namespace HLAYKChannelMachine
             this.label17.BackColor = System.Drawing.Color.White;
             this.label17.Dock = System.Windows.Forms.DockStyle.Top;
             this.label17.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label17.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label17.ForeColor = System.Drawing.Color.Teal;
             this.label17.Location = new System.Drawing.Point(0, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(338, 40);
@@ -447,7 +447,7 @@ namespace HLAYKChannelMachine
             this.btnGenerateDoc.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnGenerateDoc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnGenerateDoc.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.btnGenerateDoc.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.btnGenerateDoc.ForeColor = System.Drawing.Color.Teal;
             this.btnGenerateDoc.Image = null;
             this.btnGenerateDoc.Location = new System.Drawing.Point(175, 619);
             this.btnGenerateDoc.Margin = new System.Windows.Forms.Padding(0);
@@ -472,7 +472,7 @@ namespace HLAYKChannelMachine
             this.btnGx.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnGx.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnGx.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.btnGx.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.btnGx.ForeColor = System.Drawing.Color.Teal;
             this.btnGx.Image = null;
             this.btnGx.Location = new System.Drawing.Point(154, 667);
             this.btnGx.Margin = new System.Windows.Forms.Padding(0);
@@ -785,7 +785,7 @@ namespace HLAYKChannelMachine
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Image = null;
             this.btnClose.Location = new System.Drawing.Point(270, 667);
             this.btnClose.Margin = new System.Windows.Forms.Padding(0);
@@ -810,7 +810,7 @@ namespace HLAYKChannelMachine
             this.btnErrorBox.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnErrorBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnErrorBox.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.btnErrorBox.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.btnErrorBox.ForeColor = System.Drawing.Color.Teal;
             this.btnErrorBox.Image = null;
             this.btnErrorBox.Location = new System.Drawing.Point(10, 619);
             this.btnErrorBox.Margin = new System.Windows.Forms.Padding(0);
@@ -1216,7 +1216,7 @@ namespace HLAYKChannelMachine
             this.lblQty.AutoSize = true;
             this.lblQty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblQty.Font = new System.Drawing.Font("微软雅黑", 100F);
-            this.lblQty.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.lblQty.ForeColor = System.Drawing.Color.Teal;
             this.lblQty.Location = new System.Drawing.Point(-1, 536);
             this.lblQty.Name = "lblQty";
             this.lblQty.Size = new System.Drawing.Size(154, 175);
@@ -1357,7 +1357,7 @@ namespace HLAYKChannelMachine
             // 
             this.label13.Dock = System.Windows.Forms.DockStyle.Top;
             this.label13.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label13.ForeColor = System.Drawing.Color.Teal;
             this.label13.Location = new System.Drawing.Point(0, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(875, 40);

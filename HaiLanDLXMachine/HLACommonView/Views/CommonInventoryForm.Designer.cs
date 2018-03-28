@@ -61,6 +61,7 @@
             // 
             // lblText
             // 
+            this.lblText.BackColor = System.Drawing.Color.Teal;
             this.lblText.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblText.Font = new System.Drawing.Font("微软雅黑", 14F);
             this.lblText.ForeColor = System.Drawing.Color.White;
@@ -73,7 +74,7 @@
             // 
             // metroProgressSpinner1
             // 
-            this.metroProgressSpinner1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
+            this.metroProgressSpinner1.BackColor = System.Drawing.Color.Teal;
             this.metroProgressSpinner1.DM_Maximum = 100;
             this.metroProgressSpinner1.DM_UseCustomBackColor = true;
             this.metroProgressSpinner1.DM_UseSelectable = true;

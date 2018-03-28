@@ -41,7 +41,7 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 26F);
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.label1.ForeColor = System.Drawing.Color.Teal;
             this.label1.Location = new System.Drawing.Point(233, 45);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(160, 46);
@@ -52,7 +52,7 @@
             // 
             this.lblLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblLogin.BackColor = System.Drawing.Color.Transparent;
-            this.lblLogin.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.lblLogin.DM_Color = System.Drawing.Color.Teal;
             this.lblLogin.DM_Font_Size = 30F;
             this.lblLogin.DM_Key = DMSkin.Controls.DMLabelKey.正确;
             this.lblLogin.DM_Text = "";

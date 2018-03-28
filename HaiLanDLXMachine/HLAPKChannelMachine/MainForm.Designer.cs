@@ -200,7 +200,7 @@
             this.btnShortConfirm.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
             this.btnShortConfirm.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(81)))), ((int)(((byte)(222)))));
             this.btnShortConfirm.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(121)))), ((int)(((byte)(222)))));
-            this.btnShortConfirm.DM_NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnShortConfirm.DM_NormalColor = System.Drawing.Color.Teal;
             this.btnShortConfirm.DM_Radius = 5;
             this.btnShortConfirm.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnShortConfirm.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -225,7 +225,7 @@
             this.btnQueryShortPick.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
             this.btnQueryShortPick.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(81)))), ((int)(((byte)(222)))));
             this.btnQueryShortPick.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(121)))), ((int)(((byte)(222)))));
-            this.btnQueryShortPick.DM_NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnQueryShortPick.DM_NormalColor = System.Drawing.Color.Teal;
             this.btnQueryShortPick.DM_Radius = 5;
             this.btnQueryShortPick.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnQueryShortPick.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -585,7 +585,7 @@
             // metroProgressSpinner1
             // 
             this.metroProgressSpinner1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.metroProgressSpinner1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.metroProgressSpinner1.BackColor = System.Drawing.Color.Teal;
             this.metroProgressSpinner1.DM_Maximum = 100;
             this.metroProgressSpinner1.DM_UseCustomBackColor = true;
             this.metroProgressSpinner1.DM_UseSelectable = true;
@@ -601,7 +601,7 @@
             this.lblLoading.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblLoading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.lblLoading.BackColor = System.Drawing.Color.Teal;
             this.lblLoading.Font = new System.Drawing.Font("微软雅黑", 14F);
             this.lblLoading.ForeColor = System.Drawing.Color.White;
             this.lblLoading.Location = new System.Drawing.Point(53, 9);
@@ -619,7 +619,7 @@
             this.btnDeliver.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
             this.btnDeliver.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
             this.btnDeliver.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
-            this.btnDeliver.DM_NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnDeliver.DM_NormalColor = System.Drawing.Color.Teal;
             this.btnDeliver.DM_Radius = 1;
             this.btnDeliver.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDeliver.FlatAppearance.BorderColor = System.Drawing.Color.Gray;

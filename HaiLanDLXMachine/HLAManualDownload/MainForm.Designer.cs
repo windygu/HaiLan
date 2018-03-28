@@ -211,7 +211,7 @@
             this.grouper4.BackgroundColor = System.Drawing.Color.White;
             this.grouper4.BackgroundGradientColor = System.Drawing.Color.SteelBlue;
             this.grouper4.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
-            this.grouper4.BorderColor = System.Drawing.Color.SkyBlue;
+            this.grouper4.BorderColor = System.Drawing.Color.Teal;
             this.grouper4.BorderThickness = 1F;
             this.grouper4.Controls.Add(this.button3);
             this.grouper4.Controls.Add(this.returnTypeLabel);
@@ -234,7 +234,7 @@
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.Color.DodgerBlue;
+            this.button3.BackColor = System.Drawing.Color.Teal;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.button3.ForeColor = System.Drawing.Color.White;
@@ -265,7 +265,7 @@
             // 
             // returnTypeutton
             // 
-            this.returnTypeutton.BackColor = System.Drawing.Color.DodgerBlue;
+            this.returnTypeutton.BackColor = System.Drawing.Color.Teal;
             this.returnTypeutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.returnTypeutton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.returnTypeutton.ForeColor = System.Drawing.Color.White;
@@ -293,7 +293,7 @@
             this.grouper3.BackgroundColor = System.Drawing.Color.White;
             this.grouper3.BackgroundGradientColor = System.Drawing.Color.SteelBlue;
             this.grouper3.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
-            this.grouper3.BorderColor = System.Drawing.Color.SkyBlue;
+            this.grouper3.BorderColor = System.Drawing.Color.Teal;
             this.grouper3.BorderThickness = 1F;
             this.grouper3.Controls.Add(this.dmCheckBox1_resetIfExist);
             this.grouper3.Controls.Add(this.inventoryLogLabel);
@@ -373,7 +373,7 @@
             // 
             // inventoryButton
             // 
-            this.inventoryButton.BackColor = System.Drawing.Color.DodgerBlue;
+            this.inventoryButton.BackColor = System.Drawing.Color.Teal;
             this.inventoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.inventoryButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.inventoryButton.ForeColor = System.Drawing.Color.White;
@@ -409,7 +409,7 @@
             this.grouper2.BackgroundColor = System.Drawing.Color.White;
             this.grouper2.BackgroundGradientColor = System.Drawing.Color.SteelBlue;
             this.grouper2.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
-            this.grouper2.BorderColor = System.Drawing.Color.SkyBlue;
+            this.grouper2.BorderColor = System.Drawing.Color.Teal;
             this.grouper2.BorderThickness = 1F;
             this.grouper2.Controls.Add(this.shipLogLabel);
             this.grouper2.Controls.Add(this.shipProgressBar);
@@ -449,7 +449,7 @@
             // 
             // shipButton
             // 
-            this.shipButton.BackColor = System.Drawing.Color.DodgerBlue;
+            this.shipButton.BackColor = System.Drawing.Color.Teal;
             this.shipButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.shipButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.shipButton.ForeColor = System.Drawing.Color.White;
@@ -485,7 +485,7 @@
             this.grouper1.BackgroundColor = System.Drawing.Color.White;
             this.grouper1.BackgroundGradientColor = System.Drawing.Color.SteelBlue;
             this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
-            this.grouper1.BorderColor = System.Drawing.Color.SkyBlue;
+            this.grouper1.BorderColor = System.Drawing.Color.Teal;
             this.grouper1.BorderThickness = 1F;
             this.grouper1.Controls.Add(this.label7);
             this.grouper1.Controls.Add(this.label6);
@@ -531,7 +531,7 @@
             // 
             // dateMatTagButton
             // 
-            this.dateMatTagButton.BackColor = System.Drawing.Color.DodgerBlue;
+            this.dateMatTagButton.BackColor = System.Drawing.Color.Teal;
             this.dateMatTagButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dateMatTagButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.dateMatTagButton.ForeColor = System.Drawing.Color.White;

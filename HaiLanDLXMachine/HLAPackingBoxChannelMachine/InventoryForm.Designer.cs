@@ -114,7 +114,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
             this.splitContainer1.Panel1.Controls.Add(this.dmButton7_handleJiaoJie);
             this.splitContainer1.Panel1.Controls.Add(this.uploadButton);
             this.splitContainer1.Panel1.Controls.Add(this.label10);
@@ -177,7 +177,7 @@
             this.dmButton7_handleJiaoJie.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton7_handleJiaoJie.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton7_handleJiaoJie.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton7_handleJiaoJie.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton7_handleJiaoJie.ForeColor = System.Drawing.Color.Teal;
             this.dmButton7_handleJiaoJie.Image = null;
             this.dmButton7_handleJiaoJie.Location = new System.Drawing.Point(174, 485);
             this.dmButton7_handleJiaoJie.Margin = new System.Windows.Forms.Padding(0);
@@ -202,7 +202,7 @@
             this.uploadButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.uploadButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.uploadButton.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.uploadButton.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.uploadButton.ForeColor = System.Drawing.Color.Teal;
             this.uploadButton.Image = null;
             this.uploadButton.Location = new System.Drawing.Point(22, 536);
             this.uploadButton.Margin = new System.Windows.Forms.Padding(0);
@@ -217,7 +217,7 @@
             this.label10.BackColor = System.Drawing.Color.White;
             this.label10.Dock = System.Windows.Forms.DockStyle.Top;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.label10.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label10.ForeColor = System.Drawing.Color.Teal;
             this.label10.Location = new System.Drawing.Point(0, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(338, 28);
@@ -239,7 +239,7 @@
             this.btnDocBox.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnDocBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnDocBox.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnDocBox.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnDocBox.ForeColor = System.Drawing.Color.Teal;
             this.btnDocBox.Image = null;
             this.btnDocBox.Location = new System.Drawing.Point(22, 585);
             this.btnDocBox.Margin = new System.Windows.Forms.Padding(0);
@@ -342,7 +342,7 @@
             this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnStart.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Image = null;
             this.btnStart.Location = new System.Drawing.Point(22, 389);
             this.btnStart.Margin = new System.Windows.Forms.Padding(0);
@@ -368,7 +368,7 @@
             this.btnPause.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPause.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnPause.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnPause.ForeColor = System.Drawing.Color.Teal;
             this.btnPause.Image = null;
             this.btnPause.Location = new System.Drawing.Point(174, 389);
             this.btnPause.Margin = new System.Windows.Forms.Padding(0);
@@ -394,7 +394,7 @@
             this.btnGenerateDoc.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnGenerateDoc.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnGenerateDoc.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnGenerateDoc.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnGenerateDoc.ForeColor = System.Drawing.Color.Teal;
             this.btnGenerateDoc.Image = null;
             this.btnGenerateDoc.Location = new System.Drawing.Point(22, 485);
             this.btnGenerateDoc.Margin = new System.Windows.Forms.Padding(0);
@@ -419,7 +419,7 @@
             this.btnGx.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnGx.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnGx.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnGx.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnGx.ForeColor = System.Drawing.Color.Teal;
             this.btnGx.Image = null;
             this.btnGx.Location = new System.Drawing.Point(22, 440);
             this.btnGx.Margin = new System.Windows.Forms.Padding(0);
@@ -445,7 +445,7 @@
             this.btnReceiveByBoxStandard.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnReceiveByBoxStandard.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnReceiveByBoxStandard.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnReceiveByBoxStandard.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnReceiveByBoxStandard.ForeColor = System.Drawing.Color.Teal;
             this.btnReceiveByBoxStandard.Image = null;
             this.btnReceiveByBoxStandard.Location = new System.Drawing.Point(22, 346);
             this.btnReceiveByBoxStandard.Margin = new System.Windows.Forms.Padding(0);
@@ -714,7 +714,7 @@
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Image = null;
             this.btnClose.Location = new System.Drawing.Point(22, 640);
             this.btnClose.Margin = new System.Windows.Forms.Padding(0);
@@ -907,7 +907,7 @@
             // 
             this.label12.Dock = System.Windows.Forms.DockStyle.Top;
             this.label12.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.label12.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label12.ForeColor = System.Drawing.Color.Teal;
             this.label12.Location = new System.Drawing.Point(0, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(1020, 37);

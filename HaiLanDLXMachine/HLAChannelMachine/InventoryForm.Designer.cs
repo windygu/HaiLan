@@ -38,7 +38,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblPlcStatus = new System.Windows.Forms.Label();
             this.btnSetBoxQty = new System.Windows.Forms.Button();
-            this.btnRecords = new System.Windows.Forms.Button();
             this.lblReaderStatus = new System.Windows.Forms.Label();
             this.lblCurrentUserNo = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -124,7 +123,7 @@
             // 
             // grouper1
             // 
-            this.grouper1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.grouper1.BackgroundColor = System.Drawing.Color.Teal;
             this.grouper1.BackgroundGradientColor = System.Drawing.Color.Transparent;
             this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouper1.BorderColor = System.Drawing.Color.SkyBlue;
@@ -137,7 +136,6 @@
             this.grouper1.Controls.Add(this.label12);
             this.grouper1.Controls.Add(this.lblPlcStatus);
             this.grouper1.Controls.Add(this.btnSetBoxQty);
-            this.grouper1.Controls.Add(this.btnRecords);
             this.grouper1.Controls.Add(this.lblReaderStatus);
             this.grouper1.Controls.Add(this.lblCurrentUserNo);
             this.grouper1.Controls.Add(this.label13);
@@ -183,10 +181,10 @@
             this.cbYpxWx.FlatAppearance.BorderSize = 5;
             this.cbYpxWx.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.cbYpxWx.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.cbYpxWx.Location = new System.Drawing.Point(22, 263);
+            this.cbYpxWx.Location = new System.Drawing.Point(7, 263);
             this.cbYpxWx.Margin = new System.Windows.Forms.Padding(0);
             this.cbYpxWx.Name = "cbYpxWx";
-            this.cbYpxWx.Size = new System.Drawing.Size(123, 40);
+            this.cbYpxWx.Size = new System.Drawing.Size(121, 40);
             this.cbYpxWx.TabIndex = 10;
             this.cbYpxWx.Text = "按配比收货";
             this.cbYpxWx.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -288,32 +286,13 @@
             this.btnSetBoxQty.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSetBoxQty.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnSetBoxQty.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnSetBoxQty.Location = new System.Drawing.Point(272, 212);
+            this.btnSetBoxQty.Location = new System.Drawing.Point(297, 212);
             this.btnSetBoxQty.Name = "btnSetBoxQty";
             this.btnSetBoxQty.Size = new System.Drawing.Size(110, 40);
             this.btnSetBoxQty.TabIndex = 13;
             this.btnSetBoxQty.Text = "箱规";
             this.btnSetBoxQty.UseVisualStyleBackColor = false;
             this.btnSetBoxQty.Click += new System.EventHandler(this.btnSetBoxQty_Click);
-            // 
-            // btnRecords
-            // 
-            this.btnRecords.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnRecords.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.btnRecords.FlatAppearance.BorderColor = System.Drawing.Color.SkyBlue;
-            this.btnRecords.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
-            this.btnRecords.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
-            this.btnRecords.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRecords.Font = new System.Drawing.Font("微软雅黑", 15F);
-            this.btnRecords.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnRecords.Location = new System.Drawing.Point(234, 60);
-            this.btnRecords.Name = "btnRecords";
-            this.btnRecords.Size = new System.Drawing.Size(109, 36);
-            this.btnRecords.TabIndex = 32;
-            this.btnRecords.Text = "检货记录";
-            this.btnRecords.UseVisualStyleBackColor = false;
-            this.btnRecords.Visible = false;
-            this.btnRecords.Click += new System.EventHandler(this.btnRecords_Click);
             // 
             // lblReaderStatus
             // 
@@ -364,7 +343,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnClose.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnClose.Location = new System.Drawing.Point(273, 314);
+            this.btnClose.Location = new System.Drawing.Point(297, 314);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(109, 40);
             this.btnClose.TabIndex = 13;
@@ -439,7 +418,7 @@
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnStart.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnStart.Location = new System.Drawing.Point(20, 314);
+            this.btnStart.Location = new System.Drawing.Point(6, 314);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(122, 40);
             this.btnStart.TabIndex = 11;
@@ -470,7 +449,7 @@
             this.btnUpload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpload.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.btnUpload.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnUpload.Location = new System.Drawing.Point(273, 263);
+            this.btnUpload.Location = new System.Drawing.Point(297, 263);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(109, 40);
             this.btnUpload.TabIndex = 32;
@@ -489,7 +468,7 @@
             this.btnPeibi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPeibi.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnPeibi.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnPeibi.Location = new System.Drawing.Point(272, 212);
+            this.btnPeibi.Location = new System.Drawing.Point(297, 212);
             this.btnPeibi.Name = "btnPeibi";
             this.btnPeibi.Size = new System.Drawing.Size(110, 40);
             this.btnPeibi.TabIndex = 11;
@@ -508,7 +487,7 @@
             this.btnInputDoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInputDoc.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnInputDoc.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.btnInputDoc.Location = new System.Drawing.Point(22, 212);
+            this.btnInputDoc.Location = new System.Drawing.Point(7, 212);
             this.btnInputDoc.Name = "btnInputDoc";
             this.btnInputDoc.Size = new System.Drawing.Size(121, 40);
             this.btnInputDoc.TabIndex = 11;
@@ -1263,7 +1242,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader16;
         private System.Windows.Forms.ColumnHeader columnHeader17;
         private System.Windows.Forms.ColumnHeader columnHeader18;
-        private System.Windows.Forms.Button btnRecords;
         private System.Windows.Forms.ColumnHeader columnHeader19;
         private System.Windows.Forms.Label lblCurrentZSATNR;
         private System.Windows.Forms.Label label5;

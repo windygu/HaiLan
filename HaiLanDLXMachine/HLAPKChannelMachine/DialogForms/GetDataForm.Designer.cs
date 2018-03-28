@@ -54,7 +54,7 @@
             // 
             // shipButton
             // 
-            this.shipButton.BackColor = System.Drawing.Color.DodgerBlue;
+            this.shipButton.BackColor = System.Drawing.Color.Teal;
             this.shipButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.shipButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.shipButton.ForeColor = System.Drawing.Color.White;
@@ -117,6 +117,7 @@
             this.inventoryLogLabel.TabIndex = 73;
             this.inventoryLogLabel.Text = "下架单日志";
             this.inventoryLogLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.inventoryLogLabel.Visible = false;
             // 
             // inventoryStoreTextBox
             // 
@@ -132,6 +133,7 @@
             this.inventoryStoreTextBox.Size = new System.Drawing.Size(92, 30);
             this.inventoryStoreTextBox.TabIndex = 72;
             this.inventoryStoreTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.inventoryStoreTextBox.Visible = false;
             // 
             // label3
             // 
@@ -143,6 +145,7 @@
             this.label3.TabIndex = 71;
             this.label3.Text = "存储类型：";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.Visible = false;
             // 
             // inventoryProgressBar
             // 
@@ -150,10 +153,11 @@
             this.inventoryProgressBar.Name = "inventoryProgressBar";
             this.inventoryProgressBar.Size = new System.Drawing.Size(578, 30);
             this.inventoryProgressBar.TabIndex = 70;
+            this.inventoryProgressBar.Visible = false;
             // 
             // inventoryButton
             // 
-            this.inventoryButton.BackColor = System.Drawing.Color.DodgerBlue;
+            this.inventoryButton.BackColor = System.Drawing.Color.Teal;
             this.inventoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.inventoryButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.inventoryButton.ForeColor = System.Drawing.Color.White;
@@ -163,6 +167,7 @@
             this.inventoryButton.TabIndex = 69;
             this.inventoryButton.Text = "开始下载";
             this.inventoryButton.UseVisualStyleBackColor = false;
+            this.inventoryButton.Visible = false;
             this.inventoryButton.Click += new System.EventHandler(this.inventoryButton_Click);
             // 
             // inventoryDateTime
@@ -172,6 +177,7 @@
             this.inventoryDateTime.Name = "inventoryDateTime";
             this.inventoryDateTime.Size = new System.Drawing.Size(132, 30);
             this.inventoryDateTime.TabIndex = 68;
+            this.inventoryDateTime.Visible = false;
             // 
             // label2
             // 
@@ -194,10 +200,11 @@
             this.label4.TabIndex = 74;
             this.label4.Text = "下架单数据：";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label4.Visible = false;
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.button1.BackColor = System.Drawing.Color.Teal;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.button1.ForeColor = System.Drawing.Color.White;

@@ -56,7 +56,7 @@
             this.btnKeyboard.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnKeyboard.BackColor = System.Drawing.Color.White;
             this.btnKeyboard.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnKeyboard.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnKeyboard.DM_Color = System.Drawing.Color.Teal;
             this.btnKeyboard.DM_Font_Size = 22F;
             this.btnKeyboard.DM_Key = DMSkin.Controls.DMLabelKey.键盘;
             this.btnKeyboard.DM_Text = "";
@@ -71,7 +71,7 @@
             // 
             this.lblLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblLogin.BackColor = System.Drawing.Color.White;
-            this.lblLogin.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.lblLogin.DM_Color = System.Drawing.Color.Teal;
             this.lblLogin.DM_Font_Size = 22F;
             this.lblLogin.DM_Key = DMSkin.Controls.DMLabelKey.用户;
             this.lblLogin.DM_Text = "";
@@ -145,7 +145,7 @@
             // 
             this.dmLabel1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dmLabel1.BackColor = System.Drawing.Color.White;
-            this.dmLabel1.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.dmLabel1.DM_Color = System.Drawing.Color.Teal;
             this.dmLabel1.DM_Font_Size = 22F;
             this.dmLabel1.DM_Key = DMSkin.Controls.DMLabelKey.锁;
             this.dmLabel1.DM_Text = "";
@@ -319,7 +319,7 @@
             // 
             this.dmLabel2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dmLabel2.BackColor = System.Drawing.Color.White;
-            this.dmLabel2.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.dmLabel2.DM_Color = System.Drawing.Color.Teal;
             this.dmLabel2.DM_Font_Size = 22F;
             this.dmLabel2.DM_Key = DMSkin.Controls.DMLabelKey.主页;
             this.dmLabel2.DM_Text = "";
@@ -345,7 +345,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(746, 459);
             this.Controls.Add(this.cboLouceng);
             this.Controls.Add(this.btnRestart);

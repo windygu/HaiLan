@@ -326,7 +326,7 @@
             this.btnDetail.DM_UseCustomBackColor = true;
             this.btnDetail.DM_UseCustomForeColor = true;
             this.btnDetail.DM_UseSelectable = true;
-            this.btnDetail.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnDetail.ForeColor = System.Drawing.Color.Teal;
             this.btnDetail.Location = new System.Drawing.Point(6, 566);
             this.btnDetail.Name = "btnDetail";
             this.btnDetail.Size = new System.Drawing.Size(240, 41);
@@ -341,7 +341,7 @@
             this.btnClose.DM_UseCustomBackColor = true;
             this.btnClose.DM_UseCustomForeColor = true;
             this.btnClose.DM_UseSelectable = true;
-            this.btnClose.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Location = new System.Drawing.Point(6, 618);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(240, 40);
@@ -492,6 +492,7 @@
             // panelLoading
             // 
             this.panelLoading.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelLoading.BackColor = System.Drawing.Color.Teal;
             this.panelLoading.Controls.Add(this.pbLoading);
             this.panelLoading.Controls.Add(this.lblLoading);
             this.panelLoading.Location = new System.Drawing.Point(6, 661);
@@ -647,7 +648,7 @@
             this.btnGetData.DM_UseCustomBackColor = true;
             this.btnGetData.DM_UseCustomForeColor = true;
             this.btnGetData.DM_UseSelectable = true;
-            this.btnGetData.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnGetData.ForeColor = System.Drawing.Color.Teal;
             this.btnGetData.Location = new System.Drawing.Point(135, 402);
             this.btnGetData.Name = "btnGetData";
             this.btnGetData.Size = new System.Drawing.Size(112, 44);
@@ -667,7 +668,7 @@
             this.metroTile1.DM_UseCustomForeColor = true;
             this.metroTile1.DM_UseSelectable = true;
             this.metroTile1.DM_UseStyleColors = true;
-            this.metroTile1.ForeColor = System.Drawing.Color.SteelBlue;
+            this.metroTile1.ForeColor = System.Drawing.Color.Teal;
             this.metroTile1.Location = new System.Drawing.Point(257, 5);
             this.metroTile1.Name = "metroTile1";
             this.metroTile1.Size = new System.Drawing.Size(769, 32);
@@ -685,7 +686,7 @@
             this.metroTile2.DM_UseCustomForeColor = true;
             this.metroTile2.DM_UseSelectable = true;
             this.metroTile2.DM_UseStyleColors = true;
-            this.metroTile2.ForeColor = System.Drawing.Color.SteelBlue;
+            this.metroTile2.ForeColor = System.Drawing.Color.Teal;
             this.metroTile2.Location = new System.Drawing.Point(0, 5);
             this.metroTile2.Name = "metroTile2";
             this.metroTile2.Size = new System.Drawing.Size(255, 32);
@@ -701,7 +702,7 @@
             this.btnStart.DM_UseCustomForeColor = true;
             this.btnStart.DM_UseSelectable = true;
             this.btnStart.DM_UseStyleColors = true;
-            this.btnStart.ForeColor = System.Drawing.Color.SteelBlue;
+            this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Location = new System.Drawing.Point(6, 402);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(111, 44);
@@ -749,6 +750,7 @@
             // 
             this.label14.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label14.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label14.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.label14.Location = new System.Drawing.Point(6, 12);
             this.label14.Name = "label14";
@@ -795,7 +797,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.DodgerBlue;
+            this.groupBox1.BackColor = System.Drawing.Color.Teal;
             this.groupBox1.Controls.Add(this.button1_dj);
             this.groupBox1.Controls.Add(this.uploadButton);
             this.groupBox1.Controls.Add(this.label2);
@@ -831,7 +833,7 @@
             // 
             this.button1_dj.BackColor = System.Drawing.Color.WhiteSmoke;
             this.button1_dj.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1_dj.ForeColor = System.Drawing.Color.SteelBlue;
+            this.button1_dj.ForeColor = System.Drawing.Color.Teal;
             this.button1_dj.Location = new System.Drawing.Point(6, 506);
             this.button1_dj.Name = "button1_dj";
             this.button1_dj.Size = new System.Drawing.Size(241, 50);
@@ -848,7 +850,7 @@
             this.uploadButton.DM_UseCustomForeColor = true;
             this.uploadButton.DM_UseSelectable = true;
             this.uploadButton.DM_UseStyleColors = true;
-            this.uploadButton.ForeColor = System.Drawing.Color.SteelBlue;
+            this.uploadButton.ForeColor = System.Drawing.Color.Teal;
             this.uploadButton.Location = new System.Drawing.Point(6, 454);
             this.uploadButton.Name = "uploadButton";
             this.uploadButton.Size = new System.Drawing.Size(241, 44);

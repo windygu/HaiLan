@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigForm));
             this.metroTabControl1 = new DMSkin.Metro.Controls.MetroTabControl();
             this.metroTabPage1 = new DMSkin.Metro.Controls.MetroTabPage();
+            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.textBox1_gl = new System.Windows.Forms.TextBox();
             this.metroPanel1 = new DMSkin.Metro.Controls.MetroPanel();
@@ -47,7 +48,6 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnSave = new DMSkin.Controls.DMButton();
             this.btnExit = new DMSkin.Controls.DMButton();
-            this.label8 = new System.Windows.Forms.Label();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroPanel1.SuspendLayout();
@@ -83,10 +83,22 @@
             this.metroTabPage1.VerticalScrollbarDM_HighlightOnWheel = false;
             this.metroTabPage1.VerticalScrollbarSize = 10;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("微软雅黑 Light", 15F, System.Drawing.FontStyle.Bold);
+            this.label8.ForeColor = System.Drawing.Color.Teal;
+            this.label8.Location = new System.Drawing.Point(75, 69);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(204, 27);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "功率范围（1~32.5）";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑 Light", 12F, System.Drawing.FontStyle.Bold);
+            this.label7.ForeColor = System.Drawing.Color.Teal;
             this.label7.Location = new System.Drawing.Point(3, 25);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 21);
@@ -268,7 +280,7 @@
             this.lblTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTitle.Font = new System.Drawing.Font("微软雅黑 Light", 16F);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.lblTitle.ForeColor = System.Drawing.Color.Teal;
             this.lblTitle.Location = new System.Drawing.Point(61, 6);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(431, 32);
@@ -285,7 +297,7 @@
             this.btnSave.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
             this.btnSave.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(81)))), ((int)(((byte)(222)))));
             this.btnSave.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(121)))), ((int)(((byte)(222)))));
-            this.btnSave.DM_NormalColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnSave.DM_NormalColor = System.Drawing.Color.Teal;
             this.btnSave.DM_Radius = 5;
             this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -325,16 +337,6 @@
             this.btnExit.Text = "取消";
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("微软雅黑 Light", 15F, System.Drawing.FontStyle.Bold);
-            this.label8.Location = new System.Drawing.Point(75, 69);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(204, 27);
-            this.label8.TabIndex = 22;
-            this.label8.Text = "功率范围（1~32.5）";
             // 
             // ConfigForm
             // 

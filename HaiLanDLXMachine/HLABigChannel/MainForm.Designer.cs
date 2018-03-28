@@ -46,7 +46,6 @@
             this.btnPacking = new DMSkin.Controls.DMButton();
             this.manualDownloadButton = new DMSkin.Controls.DMButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.dmLabel1 = new DMSkin.Controls.DMLabel();
             this.dmButton1 = new DMSkin.Controls.DMButton();
             this.netStatusButton = new DMSkin.Controls.DMButton();
             this.dmButton3 = new DMSkin.Controls.DMButton();
@@ -418,21 +417,6 @@
             this.label1.Text = "HLA海澜之家RFID智能系统";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // dmLabel1
-            // 
-            this.dmLabel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.dmLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.dmLabel1.DM_Color = System.Drawing.Color.White;
-            this.dmLabel1.DM_Font_Size = 35F;
-            this.dmLabel1.DM_Key = DMSkin.Controls.DMLabelKey.HTML5;
-            this.dmLabel1.DM_Text = "";
-            this.dmLabel1.Location = new System.Drawing.Point(111, 12);
-            this.dmLabel1.Name = "dmLabel1";
-            this.dmLabel1.Size = new System.Drawing.Size(51, 52);
-            this.dmLabel1.TabIndex = 18;
-            this.dmLabel1.Text = "dmLabel1";
-            this.dmLabel1.Visible = false;
-            // 
             // dmButton1
             // 
             this.dmButton1.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -532,7 +516,6 @@
             this.Controls.Add(this.netStatusButton);
             this.Controls.Add(this.dmButton1);
             this.Controls.Add(this.manualDownloadButton);
-            this.Controls.Add(this.dmLabel1);
             this.Controls.Add(this.pnMain);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -559,7 +542,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblDate;
         private System.Windows.Forms.Label label1;
-        private DMSkin.Controls.DMLabel dmLabel1;
         private DMSkin.Controls.DMButton btnDeliver;
         private DMSkin.Controls.DMButton btnReciever;
         private DMSkin.Controls.DMButton manualDownloadButton;
