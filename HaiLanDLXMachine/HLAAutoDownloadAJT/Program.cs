@@ -37,19 +37,11 @@ namespace HLAManualDownload
                 }
             }
 
+            AppConfig.Load();
+
             if (AutoUpdate.Update(SoftwareType.通道机主数据手工下载系统_ajt))
             {
-                //载入默认配置
-                try
-                {
-                    AppConfig.Load();
-                    SAPDataService.Init();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "警告");
-                    return;
-                }
+                SAPDataService.Init();
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

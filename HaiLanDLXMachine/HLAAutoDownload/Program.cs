@@ -37,22 +37,15 @@ namespace HLAAutoDownload
                 }
             }
             //载入默认配置
-            try
+            AppConfig.Load();
+
+            if (AutoUpdate.Update(SoftwareType.自动下载_HLA))
             {
-                AppConfig.Load();
                 SAPDataService.Init();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new DownloadForm());
-                DBHelper.Disconnect();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message,"警告");
-                return;
-            }
-
-            
         }
     }
 }
