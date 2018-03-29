@@ -307,6 +307,12 @@ namespace HLABoxCheckChannelMachine
                     }));
                 }
 
+                if(epcList.Count<=0)
+                {
+                    grid.Rows.Insert(0, mCurBoxNo, "", "", "", errorEpcNumber, "未扫描到商品");
+                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                }
+
 
             }
         }
