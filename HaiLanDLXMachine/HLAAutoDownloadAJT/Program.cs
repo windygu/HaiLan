@@ -39,7 +39,7 @@ namespace HLAManualDownload
 
             AppConfig.Load();
 
-            if (AutoUpdate.Update(SoftwareType.通道机主数据手工下载系统_ajt))
+            if (AutoUpdate.Update(SoftwareType.自动下载_AJT))
             {
                 SAPDataService.Init();
 
