@@ -113,10 +113,14 @@ namespace HLAYKChannelMachine
                 }));
                 isInventory = false;
                 reader.StopInventory();
+
                 checkResult = CheckData();
                 YKBoxInfo box = GetCurrentYKBox();
+
                 if(lblUsePrint.DM_Key == DMSkin.Controls.DMLabelKey.正确)
                 {
+                    ShowLoading("正在打印装箱信息...");
+
                     if (checkResult.InventoryResult)
                         PrintHelper.PrintRightTag(box,materialList);
                     else
@@ -125,6 +129,8 @@ namespace HLAYKChannelMachine
 
                 if (!checkResult.IsRecheck)
                 {
+                    ShowLoading("正在上传SAP...");
+
                     uploadSap(box);
                 }
 

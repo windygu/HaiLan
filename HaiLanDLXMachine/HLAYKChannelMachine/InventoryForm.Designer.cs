@@ -37,7 +37,6 @@ namespace HLAYKChannelMachine
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InventoryForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.uploadButton = new DMSkin.Controls.DMButton();
             this.dmButtonStart = new DMSkin.Controls.DMButton();
             this.dmButtonStop = new DMSkin.Controls.DMButton();
             this.label17 = new System.Windows.Forms.Label();
@@ -126,7 +125,6 @@ namespace HLAYKChannelMachine
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
-            this.splitContainer1.Panel1.Controls.Add(this.uploadButton);
             this.splitContainer1.Panel1.Controls.Add(this.dmButtonStart);
             this.splitContainer1.Panel1.Controls.Add(this.dmButtonStop);
             this.splitContainer1.Panel1.Controls.Add(this.label17);
@@ -186,31 +184,6 @@ namespace HLAYKChannelMachine
             this.splitContainer1.Size = new System.Drawing.Size(1221, 712);
             this.splitContainer1.SplitterDistance = 340;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // uploadButton
-            // 
-            this.uploadButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.uploadButton.AutoEllipsis = true;
-            this.uploadButton.BackColor = System.Drawing.Color.Transparent;
-            this.uploadButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.uploadButton.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
-            this.uploadButton.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(93)))), ((int)(((byte)(203)))));
-            this.uploadButton.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
-            this.uploadButton.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.uploadButton.DM_Radius = 1;
-            this.uploadButton.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.uploadButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.uploadButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.uploadButton.ForeColor = System.Drawing.Color.Teal;
-            this.uploadButton.Image = null;
-            this.uploadButton.Location = new System.Drawing.Point(10, 667);
-            this.uploadButton.Margin = new System.Windows.Forms.Padding(0);
-            this.uploadButton.Name = "uploadButton";
-            this.uploadButton.Size = new System.Drawing.Size(130, 40);
-            this.uploadButton.TabIndex = 57;
-            this.uploadButton.Text = "上传列表";
-            this.uploadButton.UseVisualStyleBackColor = true;
-            this.uploadButton.Click += new System.EventHandler(this.uploadButton_Click);
             // 
             // dmButtonStart
             // 
@@ -474,10 +447,10 @@ namespace HLAYKChannelMachine
             this.btnGx.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.btnGx.ForeColor = System.Drawing.Color.Teal;
             this.btnGx.Image = null;
-            this.btnGx.Location = new System.Drawing.Point(154, 667);
+            this.btnGx.Location = new System.Drawing.Point(10, 667);
             this.btnGx.Margin = new System.Windows.Forms.Padding(0);
             this.btnGx.Name = "btnGx";
-            this.btnGx.Size = new System.Drawing.Size(100, 40);
+            this.btnGx.Size = new System.Drawing.Size(155, 40);
             this.btnGx.TabIndex = 14;
             this.btnGx.Text = "操作组详情";
             this.btnGx.UseVisualStyleBackColor = true;
@@ -787,10 +760,10 @@ namespace HLAYKChannelMachine
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Image = null;
-            this.btnClose.Location = new System.Drawing.Point(270, 667);
+            this.btnClose.Location = new System.Drawing.Point(175, 667);
             this.btnClose.Margin = new System.Windows.Forms.Padding(0);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(60, 40);
+            this.btnClose.Size = new System.Drawing.Size(155, 40);
             this.btnClose.TabIndex = 14;
             this.btnClose.Text = "退出";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -1460,7 +1433,6 @@ namespace HLAYKChannelMachine
         private System.Windows.Forms.Label label16;
         private DMSkin.Controls.DMButton dmButtonStart;
         private DMSkin.Controls.DMButton dmButtonStop;
-        private DMSkin.Controls.DMButton uploadButton;
     }
 }
 
