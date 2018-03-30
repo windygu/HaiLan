@@ -106,49 +106,73 @@ namespace HLAYKChannelMachine
         
         public override void StopInventory()
         {
-            if (isInventory)
+            Thread uploadThread = new Thread(new ThreadStart(() =>
             {
-                Invoke(new Action(() => {
-                    lblWorkStatus.Text = "停止扫描";
-                }));
-                isInventory = false;
-                reader.StopInventory();
-
-                checkResult = CheckData();
-                YKBoxInfo box = GetCurrentYKBox();
-
-                if(lblUsePrint.DM_Key == DMSkin.Controls.DMLabelKey.正确)
+                try
                 {
-                    ShowLoading("正在打印装箱信息...");
-
-                    if (checkResult.InventoryResult)
-                        PrintHelper.PrintRightTag(box,materialList);
-                    else
-                        PrintHelper.PrintErrorTag(box, lblCheckSku.DM_Key == DMSkin.Controls.DMLabelKey.正确);
-                }
-
-                if (!checkResult.IsRecheck)
-                {
-                    ShowLoading("正在上传SAP...");
-
-                    uploadSap(box);
-                }
-
-                if (boxList == null) boxList = new List<YKBoxInfo>();
-                if (lblCheckPinSe.DM_Key == DMSkin.Controls.DMLabelKey.正确)
-                {
-                    if (boxList.Count(i => i.Status == "S") == 0 && box.Status == "S")
+                    if (isInventory)
                     {
-                        currentZcolsn = box.Details?.First().Zcolsn;
-                        currentZsatnr = box.Details?.First().Zsatnr;
+                        Invoke(new Action(() =>
+                        {
+                            lblWorkStatus.Text = "停止扫描";
+                        }));
+                        isInventory = false;
+                        reader.StopInventory();
+
+                        checkResult = CheckData();
+                        YKBoxInfo box = GetCurrentYKBox();
+
+                        if (lblUsePrint.DM_Key == DMSkin.Controls.DMLabelKey.正确)
+                        {
+                            ShowLoading("正在打印装箱信息...");
+
+                            if (checkResult.InventoryResult)
+                                PrintHelper.PrintRightTag(box, materialList);
+                            else
+                                PrintHelper.PrintErrorTag(box, lblCheckSku.DM_Key == DMSkin.Controls.DMLabelKey.正确);
+                        }
+
+                        if (!checkResult.IsRecheck)
+                        {
+                            ShowLoading("正在上传SAP...");
+
+                            uploadSap(box);
+                        }
+
+                        if (boxList == null) boxList = new List<YKBoxInfo>();
+                        if (lblCheckPinSe.DM_Key == DMSkin.Controls.DMLabelKey.正确)
+                        {
+                            if (boxList.Count(i => i.Status == "S") == 0 && box.Status == "S")
+                            {
+                                currentZcolsn = box.Details?.First().Zcolsn;
+                                currentZsatnr = box.Details?.First().Zsatnr;
+                            }
+                        }
+                        boxList.RemoveAll(i => i.Hu == box.Hu);
+                        boxList.Add(box);
+                        AddGrid(box);
+
+                        updateUIInfo();
+
+                        if (checkResult.InventoryResult || checkResult.IsRecheck)
+                        {
+                            SetInventoryResult(1);
+                        }
+                        else
+                        {
+                            SetInventoryResult(3);
+                        }
                     }
                 }
-                boxList.RemoveAll(i => i.Hu == box.Hu);
-                boxList.Add(box);
-                AddGrid(box);
+                catch(Exception ex)
+                {
+                    Log4netHelper.LogError(ex);
+                    SetInventoryResult(3);
+                }
+            }));
+            uploadThread.IsBackground = true;
+            uploadThread.Start();
 
-                updateUIInfo();
-            }
         }
 
         void updateUIInfo()
@@ -504,10 +528,8 @@ namespace HLAYKChannelMachine
             if (result.InventoryResult || result.IsRecheck)
             {
                 result.UpdateMessage(result.IsRecheck ? Consts.Default.CHONG_TOU : Consts.Default.RIGHT);
-                SetInventoryResult(1);
             }
-            else
-                SetInventoryResult(3);
+
             lblResult.Text = result.Message;
             return result;
         }

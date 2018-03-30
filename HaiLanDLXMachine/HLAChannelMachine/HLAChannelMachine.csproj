@@ -205,12 +205,6 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OldLoginForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OldLoginForm.Designer.cs">
-      <DependentUpon>OldLoginForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="DialogForm\PowerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -285,9 +279,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OldLoginForm.resx">
-      <DependentUpon>OldLoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\PowerForm.resx">
       <DependentUpon>PowerForm.cs</DependentUpon>

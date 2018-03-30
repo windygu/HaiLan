@@ -306,11 +306,6 @@ namespace HLACancelCheckChannelMachine
             if (result.InventoryResult)
             {
                 result.UpdateMessage(Consts.Default.RIGHT);
-                SetInventoryResult(1);
-            }
-            else
-            {
-                SetInventoryResult(3);
             }
 
             //print
@@ -484,8 +479,17 @@ namespace HLACancelCheckChannelMachine
                 isInventory = false;
                 reader.StopInventory();
                 CheckResult cre = CheckData();
-               
-              
+
+                if (cre.InventoryResult)
+                {
+                    SetInventoryResult(1);
+                }
+                else
+                {
+                    SetInventoryResult(3);
+                }
+
+
             }
         }
 

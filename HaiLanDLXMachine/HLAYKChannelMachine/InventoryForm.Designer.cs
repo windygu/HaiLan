@@ -96,6 +96,7 @@ namespace HLAYKChannelMachine
             this.label16 = new System.Windows.Forms.Label();
             this.lblQty = new System.Windows.Forms.Label();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
+            this.label13 = new System.Windows.Forms.Label();
             this.SOURCE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TARGET = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -104,7 +105,6 @@ namespace HLAYKChannelMachine
             this.ZSIZTX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.QTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -1260,72 +1260,6 @@ namespace HLAYKChannelMachine
             this.grid.Size = new System.Drawing.Size(875, 670);
             this.grid.TabIndex = 18;
             // 
-            // SOURCE
-            // 
-            this.SOURCE.FillWeight = 15F;
-            this.SOURCE.HeaderText = "源存储类型";
-            this.SOURCE.Name = "SOURCE";
-            this.SOURCE.ReadOnly = true;
-            this.SOURCE.Width = 101;
-            // 
-            // TARGET
-            // 
-            this.TARGET.FillWeight = 15F;
-            this.TARGET.HeaderText = "目标存储类型";
-            this.TARGET.Name = "TARGET";
-            this.TARGET.ReadOnly = true;
-            this.TARGET.Width = 101;
-            // 
-            // HU
-            // 
-            this.HU.FillWeight = 13F;
-            this.HU.HeaderText = "箱号";
-            this.HU.Name = "HU";
-            this.HU.ReadOnly = true;
-            this.HU.Width = 87;
-            // 
-            // ZSATNR
-            // 
-            this.ZSATNR.FillWeight = 15F;
-            this.ZSATNR.HeaderText = "品号";
-            this.ZSATNR.Name = "ZSATNR";
-            this.ZSATNR.ReadOnly = true;
-            this.ZSATNR.Width = 102;
-            // 
-            // ZCOLSN
-            // 
-            this.ZCOLSN.FillWeight = 7F;
-            this.ZCOLSN.HeaderText = "色号";
-            this.ZCOLSN.Name = "ZCOLSN";
-            this.ZCOLSN.ReadOnly = true;
-            this.ZCOLSN.Width = 47;
-            // 
-            // ZSIZTX
-            // 
-            this.ZSIZTX.FillWeight = 13F;
-            this.ZSIZTX.HeaderText = "规格";
-            this.ZSIZTX.Name = "ZSIZTX";
-            this.ZSIZTX.ReadOnly = true;
-            this.ZSIZTX.Width = 88;
-            // 
-            // QTY
-            // 
-            this.QTY.FillWeight = 7F;
-            this.QTY.HeaderText = "数量";
-            this.QTY.Name = "QTY";
-            this.QTY.ReadOnly = true;
-            this.QTY.Width = 48;
-            // 
-            // MSG
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
-            this.MSG.FillWeight = 38F;
-            this.MSG.HeaderText = "状态";
-            this.MSG.Name = "MSG";
-            this.MSG.ReadOnly = true;
-            this.MSG.Width = 400;
-            // 
             // label13
             // 
             this.label13.Dock = System.Windows.Forms.DockStyle.Top;
@@ -1337,6 +1271,80 @@ namespace HLAYKChannelMachine
             this.label13.TabIndex = 19;
             this.label13.Text = "复核明细";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // SOURCE
+            // 
+            this.SOURCE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.SOURCE.FillWeight = 15F;
+            this.SOURCE.HeaderText = "源存储类型";
+            this.SOURCE.Name = "SOURCE";
+            this.SOURCE.ReadOnly = true;
+            this.SOURCE.Width = 106;
+            // 
+            // TARGET
+            // 
+            this.TARGET.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.TARGET.FillWeight = 15F;
+            this.TARGET.HeaderText = "目标存储类型";
+            this.TARGET.Name = "TARGET";
+            this.TARGET.ReadOnly = true;
+            this.TARGET.Width = 106;
+            // 
+            // HU
+            // 
+            this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.HU.FillWeight = 13F;
+            this.HU.HeaderText = "箱号";
+            this.HU.Name = "HU";
+            this.HU.ReadOnly = true;
+            this.HU.Width = 70;
+            // 
+            // ZSATNR
+            // 
+            this.ZSATNR.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZSATNR.FillWeight = 15F;
+            this.ZSATNR.HeaderText = "品号";
+            this.ZSATNR.Name = "ZSATNR";
+            this.ZSATNR.ReadOnly = true;
+            this.ZSATNR.Width = 70;
+            // 
+            // ZCOLSN
+            // 
+            this.ZCOLSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZCOLSN.FillWeight = 7F;
+            this.ZCOLSN.HeaderText = "色号";
+            this.ZCOLSN.Name = "ZCOLSN";
+            this.ZCOLSN.ReadOnly = true;
+            this.ZCOLSN.Width = 70;
+            // 
+            // ZSIZTX
+            // 
+            this.ZSIZTX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZSIZTX.FillWeight = 13F;
+            this.ZSIZTX.HeaderText = "规格";
+            this.ZSIZTX.Name = "ZSIZTX";
+            this.ZSIZTX.ReadOnly = true;
+            this.ZSIZTX.Width = 70;
+            // 
+            // QTY
+            // 
+            this.QTY.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.QTY.FillWeight = 7F;
+            this.QTY.HeaderText = "数量";
+            this.QTY.Name = "QTY";
+            this.QTY.ReadOnly = true;
+            this.QTY.Width = 70;
+            // 
+            // MSG
+            // 
+            this.MSG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
+            this.MSG.FillWeight = 38F;
+            this.MSG.HeaderText = "状态";
+            this.MSG.Name = "MSG";
+            this.MSG.ReadOnly = true;
+            this.MSG.Width = 70;
             // 
             // InventoryForm
             // 
@@ -1415,14 +1423,6 @@ namespace HLAYKChannelMachine
         private DMSkin.Controls.DMLabel lblCheckPinSe;
         private DMSkin.Controls.DMButton btnCheckPinSe;
         private DMSkin.Metro.Controls.MetroGrid grid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SOURCE;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TARGET;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HU;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZSATNR;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZCOLSN;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZSIZTX;
-        private System.Windows.Forms.DataGridViewTextBoxColumn QTY;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MSG;
         private DMSkin.Metro.Controls.MetroComboBox cboPxmat;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label17;
@@ -1433,6 +1433,14 @@ namespace HLAYKChannelMachine
         private System.Windows.Forms.Label label16;
         private DMSkin.Controls.DMButton dmButtonStart;
         private DMSkin.Controls.DMButton dmButtonStop;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SOURCE;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TARGET;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ZSATNR;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ZCOLSN;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ZSIZTX;
+        private System.Windows.Forms.DataGridViewTextBoxColumn QTY;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MSG;
     }
 }
 

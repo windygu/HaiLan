@@ -77,13 +77,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.grid2 = new DMSkin.Metro.Controls.MetroGrid();
+            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.lblDeviceStatus = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PLANNUM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.REALNUM = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.STATUS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timer = new System.Windows.Forms.Timer(this.components);
-            this.lblDeviceStatus = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -670,37 +670,6 @@
             this.grid2.Size = new System.Drawing.Size(668, 710);
             this.grid2.TabIndex = 3;
             // 
-            // HU
-            // 
-            this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.HU.FillWeight = 150F;
-            this.HU.HeaderText = "箱号";
-            this.HU.Name = "HU";
-            this.HU.ReadOnly = true;
-            this.HU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // PLANNUM
-            // 
-            this.PLANNUM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.PLANNUM.HeaderText = "应收数量";
-            this.PLANNUM.Name = "PLANNUM";
-            this.PLANNUM.ReadOnly = true;
-            this.PLANNUM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // REALNUM
-            // 
-            this.REALNUM.HeaderText = "实际数量";
-            this.REALNUM.Name = "REALNUM";
-            this.REALNUM.ReadOnly = true;
-            this.REALNUM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // STATUS
-            // 
-            this.STATUS.HeaderText = "状态";
-            this.STATUS.Name = "STATUS";
-            this.STATUS.ReadOnly = true;
-            this.STATUS.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
             // timer
             // 
             this.timer.Enabled = true;
@@ -725,6 +694,43 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 1200000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // HU
+            // 
+            this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.HU.FillWeight = 150F;
+            this.HU.HeaderText = "箱号";
+            this.HU.Name = "HU";
+            this.HU.ReadOnly = true;
+            this.HU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.HU.Width = 57;
+            // 
+            // PLANNUM
+            // 
+            this.PLANNUM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PLANNUM.HeaderText = "应收数量";
+            this.PLANNUM.Name = "PLANNUM";
+            this.PLANNUM.ReadOnly = true;
+            this.PLANNUM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PLANNUM.Width = 97;
+            // 
+            // REALNUM
+            // 
+            this.REALNUM.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.REALNUM.HeaderText = "实际数量";
+            this.REALNUM.Name = "REALNUM";
+            this.REALNUM.ReadOnly = true;
+            this.REALNUM.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.REALNUM.Width = 97;
+            // 
+            // STATUS
+            // 
+            this.STATUS.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.STATUS.HeaderText = "状态";
+            this.STATUS.Name = "STATUS";
+            this.STATUS.ReadOnly = true;
+            this.STATUS.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.STATUS.Width = 57;
             // 
             // InventoryForm
             // 
@@ -799,10 +805,6 @@
         private DMSkin.Metro.Controls.MetroButton btnStart;
         private DMSkin.Metro.Controls.MetroButton btnStop;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HU;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PLANNUM;
-        private System.Windows.Forms.DataGridViewTextBoxColumn REALNUM;
-        private System.Windows.Forms.DataGridViewTextBoxColumn STATUS;
         private System.Windows.Forms.Label lblDeviceStatus;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button4;
@@ -810,5 +812,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PLANNUM;
+        private System.Windows.Forms.DataGridViewTextBoxColumn REALNUM;
+        private System.Windows.Forms.DataGridViewTextBoxColumn STATUS;
     }
 }

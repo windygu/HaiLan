@@ -28,22 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InventoryMainForm));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gridDeliverErrorBox = new DMSkin.Metro.Controls.MetroGrid();
-            this.EB_PARTNER = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_PICK_TASK = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_ZSATNR = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_ZCOLSN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_ZSIZTX = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_REAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_DIFF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EB_REMARK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblShipDate = new System.Windows.Forms.Label();
@@ -63,7 +53,7 @@
             this.lblRightNum = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblHU = new System.Windows.Forms.Label();
-            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timer = new System.Windows.Forms.Timer();
             this.pbLoading = new System.Windows.Forms.PictureBox();
             this.lblLoading = new System.Windows.Forms.Label();
             this.panelLoading = new System.Windows.Forms.Panel();
@@ -92,7 +82,16 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1_dj = new System.Windows.Forms.Button();
             this.uploadButton = new DMSkin.Metro.Controls.MetroButton();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer();
+            this.EB_PARTNER = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_PICK_TASK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_ZSATNR = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_ZCOLSN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_ZSIZTX = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_REAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_DIFF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EB_REMARK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridDeliverErrorBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbLoading)).BeginInit();
             this.panelLoading.SuspendLayout();
@@ -143,7 +142,7 @@
             this.gridDeliverErrorBox.EnableHeadersVisualStyles = false;
             this.gridDeliverErrorBox.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.gridDeliverErrorBox.GridColor = System.Drawing.Color.DarkGray;
-            this.gridDeliverErrorBox.Location = new System.Drawing.Point(263, 43);
+            this.gridDeliverErrorBox.Location = new System.Drawing.Point(261, 43);
             this.gridDeliverErrorBox.MultiSelect = false;
             this.gridDeliverErrorBox.Name = "gridDeliverErrorBox";
             this.gridDeliverErrorBox.ReadOnly = true;
@@ -159,81 +158,8 @@
             this.gridDeliverErrorBox.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridDeliverErrorBox.RowTemplate.Height = 43;
             this.gridDeliverErrorBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDeliverErrorBox.Size = new System.Drawing.Size(753, 715);
+            this.gridDeliverErrorBox.Size = new System.Drawing.Size(754, 720);
             this.gridDeliverErrorBox.TabIndex = 3;
-            // 
-            // EB_PARTNER
-            // 
-            this.EB_PARTNER.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EB_PARTNER.FillWeight = 70F;
-            this.EB_PARTNER.HeaderText = "门店";
-            this.EB_PARTNER.Name = "EB_PARTNER";
-            this.EB_PARTNER.ReadOnly = true;
-            this.EB_PARTNER.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EB_HU
-            // 
-            this.EB_HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EB_HU.HeaderText = "箱号";
-            this.EB_HU.Name = "EB_HU";
-            this.EB_HU.ReadOnly = true;
-            this.EB_HU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EB_PICK_TASK
-            // 
-            this.EB_PICK_TASK.HeaderText = "下架单号";
-            this.EB_PICK_TASK.Name = "EB_PICK_TASK";
-            this.EB_PICK_TASK.ReadOnly = true;
-            // 
-            // EB_ZSATNR
-            // 
-            this.EB_ZSATNR.HeaderText = "品号";
-            this.EB_ZSATNR.Name = "EB_ZSATNR";
-            this.EB_ZSATNR.ReadOnly = true;
-            this.EB_ZSATNR.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EB_ZCOLSN
-            // 
-            this.EB_ZCOLSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EB_ZCOLSN.FillWeight = 70F;
-            this.EB_ZCOLSN.HeaderText = "色号";
-            this.EB_ZCOLSN.Name = "EB_ZCOLSN";
-            this.EB_ZCOLSN.ReadOnly = true;
-            this.EB_ZCOLSN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EB_ZSIZTX
-            // 
-            this.EB_ZSIZTX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EB_ZSIZTX.HeaderText = "规格";
-            this.EB_ZSIZTX.Name = "EB_ZSIZTX";
-            this.EB_ZSIZTX.ReadOnly = true;
-            this.EB_ZSIZTX.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EB_REAL
-            // 
-            this.EB_REAL.FillWeight = 60F;
-            this.EB_REAL.HeaderText = "实发";
-            this.EB_REAL.Name = "EB_REAL";
-            this.EB_REAL.ReadOnly = true;
-            // 
-            // EB_DIFF
-            // 
-            this.EB_DIFF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EB_DIFF.FillWeight = 60F;
-            this.EB_DIFF.HeaderText = "差异";
-            this.EB_DIFF.Name = "EB_DIFF";
-            this.EB_DIFF.ReadOnly = true;
-            this.EB_DIFF.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // EB_REMARK
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.EB_REMARK.DefaultCellStyle = dataGridViewCellStyle2;
-            this.EB_REMARK.HeaderText = "备注";
-            this.EB_REMARK.Name = "EB_REMARK";
-            this.EB_REMARK.ReadOnly = true;
-            this.EB_REMARK.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // label1
             // 
@@ -327,7 +253,7 @@
             this.btnDetail.DM_UseCustomForeColor = true;
             this.btnDetail.DM_UseSelectable = true;
             this.btnDetail.ForeColor = System.Drawing.Color.Teal;
-            this.btnDetail.Location = new System.Drawing.Point(6, 566);
+            this.btnDetail.Location = new System.Drawing.Point(6, 565);
             this.btnDetail.Name = "btnDetail";
             this.btnDetail.Size = new System.Drawing.Size(240, 41);
             this.btnDetail.TabIndex = 11;
@@ -474,7 +400,7 @@
             this.pbLoading.Image = ((System.Drawing.Image)(resources.GetObject("pbLoading.Image")));
             this.pbLoading.Location = new System.Drawing.Point(111, 2);
             this.pbLoading.Name = "pbLoading";
-            this.pbLoading.Size = new System.Drawing.Size(33, 31);
+            this.pbLoading.Size = new System.Drawing.Size(37, 31);
             this.pbLoading.TabIndex = 7;
             this.pbLoading.TabStop = false;
             // 
@@ -485,7 +411,7 @@
             this.lblLoading.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.lblLoading.Location = new System.Drawing.Point(3, 41);
             this.lblLoading.Name = "lblLoading";
-            this.lblLoading.Size = new System.Drawing.Size(233, 23);
+            this.lblLoading.Size = new System.Drawing.Size(237, 23);
             this.lblLoading.TabIndex = 8;
             this.lblLoading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -497,7 +423,7 @@
             this.panelLoading.Controls.Add(this.lblLoading);
             this.panelLoading.Location = new System.Drawing.Point(6, 661);
             this.panelLoading.Name = "panelLoading";
-            this.panelLoading.Size = new System.Drawing.Size(239, 65);
+            this.panelLoading.Size = new System.Drawing.Size(243, 65);
             this.panelLoading.TabIndex = 23;
             this.panelLoading.Visible = false;
             // 
@@ -644,14 +570,15 @@
             // btnGetData
             // 
             this.btnGetData.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnGetData.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnGetData.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.btnGetData.DM_UseCustomBackColor = true;
             this.btnGetData.DM_UseCustomForeColor = true;
             this.btnGetData.DM_UseSelectable = true;
             this.btnGetData.ForeColor = System.Drawing.Color.Teal;
-            this.btnGetData.Location = new System.Drawing.Point(135, 402);
+            this.btnGetData.Location = new System.Drawing.Point(107, 402);
             this.btnGetData.Name = "btnGetData";
-            this.btnGetData.Size = new System.Drawing.Size(112, 44);
+            this.btnGetData.Size = new System.Drawing.Size(140, 44);
             this.btnGetData.TabIndex = 32;
             this.btnGetData.Text = "货运数据获取";
             this.btnGetData.Click += new System.EventHandler(this.btnGetData_Click);
@@ -705,7 +632,7 @@
             this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Location = new System.Drawing.Point(6, 402);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(111, 44);
+            this.btnStart.Size = new System.Drawing.Size(95, 44);
             this.btnStart.TabIndex = 34;
             this.btnStart.Text = "开始";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
@@ -834,9 +761,9 @@
             this.button1_dj.BackColor = System.Drawing.Color.WhiteSmoke;
             this.button1_dj.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1_dj.ForeColor = System.Drawing.Color.Teal;
-            this.button1_dj.Location = new System.Drawing.Point(6, 506);
+            this.button1_dj.Location = new System.Drawing.Point(6, 510);
             this.button1_dj.Name = "button1_dj";
-            this.button1_dj.Size = new System.Drawing.Size(241, 50);
+            this.button1_dj.Size = new System.Drawing.Size(241, 44);
             this.button1_dj.TabIndex = 45;
             this.button1_dj.Text = "短拣";
             this.button1_dj.UseVisualStyleBackColor = false;
@@ -851,7 +778,7 @@
             this.uploadButton.DM_UseSelectable = true;
             this.uploadButton.DM_UseStyleColors = true;
             this.uploadButton.ForeColor = System.Drawing.Color.Teal;
-            this.uploadButton.Location = new System.Drawing.Point(6, 454);
+            this.uploadButton.Location = new System.Drawing.Point(6, 455);
             this.uploadButton.Name = "uploadButton";
             this.uploadButton.Size = new System.Drawing.Size(241, 44);
             this.uploadButton.TabIndex = 43;
@@ -863,6 +790,92 @@
             this.timer1.Enabled = true;
             this.timer1.Interval = 3000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // EB_PARTNER
+            // 
+            this.EB_PARTNER.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_PARTNER.FillWeight = 70F;
+            this.EB_PARTNER.HeaderText = "门店";
+            this.EB_PARTNER.Name = "EB_PARTNER";
+            this.EB_PARTNER.ReadOnly = true;
+            this.EB_PARTNER.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_PARTNER.Width = 55;
+            // 
+            // EB_HU
+            // 
+            this.EB_HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_HU.HeaderText = "箱号";
+            this.EB_HU.Name = "EB_HU";
+            this.EB_HU.ReadOnly = true;
+            this.EB_HU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_HU.Width = 55;
+            // 
+            // EB_PICK_TASK
+            // 
+            this.EB_PICK_TASK.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_PICK_TASK.HeaderText = "下架单号";
+            this.EB_PICK_TASK.Name = "EB_PICK_TASK";
+            this.EB_PICK_TASK.ReadOnly = true;
+            this.EB_PICK_TASK.Width = 112;
+            // 
+            // EB_ZSATNR
+            // 
+            this.EB_ZSATNR.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_ZSATNR.HeaderText = "品号";
+            this.EB_ZSATNR.Name = "EB_ZSATNR";
+            this.EB_ZSATNR.ReadOnly = true;
+            this.EB_ZSATNR.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_ZSATNR.Width = 55;
+            // 
+            // EB_ZCOLSN
+            // 
+            this.EB_ZCOLSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_ZCOLSN.FillWeight = 70F;
+            this.EB_ZCOLSN.HeaderText = "色号";
+            this.EB_ZCOLSN.Name = "EB_ZCOLSN";
+            this.EB_ZCOLSN.ReadOnly = true;
+            this.EB_ZCOLSN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_ZCOLSN.Width = 55;
+            // 
+            // EB_ZSIZTX
+            // 
+            this.EB_ZSIZTX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_ZSIZTX.HeaderText = "规格";
+            this.EB_ZSIZTX.Name = "EB_ZSIZTX";
+            this.EB_ZSIZTX.ReadOnly = true;
+            this.EB_ZSIZTX.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_ZSIZTX.Width = 55;
+            // 
+            // EB_REAL
+            // 
+            this.EB_REAL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_REAL.FillWeight = 60F;
+            this.EB_REAL.HeaderText = "实发";
+            this.EB_REAL.Name = "EB_REAL";
+            this.EB_REAL.ReadOnly = true;
+            this.EB_REAL.Width = 74;
+            // 
+            // EB_DIFF
+            // 
+            this.EB_DIFF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.EB_DIFF.FillWeight = 60F;
+            this.EB_DIFF.HeaderText = "差异";
+            this.EB_DIFF.Name = "EB_DIFF";
+            this.EB_DIFF.ReadOnly = true;
+            this.EB_DIFF.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_DIFF.Width = 55;
+            // 
+            // EB_REMARK
+            // 
+            this.EB_REMARK.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.EB_REMARK.DefaultCellStyle = dataGridViewCellStyle2;
+            this.EB_REMARK.HeaderText = "备注";
+            this.EB_REMARK.Name = "EB_REMARK";
+            this.EB_REMARK.ReadOnly = true;
+            this.EB_REMARK.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_REMARK.Width = 55;
             // 
             // InventoryMainForm
             // 
@@ -937,6 +950,11 @@
         private System.Windows.Forms.Label lblPLCStatus;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label lblResultMessage;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Timer timer1;
+        private DMSkin.Metro.Controls.MetroButton uploadButton;
+        private System.Windows.Forms.Button button1_dj;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_PARTNER;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_HU;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_PICK_TASK;
@@ -946,11 +964,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_REAL;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_DIFF;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_REMARK;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Timer timer1;
-        private DMSkin.Metro.Controls.MetroButton uploadButton;
-        private System.Windows.Forms.Button button1_dj;
     }
 }
 

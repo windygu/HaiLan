@@ -148,7 +148,6 @@ namespace HLACommonView.Views
         public virtual void ShowLoading(string message)
         {
             Invoke(new Action(() => {
-                //oc.ShowOpaqueLayer(this, 150,false);
                 pd.Show();
                 metroPanel1.Show();
                 lblText.Text = message;

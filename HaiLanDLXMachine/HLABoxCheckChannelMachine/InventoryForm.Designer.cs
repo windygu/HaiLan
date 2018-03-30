@@ -53,13 +53,13 @@
             this.lblReader = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
+            this.label2 = new System.Windows.Forms.Label();
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZSATNR = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZCOLSN = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZSIZTX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.QTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -400,6 +400,8 @@
             this.grid.AllowUserToAddRows = false;
             this.grid.AllowUserToDeleteRows = false;
             this.grid.AllowUserToResizeRows = false;
+            this.grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.grid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.grid.BackgroundColor = System.Drawing.Color.White;
             this.grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
@@ -456,56 +458,6 @@
             this.grid.Size = new System.Drawing.Size(880, 672);
             this.grid.TabIndex = 19;
             // 
-            // HU
-            // 
-            this.HU.FillWeight = 13F;
-            this.HU.HeaderText = "箱号";
-            this.HU.Name = "HU";
-            this.HU.ReadOnly = true;
-            this.HU.Width = 87;
-            // 
-            // ZSATNR
-            // 
-            this.ZSATNR.FillWeight = 15F;
-            this.ZSATNR.HeaderText = "品号";
-            this.ZSATNR.Name = "ZSATNR";
-            this.ZSATNR.ReadOnly = true;
-            this.ZSATNR.Width = 102;
-            // 
-            // ZCOLSN
-            // 
-            this.ZCOLSN.FillWeight = 7F;
-            this.ZCOLSN.HeaderText = "色号";
-            this.ZCOLSN.Name = "ZCOLSN";
-            this.ZCOLSN.ReadOnly = true;
-            this.ZCOLSN.Width = 102;
-            // 
-            // ZSIZTX
-            // 
-            this.ZSIZTX.FillWeight = 13F;
-            this.ZSIZTX.HeaderText = "规格";
-            this.ZSIZTX.Name = "ZSIZTX";
-            this.ZSIZTX.ReadOnly = true;
-            this.ZSIZTX.Width = 102;
-            // 
-            // QTY
-            // 
-            this.QTY.FillWeight = 7F;
-            this.QTY.HeaderText = "数量";
-            this.QTY.Name = "QTY";
-            this.QTY.ReadOnly = true;
-            this.QTY.Width = 102;
-            // 
-            // MSG
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
-            this.MSG.FillWeight = 38F;
-            this.MSG.HeaderText = "状态";
-            this.MSG.Name = "MSG";
-            this.MSG.ReadOnly = true;
-            this.MSG.Width = 400;
-            // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.White;
@@ -519,6 +471,62 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "复核明细";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // HU
+            // 
+            this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.HU.FillWeight = 13F;
+            this.HU.HeaderText = "箱号";
+            this.HU.Name = "HU";
+            this.HU.ReadOnly = true;
+            this.HU.Width = 70;
+            // 
+            // ZSATNR
+            // 
+            this.ZSATNR.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZSATNR.FillWeight = 15F;
+            this.ZSATNR.HeaderText = "品号";
+            this.ZSATNR.Name = "ZSATNR";
+            this.ZSATNR.ReadOnly = true;
+            this.ZSATNR.Width = 70;
+            // 
+            // ZCOLSN
+            // 
+            this.ZCOLSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZCOLSN.FillWeight = 7F;
+            this.ZCOLSN.HeaderText = "色号";
+            this.ZCOLSN.Name = "ZCOLSN";
+            this.ZCOLSN.ReadOnly = true;
+            this.ZCOLSN.Width = 70;
+            // 
+            // ZSIZTX
+            // 
+            this.ZSIZTX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZSIZTX.FillWeight = 13F;
+            this.ZSIZTX.HeaderText = "规格";
+            this.ZSIZTX.Name = "ZSIZTX";
+            this.ZSIZTX.ReadOnly = true;
+            this.ZSIZTX.Width = 70;
+            // 
+            // QTY
+            // 
+            this.QTY.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.QTY.FillWeight = 7F;
+            this.QTY.HeaderText = "数量";
+            this.QTY.Name = "QTY";
+            this.QTY.ReadOnly = true;
+            this.QTY.Width = 70;
+            // 
+            // MSG
+            // 
+            this.MSG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
+            this.MSG.FillWeight = 38F;
+            this.MSG.HeaderText = "状态";
+            this.MSG.Name = "MSG";
+            this.MSG.ReadOnly = true;
+            this.MSG.Width = 70;
             // 
             // InventoryForm
             // 
@@ -562,13 +570,13 @@
         private DMSkin.Controls.DMButton btnPause;
         private DMSkin.Controls.DMButton btnClose;
         private DMSkin.Metro.Controls.MetroGrid grid;
+        private System.Windows.Forms.CheckBox printCheckBox;
+        private System.Windows.Forms.CheckBox boxCheckCheckBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn HU;
         private System.Windows.Forms.DataGridViewTextBoxColumn ZSATNR;
         private System.Windows.Forms.DataGridViewTextBoxColumn ZCOLSN;
         private System.Windows.Forms.DataGridViewTextBoxColumn ZSIZTX;
         private System.Windows.Forms.DataGridViewTextBoxColumn QTY;
         private System.Windows.Forms.DataGridViewTextBoxColumn MSG;
-        private System.Windows.Forms.CheckBox printCheckBox;
-        private System.Windows.Forms.CheckBox boxCheckCheckBox;
     }
 }

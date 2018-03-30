@@ -34,17 +34,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
-            this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1_refresh = new System.Windows.Forms.Button();
             this.button1_reUpload = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1_Hu = new System.Windows.Forms.TextBox();
             this.button3_cancel = new System.Windows.Forms.Button();
             this.button2_sure = new System.Windows.Forms.Button();
-            this.button1_refresh = new System.Windows.Forms.Button();
+            this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -134,42 +134,16 @@
             this.grid.TabIndex = 9;
             this.grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
             // 
-            // check
+            // button1_refresh
             // 
-            this.check.FillWeight = 10.37181F;
-            this.check.HeaderText = "";
-            this.check.Name = "check";
-            this.check.ReadOnly = true;
-            // 
-            // HU
-            // 
-            this.HU.FillWeight = 45.54665F;
-            this.HU.HeaderText = "箱号";
-            this.HU.Name = "HU";
-            this.HU.ReadOnly = true;
-            // 
-            // MSG
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
-            this.MSG.FillWeight = 59.92039F;
-            this.MSG.HeaderText = "上传状态";
-            this.MSG.Name = "MSG";
-            this.MSG.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.FillWeight = 91.6254F;
-            this.Column1.HeaderText = "SAP结果";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            this.Column2.FillWeight = 91.6254F;
-            this.Column2.HeaderText = "SAP返回消息";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
+            this.button1_refresh.Font = new System.Drawing.Font("宋体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1_refresh.Location = new System.Drawing.Point(455, 8);
+            this.button1_refresh.Name = "button1_refresh";
+            this.button1_refresh.Size = new System.Drawing.Size(120, 62);
+            this.button1_refresh.TabIndex = 10;
+            this.button1_refresh.Text = "刷新";
+            this.button1_refresh.UseVisualStyleBackColor = true;
+            this.button1_refresh.Click += new System.EventHandler(this.button1_refresh_Click);
             // 
             // button1_reUpload
             // 
@@ -222,16 +196,52 @@
             this.button2_sure.UseVisualStyleBackColor = true;
             this.button2_sure.Click += new System.EventHandler(this.button2_sure_Click);
             // 
-            // button1_refresh
+            // check
             // 
-            this.button1_refresh.Font = new System.Drawing.Font("宋体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1_refresh.Location = new System.Drawing.Point(455, 8);
-            this.button1_refresh.Name = "button1_refresh";
-            this.button1_refresh.Size = new System.Drawing.Size(120, 62);
-            this.button1_refresh.TabIndex = 10;
-            this.button1_refresh.Text = "刷新";
-            this.button1_refresh.UseVisualStyleBackColor = true;
-            this.button1_refresh.Click += new System.EventHandler(this.button1_refresh_Click);
+            this.check.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.check.FillWeight = 10.37181F;
+            this.check.HeaderText = "";
+            this.check.Name = "check";
+            this.check.ReadOnly = true;
+            this.check.Width = 5;
+            // 
+            // HU
+            // 
+            this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.HU.FillWeight = 45.54665F;
+            this.HU.HeaderText = "箱号";
+            this.HU.Name = "HU";
+            this.HU.ReadOnly = true;
+            this.HU.Width = 70;
+            // 
+            // MSG
+            // 
+            this.MSG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
+            this.MSG.FillWeight = 59.92039F;
+            this.MSG.HeaderText = "上传状态";
+            this.MSG.Name = "MSG";
+            this.MSG.ReadOnly = true;
+            this.MSG.Width = 88;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column1.FillWeight = 91.6254F;
+            this.Column1.HeaderText = "SAP结果";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 84;
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Column2.FillWeight = 91.6254F;
+            this.Column2.HeaderText = "SAP返回消息";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 102;
             // 
             // UploadForm
             // 
@@ -260,12 +270,12 @@
         private System.Windows.Forms.Button button3_cancel;
         private System.Windows.Forms.Button button2_sure;
         private DMSkin.Metro.Controls.MetroGrid grid;
+        private System.Windows.Forms.Button button1_reUpload;
+        private System.Windows.Forms.Button button1_refresh;
         private System.Windows.Forms.DataGridViewCheckBoxColumn check;
         private System.Windows.Forms.DataGridViewTextBoxColumn HU;
         private System.Windows.Forms.DataGridViewTextBoxColumn MSG;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.Button button1_reUpload;
-        private System.Windows.Forms.Button button1_refresh;
     }
 }

@@ -36,6 +36,7 @@
             this.btnClose = new DMSkin.Controls.DMButton();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.uploadAgainButton = new System.Windows.Forms.Button();
             this.check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Datetime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LH = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,7 +46,6 @@
             this.ZCOLSN = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZSIZTX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.uploadAgainButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -166,71 +166,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // check
-            // 
-            this.check.FillWeight = 5.583755F;
-            this.check.HeaderText = "";
-            this.check.Name = "check";
-            this.check.ReadOnly = true;
-            // 
-            // Datetime
-            // 
-            this.Datetime.FillWeight = 13.05203F;
-            this.Datetime.HeaderText = "日期";
-            this.Datetime.Name = "Datetime";
-            this.Datetime.ReadOnly = true;
-            // 
-            // LH
-            // 
-            this.LH.FillWeight = 6.264975F;
-            this.LH.HeaderText = "交接楼号";
-            this.LH.Name = "LH";
-            this.LH.ReadOnly = true;
-            // 
-            // HU
-            // 
-            this.HU.FillWeight = 12.00787F;
-            this.HU.HeaderText = "箱号";
-            this.HU.Name = "HU";
-            this.HU.ReadOnly = true;
-            // 
-            // PACKRESULT
-            // 
-            this.PACKRESULT.FillWeight = 6.264975F;
-            this.PACKRESULT.HeaderText = "包装状态";
-            this.PACKRESULT.Name = "PACKRESULT";
-            this.PACKRESULT.ReadOnly = true;
-            // 
-            // ZSATNR
-            // 
-            this.ZSATNR.FillWeight = 16.7066F;
-            this.ZSATNR.HeaderText = "品号";
-            this.ZSATNR.Name = "ZSATNR";
-            this.ZSATNR.ReadOnly = true;
-            // 
-            // ZCOLSN
-            // 
-            this.ZCOLSN.FillWeight = 6.264975F;
-            this.ZCOLSN.HeaderText = "色号";
-            this.ZCOLSN.Name = "ZCOLSN";
-            this.ZCOLSN.ReadOnly = true;
-            // 
-            // ZSIZTX
-            // 
-            this.ZSIZTX.FillWeight = 13.57411F;
-            this.ZSIZTX.HeaderText = "规格";
-            this.ZSIZTX.Name = "ZSIZTX";
-            this.ZSIZTX.ReadOnly = true;
-            // 
-            // MSG
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
-            this.MSG.FillWeight = 30.28071F;
-            this.MSG.HeaderText = "返回信息";
-            this.MSG.Name = "MSG";
-            this.MSG.ReadOnly = true;
-            // 
             // uploadAgainButton
             // 
             this.uploadAgainButton.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -242,6 +177,89 @@
             this.uploadAgainButton.Text = "重新上传";
             this.uploadAgainButton.UseVisualStyleBackColor = true;
             this.uploadAgainButton.Click += new System.EventHandler(this.uploadAgainButton_Click);
+            // 
+            // check
+            // 
+            this.check.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.check.FillWeight = 5.583755F;
+            this.check.HeaderText = "";
+            this.check.Name = "check";
+            this.check.ReadOnly = true;
+            this.check.Width = 5;
+            // 
+            // Datetime
+            // 
+            this.Datetime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.Datetime.FillWeight = 13.05203F;
+            this.Datetime.HeaderText = "日期";
+            this.Datetime.Name = "Datetime";
+            this.Datetime.ReadOnly = true;
+            this.Datetime.Width = 70;
+            // 
+            // LH
+            // 
+            this.LH.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.LH.FillWeight = 6.264975F;
+            this.LH.HeaderText = "交接楼号";
+            this.LH.Name = "LH";
+            this.LH.ReadOnly = true;
+            this.LH.Width = 88;
+            // 
+            // HU
+            // 
+            this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.HU.FillWeight = 12.00787F;
+            this.HU.HeaderText = "箱号";
+            this.HU.Name = "HU";
+            this.HU.ReadOnly = true;
+            this.HU.Width = 70;
+            // 
+            // PACKRESULT
+            // 
+            this.PACKRESULT.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.PACKRESULT.FillWeight = 6.264975F;
+            this.PACKRESULT.HeaderText = "包装状态";
+            this.PACKRESULT.Name = "PACKRESULT";
+            this.PACKRESULT.ReadOnly = true;
+            this.PACKRESULT.Width = 88;
+            // 
+            // ZSATNR
+            // 
+            this.ZSATNR.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZSATNR.FillWeight = 16.7066F;
+            this.ZSATNR.HeaderText = "品号";
+            this.ZSATNR.Name = "ZSATNR";
+            this.ZSATNR.ReadOnly = true;
+            this.ZSATNR.Width = 70;
+            // 
+            // ZCOLSN
+            // 
+            this.ZCOLSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZCOLSN.FillWeight = 6.264975F;
+            this.ZCOLSN.HeaderText = "色号";
+            this.ZCOLSN.Name = "ZCOLSN";
+            this.ZCOLSN.ReadOnly = true;
+            this.ZCOLSN.Width = 70;
+            // 
+            // ZSIZTX
+            // 
+            this.ZSIZTX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ZSIZTX.FillWeight = 13.57411F;
+            this.ZSIZTX.HeaderText = "规格";
+            this.ZSIZTX.Name = "ZSIZTX";
+            this.ZSIZTX.ReadOnly = true;
+            this.ZSIZTX.Width = 70;
+            // 
+            // MSG
+            // 
+            this.MSG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
+            this.MSG.FillWeight = 30.28071F;
+            this.MSG.HeaderText = "返回信息";
+            this.MSG.Name = "MSG";
+            this.MSG.ReadOnly = true;
+            this.MSG.Width = 88;
             // 
             // DocBoxDetailForm
             // 
@@ -269,6 +287,7 @@
         private DMSkin.Controls.DMButton btnClose;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button uploadAgainButton;
         private System.Windows.Forms.DataGridViewCheckBoxColumn check;
         private System.Windows.Forms.DataGridViewTextBoxColumn Datetime;
         private System.Windows.Forms.DataGridViewTextBoxColumn LH;
@@ -278,6 +297,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ZCOLSN;
         private System.Windows.Forms.DataGridViewTextBoxColumn ZSIZTX;
         private System.Windows.Forms.DataGridViewTextBoxColumn MSG;
-        private System.Windows.Forms.Button uploadAgainButton;
     }
 }

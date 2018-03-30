@@ -28,13 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.gridDeliverErrorBox = new DMSkin.Metro.Controls.MetroGrid();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.grid = new DMSkin.Metro.Controls.MetroGrid();
             this.EB_PARTNER = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_PICK_TASK = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,9 +48,10 @@
             this.EB_DIFF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_REMARK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDeliverErrorBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -56,13 +60,24 @@
             this.splitContainer1.Location = new System.Drawing.Point(0, 30);
             this.splitContainer1.Name = "splitContainer1";
             // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.textBox1);
+            // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.gridDeliverErrorBox);
+            this.splitContainer1.Panel2.Controls.Add(this.grid);
             this.splitContainer1.Panel2.Controls.Add(this.label1);
             this.splitContainer1.Size = new System.Drawing.Size(1075, 608);
             this.splitContainer1.SplitterDistance = 358;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(107, 148);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 21);
+            this.textBox1.TabIndex = 0;
             // 
             // label1
             // 
@@ -74,16 +89,21 @@
             this.label1.Text = "zhuzhuzhu";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // gridDeliverErrorBox
+            // timer1
             // 
-            this.gridDeliverErrorBox.AllowUserToAddRows = false;
-            this.gridDeliverErrorBox.AllowUserToDeleteRows = false;
-            this.gridDeliverErrorBox.AllowUserToResizeRows = false;
-            this.gridDeliverErrorBox.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.gridDeliverErrorBox.BackgroundColor = System.Drawing.Color.White;
-            this.gridDeliverErrorBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.gridDeliverErrorBox.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.gridDeliverErrorBox.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // grid
+            // 
+            this.grid.AllowUserToAddRows = false;
+            this.grid.AllowUserToDeleteRows = false;
+            this.grid.AllowUserToResizeRows = false;
+            this.grid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.grid.BackgroundColor = System.Drawing.Color.White;
+            this.grid.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.grid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -91,9 +111,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridDeliverErrorBox.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.gridDeliverErrorBox.ColumnHeadersHeight = 43;
-            this.gridDeliverErrorBox.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.grid.ColumnHeadersHeight = 43;
+            this.grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.EB_PARTNER,
             this.EB_HU,
             this.EB_PICK_TASK,
@@ -110,29 +130,29 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridDeliverErrorBox.DefaultCellStyle = dataGridViewCellStyle3;
-            this.gridDeliverErrorBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridDeliverErrorBox.EnableHeadersVisualStyles = false;
-            this.gridDeliverErrorBox.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.gridDeliverErrorBox.GridColor = System.Drawing.Color.DarkGray;
-            this.gridDeliverErrorBox.Location = new System.Drawing.Point(0, 12);
-            this.gridDeliverErrorBox.MultiSelect = false;
-            this.gridDeliverErrorBox.Name = "gridDeliverErrorBox";
-            this.gridDeliverErrorBox.ReadOnly = true;
-            this.gridDeliverErrorBox.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.grid.DefaultCellStyle = dataGridViewCellStyle3;
+            this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grid.EnableHeadersVisualStyles = false;
+            this.grid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.grid.GridColor = System.Drawing.Color.DarkGray;
+            this.grid.Location = new System.Drawing.Point(0, 12);
+            this.grid.MultiSelect = false;
+            this.grid.Name = "grid";
+            this.grid.ReadOnly = true;
+            this.grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            this.gridDeliverErrorBox.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.gridDeliverErrorBox.RowHeadersVisible = false;
-            this.gridDeliverErrorBox.RowHeadersWidth = 43;
-            this.gridDeliverErrorBox.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.gridDeliverErrorBox.RowTemplate.Height = 43;
-            this.gridDeliverErrorBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDeliverErrorBox.Size = new System.Drawing.Size(713, 596);
-            this.gridDeliverErrorBox.TabIndex = 4;
+            this.grid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.grid.RowHeadersVisible = false;
+            this.grid.RowHeadersWidth = 43;
+            this.grid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.grid.RowTemplate.Height = 43;
+            this.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.grid.Size = new System.Drawing.Size(713, 596);
+            this.grid.TabIndex = 4;
             // 
             // EB_PARTNER
             // 
@@ -216,11 +236,14 @@
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.Controls.SetChildIndex(this.splitContainer1, 0);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridDeliverErrorBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -229,7 +252,9 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label label1;
-        private DMSkin.Metro.Controls.MetroGrid gridDeliverErrorBox;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Timer timer1;
+        private DMSkin.Metro.Controls.MetroGrid grid;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_PARTNER;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_HU;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_PICK_TASK;

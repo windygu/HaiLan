@@ -76,8 +76,8 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.gridDeliverErrorBox = new DMSkin.Metro.Controls.MetroGrid();
+            this.label11 = new System.Windows.Forms.Label();
             this.EB_PARTNER = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_PICK_TASK = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -659,20 +659,6 @@
             this.label1.Text = "状态监控";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label11
-            // 
-            this.label11.BackColor = System.Drawing.Color.White;
-            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label11.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label11.Location = new System.Drawing.Point(0, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(766, 40);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "发货包装明细";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // gridDeliverErrorBox
             // 
             this.gridDeliverErrorBox.AllowUserToAddRows = false;
@@ -734,25 +720,42 @@
             this.gridDeliverErrorBox.Size = new System.Drawing.Size(766, 668);
             this.gridDeliverErrorBox.TabIndex = 5;
             // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.White;
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label11.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label11.Location = new System.Drawing.Point(0, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(766, 40);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "发货包装明细";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // EB_PARTNER
             // 
-            this.EB_PARTNER.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.EB_PARTNER.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_PARTNER.FillWeight = 70F;
             this.EB_PARTNER.HeaderText = "门店";
             this.EB_PARTNER.Name = "EB_PARTNER";
             this.EB_PARTNER.ReadOnly = true;
             this.EB_PARTNER.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_PARTNER.Width = 55;
             // 
             // EB_HU
             // 
-            this.EB_HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.EB_HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_HU.HeaderText = "箱号";
             this.EB_HU.Name = "EB_HU";
             this.EB_HU.ReadOnly = true;
             this.EB_HU.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_HU.Width = 55;
             // 
             // EB_PICK_TASK
             // 
+            this.EB_PICK_TASK.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_PICK_TASK.HeaderText = "下架单号";
             this.EB_PICK_TASK.Name = "EB_PICK_TASK";
             this.EB_PICK_TASK.ReadOnly = true;
@@ -760,6 +763,7 @@
             // 
             // EB_ZSATNR
             // 
+            this.EB_ZSATNR.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_ZSATNR.HeaderText = "品号";
             this.EB_ZSATNR.Name = "EB_ZSATNR";
             this.EB_ZSATNR.ReadOnly = true;
@@ -768,23 +772,26 @@
             // 
             // EB_ZCOLSN
             // 
-            this.EB_ZCOLSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.EB_ZCOLSN.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_ZCOLSN.FillWeight = 70F;
             this.EB_ZCOLSN.HeaderText = "色号";
             this.EB_ZCOLSN.Name = "EB_ZCOLSN";
             this.EB_ZCOLSN.ReadOnly = true;
             this.EB_ZCOLSN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_ZCOLSN.Width = 55;
             // 
             // EB_ZSIZTX
             // 
-            this.EB_ZSIZTX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.EB_ZSIZTX.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_ZSIZTX.HeaderText = "规格";
             this.EB_ZSIZTX.Name = "EB_ZSIZTX";
             this.EB_ZSIZTX.ReadOnly = true;
             this.EB_ZSIZTX.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_ZSIZTX.Width = 55;
             // 
             // EB_REAL
             // 
+            this.EB_REAL.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_REAL.FillWeight = 60F;
             this.EB_REAL.HeaderText = "实发";
             this.EB_REAL.Name = "EB_REAL";
@@ -793,15 +800,17 @@
             // 
             // EB_DIFF
             // 
-            this.EB_DIFF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.EB_DIFF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.EB_DIFF.FillWeight = 60F;
             this.EB_DIFF.HeaderText = "差异";
             this.EB_DIFF.Name = "EB_DIFF";
             this.EB_DIFF.ReadOnly = true;
             this.EB_DIFF.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.EB_DIFF.Width = 55;
             // 
             // EB_REMARK
             // 
+            this.EB_REMARK.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.EB_REMARK.DefaultCellStyle = dataGridViewCellStyle2;
@@ -882,6 +891,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label label1;
         private DMSkin.Metro.Controls.MetroGrid gridDeliverErrorBox;
+        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_PARTNER;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_HU;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_PICK_TASK;
@@ -891,7 +901,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_REAL;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_DIFF;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_REMARK;
-        private System.Windows.Forms.Label label11;
     }
 }
 

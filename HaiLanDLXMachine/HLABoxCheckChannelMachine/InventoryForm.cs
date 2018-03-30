@@ -226,14 +226,7 @@ namespace HLABoxCheckChannelMachine
             if (result.InventoryResult)
             {
                 result.UpdateMessage(Consts.Default.RIGHT);
-
-                SetInventoryResult(1);
             }
-            else
-            {
-                SetInventoryResult(3);
-            }
-
             return result;
         }
         public override void StopInventory()
@@ -309,8 +302,21 @@ namespace HLABoxCheckChannelMachine
 
                 if(epcList.Count<=0)
                 {
-                    grid.Rows.Insert(0, mCurBoxNo, "", "", "", errorEpcNumber, "未扫描到商品");
-                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                    Invoke(new Action(() =>
+                    {
+                        grid.Rows.Insert(0, mCurBoxNo, "", "", "", errorEpcNumber, "未扫描到商品");
+                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                    }));
+                }
+
+
+                if (cre.InventoryResult)
+                {
+                    SetInventoryResult(1);
+                }
+                else
+                {
+                    SetInventoryResult(3);
                 }
 
 

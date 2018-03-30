@@ -231,32 +231,40 @@
             // 
             // PACKDATE
             // 
+            this.PACKDATE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.PACKDATE.FillWeight = 40F;
             this.PACKDATE.HeaderText = "日期";
             this.PACKDATE.Name = "PACKDATE";
             this.PACKDATE.ReadOnly = true;
+            this.PACKDATE.Width = 76;
             // 
             // LH
             // 
+            this.LH.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.LH.FillWeight = 40F;
             this.LH.HeaderText = "交接楼号";
             this.LH.Name = "LH";
             this.LH.ReadOnly = true;
+            this.LH.Width = 116;
             // 
             // HU
             // 
+            this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.HU.FillWeight = 50F;
             this.HU.HeaderText = "箱号";
             this.HU.Name = "HU";
             this.HU.ReadOnly = true;
+            this.HU.Width = 76;
             // 
             // PACKMSG
             // 
+            this.PACKMSG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             this.PACKMSG.DefaultCellStyle = dataGridViewCellStyle2;
             this.PACKMSG.HeaderText = "返回信息";
             this.PACKMSG.Name = "PACKMSG";
             this.PACKMSG.ReadOnly = true;
+            this.PACKMSG.Width = 116;
             // 
             // GenerateDocForm
             // 
