@@ -287,9 +287,9 @@ namespace HLAPKChannelMachine
 
         public override void UpdateView()
         {
-            UpdateUIControl(InventoryControlType.SCAN_NUM_LABEL, mainEpcNumber.ToString());
+            UpdateUIControl(InventoryControlType.SCAN_NUM_LABEL, epcList.Count.ToString());
             UpdateUIControl(InventoryControlType.ERROR_NUM_LABEL, errorEpcNumber.ToString());
-
+            UpdateUIControl(InventoryControlType.RIGHT_NUM_LABEL, mainEpcNumber.ToString());
         }
 
         private void InventoryMainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -312,7 +312,7 @@ namespace HLAPKChannelMachine
 
         public override CheckResult CheckData()
         {
-            CheckResult checkResult = base.CheckData();
+            CheckResult checkResult = new CheckResult();
 
             if (string.IsNullOrEmpty(lblHU.Text.Trim()))
             {
@@ -324,7 +324,7 @@ namespace HLAPKChannelMachine
             {
                 foreach (InventoryOutLogDetailInfo info in currentOutLogList)
                 {
-                    if(info.ZXJD_TYPE == "5")
+                    if (info.ZXJD_TYPE == "5")
                     {
                         checkResult.UpdateMessage("无法出库类型为5的下架单");
                         checkResult.InventoryResult = false;
@@ -333,7 +333,22 @@ namespace HLAPKChannelMachine
                 }
             }
 
-            if(currentBoxPickTaskMapInfoList == null || currentBoxPickTaskMapInfoList.Count == 0)
+            if (boxNoList.Count > 0)
+            {
+                boxNoList.Clear();
+                checkResult.UpdateMessage(XIANG_MA_BU_YI_ZHI);
+                checkResult.InventoryResult = false;
+            }
+            if (epcList.Count == 0)
+            {
+                checkResult.UpdateMessage(WEI_SAO_DAO_EPC);
+                checkResult.InventoryResult = false;
+            }
+
+
+
+
+            if (currentBoxPickTaskMapInfoList == null || currentBoxPickTaskMapInfoList.Count == 0)
             {
                 checkResult.UpdateMessage(XIANG_MA_AND_XIA_JIA_DAN_GUAN_LIAN_BU_CUN_ZAI);
                 checkResult.InventoryResult = false;
@@ -384,22 +399,22 @@ namespace HLAPKChannelMachine
                 }));
             }
 
-            bool isShort = (currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 && currentBoxPickTaskMapInfoList[0].IS_SHORT_PICK )? true : false;
+            bool isShort = (currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 && currentBoxPickTaskMapInfoList[0].IS_SHORT_PICK) ? true : false;
 
-            if(isShort)
+            if (isShort)
             {
                 //短拣流程
                 List<PKDeliverBoxShortPickDetailInfo> shortDetail = LocalDataService.GetShortPickDetailList(SysConfig.LGNUM, lblHU.Text);
                 string partner = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PARTNER : "";
-                
+
                 //start edit by wuxw 判断数据是否与短拣数据完全一致
-                if(shortDetail == null)
+                if (shortDetail == null)
                 {
                     shortDetail = new List<PKDeliverBoxShortPickDetailInfo>();
                 }
-                if(tagDetailList != null && tagDetailList.Count > 0)
-                { 
-                    foreach(TagDetailInfo detail in tagDetailList)
+                if (tagDetailList != null && tagDetailList.Count > 0)
+                {
+                    foreach (TagDetailInfo detail in tagDetailList)
                     {
                         if (!detail.IsAddEpc)
                         {
@@ -507,13 +522,13 @@ namespace HLAPKChannelMachine
                     }
                 }
 
-                if(shortDetail != null && shortDetail.Count >0)
+                if (shortDetail != null && shortDetail.Count > 0)
                 {
-                    foreach(PKDeliverBoxShortPickDetailInfo shortDetailItem in shortDetail)
+                    foreach (PKDeliverBoxShortPickDetailInfo shortDetailItem in shortDetail)
                     {
                         if (string.IsNullOrEmpty(shortDetailItem.ZCOLSN))
                         {
-                            MaterialInfo minfo = materialList.FirstOrDefault(i => i.MAKTX == shortDetailItem.MATNR);
+                            MaterialInfo minfo = materialList.FirstOrDefault(i => i.MATNR == shortDetailItem.MATNR);
                             shortDetailItem.ZCOLSN = minfo != null ? minfo.ZCOLSN : "";
                             shortDetailItem.ZSATNR = minfo != null ? minfo.ZSATNR : "";
                             shortDetailItem.ZSIZTX = minfo != null ? minfo.ZSIZTX : "";
@@ -691,7 +706,7 @@ namespace HLAPKChannelMachine
                     List<PKPickTaskInfo> pkPickTaskInfoList = new List<PKPickTaskInfo>();
                     if (currentOutLogList != null && currentOutLogList.Count > 0)
                     {
-                        foreach(InventoryOutLogDetailInfo outLogDetail in currentOutLogList)
+                        foreach (InventoryOutLogDetailInfo outLogDetail in currentOutLogList)
                         {
                             PKPickTaskInfo pkPickTaskInfo = new PKPickTaskInfo();
                             pkPickTaskInfo.HU = lblHU.Text;
@@ -712,13 +727,13 @@ namespace HLAPKChannelMachine
                     //更新下架单对应实际数量
                     if (tagDetailList != null && tagDetailList.Count > 0)
                     {
-                        foreach(TagDetailInfo tagDetail in tagDetailList)
+                        foreach (TagDetailInfo tagDetail in tagDetailList)
                         {
-                            if(!tagDetail.IsAddEpc)
+                            if (!tagDetail.IsAddEpc)
                             {
                                 //先将属于尾箱的下架单填满
                                 var item = pkPickTaskInfoList.FirstOrDefault(o => o.MATNR == tagDetail.MATNR && o.ISLASTBOX && o.Current_QTY < (o.QTY - o.REAL_QTY));
-                                if(item != null)
+                                if (item != null)
                                 {
                                     item.Current_QTY++;
                                     if (string.IsNullOrEmpty(item.ZCOLSN))
@@ -727,7 +742,7 @@ namespace HLAPKChannelMachine
                                         item.ZSATNR = tagDetail.ZSATNR;
                                         item.ZSIZTX = tagDetail.ZSIZTX;
                                     }
-                                    if(!item.HAS_ADD_TAG.HasValue)
+                                    if (!item.HAS_ADD_TAG.HasValue)
                                         item.HAS_ADD_TAG = string.IsNullOrEmpty(tagDetail.RFID_ADD_EPC) ? false : true;
                                 }
                                 else
@@ -775,7 +790,7 @@ namespace HLAPKChannelMachine
                                             pkPickTaskInfo.ZSIZTX = tagDetail.ZSIZTX;
                                             pkPickTaskInfo.QTY = 0;
                                             pkPickTaskInfo.Current_QTY++;
-                                            pkPickTaskInfo.ISLASTBOX =  false;
+                                            pkPickTaskInfo.ISLASTBOX = false;
                                             if (!pkPickTaskInfo.HAS_ADD_TAG.HasValue)
                                                 pkPickTaskInfo.HAS_ADD_TAG = string.IsNullOrEmpty(tagDetail.RFID_ADD_EPC) ? false : true;
                                             pkPickTaskInfoList.Add(pkPickTaskInfo);
@@ -856,11 +871,11 @@ namespace HLAPKChannelMachine
                     }
 
                     //判断数据是否有问题
-                    if(pkPickTaskInfoList != null && pkPickTaskInfoList.Count > 0)
+                    if (pkPickTaskInfoList != null && pkPickTaskInfoList.Count > 0)
                     {
                         //logBoxDetial_no_short(pkPickTaskInfoList);
 
-                        foreach(PKPickTaskInfo pkPickTaskInfo in pkPickTaskInfoList)
+                        foreach (PKPickTaskInfo pkPickTaskInfo in pkPickTaskInfoList)
                         {
                             if (string.IsNullOrEmpty(pkPickTaskInfo.ZCOLSN))
                             {
@@ -877,7 +892,7 @@ namespace HLAPKChannelMachine
 
                             if (!string.IsNullOrEmpty(pkPickTaskInfo.PICK_TASK))
                             {
-                                if(pkPickTaskInfo.ISLASTBOX)
+                                if (pkPickTaskInfo.ISLASTBOX)
                                 {
                                     //如果属于尾箱，则实发总量和应发总量必须相等
                                     if (pkPickTaskInfo.REAL_QTY + pkPickTaskInfo.Current_QTY != pkPickTaskInfo.QTY)
@@ -1234,177 +1249,187 @@ namespace HLAPKChannelMachine
         /// </summary>
         public override void StopInventory()
         {
-            //判断是否正在盘点，正在盘点则停止盘点
-            if (isInventory == true)
+            Thread uploadThread = new Thread(new ThreadStart(() =>
             {
-                try
+                //判断是否正在盘点，正在盘点则停止盘点
+                if (isInventory == true)
                 {
-                    UpdateUIControl(InventoryControlType.STATUS_LABEL, "停止扫描");
-                    isInventory = false;
-                    reader.StopInventory();
-                    CheckResult checkResult = CheckData();
-                    playSound(checkResult);
-                    UploadPKBoxInfo upbi = GetCurrentUploadPKBox(checkResult.InventoryResult,checkResult.Message);
-
-                    if (checkResult.IsRecheck == false)
+                    try
                     {
-                        //将需要上传SAP数据插入队列当中(需要先保存到队列，再去更新界面和数据库中的发运明细的实发数量，防止数据被更新后造成上传SAP再次判断数据不一致)
-                        EnqueueUploadData(upbi);
+                        UpdateUIControl(InventoryControlType.STATUS_LABEL, "停止扫描");
+                        isInventory = false;
+                        reader.StopInventory();
+                        ShowLoading("正在保存发货数据和上传SAP，请耐心等待...");
+                        CheckResult checkResult = CheckData();
+                        playSound(checkResult);
+                        UploadPKBoxInfo upbi = GetCurrentUploadPKBox(checkResult.InventoryResult, checkResult.Message);
+
+                        if (checkResult.IsRecheck == false)
+                        {
+                            //将需要上传SAP数据插入队列当中(需要先保存到队列，再去更新界面和数据库中的发运明细的实发数量，防止数据被更新后造成上传SAP再次判断数据不一致)
+                            EnqueueUploadData(upbi);
+
+                            if (checkResult.InventoryResult)
+                            {
+                                //将epc加到缓存
+                                foreach (string epc in epcList)
+                                {
+                                    DeliverEpcDetail epcDetail = new DeliverEpcDetail();
+                                    epcDetail.LGNUM = upbi.LGNUM;
+                                    epcDetail.SHIP_DATE = upbi.SHIP_DATE;
+                                    epcDetail.LOUCENG = upbi.LOUCENG;
+                                    epcDetail.PARTNER = upbi.PARTNER;
+                                    epcDetail.HU = upbi.HU;
+                                    epcDetail.EPC_SER = epc;
+                                    epcDetail.Result = upbi.InventoryResult ? "S" : "E";
+                                    epcDetail.BOXGUID = upbi.Guid;
+                                    deliverEpcDetailList.Add(epcDetail);
+                                }
+                            }
+
+                            //将epc明细上传至我司数据库
+                            LocalDataService.SaveDeliverEpcDetail(upbi);
+                        }
 
                         if (checkResult.InventoryResult)
                         {
-                            //将epc加到缓存
-                            foreach (string epc in epcList)
+                            if (!checkResult.IsRecheck)
                             {
-                                DeliverEpcDetail epcDetail = new DeliverEpcDetail();
-                                epcDetail.LGNUM = upbi.LGNUM;
-                                epcDetail.SHIP_DATE = upbi.SHIP_DATE;
-                                epcDetail.LOUCENG = upbi.LOUCENG;
-                                epcDetail.PARTNER = upbi.PARTNER;
-                                epcDetail.HU = upbi.HU;
-                                epcDetail.EPC_SER = epc;
-                                epcDetail.Result = upbi.InventoryResult ? "S" : "E";
-                                epcDetail.BOXGUID = upbi.Guid;
-                                deliverEpcDetailList.Add(epcDetail);
-                            }
-                        }
-
-                        //将epc明细上传至我司数据库
-                        LocalDataService.SaveDeliverEpcDetail(upbi);
-                    }
-
-                    if (checkResult.InventoryResult)
-                    {
-                        if (!checkResult.IsRecheck)
-                        {
-                            //start edit by wuxw 更新下架单数据
-                            if (upbi.DeliverErrorBoxList != null && upbi.DeliverErrorBoxList.Count > 0)
-                            {
-                                List<InventoryOutLogDetailInfo> toBeUploadList = new List<InventoryOutLogDetailInfo>();
-                                foreach (PKDeliverErrorBox eb in upbi.DeliverErrorBoxList)
+                                //start edit by wuxw 更新下架单数据
+                                if (upbi.DeliverErrorBoxList != null && upbi.DeliverErrorBoxList.Count > 0)
                                 {
-                                    var outLogDetail = currentOutLogList.FirstOrDefault(o => o.PICK_TASK == eb.PICK_TASK && o.PICK_TASK_ITEM == eb.PICK_TASK_ITEM && o.PRODUCTNO == eb.MATNR);
-                                    if (outLogDetail != null)
+                                    List<InventoryOutLogDetailInfo> toBeUploadList = new List<InventoryOutLogDetailInfo>();
+                                    foreach (PKDeliverErrorBox eb in upbi.DeliverErrorBoxList)
                                     {
-                                        outLogDetail.REALQTY = outLogDetail.REALQTY + (int)eb.REAL;
-                                        outLogDetail.REALQTY_ADD = outLogDetail.REALQTY_ADD + (int)eb.ADD_REAL;
+                                        var outLogDetail = currentOutLogList.FirstOrDefault(o => o.PICK_TASK == eb.PICK_TASK && o.PICK_TASK_ITEM == eb.PICK_TASK_ITEM && o.PRODUCTNO == eb.MATNR);
+                                        if (outLogDetail != null)
+                                        {
+                                            outLogDetail.REALQTY = outLogDetail.REALQTY + (int)eb.REAL;
+                                            outLogDetail.REALQTY_ADD = outLogDetail.REALQTY_ADD + (int)eb.ADD_REAL;
 
-                                        //更新下架单记录到数据库(该功能注释，改为批量更新)
-                                        //LocalDataService.UpdateInventoryOutLogDetailRealQty(outLogDetail);
-                                        toBeUploadList.Add(outLogDetail);
+                                            //更新下架单记录到数据库(该功能注释，改为批量更新)
+                                            //LocalDataService.UpdateInventoryOutLogDetailRealQty(outLogDetail);
+                                            toBeUploadList.Add(outLogDetail);
+                                        }
                                     }
+                                    //批量更新下架单记录到数据库
+                                    LocalDataService.UpdateInventoryOutLogDetailRealQty(toBeUploadList);
                                 }
-                                //批量更新下架单记录到数据库
-                                LocalDataService.UpdateInventoryOutLogDetailRealQty(toBeUploadList);
-                            }
-                            //end edit by wuxw
+                                //end edit by wuxw
 
-                            //将箱码和下架单对应关系表中该箱码的记录更新为已扫描
-                            LocalDataService.SetDeliverBoxIsScan(lblHU.Text, true);
-                        }
-
-                        //打印货运标签
-                        string PARTNER = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PARTNER : "";
-                        string PACKMAT = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PACKMAT : "";
-                        DateTime? shipdate = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].SHIP_DATE : DateTime.Now.Date;
-                        int QTY = tagDetailList.Count(o => o.IsAddEpc == false);
-
-                        string bzwl = currentBoxPickTaskMapInfoList.Find(i => i.HU == lblHU.Text.Trim()).PACKMAT;
-
-                        double weight = calWeight(tagDetailList,bzwl);
-                        string error = "";
-
-                        string vsart = mVsart;
-                        if(vsart == "" && currentOutLogList.Count>0)
-                        {
-                            vsart = currentOutLogList.First().VSART;
-                        }
-                        if(vsart == "")
-                        { 
-                            string xjdh = currentBoxPickTaskMapInfoList.Find(i => i.HU == lblHU.Text.Trim()).PICK_TASK;
-                            List<InventoryOutLogDetailInfo> re = LocalDataService.GetInventoryOutLogDetailByPicktask(xjdh);
-                            if (re != null && re.Count > 0)
-                            {
-                                vsart = re[0].VSART;
+                                //将箱码和下架单对应关系表中该箱码的记录更新为已扫描
+                                LocalDataService.SetDeliverBoxIsScan(lblHU.Text, true);
                             }
 
-                        }
-                        string docno = getDOCNO();
-                        if(SysConfig.LGNUM == "ET01")
-                        {
-                            bool printResult = PrinterHelper.PrintaAjtShippingBox(docno, SysConfig.PrinterName, SysConfig.DeviceInfo.LOUCENG, vsart, mFYDT, shipdate.Value, PARTNER, lblHU.Text, LocalDataService.getXiangXingStr(PACKMAT), QTY, weight, out error);
-                        }
-                        else
-                        {
-                            bool printResult = PrinterHelper.PrintHeilanShippingBox(docno, SysConfig.PrinterName, SysConfig.DeviceInfo.LOUCENG, vsart, mFYDT, shipdate.Value, PARTNER, lblHU.Text,LocalDataService.getXiangXingStr(PACKMAT), QTY, weight, out error);
-                        }
-                    }
-                    else
-                    {
-                        bool printResult = PrinterHelper.PrintErrorBoxTagByTable(currentOutLogList, upbi.DeliverErrorBoxList,checkResult.Message);
-                        //往DeliverErrorBox添加错误记录
-                    }
-                    if (currentDeliverErrorBox.Count > 0)
-                    {
+                            //打印货运标签
+                            string PARTNER = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PARTNER : "";
+                            string PACKMAT = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PACKMAT : "";
+                            DateTime? shipdate = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].SHIP_DATE : DateTime.Now.Date;
+                            int QTY = tagDetailList.Count(o => o.IsAddEpc == false);
 
-                        foreach (PKDeliverErrorBox item in currentDeliverErrorBox)
-                        {
-                            if (item.RecordType == DeliverRecordType.拣错 && currentOutLogList.Count == 1)
+                            string bzwl = currentBoxPickTaskMapInfoList.Find(i => i.HU == lblHU.Text.Trim()).PACKMAT;
+
+                            double weight = calWeight(tagDetailList, bzwl);
+                            string error = "";
+
+                            string vsart = mVsart;
+                            if (vsart == "" && currentOutLogList.Count > 0)
                             {
-                                InventoryOutLogDetailInfo outLog = currentOutLogList[0];
-                                
-                                item.PICK_TASK = outLog.PICK_TASK;
-                                item.PICK_TASK_ITEM = outLog.PICK_TASK_ITEM;
+                                vsart = currentOutLogList.First().VSART;
+                            }
+                            if (vsart == "")
+                            {
+                                string xjdh = currentBoxPickTaskMapInfoList.Find(i => i.HU == lblHU.Text.Trim()).PICK_TASK;
+                                List<InventoryOutLogDetailInfo> re = LocalDataService.GetInventoryOutLogDetailByPicktask(xjdh);
+                                if (re != null && re.Count > 0)
+                                {
+                                    vsart = re[0].VSART;
+                                }
 
-                                item.REMARK = item.REMARK + ";" + checkResult.Message;
-                                item.REMARK = item.REMARK.Replace(";;", ";");
-                                item.REMARK = item.REMARK.TrimEnd(';');
-                                historyDeliverErrorBoxList.Add(item);
-                                AddRecordToDeliverErrorBoxGrid(item);
-                                EnqueueUploadData(item);
+                            }
+                            string docno = getDOCNO();
+                            if (SysConfig.LGNUM == "ET01")
+                            {
+                                bool printResult = PrinterHelper.PrintaAjtShippingBox(docno, SysConfig.PrinterName, SysConfig.DeviceInfo.LOUCENG, vsart, mFYDT, shipdate.Value, PARTNER, lblHU.Text, LocalDataService.getXiangXingStr(PACKMAT), QTY, weight, out error);
                             }
                             else
                             {
-                                item.REMARK = item.REMARK + ";" + checkResult.Message;
-                                item.REMARK = item.REMARK.Replace(";;", ";");
-                                item.REMARK = item.REMARK.TrimEnd(';');
-                                historyDeliverErrorBoxList.Add(item);
-                                AddRecordToDeliverErrorBoxGrid(item);
-                                EnqueueUploadData(item);
+                                bool printResult = PrinterHelper.PrintHeilanShippingBox(docno, SysConfig.PrinterName, SysConfig.DeviceInfo.LOUCENG, vsart, mFYDT, shipdate.Value, PARTNER, lblHU.Text, LocalDataService.getXiangXingStr(PACKMAT), QTY, weight, out error);
                             }
                         }
+                        else
+                        {
+                            bool printResult = PrinterHelper.PrintErrorBoxTagByTable(currentOutLogList, upbi.DeliverErrorBoxList, checkResult.Message);
+                            //往DeliverErrorBox添加错误记录
+                        }
+                        if (currentDeliverErrorBox.Count > 0)
+                        {
+
+                            foreach (PKDeliverErrorBox item in currentDeliverErrorBox)
+                            {
+                                if (item.RecordType == DeliverRecordType.拣错 && currentOutLogList.Count == 1)
+                                {
+                                    InventoryOutLogDetailInfo outLog = currentOutLogList[0];
+
+                                    item.PICK_TASK = outLog.PICK_TASK;
+                                    item.PICK_TASK_ITEM = outLog.PICK_TASK_ITEM;
+
+                                    item.REMARK = item.REMARK + ";" + checkResult.Message;
+                                    item.REMARK = item.REMARK.Replace(";;", ";");
+                                    item.REMARK = item.REMARK.TrimEnd(';');
+                                    historyDeliverErrorBoxList.Add(item);
+                                    AddRecordToDeliverErrorBoxGrid(item);
+                                    EnqueueUploadData(item);
+                                }
+                                else
+                                {
+                                    item.REMARK = item.REMARK + ";" + checkResult.Message;
+                                    item.REMARK = item.REMARK.Replace(";;", ";");
+                                    item.REMARK = item.REMARK.TrimEnd(';');
+                                    historyDeliverErrorBoxList.Add(item);
+                                    AddRecordToDeliverErrorBoxGrid(item);
+                                    EnqueueUploadData(item);
+                                }
+                            }
+
+                        }
+                        //往DeliverBox添加发运箱记录
+                        PKDeliverBox deliverBox = new PKDeliverBox()
+                        {
+                            GUID = currentBoxGuid,
+                            LOUCENG = SysConfig.DeviceInfo.LOUCENG,
+                            PARTNER = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PARTNER : "",
+                            SHIP_DATE = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].SHIP_DATE.Value : DateTime.Now.Date,
+                            HU = lblHU.Text,
+                            RESULT = checkResult.InventoryResult ? "S" : "E",
+                            REMARK = checkResult.IsRecheck ? "重投" : checkResult.Message
+                        };
+                        historyDeliverBoxList.Add(deliverBox);
+                        AddRecordToDeliverBoxGrid(deliverBox);
+                        EnqueueUploadData(deliverBox);
+
+                        UpdateUIControl(InventoryControlType.RESULT_MESSAGE_LABEL, checkResult.InventoryResult ? (checkResult.IsRecheck == false ? "正常" : "重投") : "异常");
+
+                        //设置扫描结果，可以往plc发送指令了
+                        if (checkResult.InventoryResult)
+                            SetInventoryResult(1);
+                        else
+                            SetInventoryResult(3);
+
+                        HideLoading();
 
                     }
-                    //往DeliverBox添加发运箱记录
-                    PKDeliverBox deliverBox = new PKDeliverBox() 
-                    { 
-                        GUID = currentBoxGuid,
-                        LOUCENG = SysConfig.DeviceInfo.LOUCENG,
-                        PARTNER = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].PARTNER : "",
-                        SHIP_DATE = currentBoxPickTaskMapInfoList != null && currentBoxPickTaskMapInfoList.Count > 0 ? currentBoxPickTaskMapInfoList[0].SHIP_DATE.Value : DateTime.Now.Date,
-                        HU = lblHU.Text,
-                        RESULT = checkResult.InventoryResult ? "S" : "E",
-                        REMARK = checkResult.IsRecheck ? "重投" : checkResult.Message
-                    };
-                    historyDeliverBoxList.Add(deliverBox);
-                    AddRecordToDeliverBoxGrid(deliverBox);
-                    EnqueueUploadData(deliverBox);
-
-                    UpdateUIControl(InventoryControlType.RESULT_MESSAGE_LABEL, checkResult.InventoryResult ? (checkResult.IsRecheck == false ? "正常" : "重投") : "异常");
-
-                    //设置扫描结果，可以往plc发送指令了
-                    if (checkResult.InventoryResult)
-                        SetInventoryResult(1);
-                    else
+                    catch (Exception ex)
+                    {
+                        LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
                         SetInventoryResult(3);
+                        HideLoading();
+                    }
+                }
+            }));
+            uploadThread.IsBackground = true;
+            uploadThread.Start();
 
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-                    SetInventoryResult(3);
-                }
-            }
         }
         double calWeight(List<TagDetailInfo> tags,string bzwl)
         {

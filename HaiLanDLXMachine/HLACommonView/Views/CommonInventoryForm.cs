@@ -41,9 +41,9 @@ namespace HLACommonView.Views
         public List<HLATagInfo> hlaTagList = null;
         public List<MaterialInfo> materialList = null;
 
-        public static int mGhost = 3;
-        public static int mTrigger = 280;
-        public static int mR6ghost = 3;
+        public static int mGhost = 0;
+        public static int mTrigger = 0;
+        public static int mR6ghost = 0;
 
         public CommonInventoryForm()
         {
@@ -148,7 +148,7 @@ namespace HLACommonView.Views
         public virtual void ShowLoading(string message)
         {
             Invoke(new Action(() => {
-                pd.Show();
+                //pd.Show();
                 metroPanel1.Show();
                 lblText.Text = message;
             }));
@@ -160,7 +160,7 @@ namespace HLACommonView.Views
 
             Invoke(new Action(() => {
                 //oc.HideOpaqueLayer();
-                pd.Hide();
+                //pd.Hide();
                 metroPanel1.Hide();
                 lblText.Text = "";
             }));
@@ -232,12 +232,13 @@ namespace HLACommonView.Views
                     config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(4, false, SysConfig.ReaderConfig.AntennaPower4));
                 reader.SetParameter(config);
 
+                
                 int i, j, k;
                 LocalDataService.GetGhostAndTrigger(out i, out j, out k);
                 mGhost = i;
                 mTrigger = j;
                 mR6ghost = k;
-
+                
             }
             return result;
         }

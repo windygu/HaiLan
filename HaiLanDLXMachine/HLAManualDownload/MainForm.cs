@@ -45,65 +45,6 @@ namespace HLAManualDownload
                 threadShippingLabel.Abort();
         }
 
-        private void btnDownloadOutLog_Click(object sender, EventArgs e)
-        {
-            this.btnDownloadOutLog.Enabled = false;
-            threadOutLog = new Thread(new ThreadStart(DownloadForInventoryOutLog));
-            threadOutLog.IsBackground = true;
-            threadOutLog.Start();
-        }
-
-        private void DownloadForInventoryOutLog()
-        {
-            this.Invoke(new Action(() =>
-            {
-                this.btnDownloadOutLog.Enabled = false;
-                this.pbgOutlog.Value = 0;
-            }));
-            List<string> s = SAPDataService.GetProType(SysConfig.LGNUM);
-            if (s != null && s.Count > 0)
-            {
-                List<InventoryOutLogDetailInfo> outLogList = new List<InventoryOutLogDetailInfo>();
-                foreach (string item in s)
-                {
-                    List<InventoryOutLogDetailInfo> list = SAPDataService.GetHLAShelvesSingleList(
-                        SysConfig.LGNUM, this.dtpDate.Value.Date.ToString("yyyyMMdd"), item);
-                    if (list != null)
-                        outLogList.AddRange(list);
-                }
-                int total = outLogList.Count;
-                int i = 0;
-                if (total > 0)
-                {
-                    foreach (InventoryOutLogDetailInfo item in outLogList)
-                    {
-                        i++;
-                        LocalDataService.SaveInventoryOutLogDetail(item);
-                        this.Invoke(new Action(() =>
-                        {
-                            this.pbgOutlog.Value = i * 100 / total;
-                        }));
-                    }
-                }
-                else
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        this.pbgOutlog.Value = 100;
-                    }));
-                }
-            }
-
-            this.Invoke(new Action(() =>
-            {
-                this.btnDownloadOutLog.Enabled = true;
-            }));
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
 
         private void shipButton_Click(object sender, EventArgs e)
         {
@@ -268,6 +209,19 @@ namespace HLAManualDownload
         private void MainForm_Load(object sender, EventArgs e)
         {
             mLog = new CLogManager(true);
+            if(SysConfig.LGNUM == "HL01")
+            {
+                label1_hora.Text = "海澜之家";
+            }
+            else if(SysConfig.LGNUM == "ET01")
+            {
+                label1_hora.Text = "爱居兔";
+            }
+            else
+            {
+                label1_hora.Text = "未知";
+
+            }
         }
 
         private void returnTypeutton_Click(object sender, EventArgs e)
@@ -398,5 +352,174 @@ namespace HLAManualDownload
             }
         }
 
+        private void button1_alltag_Click(object sender, EventArgs e)
+        {
+            button1_alltag.Enabled = false;
+            matProgressBar.Value = 0;
+
+            if (DialogResult.No == MessageBox.Show(this, "要下载所有全部吊牌？这会耗时比较久", "", MessageBoxButtons.YesNo))
+            {
+                return;
+            }
+
+            new Thread(new ThreadStart(() =>
+            {
+                List<HLATagInfo> tagList = new List<HLATagInfo>();
+                {
+                    DataTable tagTable = SAPDataService.GetTagInfoList(SysConfig.LGNUM, true);
+                    foreach (DataRow row in tagTable.Rows)
+                    {
+                        HLATagInfo tag = new HLATagInfo();
+                        tag.MATNR = row["MATNR"].CastTo("");
+                        tag.CHARG = row["CHARG"].CastTo("");
+                        tag.BARCD = row["BARCD"].CastTo("");
+                        tag.BARCD_ADD = row["BARCD_ADD"].CastTo("");
+                        tag.RFID_EPC = row["RFID_EPC"].CastTo("").Trim() != "" ? ((string)row["RFID_EPC"]).PadRight(20, '0').Trim() : row["RFID_EPC"].CastTo("").Trim();
+                        tag.RFID_ADD_EPC = row["RFID_ADD_EPC"].CastTo("");
+                        tag.BARDL = row["BARDL"].CastTo("");
+                        tag.LIFNR = row["LIFNR"].CastTo("");
+
+                        if (tagList == null)
+                            tagList = new List<HLATagInfo>();
+
+                        tagList.Add(tag);
+                    }
+
+                }
+
+                if (tagList != null)
+                {
+                    Invoke(new Action(() => { matProgressBar.Maximum = tagList.Count; }));
+
+                    int tagFailCount = 0;
+
+                    foreach (HLATagInfo tag in tagList)
+                    {
+                        Invoke(new Action(() => { matProgressBar.Value++; }));
+
+                        if (!LocalDataService.SaveTagInfo(tag))
+                        {
+                            tagFailCount++;
+                        }
+                    }
+
+                    string log = string.Format("手工下载吊牌{0}条，失败{1}条", tagList.Count, tagFailCount);
+                    Invoke(new Action(() =>
+                    {
+                        matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
+                        matLogLabel.BackColor = tagFailCount > 0 ? Color.Red : Color.White;
+
+                    }));
+                }
+                else
+                {
+                    string log = string.Format("手工下载吊牌0条，失败0条");
+                    Invoke(new Action(() =>
+                    {
+                        matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
+                        matLogLabel.BackColor = Color.White;
+
+                    }));
+                }
+
+                Invoke(new Action(() =>
+                {
+                    dateMatTagButton.Enabled = true;
+                    button1_alltag.Enabled = true;
+                }));
+
+            })).Start();
+
+
+    }
+
+        private void button1_allmat_Click(object sender, EventArgs e)
+        {
+            matProgressBar.Value = 0;
+            button1_allmat.Enabled = false;
+
+            if (DialogResult.No == MessageBox.Show(this, "要下载所有全部物料？这会耗时比较久", "", MessageBoxButtons.YesNo))
+            {
+                return;
+            }
+
+            new Thread(new ThreadStart(() =>
+            {
+                List<MaterialInfo> mtrList = new List<MaterialInfo>();
+                {
+                    DataTable mtrTable = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM, true);
+
+                    foreach (DataRow row in mtrTable.Rows)
+                    {
+                        MaterialInfo material = new MaterialInfo();
+                        material.MATNR = row["MATNR"] != null ? row["MATNR"].ToString() : "";
+                        int pxqty;
+                        int.TryParse(row["PXQTY"] != null ? row["PXQTY"].ToString() : "0", out pxqty);
+                        material.PXQTY = pxqty;
+                        int pxqty_fh;
+                        int.TryParse(row["PXQTY_FH"] != null ? row["PXQTY_FH"].ToString() : "0", out pxqty_fh);
+                        material.PXQTY_FH = pxqty_fh;
+                        material.ZCOLSN = row["ZCOLSN"] != null ? row["ZCOLSN"].ToString() : "";
+                        material.ZSATNR = row["ZSATNR"] != null ? row["ZSATNR"].ToString() : "";
+                        material.ZSIZTX = row["ZSIZTX"] != null ? row["ZSIZTX"].ToString() : "";
+                        material.ZSUPC2 = row["ZSUPC2"] != null ? row["ZSUPC2"].ToString() : "";
+                        material.PUT_STRA = row["PUT_STRA"] != null ? row["PUT_STRA"].ToString() : "";
+                        material.ZCOLSN_WFG = row["ZCOLSN_WFG"] != null ? row["ZCOLSN_WFG"].ToString() : "";
+                        material.PXMAT = row["PXMAT"] != null ? row["PXMAT"].ToString() : "";
+                        material.PXMAT_FH = row["PXMAT_FH"] != null ? row["PXMAT_FH"].ToString() : "";
+                        double brgew;
+                        double.TryParse(row["BRGEW"] != null ? row["BRGEW"].ToString() : "0", out brgew);
+                        material.BRGEW = brgew;
+
+                        if (mtrList == null)
+                            mtrList = new List<MaterialInfo>();
+
+                        mtrList.Add(material);
+                    }
+
+                }
+
+                if (mtrList != null)
+                {
+                    Invoke(new Action(() => { matProgressBar.Maximum = mtrList.Count; }));
+
+                    int matFailCount = 0;
+
+                    foreach (MaterialInfo m in mtrList)
+                    {
+                        Invoke(new Action(() => { matProgressBar.Value++; }));
+
+                        if (!LocalDataService.SaveMaterialInfo(m))
+                        {
+                            matFailCount++;
+                        }
+                    }
+
+                    string log = string.Format("手工下载物料{0}条，失败{1}条", mtrList.Count, matFailCount);
+                    Invoke(new Action(() =>
+                    {
+                        matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
+                        matLogLabel.BackColor = matFailCount > 0 ? Color.Red : Color.White;
+
+                    }));
+                }
+                else
+                {
+                    string log = string.Format("手工下载物料0条，失败0条");
+                    Invoke(new Action(() =>
+                    {
+                        matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
+                        matLogLabel.BackColor = Color.White;
+
+                    }));
+                }
+
+                Invoke(new Action(() =>
+                {
+                    button1_allmat.Enabled = true;
+                }));
+
+            })).Start();
+        }
     }
 }

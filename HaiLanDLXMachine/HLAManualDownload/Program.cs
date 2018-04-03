@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using HLACommonLib;
 using HLAManualDownload.Utils;
 using System.Diagnostics;
+using System.Configuration;
 
 namespace HLAManualDownload
 {
@@ -54,8 +55,8 @@ namespace HLAManualDownload
             }
             else
             {
-                MessageBox.Show("请从主界面运行程序", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                SysConfig.DBUrl = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+                SysConfig.LGNUM = ConfigurationManager.AppSettings["LGNUM"];
             }
 #endif
             if (AutoUpdate.Update(SoftwareType.通道机主数据手工下载系统))

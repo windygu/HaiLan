@@ -12,6 +12,8 @@ namespace HLAAutoDownload.Utils
         public static void Load()
         {
             SysConfig.LGNUM = ConfigurationManager.AppSettings["LGNUM"];
+            SysConfig.DBUrl = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
+
             //SAP相关配置
             SysConfig.AppServerHost = ConfigurationManager.AppSettings["AppServerHost"];
             SysConfig.SystemNumber = ConfigurationManager.AppSettings["SystemNumber"];

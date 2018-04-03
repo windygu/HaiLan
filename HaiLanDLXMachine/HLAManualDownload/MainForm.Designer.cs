@@ -28,15 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.dtpDate = new DMSkin.Metro.Controls.MetroDateTime();
-            this.pbgShippingLabel = new DMSkin.Metro.Controls.MetroProgressBar();
-            this.pbgOutlog = new DMSkin.Metro.Controls.MetroProgressBar();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnDownloadOutLog = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.downloadTabControl = new DMSkin.Metro.Controls.MetroTabControl();
             this.metroTabPage1 = new DMSkin.Metro.Controls.MetroTabPage();
             this.grouper4 = new CodeVendor.Controls.Grouper();
@@ -61,6 +52,8 @@
             this.shipDateTime = new DMSkin.Metro.Controls.MetroDateTime();
             this.label9 = new System.Windows.Forms.Label();
             this.grouper1 = new CodeVendor.Controls.Grouper();
+            this.label1_hora = new System.Windows.Forms.Label();
+            this.button1_alltag = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.dateMatTagButton = new System.Windows.Forms.Button();
@@ -69,7 +62,7 @@
             this.matLogLabel = new System.Windows.Forms.Label();
             this.matProgressBar = new DMSkin.Metro.Controls.MetroProgressBar();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.groupBox1.SuspendLayout();
+            this.button1_allmat = new System.Windows.Forms.Button();
             this.downloadTabControl.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.grouper4.SuspendLayout();
@@ -77,105 +70,6 @@
             this.grouper2.SuspendLayout();
             this.grouper1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.dtpDate);
-            this.groupBox1.Controls.Add(this.pbgShippingLabel);
-            this.groupBox1.Controls.Add(this.pbgOutlog);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btnCancel);
-            this.groupBox1.Controls.Add(this.btnDownloadOutLog);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(723, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(557, 263);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Visible = false;
-            // 
-            // dtpDate
-            // 
-            this.dtpDate.Location = new System.Drawing.Point(153, 41);
-            this.dtpDate.MinimumSize = new System.Drawing.Size(4, 30);
-            this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(341, 30);
-            this.dtpDate.TabIndex = 55;
-            // 
-            // pbgShippingLabel
-            // 
-            this.pbgShippingLabel.Location = new System.Drawing.Point(153, 125);
-            this.pbgShippingLabel.Name = "pbgShippingLabel";
-            this.pbgShippingLabel.Size = new System.Drawing.Size(342, 30);
-            this.pbgShippingLabel.Style = DMSkin.Metro.MetroColorStyle.Blue;
-            this.pbgShippingLabel.TabIndex = 54;
-            // 
-            // pbgOutlog
-            // 
-            this.pbgOutlog.Location = new System.Drawing.Point(153, 83);
-            this.pbgOutlog.Name = "pbgOutlog";
-            this.pbgOutlog.Size = new System.Drawing.Size(342, 30);
-            this.pbgOutlog.TabIndex = 54;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label1.Location = new System.Drawing.Point(60, 45);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 21);
-            this.label1.TabIndex = 52;
-            this.label1.Text = "选择日期";
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.BackColor = System.Drawing.Color.Tomato;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(354, 187);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(141, 40);
-            this.btnCancel.TabIndex = 47;
-            this.btnCancel.Text = "取消";
-            this.btnCancel.UseVisualStyleBackColor = false;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnDownloadOutLog
-            // 
-            this.btnDownloadOutLog.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnDownloadOutLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDownloadOutLog.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnDownloadOutLog.ForeColor = System.Drawing.Color.White;
-            this.btnDownloadOutLog.Location = new System.Drawing.Point(64, 187);
-            this.btnDownloadOutLog.Name = "btnDownloadOutLog";
-            this.btnDownloadOutLog.Size = new System.Drawing.Size(139, 40);
-            this.btnDownloadOutLog.TabIndex = 46;
-            this.btnDownloadOutLog.Text = "同步下架单";
-            this.btnDownloadOutLog.UseVisualStyleBackColor = false;
-            this.btnDownloadOutLog.Click += new System.EventHandler(this.btnDownloadOutLog_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label5.Location = new System.Drawing.Point(60, 129);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(74, 21);
-            this.label5.TabIndex = 42;
-            this.label5.Text = "发运标签";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label4.Location = new System.Drawing.Point(60, 87);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 21);
-            this.label4.TabIndex = 42;
-            this.label4.Text = "下架单";
             // 
             // downloadTabControl
             // 
@@ -487,6 +381,9 @@
             this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouper1.BorderColor = System.Drawing.Color.Teal;
             this.grouper1.BorderThickness = 1F;
+            this.grouper1.Controls.Add(this.button1_allmat);
+            this.grouper1.Controls.Add(this.label1_hora);
+            this.grouper1.Controls.Add(this.button1_alltag);
             this.grouper1.Controls.Add(this.label7);
             this.grouper1.Controls.Add(this.label6);
             this.grouper1.Controls.Add(this.dateMatTagButton);
@@ -509,11 +406,35 @@
             this.grouper1.Size = new System.Drawing.Size(1232, 343);
             this.grouper1.TabIndex = 2;
             // 
+            // label1_hora
+            // 
+            this.label1_hora.AutoSize = true;
+            this.label1_hora.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1_hora.Location = new System.Drawing.Point(1106, 20);
+            this.label1_hora.Name = "label1_hora";
+            this.label1_hora.Size = new System.Drawing.Size(75, 20);
+            this.label1_hora.TabIndex = 68;
+            this.label1_hora.Text = "label1";
+            // 
+            // button1_alltag
+            // 
+            this.button1_alltag.BackColor = System.Drawing.Color.Teal;
+            this.button1_alltag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1_alltag.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.button1_alltag.ForeColor = System.Drawing.Color.White;
+            this.button1_alltag.Location = new System.Drawing.Point(543, 35);
+            this.button1_alltag.Name = "button1_alltag";
+            this.button1_alltag.Size = new System.Drawing.Size(204, 40);
+            this.button1_alltag.TabIndex = 67;
+            this.button1_alltag.Text = "下载所有吊牌";
+            this.button1_alltag.UseVisualStyleBackColor = false;
+            this.button1_alltag.Click += new System.EventHandler(this.button1_alltag_Click);
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(436, 51);
+            this.label7.Location = new System.Drawing.Point(39, 112);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(68, 17);
             this.label7.TabIndex = 66;
@@ -535,7 +456,7 @@
             this.dateMatTagButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dateMatTagButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.dateMatTagButton.ForeColor = System.Drawing.Color.White;
-            this.dateMatTagButton.Location = new System.Drawing.Point(742, 37);
+            this.dateMatTagButton.Location = new System.Drawing.Point(154, 166);
             this.dateMatTagButton.Name = "dateMatTagButton";
             this.dateMatTagButton.Size = new System.Drawing.Size(91, 40);
             this.dateMatTagButton.TabIndex = 64;
@@ -545,7 +466,7 @@
             // 
             // eDateTime
             // 
-            this.eDateTime.Location = new System.Drawing.Point(510, 45);
+            this.eDateTime.Location = new System.Drawing.Point(113, 106);
             this.eDateTime.MinimumSize = new System.Drawing.Size(0, 30);
             this.eDateTime.Name = "eDateTime";
             this.eDateTime.Size = new System.Drawing.Size(132, 30);
@@ -580,13 +501,26 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // button1_allmat
+            // 
+            this.button1_allmat.BackColor = System.Drawing.Color.Teal;
+            this.button1_allmat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1_allmat.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.button1_allmat.ForeColor = System.Drawing.Color.White;
+            this.button1_allmat.Location = new System.Drawing.Point(543, 106);
+            this.button1_allmat.Name = "button1_allmat";
+            this.button1_allmat.Size = new System.Drawing.Size(204, 40);
+            this.button1_allmat.TabIndex = 69;
+            this.button1_allmat.Text = "下载所有物料";
+            this.button1_allmat.UseVisualStyleBackColor = false;
+            this.button1_allmat.Click += new System.EventHandler(this.button1_allmat_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 730);
             this.Controls.Add(this.downloadTabControl);
-            this.Controls.Add(this.groupBox1);
             this.DisplayHeader = false;
             this.MaximizeBox = false;
             this.Name = "MainForm";
@@ -594,8 +528,6 @@
             this.Text = "手动下载";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.downloadTabControl.ResumeLayout(false);
             this.metroTabPage1.ResumeLayout(false);
             this.grouper4.ResumeLayout(false);
@@ -608,16 +540,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnDownloadOutLog;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private DMSkin.Metro.Controls.MetroDateTime dtpDate;
-        private DMSkin.Metro.Controls.MetroProgressBar pbgShippingLabel;
-        private DMSkin.Metro.Controls.MetroProgressBar pbgOutlog;
         private DMSkin.Metro.Controls.MetroTabControl downloadTabControl;
         private DMSkin.Metro.Controls.MetroTabPage metroTabPage1;
         private CodeVendor.Controls.Grouper grouper1;
@@ -650,6 +572,9 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button3;
         private DMSkin.Controls.DMCheckBox dmCheckBox1_resetIfExist;
+        private System.Windows.Forms.Button button1_alltag;
+        private System.Windows.Forms.Label label1_hora;
+        private System.Windows.Forms.Button button1_allmat;
     }
 }
 

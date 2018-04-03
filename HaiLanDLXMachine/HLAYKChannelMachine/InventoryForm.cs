@@ -119,6 +119,8 @@ namespace HLAYKChannelMachine
                         isInventory = false;
                         reader.StopInventory();
 
+                        ShowLoading("正在检查结果...");
+
                         checkResult = CheckData();
                         YKBoxInfo box = GetCurrentYKBox();
 

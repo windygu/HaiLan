@@ -3041,6 +3041,7 @@ WHERE LGNUM = @LGNUM AND DOCNO = @DOCNO AND DOCCAT = @DOCCAT AND HU = @HU", type
 
         public static void GetGhostAndTrigger(out int ghost, out int trigger, out int r6ghost)
         {
+            /*
             try
             {
                 string sql = @"select FieldName,FieldValue from sysinfo where FieldName IN ('GHOST','TRIGGER','R6GHOST')";
@@ -3078,7 +3079,10 @@ WHERE LGNUM = @LGNUM AND DOCNO = @DOCNO AND DOCCAT = @DOCCAT AND HU = @HU", type
                 trigger = 280;
                 r6ghost = 3;
             }
-
+            */
+            ghost = 0;
+            trigger = 0;
+            r6ghost = 0;
         }
 
         /// <summary>

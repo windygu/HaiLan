@@ -44,7 +44,7 @@ namespace HLAPackingBoxChannelMachine
                 //缓存当前登录用户
                 SysConfig.CurrentLoginUser = new HLACommonLib.Model.UserInfo() { UserId = User, Password = Password };
                 SysConfig.DeviceInfo.LOUCENG = cboLouceng.Text;
-                InventoryForm form = new InventoryForm();
+                InventoryFormNew form = new InventoryFormNew();
                 form.ShowDialog();
             }
             else

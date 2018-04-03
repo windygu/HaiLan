@@ -11,6 +11,7 @@ namespace HLAManualDownload.Utils
     {
         public static void Load()
         {
+            SysConfig.DBUrl = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
             SysConfig.LGNUM = ConfigurationManager.AppSettings["LGNUM"];
             //SAP相关配置
             SysConfig.AppServerHost = ConfigurationManager.AppSettings["AppServerHost"];

@@ -50,12 +50,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="sapnco">
-      <HintPath>..\packages\sapnco.dll</HintPath>
-    </Reference>
-    <Reference Include="sapnco_utils">
-      <HintPath>..\packages\sapnco_utils.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -73,8 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="PDAZlkUpload.asmx" />
-    <Content Include="SapDownloadService.asmx" />
     <Content Include="SAPUploadService.asmx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -96,14 +88,6 @@
     <Compile Include="Model\PKDeliverBox.cs" />
     <Compile Include="Model\PKDeliverErrorBox.cs" />
     <Compile Include="Model\TagDetailInfo.cs" />
-    <Compile Include="PDAZlkUpload.asmx.cs">
-      <DependentUpon>PDAZlkUpload.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="SapDownloadService.asmx.cs">
-      <DependentUpon>SapDownloadService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="SAPUploadService.asmx.cs">
       <DependentUpon>SAPUploadService.asmx</DependentUpon>
       <SubType>Component</SubType>

@@ -799,7 +799,7 @@ namespace HLAPKChannelMachine
                         if (string.IsNullOrEmpty(shortDetailItem.ZCOLSN))
                         {
                             //var minfo = materialList != null ? materialList.First(o => o.MATNR == shortDetailItem.MATNR) : null;
-                            MaterialInfo minfo = materialList.FirstOrDefault(i => i.MAKTX == shortDetailItem.MATNR);
+                            MaterialInfo minfo = materialList.FirstOrDefault(i => i.MATNR == shortDetailItem.MATNR);
                             shortDetailItem.ZCOLSN = minfo != null ? minfo.ZCOLSN : "";
                             shortDetailItem.ZSATNR = minfo != null ? minfo.ZSATNR : "";
                             shortDetailItem.ZSIZTX = minfo != null ? minfo.ZSIZTX : "";

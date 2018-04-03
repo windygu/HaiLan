@@ -77,7 +77,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
             this.gridDeliverErrorBox = new DMSkin.Metro.Controls.MetroGrid();
-            this.label11 = new System.Windows.Forms.Label();
             this.EB_PARTNER = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_PICK_TASK = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,6 +86,7 @@
             this.EB_REAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_DIFF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_REMARK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label11 = new System.Windows.Forms.Label();
             this.gbTestPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -651,7 +651,7 @@
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label1.ForeColor = System.Drawing.Color.Teal;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(254, 40);
@@ -719,20 +719,6 @@
             this.gridDeliverErrorBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridDeliverErrorBox.Size = new System.Drawing.Size(766, 668);
             this.gridDeliverErrorBox.TabIndex = 5;
-            // 
-            // label11
-            // 
-            this.label11.BackColor = System.Drawing.Color.White;
-            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label11.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label11.Location = new System.Drawing.Point(0, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(766, 40);
-            this.label11.TabIndex = 4;
-            this.label11.Text = "发货包装明细";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // EB_PARTNER
             // 
@@ -819,6 +805,20 @@
             this.EB_REMARK.ReadOnly = true;
             this.EB_REMARK.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.EB_REMARK.Width = 55;
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.White;
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label11.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.ForeColor = System.Drawing.Color.Teal;
+            this.label11.Location = new System.Drawing.Point(0, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(766, 40);
+            this.label11.TabIndex = 4;
+            this.label11.Text = "发货包装明细";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // InventoryMainFormNew
             // 

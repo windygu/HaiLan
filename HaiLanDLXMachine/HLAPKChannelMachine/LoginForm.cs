@@ -46,7 +46,7 @@ namespace HLAPKChannelMachine
                 SysConfig.CurrentLoginUser = new HLACommonLib.Model.UserInfo() { UserId = User, Password = Password };
                 SysConfig.DeviceInfo.LOUCENG = cboLouceng.Text;
 
-                InventoryMainForm mainForm = new InventoryMainForm();
+                InventoryMainFormNew mainForm = new InventoryMainFormNew();
                 mainForm.ShowDialog();
             }
             else

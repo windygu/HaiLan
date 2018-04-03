@@ -523,7 +523,8 @@ namespace HLACommonLib
                     item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
                     item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
                     item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
-                    item.MAKTX = IrfTable.GetString("MAKTX");
+                    //item.MAKTX = IrfTable.GetString("MAKTX");
+                    item.MAKTX = getZiDuan(IrfTable, "MAKTX");
 
                     result.Add(item);
                 }
@@ -614,7 +615,9 @@ namespace HLACommonLib
                     item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
                     item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
                     item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
-                    item.MAKTX = IrfTable.GetString("MAKTX");
+                    //item.MAKTX = IrfTable.GetString("MAKTX");
+                    item.MAKTX = getZiDuan(IrfTable, "MAKTX");
+
                     result.Add(item);
                 }
 
@@ -661,7 +664,7 @@ namespace HLACommonLib
             List<MaterialInfo> mtrList = new List<MaterialInfo>();
             try
             {
-                DataTable mtrTable = SAPDataService.GetMaterialInfoList(lgnum, true);
+                DataTable mtrTable = SAPDataService.GetMaterialInfoListNotSetDate(lgnum, true);
 
                 foreach (DataRow row in mtrTable.Rows)
                 {
@@ -699,6 +702,89 @@ namespace HLACommonLib
             }
             return mtrList;
         }
+
+        public static DataTable GetMaterialInfoListNotSetDate(string lgnum, bool all = false)
+        {
+            try
+            {
+                string dateFrom = all ? null : LocalDataService.GetSysInfoFieldValue("MaterialInfo");
+                //string dateFrom = "20150707";
+                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
+
+                RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
+                RfcRepository rfcrep = dest.Repository;
+                IRfcFunction myfun = null;
+                myfun = rfcrep.CreateFunction("Z_EW_RFID_074");
+                myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
+
+                myfun.SetValue("IV_MATNR", "");//产品编码（’M’的时候必须填写）
+                if (string.IsNullOrEmpty(dateFrom))
+                {
+                    dateFrom = "19900101";
+                    myfun.SetValue("IV_TYPE", "A");//获取方式（’A’全部,’D’按日期,’M’按产品）
+                }
+                else
+                {
+                    myfun.SetValue("IV_TYPE", "D");//获取方式（’A’全部,’D’按日期,’M’按产品）
+                }
+                myfun.SetValue("IV_DATE_F", dateFrom);//开始日期
+                myfun.SetValue("IV_DATE_T", dateEnd);//结束日期
+                myfun.Invoke(dest);
+
+                IRfcTable IrfTable = myfun.GetTable("ET_OUTPUT");
+
+                //构建表结构
+                DataTable table = new DataTable();
+                table.Columns.Add("MATNR");
+                table.Columns.Add("ZSATNR");
+                table.Columns.Add("ZCOLSN");
+                table.Columns.Add("ZSIZTX");
+                table.Columns.Add("ZSUPC2");
+                table.Columns.Add("PXQTY", Type.GetType("System.Int32"));
+                table.Columns.Add("BRGEW", Type.GetType("System.Double"));
+                table.Columns.Add("PUT_STRA");
+                table.Columns.Add("PXQTY_FH", Type.GetType("System.Int32"));
+                table.Columns.Add("ZCOLSN_WFG");
+                table.Columns.Add("PXMAT_FH");
+                table.Columns.Add("PXMAT");
+                table.Columns.Add("MAKTX");
+
+                //插入表数据
+                for (int i = 0; i < IrfTable.Count; i++)
+                {
+                    IrfTable.CurrentIndex = i;
+                    DataRow dr = table.NewRow();
+                    dr["MATNR"] = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
+                    dr["ZSATNR"] = IrfTable.GetString("ZSATNR");
+                    dr["ZCOLSN"] = IrfTable.GetString("ZCOLSN");
+                    dr["ZSIZTX"] = IrfTable.GetString("ZSIZTX");
+                    dr["ZSUPC2"] = IrfTable.GetString("ZSUPC2");
+                    dr["PXQTY"] = IrfTable.GetInt("PXQTY");
+                    dr["BRGEW"] = IrfTable.GetDouble("BRGEW");
+                    dr["PUT_STRA"] = IrfTable.GetString("PUT_STRA");
+                    dr["PXQTY_FH"] = IrfTable.GetInt("PXQTY_FH");
+                    dr["ZCOLSN_WFG"] = IrfTable.GetString("ZCOLSN_WFG");
+                    dr["PXMAT"] = IrfTable.GetString("PXMAT").TrimStart('0');
+                    dr["PXMAT_FH"] = IrfTable.GetString("PXMAT_FH").TrimStart('0');
+                    //dr["MAKTX"] = IrfTable.GetString("MAKTX");
+                    dr["MAKTX"] = getZiDuan(IrfTable, "MAKTX");
+
+
+                    table.Rows.Add(dr);
+                }
+
+                RfcSessionManager.EndContext(dest);
+
+                return table;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.Message, ex.StackTrace);
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// 获取物料主数据列表
         /// </summary>
@@ -766,7 +852,9 @@ namespace HLACommonLib
                     dr["ZCOLSN_WFG"] = IrfTable.GetString("ZCOLSN_WFG");
                     dr["PXMAT"] = IrfTable.GetString("PXMAT").TrimStart('0');
                     dr["PXMAT_FH"] = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    dr["MAKTX"] = IrfTable.GetString("MAKTX");
+                    //dr["MAKTX"] = IrfTable.GetString("MAKTX");
+                    dr["MAKTX"] = getZiDuan(IrfTable, "MAKTX");
+
 
                     table.Rows.Add(dr);
                 }
@@ -823,7 +911,9 @@ namespace HLACommonLib
                     item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
                     item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
                     item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    item.MAKTX = IrfTable.GetString("MAKTX");
+                    //item.MAKTX = IrfTable.GetString("MAKTX");
+                    item.MAKTX = getZiDuan(IrfTable, "MAKTX");
+
 
                     materialList.Add(item);
                 }
@@ -880,7 +970,8 @@ namespace HLACommonLib
                     item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
                     item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
                     item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    item.MAKTX = IrfTable.GetString("MAKTX");
+                    //item.MAKTX = IrfTable.GetString("MAKTX");
+                    item.MAKTX = getZiDuan(IrfTable, "MAKTX");
 
                     materialList.Add(item);
                 }
@@ -2101,7 +2192,7 @@ namespace HLACommonLib
         /// <param name="lgnum">仓库编号</param>
         /// <param name="sDeviceNo">设备厂商</param>
         /// <returns></returns>
-        public static List<string> GetProType(string lgnum, string sDeviceNo = "C")
+        public static List<string> GetProType(string lgnum, string sDeviceNo = "D")
         {
             try
             {
