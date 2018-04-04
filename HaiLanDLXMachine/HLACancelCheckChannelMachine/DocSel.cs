@@ -71,10 +71,32 @@ namespace HLACancelCheckChannelMachine
                 }
             }
         }
+        List<string> getCancelAuth()
+        {
+            List<string> re = new List<string>();
+            try
+            {
+                foreach (var v in SysConfig.DeviceInfo.AuthList)
+                {
+                    if (v.AUTH_CODE.StartsWith("M"))
+                    {
+                        re.Add(v.AUTH_VALUE);
+                    }
+                }
+            }
+            catch(Exception)
+            {
+
+            }
+
+            return re;
+
+        }
 
         private void DocSel_Load(object sender, EventArgs e)
         {
-            mDoxBoxNum = SAPDataService.GetCancelHuList(SysConfig.LGNUM);
+            
+            mDoxBoxNum = SAPDataService.GetCancelHuList(SysConfig.LGNUM, getCancelAuth());
 
             if (mDoxBoxNum == null)
                 return;

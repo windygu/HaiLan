@@ -92,6 +92,12 @@
     <Compile Include="DialogForms\GxForm.Designer.cs">
       <DependentUpon>GxForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InventoryFormNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InventoryFormNew.Designer.cs">
+      <DependentUpon>InventoryFormNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="InventoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     <Compile Include="Utils\PrintHelper.cs" />
     <Compile Include="Utils\TypeConvert.cs" />
     <Compile Include="Utils\UploadServer.cs" />
+    <EmbeddedResource Include="InventoryFormNew.resx">
+      <DependentUpon>InventoryFormNew.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InventoryForm.resx">
       <DependentUpon>InventoryForm.cs</DependentUpon>
     </EmbeddedResource>

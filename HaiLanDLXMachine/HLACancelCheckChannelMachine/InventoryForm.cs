@@ -66,7 +66,7 @@ namespace HLACancelCheckChannelMachine
                 lblReader.Text = "连接中...";
                 lblWorkStatus.Text = "未开始工作";
                 label11_deviceNo.Text = SysConfig.DeviceInfo != null ? SysConfig.DeviceInfo.EQUIP_HLA : "设备信息异常";
-
+                ComboBox_Boci.SelectedIndex = 0;
             }));
         }
         private void InventoryForm_Shown(object sender, EventArgs e)

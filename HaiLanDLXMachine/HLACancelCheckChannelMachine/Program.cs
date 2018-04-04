@@ -45,7 +45,7 @@ namespace HLACancelCheckChannelMachine
 
 #if DEBUG
             SysConfig.LGNUM = "HL01";
-            SysConfig.DeviceNO = "08F041";
+            SysConfig.DeviceNO = "XD180301";
             SysConfig.DBUrl = @"Data Source=172.18.10.98;Initial Catalog=heilandb;User ID=sa;password=xindeco.123456";
 
 #else

@@ -58,7 +58,6 @@
             this.lblReader = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
-            this.label2 = new System.Windows.Forms.Label();
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MAINBAR = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ADDBAR = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,6 +65,7 @@
             this.MAINDIF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ADDDIF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -81,7 +81,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
+            this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
             this.splitContainer1.Panel1.Controls.Add(this.ComboBox_Boci);
             this.splitContainer1.Panel1.Controls.Add(this.dmButton3);
             this.splitContainer1.Panel1.Controls.Add(this.dmButton1_exception_query);
@@ -116,6 +116,8 @@
             // 
             // ComboBox_Boci
             // 
+            this.ComboBox_Boci.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.ComboBox_Boci.BackColor = System.Drawing.Color.White;
             this.ComboBox_Boci.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_Boci.Font = new System.Drawing.Font("微软雅黑", 14F);
             this.ComboBox_Boci.FormattingEnabled = true;
@@ -151,7 +153,7 @@
             this.dmButton3.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton3.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton3.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton3.ForeColor = System.Drawing.Color.Teal;
             this.dmButton3.Image = null;
             this.dmButton3.Location = new System.Drawing.Point(13, 603);
             this.dmButton3.Margin = new System.Windows.Forms.Padding(0);
@@ -177,7 +179,7 @@
             this.dmButton1_exception_query.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton1_exception_query.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton1_exception_query.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton1_exception_query.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton1_exception_query.ForeColor = System.Drawing.Color.Teal;
             this.dmButton1_exception_query.Image = null;
             this.dmButton1_exception_query.Location = new System.Drawing.Point(13, 495);
             this.dmButton1_exception_query.Margin = new System.Windows.Forms.Padding(0);
@@ -202,7 +204,7 @@
             this.dmButton2_upload_query.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton2_upload_query.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton2_upload_query.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton2_upload_query.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.dmButton2_upload_query.ForeColor = System.Drawing.Color.Teal;
             this.dmButton2_upload_query.Image = null;
             this.dmButton2_upload_query.Location = new System.Drawing.Point(13, 550);
             this.dmButton2_upload_query.Margin = new System.Windows.Forms.Padding(0);
@@ -294,7 +296,7 @@
             this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnStart.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Image = null;
             this.btnStart.Location = new System.Drawing.Point(13, 383);
             this.btnStart.Margin = new System.Windows.Forms.Padding(0);
@@ -320,7 +322,7 @@
             this.btnPause.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPause.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnPause.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnPause.ForeColor = System.Drawing.Color.Teal;
             this.btnPause.Image = null;
             this.btnPause.Location = new System.Drawing.Point(13, 440);
             this.btnPause.Margin = new System.Windows.Forms.Padding(0);
@@ -345,7 +347,7 @@
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Image = null;
             this.btnClose.Location = new System.Drawing.Point(13, 661);
             this.btnClose.Margin = new System.Windows.Forms.Padding(0);
@@ -494,7 +496,7 @@
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label1.ForeColor = System.Drawing.Color.Teal;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(289, 40);
@@ -565,20 +567,6 @@
             this.grid.Size = new System.Drawing.Size(928, 672);
             this.grid.TabIndex = 19;
             // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(928, 40);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "点数复核明细";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // HU
             // 
             this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -642,6 +630,20 @@
             this.MSG.Name = "MSG";
             this.MSG.ReadOnly = true;
             this.MSG.Width = 70;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.White;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.ForeColor = System.Drawing.Color.Teal;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(928, 40);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "点数复核明细";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // InventoryForm
             // 

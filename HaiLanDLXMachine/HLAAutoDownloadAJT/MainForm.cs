@@ -516,5 +516,14 @@ namespace HLAManualDownload
 
         }
 
+        private void btnDownloadMaterials_Click(object sender, EventArgs e)
+        {
+            DownloadMaterialInfo();
+        }
+
+        private void btnTagInfo_Click(object sender, EventArgs e)
+        {
+            DownloadTagInfo();
+        }
     }
 }

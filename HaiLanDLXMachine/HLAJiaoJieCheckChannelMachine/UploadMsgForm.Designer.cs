@@ -133,7 +133,7 @@
             // 
             this.btnReturn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReturn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.btnReturn.BackColor = System.Drawing.Color.Teal;
             this.btnReturn.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.btnReturn.DM_UseCustomBackColor = true;
             this.btnReturn.DM_UseCustomForeColor = true;
@@ -152,7 +152,7 @@
             // 
             this.btnReupload.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReupload.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.btnReupload.BackColor = System.Drawing.Color.Teal;
             this.btnReupload.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.btnReupload.DM_UseCustomBackColor = true;
             this.btnReupload.DM_UseCustomForeColor = true;
@@ -171,7 +171,7 @@
             // 
             this.metroButton1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.metroButton1.BackColor = System.Drawing.Color.Teal;
             this.metroButton1.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.metroButton1.DM_UseCustomBackColor = true;
             this.metroButton1.DM_UseCustomForeColor = true;
@@ -190,7 +190,7 @@
             // 
             this.metroButton2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.metroButton2.BackColor = System.Drawing.Color.Teal;
             this.metroButton2.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.metroButton2.DM_UseCustomBackColor = true;
             this.metroButton2.DM_UseCustomForeColor = true;
@@ -209,7 +209,7 @@
             // 
             this.metroButton3_cancel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.metroButton3_cancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.metroButton3_cancel.BackColor = System.Drawing.Color.Teal;
             this.metroButton3_cancel.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.metroButton3_cancel.DM_UseCustomBackColor = true;
             this.metroButton3_cancel.DM_UseCustomForeColor = true;

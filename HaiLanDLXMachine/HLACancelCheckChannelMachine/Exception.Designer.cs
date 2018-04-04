@@ -89,7 +89,7 @@
             // 
             // dataGridView1_Exp
             // 
-            this.dataGridView1_Exp.BackgroundColor = System.Drawing.SystemColors.Highlight;
+            this.dataGridView1_Exp.BackgroundColor = System.Drawing.Color.Teal;
             this.dataGridView1_Exp.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1_Exp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Hu,
@@ -103,6 +103,7 @@
             this.dataGridView1_Exp.MultiSelect = false;
             this.dataGridView1_Exp.Name = "dataGridView1_Exp";
             this.dataGridView1_Exp.ReadOnly = true;
+            this.dataGridView1_Exp.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1_Exp.RowTemplate.Height = 23;
             this.dataGridView1_Exp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1_Exp.Size = new System.Drawing.Size(899, 414);

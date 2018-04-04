@@ -833,18 +833,6 @@ namespace HLAPackingBoxChannelMachine
             InitView();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            if (isInventory)
-            {
-                //当前正在盘点，则判断上次读取时间和现在读取时间
-                if ((DateTime.Now - lastReadTime).TotalMilliseconds >= SysConfig.DelayTime)
-                {
-                    StopInventory();
-                }
-            }
-        }
-
         private void btnDocBox_Click(object sender, EventArgs e)
         {
             if (currentBoxList != null && currentBoxList.Exists(i => i.PACKRESULT == "E" && i.RESULT == "S"))

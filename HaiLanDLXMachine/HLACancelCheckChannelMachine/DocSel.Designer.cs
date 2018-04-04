@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView1_docBox = new System.Windows.Forms.DataGridView();
             this.DocNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -66,7 +67,7 @@
             // 
             // dataGridView1_docBox
             // 
-            this.dataGridView1_docBox.BackgroundColor = System.Drawing.SystemColors.Highlight;
+            this.dataGridView1_docBox.BackgroundColor = System.Drawing.Color.Teal;
             this.dataGridView1_docBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1_docBox.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DocNo,
@@ -76,6 +77,15 @@
             this.dataGridView1_docBox.MultiSelect = false;
             this.dataGridView1_docBox.Name = "dataGridView1_docBox";
             this.dataGridView1_docBox.ReadOnly = true;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1_docBox.RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView1_docBox.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("宋体", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.dataGridView1_docBox.RowTemplate.Height = 23;
             this.dataGridView1_docBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1_docBox.Size = new System.Drawing.Size(955, 414);

@@ -4398,7 +4398,7 @@ namespace HLACommonLib
         }
         #endregion
 
-        public static List<KeyValuePair<string,int>> GetCancelHuList(string lgnum)
+        public static List<KeyValuePair<string,int>> GetCancelHuList(string lgnum,List<string> cancelAuth)
         {
             try
             {
@@ -4425,8 +4425,11 @@ namespace HLACommonLib
                         KeyValuePair <string, int> box = new KeyValuePair<string,int>(
                             IrfTable.GetString("KXJFCODE"),
                             qty);
-                        
-                        list.Add(box);
+                        string THZLD = getZiDuan(IrfTable, "THZLD");
+                        if (cancelAuth.Exists(j => j == THZLD))
+                        {
+                            list.Add(box);
+                        }
                     }
 
                     RfcSessionManager.EndContext(dest);

@@ -32,16 +32,19 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dtpDate = new DMSkin.Metro.Controls.MetroDateTime();
-            this.pbgShippingLabel = new DMSkin.Metro.Controls.MetroProgressBar();
-            this.pbgOutlog = new DMSkin.Metro.Controls.MetroProgressBar();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnDownloadShippingLabel = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnDownloadOutLog = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.pbgShippingLabel = new DMSkin.Metro.Controls.MetroProgressBar();
+            this.pbgOutlog = new DMSkin.Metro.Controls.MetroProgressBar();
+            this.btnDownloadShippingLabel = new System.Windows.Forms.Button();
+            this.btnDownloadOutLog = new System.Windows.Forms.Button();
             this.downloadTabControl = new DMSkin.Metro.Controls.MetroTabControl();
             this.metroTabPage3 = new DMSkin.Metro.Controls.MetroTabPage();
+            this.pgbDeliverEpc = new DMSkin.Metro.Controls.MetroProgressBar();
+            this.btnUploadDeliverEpc = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.pgbTagInfo = new DMSkin.Metro.Controls.MetroProgressBar();
             this.pgbMaterialInfo = new DMSkin.Metro.Controls.MetroProgressBar();
             this.btnDownloadMaterials = new System.Windows.Forms.Button();
@@ -58,9 +61,6 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pgbDeliverEpc = new DMSkin.Metro.Controls.MetroProgressBar();
-            this.btnUploadDeliverEpc = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.downloadTabControl.SuspendLayout();
             this.metroTabPage3.SuspendLayout();
@@ -91,21 +91,6 @@
             this.dtpDate.Size = new System.Drawing.Size(341, 30);
             this.dtpDate.TabIndex = 55;
             // 
-            // pbgShippingLabel
-            // 
-            this.pbgShippingLabel.Location = new System.Drawing.Point(106, 261);
-            this.pbgShippingLabel.Name = "pbgShippingLabel";
-            this.pbgShippingLabel.Size = new System.Drawing.Size(342, 25);
-            this.pbgShippingLabel.Style = DMSkin.Metro.MetroColorStyle.Blue;
-            this.pbgShippingLabel.TabIndex = 54;
-            // 
-            // pbgOutlog
-            // 
-            this.pbgOutlog.Location = new System.Drawing.Point(106, 196);
-            this.pbgOutlog.Name = "pbgOutlog";
-            this.pbgOutlog.Size = new System.Drawing.Size(342, 26);
-            this.pbgOutlog.TabIndex = 54;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -115,20 +100,6 @@
             this.label1.Size = new System.Drawing.Size(74, 21);
             this.label1.TabIndex = 52;
             this.label1.Text = "选择日期";
-            // 
-            // btnDownloadShippingLabel
-            // 
-            this.btnDownloadShippingLabel.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnDownloadShippingLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDownloadShippingLabel.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnDownloadShippingLabel.ForeColor = System.Drawing.Color.White;
-            this.btnDownloadShippingLabel.Location = new System.Drawing.Point(472, 251);
-            this.btnDownloadShippingLabel.Name = "btnDownloadShippingLabel";
-            this.btnDownloadShippingLabel.Size = new System.Drawing.Size(140, 44);
-            this.btnDownloadShippingLabel.TabIndex = 48;
-            this.btnDownloadShippingLabel.Text = "同步发运标签";
-            this.btnDownloadShippingLabel.UseVisualStyleBackColor = false;
-            this.btnDownloadShippingLabel.Click += new System.EventHandler(this.btnDownloadShippingLabel_Click);
             // 
             // btnCancel
             // 
@@ -142,20 +113,6 @@
             this.btnCancel.TabIndex = 47;
             this.btnCancel.Text = "取消";
             this.btnCancel.UseVisualStyleBackColor = false;
-            // 
-            // btnDownloadOutLog
-            // 
-            this.btnDownloadOutLog.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnDownloadOutLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDownloadOutLog.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnDownloadOutLog.ForeColor = System.Drawing.Color.White;
-            this.btnDownloadOutLog.Location = new System.Drawing.Point(473, 185);
-            this.btnDownloadOutLog.Name = "btnDownloadOutLog";
-            this.btnDownloadOutLog.Size = new System.Drawing.Size(139, 44);
-            this.btnDownloadOutLog.TabIndex = 46;
-            this.btnDownloadOutLog.Text = "同步下架单";
-            this.btnDownloadOutLog.UseVisualStyleBackColor = false;
-            this.btnDownloadOutLog.Click += new System.EventHandler(this.btnDownloadOutLog_Click);
             // 
             // label5
             // 
@@ -176,6 +133,49 @@
             this.label4.Size = new System.Drawing.Size(58, 21);
             this.label4.TabIndex = 42;
             this.label4.Text = "下架单";
+            // 
+            // pbgShippingLabel
+            // 
+            this.pbgShippingLabel.Location = new System.Drawing.Point(106, 261);
+            this.pbgShippingLabel.Name = "pbgShippingLabel";
+            this.pbgShippingLabel.Size = new System.Drawing.Size(342, 25);
+            this.pbgShippingLabel.Style = DMSkin.Metro.MetroColorStyle.Blue;
+            this.pbgShippingLabel.TabIndex = 54;
+            // 
+            // pbgOutlog
+            // 
+            this.pbgOutlog.Location = new System.Drawing.Point(106, 196);
+            this.pbgOutlog.Name = "pbgOutlog";
+            this.pbgOutlog.Size = new System.Drawing.Size(342, 26);
+            this.pbgOutlog.TabIndex = 54;
+            // 
+            // btnDownloadShippingLabel
+            // 
+            this.btnDownloadShippingLabel.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnDownloadShippingLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDownloadShippingLabel.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnDownloadShippingLabel.ForeColor = System.Drawing.Color.White;
+            this.btnDownloadShippingLabel.Location = new System.Drawing.Point(472, 251);
+            this.btnDownloadShippingLabel.Name = "btnDownloadShippingLabel";
+            this.btnDownloadShippingLabel.Size = new System.Drawing.Size(140, 44);
+            this.btnDownloadShippingLabel.TabIndex = 48;
+            this.btnDownloadShippingLabel.Text = "同步发运标签";
+            this.btnDownloadShippingLabel.UseVisualStyleBackColor = false;
+            this.btnDownloadShippingLabel.Click += new System.EventHandler(this.btnDownloadShippingLabel_Click);
+            // 
+            // btnDownloadOutLog
+            // 
+            this.btnDownloadOutLog.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnDownloadOutLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDownloadOutLog.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnDownloadOutLog.ForeColor = System.Drawing.Color.White;
+            this.btnDownloadOutLog.Location = new System.Drawing.Point(473, 185);
+            this.btnDownloadOutLog.Name = "btnDownloadOutLog";
+            this.btnDownloadOutLog.Size = new System.Drawing.Size(139, 44);
+            this.btnDownloadOutLog.TabIndex = 46;
+            this.btnDownloadOutLog.Text = "同步下架单";
+            this.btnDownloadOutLog.UseVisualStyleBackColor = false;
+            this.btnDownloadOutLog.Click += new System.EventHandler(this.btnDownloadOutLog_Click);
             // 
             // downloadTabControl
             // 
@@ -220,6 +220,39 @@
             this.metroTabPage3.VerticalScrollbarDM_HighlightOnWheel = false;
             this.metroTabPage3.VerticalScrollbarSize = 10;
             // 
+            // pgbDeliverEpc
+            // 
+            this.pgbDeliverEpc.Location = new System.Drawing.Point(106, 322);
+            this.pgbDeliverEpc.Name = "pgbDeliverEpc";
+            this.pgbDeliverEpc.Size = new System.Drawing.Size(342, 23);
+            this.pgbDeliverEpc.TabIndex = 65;
+            // 
+            // btnUploadDeliverEpc
+            // 
+            this.btnUploadDeliverEpc.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnUploadDeliverEpc.FlatAppearance.BorderSize = 0;
+            this.btnUploadDeliverEpc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUploadDeliverEpc.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnUploadDeliverEpc.ForeColor = System.Drawing.Color.White;
+            this.btnUploadDeliverEpc.Location = new System.Drawing.Point(472, 312);
+            this.btnUploadDeliverEpc.Name = "btnUploadDeliverEpc";
+            this.btnUploadDeliverEpc.Size = new System.Drawing.Size(140, 40);
+            this.btnUploadDeliverEpc.TabIndex = 63;
+            this.btnUploadDeliverEpc.Text = "上传发运EPC";
+            this.btnUploadDeliverEpc.UseVisualStyleBackColor = false;
+            this.btnUploadDeliverEpc.Click += new System.EventHandler(this.btnUploadDeliverEpc_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.White;
+            this.label7.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label7.Location = new System.Drawing.Point(-7, 322);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(104, 21);
+            this.label7.TabIndex = 64;
+            this.label7.Text = "发运EPC上传";
+            // 
             // pgbTagInfo
             // 
             this.pgbTagInfo.Location = new System.Drawing.Point(106, 128);
@@ -247,6 +280,7 @@
             this.btnDownloadMaterials.TabIndex = 60;
             this.btnDownloadMaterials.Text = "下载物料";
             this.btnDownloadMaterials.UseVisualStyleBackColor = false;
+            this.btnDownloadMaterials.Click += new System.EventHandler(this.btnDownloadMaterials_Click);
             // 
             // btnTagInfo
             // 
@@ -261,6 +295,7 @@
             this.btnTagInfo.TabIndex = 59;
             this.btnTagInfo.Text = "下载吊牌";
             this.btnTagInfo.UseVisualStyleBackColor = false;
+            this.btnTagInfo.Click += new System.EventHandler(this.btnTagInfo_Click);
             // 
             // label10
             // 
@@ -375,39 +410,6 @@
             this.ExitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.ExitToolStripMenuItem.Text = "退出";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
-            // 
-            // pgbDeliverEpc
-            // 
-            this.pgbDeliverEpc.Location = new System.Drawing.Point(106, 322);
-            this.pgbDeliverEpc.Name = "pgbDeliverEpc";
-            this.pgbDeliverEpc.Size = new System.Drawing.Size(342, 23);
-            this.pgbDeliverEpc.TabIndex = 65;
-            // 
-            // btnUploadDeliverEpc
-            // 
-            this.btnUploadDeliverEpc.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnUploadDeliverEpc.FlatAppearance.BorderSize = 0;
-            this.btnUploadDeliverEpc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUploadDeliverEpc.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnUploadDeliverEpc.ForeColor = System.Drawing.Color.White;
-            this.btnUploadDeliverEpc.Location = new System.Drawing.Point(472, 312);
-            this.btnUploadDeliverEpc.Name = "btnUploadDeliverEpc";
-            this.btnUploadDeliverEpc.Size = new System.Drawing.Size(140, 40);
-            this.btnUploadDeliverEpc.TabIndex = 63;
-            this.btnUploadDeliverEpc.Text = "上传发运EPC";
-            this.btnUploadDeliverEpc.UseVisualStyleBackColor = false;
-            this.btnUploadDeliverEpc.Click += new System.EventHandler(this.btnUploadDeliverEpc_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.White;
-            this.label7.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label7.Location = new System.Drawing.Point(-7, 322);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(104, 21);
-            this.label7.TabIndex = 64;
-            this.label7.Text = "发运EPC上传";
             // 
             // MainForm
             // 
