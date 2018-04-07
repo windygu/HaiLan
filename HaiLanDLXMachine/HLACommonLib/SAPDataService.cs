@@ -20,47 +20,9 @@ using System.Configuration;
 
 namespace HLACommonLib
 {
-    #region 正式库使用
     public class SAPDataService
     {
         public static RfcConfigParameters rfcParams = new RfcConfigParameters();
-        public static void InitTest()
-        {
-            if (SysConfig.LGNUM == "HL01")
-            {
-                rfcParams.Add(RfcConfigParameters.Name, "HLA");
-            }
-            else if (SysConfig.LGNUM == "ET01")
-            {
-                rfcParams.Add(RfcConfigParameters.Name, "EHT");
-            }
-
-
-            if (SysConfig.UseGroupLogon == "1")
-            {
-                rfcParams.Add(RfcConfigParameters.LogonGroup, SysConfig.LogonGroup);
-                rfcParams.Add(RfcConfigParameters.SystemID, SysConfig.SystemID);
-                rfcParams.Add(RfcConfigParameters.MessageServerHost, SysConfig.MessageServerHost);
-                rfcParams.Add(RfcConfigParameters.MessageServerService, SysConfig.MessageServerService);
-
-                rfcParams.Add(RfcConfigParameters.User, SysConfig.User);  //用户名
-                rfcParams.Add(RfcConfigParameters.Password, SysConfig.Password);  //密码
-                rfcParams.Add(RfcConfigParameters.Client, SysConfig.Client);  // Client
-                rfcParams.Add(RfcConfigParameters.Language, SysConfig.Language);  //登陆语言
-            }
-            else
-            {
-                rfcParams.Add(RfcConfigParameters.AppServerHost, SysConfig.AppServerHost);   //SAP主机IP
-                rfcParams.Add(RfcConfigParameters.SystemNumber, SysConfig.SystemNumber);  //SAP实例
-                rfcParams.Add(RfcConfigParameters.User, SysConfig.User);  //用户名
-                rfcParams.Add(RfcConfigParameters.Password, SysConfig.Password);  //密码
-                rfcParams.Add(RfcConfigParameters.Client, SysConfig.Client);  // Client
-                rfcParams.Add(RfcConfigParameters.Language, SysConfig.Language);  //登陆语言
-                rfcParams.Add(RfcConfigParameters.PoolSize, SysConfig.PoolSize);
-                rfcParams.Add(RfcConfigParameters.PeakConnectionsLimit, SysConfig.PeakConnectionsLimit);
-                rfcParams.Add(RfcConfigParameters.IdleTimeout, SysConfig.IdleTimeout);
-            }
-        }
         public static void ReadSAPGroupConfig()
         {
             string UseGroupLogonStr = ConfigurationManager.AppSettings["UseGroupLogon"];
@@ -488,149 +450,6 @@ namespace HLACommonLib
 
             return false;
         }
-        public static List<MaterialInfo> GetMaterialInfoListByMATNRNew2(string lgnum, string MATNR)
-        {
-            try
-            {
-               
-                RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
-                RfcRepository rfcrep = dest.Repository;
-                IRfcFunction myfun = null;
-                myfun = rfcrep.CreateFunction("Z_EW_RFID_074");
-                myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
-                myfun.SetValue("IV_MATNR", MATNR);//产品编码（’M’的时候必须填写）
-                myfun.SetValue("IV_TYPE", "M");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                myfun.Invoke(dest);
-
-                IRfcTable IrfTable = myfun.GetTable("ET_OUTPUT");
-                //LogHelper.WriteLine(IrfTable.ToString());
-                //构建表结构
-                List<MaterialInfo> result = new List<MaterialInfo>();
-                //插入表数据
-                for (int i = 0; i < IrfTable.Count; i++)
-                {
-                    MaterialInfo item = new MaterialInfo();
-                    IrfTable.CurrentIndex = i;
-                    item.MATNR = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
-                    item.ZSATNR = IrfTable.GetString("ZSATNR");
-                    item.ZCOLSN = IrfTable.GetString("ZCOLSN");
-                    item.ZSIZTX = IrfTable.GetString("ZSIZTX");
-                    item.ZSUPC2 = IrfTable.GetString("ZSUPC2");
-                    item.PXQTY = IrfTable.GetInt("PXQTY");
-                    item.BRGEW = IrfTable.GetDouble("BRGEW");
-                    item.PUT_STRA = IrfTable.GetString("PUT_STRA");
-                    item.PXQTY_FH = IrfTable.GetInt("PXQTY_FH");
-                    item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
-                    item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
-                    //item.MAKTX = IrfTable.GetString("MAKTX");
-                    item.MAKTX = getZiDuan(IrfTable, "MAKTX");
-
-                    result.Add(item);
-                }
-
-                RfcSessionManager.EndContext(dest);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.Message, ex.StackTrace);
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// 根据产品编码获取物料信息
-        /// </summary>
-        /// <param name="lgnum">仓库编号</param>
-        /// <param name="MATNR">产品编码</param>
-        /// <returns></returns>
-        public static List<MaterialInfo> GetMaterialInfoListByMATNR(string lgnum, string MATNR)
-        {
-            try
-            {
-                if (SysConfig.IsTest)
-                {
-                    List<MaterialInfo> test = new List<MaterialInfo>();
-                    if (MATNR == "HKCAD3A191AL1011")
-                    {
-                        test.Add(new MaterialInfo()
-                        {
-                            MATNR = MATNR,
-                            PXQTY = 40,
-                            ZCOLSN = "L1F",
-                            ZSATNR = "HKCAD3A191A",
-                            ZSIZTX = "180/96A(38)",
-                            ZSUPC2 = "HA1K",
-                            PXQTY_FH =40,
-                            PXMAT = "待定",
-                            PXMAT_FH = "待定"
-                        });
-                    }
-                    else if (MATNR == "HKCAD3A191AL1009")
-                    {
-                        test.Add(new MaterialInfo()
-                        {
-                            MATNR = MATNR,
-                            PXQTY = 40,
-                            ZCOLSN = "L1F",
-                            ZSATNR = "HKCAD3A191A",
-                            ZSIZTX = "180/92A(36)",
-                            ZSUPC2 = "HA1K",
-                            PXQTY_FH = 40,
-                            PXMAT = "待定",
-                            PXMAT_FH = "待定"
-                        });
-                    }
-                    return test;
-                }
-                RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
-                RfcRepository rfcrep = dest.Repository;
-                IRfcFunction myfun = null;
-                myfun = rfcrep.CreateFunction("Z_EW_RFID_074");
-                myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
-                myfun.SetValue("IV_MATNR", MATNR);//产品编码（’M’的时候必须填写）
-                myfun.SetValue("IV_TYPE", "M");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                myfun.Invoke(dest);
-
-                IRfcTable IrfTable = myfun.GetTable("ET_OUTPUT");
-                //LogHelper.WriteLine(IrfTable.ToString());
-                //构建表结构
-                List<MaterialInfo> result = new List<MaterialInfo>();
-                //插入表数据
-                for (int i = 0; i < IrfTable.Count; i++)
-                {
-                    MaterialInfo item = new MaterialInfo();
-                    IrfTable.CurrentIndex = i;
-                    item.MATNR = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
-                    item.ZSATNR = IrfTable.GetString("ZSATNR");
-                    item.ZCOLSN = IrfTable.GetString("ZCOLSN");
-                    item.ZSIZTX = IrfTable.GetString("ZSIZTX");
-                    item.ZSUPC2 = IrfTable.GetString("ZSUPC2");
-                    item.PXQTY = IrfTable.GetInt("PXQTY");
-                    item.BRGEW = IrfTable.GetDouble("BRGEW");
-                    item.PUT_STRA = IrfTable.GetString("PUT_STRA");
-                    item.PXQTY_FH = IrfTable.GetInt("PXQTY_FH");
-                    item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
-                    item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
-                    //item.MAKTX = IrfTable.GetString("MAKTX");
-                    item.MAKTX = getZiDuan(IrfTable, "MAKTX");
-
-                    result.Add(item);
-                }
-
-                RfcSessionManager.EndContext(dest);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.Message, ex.StackTrace);
-            }
-
-            return null;
-        }
         public static string GetEpc(string lgnum, string barcode)
         {
             try
@@ -659,123 +478,55 @@ namespace HLACommonLib
 
             return "";
         }
-        public static List<MaterialInfo> GetMaterialInfoListAll(string lgnum)
-        {
-            List<MaterialInfo> mtrList = new List<MaterialInfo>();
-            try
-            {
-                DataTable mtrTable = SAPDataService.GetMaterialInfoListNotSetDate(lgnum, true);
 
-                foreach (DataRow row in mtrTable.Rows)
-                {
-                    MaterialInfo material = new MaterialInfo();
-                    material.MATNR = row["MATNR"] != null ? row["MATNR"].ToString() : "";
-                    int pxqty;
-                    int.TryParse(row["PXQTY"] != null ? row["PXQTY"].ToString() : "0", out pxqty);
-                    material.PXQTY = pxqty;
-                    int pxqty_fh;
-                    int.TryParse(row["PXQTY_FH"] != null ? row["PXQTY_FH"].ToString() : "0", out pxqty_fh);
-                    material.PXQTY_FH = pxqty_fh;
-                    material.ZCOLSN = row["ZCOLSN"] != null ? row["ZCOLSN"].ToString() : "";
-                    material.ZSATNR = row["ZSATNR"] != null ? row["ZSATNR"].ToString() : "";
-                    material.ZSIZTX = row["ZSIZTX"] != null ? row["ZSIZTX"].ToString() : "";
-                    material.ZSUPC2 = row["ZSUPC2"] != null ? row["ZSUPC2"].ToString() : "";
-                    material.PUT_STRA = row["PUT_STRA"] != null ? row["PUT_STRA"].ToString() : "";
-                    material.ZCOLSN_WFG = row["ZCOLSN_WFG"] != null ? row["ZCOLSN_WFG"].ToString() : "";
-                    material.PXMAT = row["PXMAT"] != null ? row["PXMAT"].ToString() : "";
-                    material.PXMAT_FH = row["PXMAT_FH"] != null ? row["PXMAT_FH"].ToString() : "";
-                    double brgew;
-                    double.TryParse(row["BRGEW"] != null ? row["BRGEW"].ToString() : "0", out brgew);
-                    material.BRGEW = brgew;
-
-                    material.MAKTX = row["MAKTX"] != null ? row["MAKTX"].ToString() : "";
-
-                    if (mtrList == null)
-                        mtrList = new List<MaterialInfo>();
-
-                    mtrList.Add(material);
-                }
-            }
-            catch
-            {
-
-            }
-            return mtrList;
-        }
-
-        public static DataTable GetMaterialInfoListNotSetDate(string lgnum, bool all = false)
+        /// <summary>
+        /// 根据产品编码获取物料信息
+        /// </summary>
+        /// <param name="lgnum">仓库编号</param>
+        /// <param name="MATNR">产品编码</param>
+        /// <returns></returns>
+        public static List<MaterialInfo> GetMaterialInfoListByMATNR(string lgnum, string MATNR)
         {
             try
             {
-                string dateFrom = all ? null : LocalDataService.GetSysInfoFieldValue("MaterialInfo");
-                //string dateFrom = "20150707";
-                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
-
                 RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
                 RfcRepository rfcrep = dest.Repository;
                 IRfcFunction myfun = null;
                 myfun = rfcrep.CreateFunction("Z_EW_RFID_074");
                 myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
-
-                myfun.SetValue("IV_MATNR", "");//产品编码（’M’的时候必须填写）
-                if (string.IsNullOrEmpty(dateFrom))
-                {
-                    dateFrom = "19900101";
-                    myfun.SetValue("IV_TYPE", "A");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                }
-                else
-                {
-                    myfun.SetValue("IV_TYPE", "D");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                }
-                myfun.SetValue("IV_DATE_F", dateFrom);//开始日期
-                myfun.SetValue("IV_DATE_T", dateEnd);//结束日期
+                myfun.SetValue("IV_MATNR", MATNR);//产品编码（’M’的时候必须填写）
+                myfun.SetValue("IV_TYPE", "M");//获取方式（’A’全部,’D’按日期,’M’按产品）
                 myfun.Invoke(dest);
 
                 IRfcTable IrfTable = myfun.GetTable("ET_OUTPUT");
-
+                //LogHelper.WriteLine(IrfTable.ToString());
                 //构建表结构
-                DataTable table = new DataTable();
-                table.Columns.Add("MATNR");
-                table.Columns.Add("ZSATNR");
-                table.Columns.Add("ZCOLSN");
-                table.Columns.Add("ZSIZTX");
-                table.Columns.Add("ZSUPC2");
-                table.Columns.Add("PXQTY", Type.GetType("System.Int32"));
-                table.Columns.Add("BRGEW", Type.GetType("System.Double"));
-                table.Columns.Add("PUT_STRA");
-                table.Columns.Add("PXQTY_FH", Type.GetType("System.Int32"));
-                table.Columns.Add("ZCOLSN_WFG");
-                table.Columns.Add("PXMAT_FH");
-                table.Columns.Add("PXMAT");
-                table.Columns.Add("MAKTX");
-
+                List<MaterialInfo> result = new List<MaterialInfo>();
                 //插入表数据
                 for (int i = 0; i < IrfTable.Count; i++)
                 {
+                    MaterialInfo item = new MaterialInfo();
                     IrfTable.CurrentIndex = i;
-                    DataRow dr = table.NewRow();
-                    dr["MATNR"] = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
-                    dr["ZSATNR"] = IrfTable.GetString("ZSATNR");
-                    dr["ZCOLSN"] = IrfTable.GetString("ZCOLSN");
-                    dr["ZSIZTX"] = IrfTable.GetString("ZSIZTX");
-                    dr["ZSUPC2"] = IrfTable.GetString("ZSUPC2");
-                    dr["PXQTY"] = IrfTable.GetInt("PXQTY");
-                    dr["BRGEW"] = IrfTable.GetDouble("BRGEW");
-                    dr["PUT_STRA"] = IrfTable.GetString("PUT_STRA");
-                    dr["PXQTY_FH"] = IrfTable.GetInt("PXQTY_FH");
-                    dr["ZCOLSN_WFG"] = IrfTable.GetString("ZCOLSN_WFG");
-                    dr["PXMAT"] = IrfTable.GetString("PXMAT").TrimStart('0');
-                    dr["PXMAT_FH"] = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    //dr["MAKTX"] = IrfTable.GetString("MAKTX");
-                    dr["MAKTX"] = getZiDuan(IrfTable, "MAKTX");
+                    item.MATNR = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
+                    item.ZSATNR = IrfTable.GetString("ZSATNR");
+                    item.ZCOLSN = IrfTable.GetString("ZCOLSN");
+                    item.ZSIZTX = IrfTable.GetString("ZSIZTX");
+                    item.ZSUPC2 = IrfTable.GetString("ZSUPC2");
+                    item.PXQTY = IrfTable.GetInt("PXQTY");
+                    item.BRGEW = IrfTable.GetDouble("BRGEW");
+                    item.PUT_STRA = IrfTable.GetString("PUT_STRA");
+                    item.PXQTY_FH = IrfTable.GetInt("PXQTY_FH");
+                    item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
+                    item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
+                    item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
+                    //item.MAKTX = IrfTable.GetString("MAKTX");
+                    item.MAKTX = getZiDuan(IrfTable, "MAKTX");
 
-
-                    table.Rows.Add(dr);
+                    result.Add(item);
                 }
 
                 RfcSessionManager.EndContext(dest);
-
-                return table;
+                return result;
             }
             catch (Exception ex)
             {
@@ -789,104 +540,16 @@ namespace HLACommonLib
         /// 获取物料主数据列表
         /// </summary>
         /// <returns></returns>
-        public static DataTable GetMaterialInfoList(string lgnum,bool all=false)
+        public static List<MaterialInfo> GetMaterialInfoList(string lgnum)
         {
             try
             {
-                string dateFrom = all ? null : LocalDataService.GetSysInfoFieldValue("MaterialInfo");
-                //string dateFrom = "20150707";
-                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
-
                 RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
                 RfcRepository rfcrep = dest.Repository;
                 IRfcFunction myfun = null;
                 myfun = rfcrep.CreateFunction("Z_EW_RFID_074");
                 myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
-                
-                myfun.SetValue("IV_MATNR", "");//产品编码（’M’的时候必须填写）
-                if (string.IsNullOrEmpty(dateFrom))
-                {
-                    dateFrom = "19900101";
-                    myfun.SetValue("IV_TYPE", "A");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                }
-                else
-                {
-                    myfun.SetValue("IV_TYPE", "D");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                }
-                myfun.SetValue("IV_DATE_F", dateFrom);//开始日期
-                myfun.SetValue("IV_DATE_T", dateEnd);//结束日期
-                myfun.Invoke(dest);
-
-                IRfcTable IrfTable = myfun.GetTable("ET_OUTPUT");
-
-                //构建表结构
-                DataTable table = new DataTable();
-                table.Columns.Add("MATNR");
-                table.Columns.Add("ZSATNR");
-                table.Columns.Add("ZCOLSN");
-                table.Columns.Add("ZSIZTX");
-                table.Columns.Add("ZSUPC2");
-                table.Columns.Add("PXQTY", Type.GetType("System.Int32"));
-                table.Columns.Add("BRGEW", Type.GetType("System.Double"));
-                table.Columns.Add("PUT_STRA");
-                table.Columns.Add("PXQTY_FH", Type.GetType("System.Int32"));
-                table.Columns.Add("ZCOLSN_WFG");
-                table.Columns.Add("PXMAT_FH");
-                table.Columns.Add("PXMAT");
-                table.Columns.Add("MAKTX");
-
-                //插入表数据
-                for (int i = 0; i < IrfTable.Count; i++)
-                {
-                    IrfTable.CurrentIndex = i;
-                    DataRow dr = table.NewRow();
-                    dr["MATNR"] = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
-                    dr["ZSATNR"] = IrfTable.GetString("ZSATNR");
-                    dr["ZCOLSN"] = IrfTable.GetString("ZCOLSN");
-                    dr["ZSIZTX"] = IrfTable.GetString("ZSIZTX");
-                    dr["ZSUPC2"] = IrfTable.GetString("ZSUPC2");
-                    dr["PXQTY"] = IrfTable.GetInt("PXQTY");
-                    dr["BRGEW"] = IrfTable.GetDouble("BRGEW");
-                    dr["PUT_STRA"] = IrfTable.GetString("PUT_STRA");
-                    dr["PXQTY_FH"] = IrfTable.GetInt("PXQTY_FH");
-                    dr["ZCOLSN_WFG"] = IrfTable.GetString("ZCOLSN_WFG");
-                    dr["PXMAT"] = IrfTable.GetString("PXMAT").TrimStart('0');
-                    dr["PXMAT_FH"] = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    //dr["MAKTX"] = IrfTable.GetString("MAKTX");
-                    dr["MAKTX"] = getZiDuan(IrfTable, "MAKTX");
-
-
-                    table.Rows.Add(dr);
-                }
-
-                RfcSessionManager.EndContext(dest);
-
-                LocalDataService.SaveSysInfo("MaterialInfo", dateEnd);
-
-                return table;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.Error(ex.Message, ex.StackTrace);
-            }
-
-            return null;
-        }
-
-        public static List<MaterialInfo> GetMaterialInfoListByDate(string lgnum, DateTime dateS, DateTime dateE)
-        {
-            try
-            {
-
-                RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
-                RfcRepository rfcrep = dest.Repository;
-                IRfcFunction myfun = null;
-                myfun = rfcrep.CreateFunction("Z_EW_RFID_074");
-                myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
-                myfun.SetValue("IV_DATE_F", dateS.ToString("yyyyMMdd"));//开始日期
-                myfun.SetValue("IV_DATE_T", dateE.ToString("yyyyMMdd"));//结束日期
-                myfun.SetValue("IV_MATNR", "");//产品编码（’M’的时候必须填写）
-                myfun.SetValue("IV_TYPE", "D");//获取方式（’A’全部,’D’按日期,’M’按产品）
+                myfun.SetValue("IV_TYPE", "A");
                 myfun.Invoke(dest);
 
                 IRfcTable IrfTable = myfun.GetTable("ET_OUTPUT");
@@ -911,7 +574,6 @@ namespace HLACommonLib
                     item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
                     item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
                     item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    //item.MAKTX = IrfTable.GetString("MAKTX");
                     item.MAKTX = getZiDuan(IrfTable, "MAKTX");
 
 
@@ -919,7 +581,6 @@ namespace HLACommonLib
                 }
 
                 RfcSessionManager.EndContext(dest);
-
 
                 return materialList;
             }
@@ -931,8 +592,7 @@ namespace HLACommonLib
             return null;
         }
 
-
-        public static List<MaterialInfo> GetMaterialInfoList(string lgnum, DateTime date)
+        public static List<MaterialInfo> GetMaterialInfoListByDate(string lgnum, string dateS, string dateE)
         {
             try
             {
@@ -942,9 +602,8 @@ namespace HLACommonLib
                 IRfcFunction myfun = null;
                 myfun = rfcrep.CreateFunction("Z_EW_RFID_074");
                 myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
-                myfun.SetValue("IV_DATE_F", date.ToString("yyyyMMdd"));//开始日期
-                myfun.SetValue("IV_DATE_T", date.AddDays(1).ToString("yyyyMMdd"));//结束日期
-                myfun.SetValue("IV_MATNR", "");//产品编码（’M’的时候必须填写）
+                myfun.SetValue("IV_DATE_F", dateS);//开始日期
+                myfun.SetValue("IV_DATE_T", dateE);//结束日期
                 myfun.SetValue("IV_TYPE", "D");//获取方式（’A’全部,’D’按日期,’M’按产品）
                 myfun.Invoke(dest);
 
@@ -970,8 +629,8 @@ namespace HLACommonLib
                     item.ZCOLSN_WFG = IrfTable.GetString("ZCOLSN_WFG");
                     item.PXMAT = IrfTable.GetString("PXMAT").TrimStart('0');
                     item.PXMAT_FH = IrfTable.GetString("PXMAT_FH").TrimStart('0');
-                    //item.MAKTX = IrfTable.GetString("MAKTX");
                     item.MAKTX = getZiDuan(IrfTable, "MAKTX");
+
 
                     materialList.Add(item);
                 }
@@ -1053,12 +712,10 @@ namespace HLACommonLib
         }
 
 
-        public static List<HLATagInfo> GetHLATagInfoListByDate(string lgnum, DateTime dateS,DateTime dateE)
+        public static List<HLATagInfo> GetHLATagInfoListByDate(string lgnum, string dateFrom,string dateEnd)
         {
             try
             {
-                string dateFrom = dateS.ToString("yyyyMMdd");
-                string dateEnd = dateE.ToString("yyyyMMdd");
                 RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
                 RfcRepository rfcrep = dest.Repository;
                 IRfcFunction myfun = null;
@@ -1107,63 +764,42 @@ namespace HLACommonLib
         /// 获取吊牌信息列表
         /// </summary>
         /// <returns></returns>
-        public static DataTable GetTagInfoList(string lgnum,bool all=false)
+        public static List<HLATagInfo> GetTagInfoList(string lgnum)
         {
             try
             {
-                string dateFrom = all ? null : LocalDataService.GetSysInfoFieldValue("TagInfo");
-                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
                 RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
                 RfcRepository rfcrep = dest.Repository;
                 IRfcFunction myfun = null;
                 myfun = rfcrep.CreateFunction("Z_EW_RFID_014");
                 myfun.SetValue("IV_LGNUM", lgnum);//仓库编号
-                myfun.SetValue("IV_MATNR", "");//产品编码（’M’的时候必须填写）
-                if (string.IsNullOrEmpty(dateFrom))
-                {
-                    dateFrom = "19900101";
-                    myfun.SetValue("IV_TYPE", "A");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                }
-                else
-                    myfun.SetValue("IV_TYPE", "D");//获取方式（’A’全部,’D’按日期,’M’按产品）
-                myfun.SetValue("IV_DATE_F", dateFrom);//开始日期
-                myfun.SetValue("IV_DATE_T", dateEnd);//结束日期
+                myfun.SetValue("IV_TYPE", "A");//获取方式（’A’全部,’D’按日期,’M’按产品）
                 myfun.Invoke(dest);
 
                 IRfcTable IrfTable = myfun.GetTable("ET_OUTPUT");
 
-                //构建表结构
-                DataTable table = new DataTable();
-                table.Columns.Add("MATNR");
-                table.Columns.Add("CHARG");
-                table.Columns.Add("BARCD");
-                table.Columns.Add("BARCD_ADD");
-                table.Columns.Add("RFID_EPC");
-                table.Columns.Add("RFID_ADD_EPC");
-                table.Columns.Add("BARDL");
-                table.Columns.Add("LIFNR");
+                List<HLATagInfo> result = new List<HLATagInfo>();
 
                 //插入表数据
                 for (int i = 0; i < IrfTable.Count; i++)
                 {
                     IrfTable.CurrentIndex = i;
-                    DataRow dr = table.NewRow();
-                    dr["MATNR"] = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
-                    dr["CHARG"] = IrfTable.GetString("CHARG");
-                    dr["BARCD"] = IrfTable.GetString("BARCD");
-                    dr["BARCD_ADD"] = IrfTable.GetString("BARCD_ADD");
-                    dr["RFID_EPC"] = IrfTable.GetString("RFID_EPC");
-                    dr["RFID_ADD_EPC"] = IrfTable.GetString("RFID_ADD_EPC");
-                    dr["BARDL"] = IrfTable.GetString("BARDL");
-                    dr["LIFNR"] = IrfTable.GetString("LIFNR");
-                    table.Rows.Add(dr);
+                    HLATagInfo tag = new HLATagInfo();
+
+                    tag.MATNR = !string.IsNullOrEmpty(IrfTable.GetString("MATNR")) ? IrfTable.GetString("MATNR").TrimStart('0') : "";
+                    tag.CHARG = IrfTable.GetString("CHARG");
+                    tag.BARCD = IrfTable.GetString("BARCD");
+                    tag.BARCD_ADD = IrfTable.GetString("BARCD_ADD");
+                    tag.RFID_EPC = IrfTable.GetString("RFID_EPC");
+                    tag.RFID_ADD_EPC = IrfTable.GetString("RFID_ADD_EPC");
+                    tag.BARDL = IrfTable.GetString("BARDL");
+                    tag.LIFNR = IrfTable.GetString("LIFNR");
+                    result.Add(tag);
                 }
 
                 RfcSessionManager.EndContext(dest);
-                //MessageBox.Show(table.Rows.Count.ToString());
-                LocalDataService.SaveSysInfo("TagInfo", dateEnd);
 
-                return table;
+                return result;
             }
             catch (Exception ex)
             {
@@ -4821,280 +4457,5 @@ namespace HLACommonLib
         }
 
     }
-#endregion
 
-#region 测试使用相关代码
-    public class TSAPDataService
-    {
-        public static void Init()
-        {
-        }
-
-        public static bool Login(string username, string password)
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// 获取物料主数据列表
-        /// </summary>
-        /// <returns></returns>
-        public static DataTable GetMaterialInfoList(string lgnum)
-        {
-            DataTable table = new DataTable();
-            table.Columns.Add("MATNR");
-            table.Columns.Add("ZSATNR");
-            table.Columns.Add("ZCOLSN");
-            table.Columns.Add("ZSIZTX");
-            table.Columns.Add("ZSUPC2");
-            table.Columns.Add("PXQTY");
-
-            DataRow row = table.NewRow();
-            row["MATNR"] = "1";
-            row["ZSATNR"] = "p1";
-            row["ZCOLSN"] = "s1";
-            row["ZSIZTX"] = "g1";
-            row["ZSUPC2"] = "d1";
-            row["PXQTY"] = 1;
-            table.Rows.Add(row);
-
-            row = table.NewRow();
-            row["MATNR"] = "2";
-            row["ZSATNR"] = "p2";
-            row["ZCOLSN"] = "s2";
-            row["ZSIZTX"] = "g2";
-            row["ZSUPC2"] = "d2";
-            row["PXQTY"] = 2;
-            table.Rows.Add(row);
-
-            row = table.NewRow();
-            row["MATNR"] = "3";
-            row["ZSATNR"] = "p3";
-            row["ZCOLSN"] = "s3";
-            row["ZSIZTX"] = "g3";
-            row["ZSUPC2"] = "d3";
-            row["PXQTY"] = 3;
-            table.Rows.Add(row);
-
-            return table;
-        }
-
-        /// <summary>
-        /// 获取吊牌信息列表
-        /// </summary>
-        /// <returns></returns>
-        public static DataTable GetTagInfoList(string lgnum)
-        {
-            DataTable table = new DataTable();
-            table.Columns.Add("MATNR");
-            table.Columns.Add("CHARG");
-            table.Columns.Add("BARCD");
-            table.Columns.Add("BARCD_ADD");
-            table.Columns.Add("RFID_EPC");
-            table.Columns.Add("RFID_ADD_EPC");
-            table.Columns.Add("BARDL");
-
-            DataRow row = table.NewRow();
-            row["MATNR"] = "1";
-            row["CHARG"] = "p1";
-            row["BARCD"] = "z1";
-            row["BARCD_ADD"] = "f1";
-            row["RFID_EPC"] = "e1";
-            row["RFID_ADD_EPC"] = "fe1";
-            row["BARDL"] = "";
-            table.Rows.Add(row);
-
-            row = table.NewRow();
-            row["MATNR"] = "2";
-            row["CHARG"] = "p2";
-            row["BARCD"] = "z2";
-            row["BARCD_ADD"] = "f2";
-            row["RFID_EPC"] = "e2";
-            row["RFID_ADD_EPC"] = "fe2";
-            row["BARDL"] = "";
-            table.Rows.Add(row);
-
-            row = table.NewRow();
-            row["MATNR"] = "3";
-            row["CHARG"] = "p3";
-            row["BARCD"] = "z3";
-            row["BARCD_ADD"] = "f3";
-            row["RFID_EPC"] = "e3";
-            row["RFID_ADD_EPC"] = "fe3";
-            row["BARDL"] = "";
-            table.Rows.Add(row);
-
-            return table;
-        }
-
-        /// <summary>
-        /// 上传Epc明细
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="epcList"></param>
-        /// <returns></returns>
-        public static bool UploadEpcDetails(string key, List<string> epcList)
-        {
-            string[] parts = key.Split(',');
-            string lgnum = parts[0];
-            string docno = parts[1];
-            string doccat = parts[2];
-            string hu = parts[3];
-
-            if (true)
-            {
-                //设置epc明细为已处理
-                LocalDataService.SetEpcDetailsHandled(lgnum, docno, doccat, hu, Model.ENUM.ReceiveType.交货单收货);
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// 获取交货单信息列表
-        /// </summary>
-        /// <returns></returns>
-        public static List<DocInfo> GetDocInfoList(string lgnum, DateTime dlv, string docno)
-        {
-            DataTable table = new DataTable();
-            table.Columns.Add("DOCNO");
-            table.Columns.Add("DOCTYPE");
-            table.Columns.Add("ZXZWC");
-            table.Columns.Add("ZZJWC");
-            table.Columns.Add("GRDATE");
-
-            DataRow row = table.NewRow();
-            row["DOCNO"] = "1";
-            row["DOCTYPE"] = "p1";
-            row["ZXZWC"] = "X";
-            row["ZZJWC"] = "A";
-            row["GRDATE"] = "2015-06-04";
-            table.Rows.Add(row);
-
-            row = table.NewRow();
-            row["DOCNO"] = "2";
-            row["DOCTYPE"] = "p2";
-            row["ZXZWC"] = "X";
-            row["ZZJWC"] = "A";
-            row["GRDATE"] = "2015-06-04";
-            table.Rows.Add(row);
-
-            List<DocInfo> list = new List<DocInfo>();
-            if (table != null && table.Rows.Count > 0)
-            {
-                foreach (DataRow tempRow in table.Rows)
-                {
-                    DocInfo di = new DocInfo();
-                    di.DOCNO = tempRow["DOCNO"].ToString();
-                    di.DOCTYPE = tempRow["DOCTYPE"].ToString();
-                    di.ZXZWC = tempRow["ZXZWC"].ToString();
-                    di.ZZJWC = tempRow["ZZJWC"].ToString();
-                    di.GRDATE = tempRow["GRDATE"].ToString();
-
-                    list.Add(di);
-                }
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// 获取交货单明细列表
-        /// </summary>
-        /// <param name="lgnum"></param>
-        /// <param name="docno"></param>
-        /// <returns></returns>
-        public static List<DocDetailInfo> GetDocDetailInfoList(string lgnum, string docno)
-        {
-            DataTable table = new DataTable();
-            table.Columns.Add("DOCNO");
-            table.Columns.Add("ITEMNO");
-            table.Columns.Add("PRODUCTNO");
-            table.Columns.Add("QTY");
-            table.Columns.Add("ZCHARG");
-
-            DataRow row = table.NewRow();
-            row["DOCNO"] = "1";
-            row["ITEMNO"] = "h1";
-            row["PRODUCTNO"] = "p001";
-            row["QTY"] = "1";
-            row["ZCHARG"] = "p1";
-            table.Rows.Add(row);
-
-            row = table.NewRow();
-            row["DOCNO"] = "2";
-            row["ITEMNO"] = "h2";
-            row["PRODUCTNO"] = "p002";
-            row["QTY"] = "2";
-            row["ZCHARG"] = "p2";
-            table.Rows.Add(row);
-
-            List<MaterialInfo> materialInfoList = LocalDataService.GetMaterialInfoList();
-            List<DocDetailInfo> list = new List<DocDetailInfo>();
-            if (table != null && table.Rows.Count > 0)
-            {
-                foreach (DataRow tempRow in table.Rows)
-                {
-                    DocDetailInfo item = new DocDetailInfo();
-                    item.DOCNO = tempRow["DOCNO"].ToString();
-                    item.ITEMNO = tempRow["ITEMNO"].ToString();
-                    item.PRODUCTNO = tempRow["PRODUCTNO"].ToString();
-                    item.QTY = int.Parse(tempRow["QTY"].ToString());
-                    item.ZCHARG = tempRow["ZCHARG"].ToString();
-                    if (materialInfoList != null)
-                    {
-                        MaterialInfo mi = materialInfoList.FirstOrDefault(o => o.MATNR == item.PRODUCTNO);
-                        if (mi != null)
-                        {
-                            item.ZSATNR = mi.ZSATNR;
-                            item.ZCOLSN = mi.ZCOLSN;
-                            item.ZSIZTX = mi.ZSIZTX;
-                        }
-                    }
-
-                    list.Add(item);
-                }
-            }
-
-            return list;
-        }
-
-        /// <summary>
-        /// 获取箱码
-        /// </summary>
-        /// <returns></returns>
-        public static string GetBoxNo(string lgnum)
-        {
-            string boxNo = "1001";
-
-            return boxNo;
-        }
-
-        /// <summary>
-        /// 上传包装箱信息
-        /// </summary>
-        /// <param name="lgnum"></param>
-        /// <param name="docno"></param>
-        /// <param name="hu"></param>
-        /// <param name="inventoryResult"></param>
-        /// <param name="errorMsg"></param>
-        /// <param name="tagDetailList"></param>
-        /// <returns></returns>
-        public static bool UploadBoxInfo(string lgnum, string docno, string hu, bool inventoryResult, string errorMsg, Dictionary<string, TagDetailInfoExtend> tagDetailList, RunMode ztype, string subuser, string louceng)
-        {
-            List<string> barcodelist = tagDetailList.Values.Select(o => o.BARCD).Distinct().ToList();//获取条码列表
-            if (barcodelist != null && barcodelist.Count > 0)
-            {
-                foreach (string barcode in barcodelist)
-                {
-                    int qty = tagDetailList.Values.Count(o => o.BARCD == barcode);//统计对应条码的数量
-
-
-                }
-            }
-
-            return true;
-        }
-    }
-#endregion
 }

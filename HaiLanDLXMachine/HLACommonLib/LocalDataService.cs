@@ -2509,10 +2509,14 @@ VALUES ", param[0].HU);
         {
             try
             {
+                /*
                 string sql = "P_materialinfo_GetByPickTask ";
                 SqlParameter p1 = DBHelper.CreateParameter("@PICK_TASK", picktask);
 
                 DataTable dt = DBHelper.GetTable(sql, true, p1);
+                */
+                string sql = string.Format("SELECT * FROM dbo.materialinfo WHERE MATNR IN(SELECT PRODUCTNO FROM dbo.InventoryOutLogDetail WHERE PICK_TASK = '{0}' )", picktask);
+                DataTable dt = DBHelper.GetTable(sql, false);
 
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -2533,12 +2537,16 @@ VALUES ", param[0].HU);
                         item.PUT_STRA = row["PUT_STRA"].CastTo("");
                         item.PXMAT_FH = row["PXMAT_FH"].CastTo("");
                         item.PXMAT = row["PXMAT"].CastTo("");
+                        item.MAKTX = row["MAKTX"].CastTo("");
+
                         list.Add(item);
                     }
                     return list;
                 }
 
                 return null;
+                
+
             }
             catch (Exception ex)
             {
@@ -2556,10 +2564,15 @@ VALUES ", param[0].HU);
         {
             try
             {
+                /*
                 string sql = "P_taginfo_GetByPickTask ";
                 SqlParameter p1 = DBHelper.CreateParameter("@PICK_TASK", picktask);
 
                 DataTable dt = DBHelper.GetTable(sql, true, p1);
+                */
+
+                string sql = string.Format("SELECT * FROM dbo.taginfo WHERE MATNR IN (SELECT PRODUCTNO FROM dbo.InventoryOutLogDetail WHERE PICK_TASK = '{0}' )", picktask);
+                DataTable dt = DBHelper.GetTable(sql, false);
 
                 if (dt != null && dt.Rows.Count > 0)
                 {
@@ -2644,9 +2657,11 @@ VALUES ", param[0].HU);
                 SqlParameter p11 = DBHelper.CreateParameter("@ZCOLSN_WFG", m.ZCOLSN_WFG);
                 SqlParameter p12 = DBHelper.CreateParameter("@PXMAT_FH", m.PXMAT_FH);
                 SqlParameter p13 = DBHelper.CreateParameter("@PXMAT", m.PXMAT);
+                SqlParameter p14 = DBHelper.CreateParameter("@MAKTX", m.MAKTX);
+
                 sql = @"INSERT INTO materialinfo (MATNR, ZSATNR, ZCOLSN, ZSIZTX, ZSUPC2, PXQTY, PXQTY_FH,BRGEW,PUT_STRA,ZCOLSN_WFG,PXMAT_FH,PXMAT) 
-VALUES (@MATNR, @ZSATNR, @ZCOLSN, @ZSIZTX, @ZSUPC2, @PXQTY,@PXQTY_FH,@BRGEW,@PUT_STRA,@ZCOLSN_WFG,@PXMAT_FH,@PXMAT)";
-                int result = DBHelper.ExecuteSql(sql, false, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,p12,p13);
+VALUES (@MATNR, @ZSATNR, @ZCOLSN, @ZSIZTX, @ZSUPC2, @PXQTY,@PXQTY_FH,@BRGEW,@PUT_STRA,@ZCOLSN_WFG,@PXMAT_FH,@PXMAT,@MAKTX)";
+                int result = DBHelper.ExecuteSql(sql, false, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,p12,p13,p14);
                 return result > 0 ? true : false;
             }
             else if(num == -1)
@@ -2667,12 +2682,14 @@ VALUES (@MATNR, @ZSATNR, @ZCOLSN, @ZSIZTX, @ZSUPC2, @PXQTY,@PXQTY_FH,@BRGEW,@PUT
                 SqlParameter p11 = DBHelper.CreateParameter("@ZCOLSN_WFG", m.ZCOLSN_WFG);
                 SqlParameter p12 = DBHelper.CreateParameter("@PXMAT_FH", m.PXMAT_FH);
                 SqlParameter p13 = DBHelper.CreateParameter("@PXMAT", m.PXMAT);
+                SqlParameter p14 = DBHelper.CreateParameter("@MAKTX", m.MAKTX);
+
                 sql = @"UPDATE materialinfo SET ZSATNR = @ZSATNR, ZCOLSN = @ZCOLSN, ZSIZTX = @ZSIZTX, 
                             ZSUPC2 = @ZSUPC2, PXQTY = @PXQTY,PXQTY_FH=@PXQTY_FH,BRGEW=@BRGEW,Timestamp=GETDATE(),
-                            PUT_STRA=@PUT_STRA,ZCOLSN_WFG=@ZCOLSN_WFG,PXMAT_FH=@PXMAT_FH,PXMAT=@PXMAT
+                            PUT_STRA=@PUT_STRA,ZCOLSN_WFG=@ZCOLSN_WFG,PXMAT_FH=@PXMAT_FH,PXMAT=@PXMAT,MAKTX=@MAKTX 
                         WHERE MATNR = @MATNR";
 
-                int result = DBHelper.ExecuteSql(sql, false, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,p12,p13);
+                int result = DBHelper.ExecuteSql(sql, false, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,p12,p13,p14);
                 return result > 0 ? true : false;
             }
         }
@@ -2813,6 +2830,7 @@ WHERE LGNUM = @LGNUM AND DOCNO = @DOCNO AND DOCCAT = @DOCCAT AND HU = @HU", type
                     item.PXQTY = row["PXQTY"].CastTo(0);
                     item.BRGEW = row["BRGEW"].CastTo(0);
                     item.PXQTY_FH = row["PXQTY_FH"].CastTo(0);
+                    item.MAKTX = row["MAKTX"].CastTo("");
                     list.Add(item);
                 }
                 return list;
@@ -2823,7 +2841,6 @@ WHERE LGNUM = @LGNUM AND DOCNO = @DOCNO AND DOCCAT = @DOCCAT AND HU = @HU", type
 
         public static Dictionary<string, MaterialInfo> GetMaterialInfoDic()
         {
-            //string sql = "SELECT MATNR, ZSATNR, ZCOLSN, ZSIZTX, ZSUPC2, PXQTY FROM materialinfo";
             string sql = "SELECT * FROM materialinfo WHERE MATNR IN (SELECT MATNR FROM taginfo WHERE ISNULL(RFID_EPC, '')!='')";
             DataTable table = DBHelper.GetTable(sql, false);
 
@@ -2847,7 +2864,8 @@ WHERE LGNUM = @LGNUM AND DOCNO = @DOCNO AND DOCCAT = @DOCCAT AND HU = @HU", type
                     double.TryParse(row["BRGEW"].ToString(), out brgew);
                     item.BRGEW = brgew;
                     item.PXQTY_FH = row["PXQTY_FH"].CastTo(0);
-                    if(!list.ContainsKey(item.MATNR))
+                    item.MAKTX = row["MAKTX"].CastTo("");
+                    if (!list.ContainsKey(item.MATNR))
                         list.Add(item.MATNR, item);
                 }
                 return list;

@@ -97,7 +97,7 @@
             this.grouper2.BackgroundColor = System.Drawing.Color.White;
             this.grouper2.BackgroundGradientColor = System.Drawing.Color.White;
             this.grouper2.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
-            this.grouper2.BorderColor = System.Drawing.Color.SkyBlue;
+            this.grouper2.BorderColor = System.Drawing.Color.Teal;
             this.grouper2.BorderThickness = 1F;
             this.grouper2.Controls.Add(this.cbUseBoxStandard);
             this.grouper2.Controls.Add(this.btnSwitchStandardBox);
@@ -161,7 +161,7 @@
             // btnSwitchStandardBox
             // 
             this.btnSwitchStandardBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSwitchStandardBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnSwitchStandardBox.BackColor = System.Drawing.Color.Teal;
             this.btnSwitchStandardBox.FlatAppearance.BorderColor = System.Drawing.Color.SkyBlue;
             this.btnSwitchStandardBox.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
             this.btnSwitchStandardBox.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
@@ -702,7 +702,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(1036, 662);
             this.Controls.Add(this.grouper4);
             this.Controls.Add(this.grouper2);

@@ -96,7 +96,6 @@ namespace HLAYKChannelMachine
             this.label16 = new System.Windows.Forms.Label();
             this.lblQty = new System.Windows.Forms.Label();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
-            this.label13 = new System.Windows.Forms.Label();
             this.SOURCE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TARGET = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -105,6 +104,7 @@ namespace HLAYKChannelMachine
             this.ZSIZTX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.QTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label13 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -250,12 +250,13 @@ namespace HLAYKChannelMachine
             // 
             // lblCheckSku
             // 
+            this.lblCheckSku.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblCheckSku.BackColor = System.Drawing.Color.White;
             this.lblCheckSku.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
             this.lblCheckSku.DM_Font_Size = 10F;
             this.lblCheckSku.DM_Key = DMSkin.Controls.DMLabelKey.错误;
             this.lblCheckSku.DM_Text = "";
-            this.lblCheckSku.Location = new System.Drawing.Point(201, 528);
+            this.lblCheckSku.Location = new System.Drawing.Point(201, 533);
             this.lblCheckSku.Name = "lblCheckSku";
             this.lblCheckSku.Size = new System.Drawing.Size(15, 15);
             this.lblCheckSku.TabIndex = 18;
@@ -338,12 +339,13 @@ namespace HLAYKChannelMachine
             // 
             // lblCheckPinSe
             // 
+            this.lblCheckPinSe.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblCheckPinSe.BackColor = System.Drawing.Color.White;
             this.lblCheckPinSe.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
             this.lblCheckPinSe.DM_Font_Size = 10F;
             this.lblCheckPinSe.DM_Key = DMSkin.Controls.DMLabelKey.错误;
             this.lblCheckPinSe.DM_Text = "";
-            this.lblCheckPinSe.Location = new System.Drawing.Point(36, 486);
+            this.lblCheckPinSe.Location = new System.Drawing.Point(36, 488);
             this.lblCheckPinSe.Name = "lblCheckPinSe";
             this.lblCheckPinSe.Size = new System.Drawing.Size(15, 15);
             this.lblCheckPinSe.TabIndex = 18;
@@ -352,12 +354,13 @@ namespace HLAYKChannelMachine
             // 
             // lblUsePrint
             // 
+            this.lblUsePrint.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblUsePrint.BackColor = System.Drawing.Color.White;
             this.lblUsePrint.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
             this.lblUsePrint.DM_Font_Size = 10F;
             this.lblUsePrint.DM_Key = DMSkin.Controls.DMLabelKey.错误;
             this.lblUsePrint.DM_Text = "";
-            this.lblUsePrint.Location = new System.Drawing.Point(36, 528);
+            this.lblUsePrint.Location = new System.Drawing.Point(36, 534);
             this.lblUsePrint.Name = "lblUsePrint";
             this.lblUsePrint.Size = new System.Drawing.Size(15, 15);
             this.lblUsePrint.TabIndex = 18;
@@ -366,12 +369,13 @@ namespace HLAYKChannelMachine
             // 
             // lblUseBoxStandard
             // 
+            this.lblUseBoxStandard.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblUseBoxStandard.BackColor = System.Drawing.Color.White;
             this.lblUseBoxStandard.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
             this.lblUseBoxStandard.DM_Font_Size = 10F;
             this.lblUseBoxStandard.DM_Key = DMSkin.Controls.DMLabelKey.错误;
             this.lblUseBoxStandard.DM_Text = "";
-            this.lblUseBoxStandard.Location = new System.Drawing.Point(201, 486);
+            this.lblUseBoxStandard.Location = new System.Drawing.Point(201, 489);
             this.lblUseBoxStandard.Name = "lblUseBoxStandard";
             this.lblUseBoxStandard.Size = new System.Drawing.Size(15, 15);
             this.lblUseBoxStandard.TabIndex = 18;
@@ -380,6 +384,7 @@ namespace HLAYKChannelMachine
             // 
             // lblUseSize
             // 
+            this.lblUseSize.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblUseSize.BackColor = System.Drawing.Color.White;
             this.lblUseSize.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
             this.lblUseSize.DM_Font_Size = 10F;
@@ -394,6 +399,7 @@ namespace HLAYKChannelMachine
             // 
             // lblUsePs
             // 
+            this.lblUsePs.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.lblUsePs.BackColor = System.Drawing.Color.White;
             this.lblUsePs.DM_Color = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(163)))), ((int)(((byte)(203)))));
             this.lblUsePs.DM_Font_Size = 10F;
@@ -1260,18 +1266,6 @@ namespace HLAYKChannelMachine
             this.grid.Size = new System.Drawing.Size(875, 670);
             this.grid.TabIndex = 18;
             // 
-            // label13
-            // 
-            this.label13.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label13.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label13.ForeColor = System.Drawing.Color.Teal;
-            this.label13.Location = new System.Drawing.Point(0, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(875, 40);
-            this.label13.TabIndex = 19;
-            this.label13.Text = "复核明细";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // SOURCE
             // 
             this.SOURCE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -1345,6 +1339,18 @@ namespace HLAYKChannelMachine
             this.MSG.Name = "MSG";
             this.MSG.ReadOnly = true;
             this.MSG.Width = 70;
+            // 
+            // label13
+            // 
+            this.label13.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label13.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label13.ForeColor = System.Drawing.Color.Teal;
+            this.label13.Location = new System.Drawing.Point(0, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(875, 40);
+            this.label13.TabIndex = 19;
+            this.label13.Text = "复核明细";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // InventoryForm
             // 

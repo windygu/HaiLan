@@ -53,13 +53,13 @@
             this.lblReader = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
-            this.label2 = new System.Windows.Forms.Label();
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZSATNR = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZCOLSN = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZSIZTX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.QTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -152,7 +152,7 @@
             this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnStart.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Image = null;
             this.btnStart.Location = new System.Drawing.Point(26, 372);
             this.btnStart.Margin = new System.Windows.Forms.Padding(0);
@@ -178,7 +178,7 @@
             this.btnPause.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnPause.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnPause.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnPause.ForeColor = System.Drawing.Color.Teal;
             this.btnPause.Image = null;
             this.btnPause.Location = new System.Drawing.Point(26, 487);
             this.btnPause.Margin = new System.Windows.Forms.Padding(0);
@@ -203,7 +203,7 @@
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Image = null;
             this.btnClose.Location = new System.Drawing.Point(26, 612);
             this.btnClose.Margin = new System.Windows.Forms.Padding(0);
@@ -387,7 +387,7 @@
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label1.ForeColor = System.Drawing.Color.Teal;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(337, 40);
@@ -458,20 +458,6 @@
             this.grid.Size = new System.Drawing.Size(880, 672);
             this.grid.TabIndex = 19;
             // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label2.Location = new System.Drawing.Point(0, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(880, 40);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "复核明细";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // HU
             // 
             this.HU.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -527,6 +513,20 @@
             this.MSG.Name = "MSG";
             this.MSG.ReadOnly = true;
             this.MSG.Width = 70;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.White;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.ForeColor = System.Drawing.Color.Teal;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(880, 40);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "复核明细";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // InventoryForm
             // 

@@ -40,13 +40,6 @@ namespace HLAManualDownload
 
             AppConfig.Load();
 
-#if DEBUG
-            SysConfig.LGNUM = "HL01";
-            SysConfig.DeviceNO = "08F041";
-            SysConfig.DBUrl = @"Data Source=172.18.10.98;Initial Catalog=heilandb;User ID=sa;password=xindeco.123456";
-
-#else
-
             if (arg.Length >= 3)
             {               
                 SysConfig.LGNUM = arg[0];
@@ -58,7 +51,7 @@ namespace HLAManualDownload
                 SysConfig.DBUrl = ConfigurationManager.ConnectionStrings["ConnStr"].ConnectionString;
                 SysConfig.LGNUM = ConfigurationManager.AppSettings["LGNUM"];
             }
-#endif
+
             if (AutoUpdate.Update(SoftwareType.通道机主数据手工下载系统))
             {
                 //载入默认配置

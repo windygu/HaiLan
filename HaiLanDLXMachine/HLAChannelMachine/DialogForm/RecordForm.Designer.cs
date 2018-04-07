@@ -56,10 +56,10 @@
             // grouper1
             // 
             this.grouper1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.grouper1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.grouper1.BackgroundColor = System.Drawing.Color.Teal;
             this.grouper1.BackgroundGradientColor = System.Drawing.Color.Transparent;
             this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.Vertical;
-            this.grouper1.BorderColor = System.Drawing.Color.SkyBlue;
+            this.grouper1.BorderColor = System.Drawing.Color.Teal;
             this.grouper1.BorderThickness = 1F;
             this.grouper1.Controls.Add(this.label5);
             this.grouper1.Controls.Add(this.dtpEnd);
@@ -178,7 +178,7 @@
             this.btnSearch.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSearch.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.btnSearch.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnSearch.ForeColor = System.Drawing.Color.Teal;
             this.btnSearch.Location = new System.Drawing.Point(702, 35);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(92, 81);
@@ -203,7 +203,7 @@
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.OrangeRed;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Location = new System.Drawing.Point(77, 626);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(717, 61);
@@ -291,7 +291,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(955, 780);
             this.Controls.Add(this.grouper1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

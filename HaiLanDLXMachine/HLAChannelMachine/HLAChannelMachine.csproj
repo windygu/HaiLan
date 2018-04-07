@@ -163,6 +163,12 @@
     <Compile Include="DialogForm\DocDetailForm.Designer.cs">
       <DependentUpon>DocDetailForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DialogForm\DocNoInputFormNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForm\DocNoInputFormNew.Designer.cs">
+      <DependentUpon>DocNoInputFormNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="DialogForm\DocNoInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +193,12 @@
     <Compile Include="DialogForm\PBForm.Designer.cs">
       <DependentUpon>PBForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DialogForm\UploadFormNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForm\UploadFormNew.Designer.cs">
+      <DependentUpon>UploadFormNew.cs</DependentUpon>
+    </Compile>
     <Compile Include="DialogForm\UploadMsgForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -198,6 +210,12 @@
     </Compile>
     <Compile Include="InventoryForm.Designer.cs">
       <DependentUpon>InventoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InventoryMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InventoryMainForm.Designer.cs">
+      <DependentUpon>InventoryMainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -259,6 +277,9 @@
     <EmbeddedResource Include="DialogForm\DocDetailForm.resx">
       <DependentUpon>DocDetailForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogForm\DocNoInputFormNew.resx">
+      <DependentUpon>DocNoInputFormNew.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\DocNoInputForm.resx">
       <DependentUpon>DocNoInputForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -271,11 +292,17 @@
     <EmbeddedResource Include="DialogForm\PBForm.resx">
       <DependentUpon>PBForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogForm\UploadFormNew.resx">
+      <DependentUpon>UploadFormNew.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\UploadMsgForm.resx">
       <DependentUpon>UploadMsgForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InventoryForm.resx">
       <DependentUpon>InventoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InventoryMainForm.resx">
+      <DependentUpon>InventoryMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
@@ -352,16 +379,6 @@
     <Content Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HLACommonLib\HLACommonLib.csproj">
-      <Project>{E936AA4C-E048-49EB-8755-4827453D1B10}</Project>
-      <Name>HLACommonLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HLACommonView\HLACommonView.csproj">
-      <Project>{65902545-3d81-4490-8a17-7aef8e94293a}</Project>
-      <Name>HLACommonView</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
@@ -380,6 +397,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HLACommonLib\HLACommonLib.csproj">
+      <Project>{e936aa4c-e048-49eb-8755-4827453d1b10}</Project>
+      <Name>HLACommonLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HLACommonView\HLACommonView.csproj">
+      <Project>{65902545-3d81-4490-8a17-7aef8e94293a}</Project>
+      <Name>HLACommonView</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

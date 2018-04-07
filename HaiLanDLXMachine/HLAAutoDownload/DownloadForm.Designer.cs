@@ -32,12 +32,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadForm));
             this.label7 = new System.Windows.Forms.Label();
             this.btnUploadDeliverEpc = new System.Windows.Forms.Button();
-            this.btnDownloadMaterials = new System.Windows.Forms.Button();
-            this.btnTagInfo = new System.Windows.Forms.Button();
             this.btnDownloadShippingLabel = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnDownloadEbBox = new System.Windows.Forms.Button();
-            this.btnDownloadOutLog = new System.Windows.Forms.Button();
             this.btnDownload = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -59,31 +56,18 @@
             this.pgbEpcInfo = new DMSkin.Metro.Controls.MetroProgressBar();
             this.pgbTagInfo = new DMSkin.Metro.Controls.MetroProgressBar();
             this.pgbMaterialInfo = new DMSkin.Metro.Controls.MetroProgressBar();
-            this.btnReturnType = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.metroTabPage2 = new DMSkin.Metro.Controls.MetroTabPage();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.metroTabPage3 = new DMSkin.Metro.Controls.MetroTabPage();
-            this.pbOutAndShipTag = new DMSkin.Metro.Controls.MetroProgressBar();
-            this.pbMaterialAndTag = new DMSkin.Metro.Controls.MetroProgressBar();
-            this.dtOutAndShipTag = new DMSkin.Metro.Controls.MetroDateTime();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.btnOutAndShipTag = new System.Windows.Forms.Button();
-            this.btnMaterialAndTag = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.txtMatnr = new DMSkin.Metro.Controls.MetroTextBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.lblSAP = new System.Windows.Forms.Label();
-            this.button1_fenjiefuhe = new System.Windows.Forms.Button();
-            this.fendiefuhe_time = new DMSkin.Metro.Controls.MetroDateTime();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14_msg_manual = new System.Windows.Forms.Label();
+            this.btnReturnType = new System.Windows.Forms.Button();
+            this.btnDownloadOutLog = new System.Windows.Forms.Button();
+            this.btnTagInfo = new System.Windows.Forms.Button();
+            this.btnDownloadMaterials = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.metroTabControl1.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.metroTabPage2.SuspendLayout();
-            this.metroTabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label7
@@ -111,36 +95,6 @@
             this.btnUploadDeliverEpc.Text = "上传发运EPC";
             this.btnUploadDeliverEpc.UseVisualStyleBackColor = false;
             this.btnUploadDeliverEpc.Click += new System.EventHandler(this.btnUploadDeliverEpc_Click);
-            // 
-            // btnDownloadMaterials
-            // 
-            this.btnDownloadMaterials.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnDownloadMaterials.FlatAppearance.BorderSize = 0;
-            this.btnDownloadMaterials.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDownloadMaterials.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnDownloadMaterials.ForeColor = System.Drawing.Color.White;
-            this.btnDownloadMaterials.Location = new System.Drawing.Point(483, 18);
-            this.btnDownloadMaterials.Name = "btnDownloadMaterials";
-            this.btnDownloadMaterials.Size = new System.Drawing.Size(140, 40);
-            this.btnDownloadMaterials.TabIndex = 50;
-            this.btnDownloadMaterials.Text = "下载物料";
-            this.btnDownloadMaterials.UseVisualStyleBackColor = false;
-            this.btnDownloadMaterials.Click += new System.EventHandler(this.btnDownloadMaterials_Click);
-            // 
-            // btnTagInfo
-            // 
-            this.btnTagInfo.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnTagInfo.FlatAppearance.BorderSize = 0;
-            this.btnTagInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTagInfo.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnTagInfo.ForeColor = System.Drawing.Color.White;
-            this.btnTagInfo.Location = new System.Drawing.Point(629, 18);
-            this.btnTagInfo.Name = "btnTagInfo";
-            this.btnTagInfo.Size = new System.Drawing.Size(140, 40);
-            this.btnTagInfo.TabIndex = 49;
-            this.btnTagInfo.Text = "下载吊牌";
-            this.btnTagInfo.UseVisualStyleBackColor = false;
-            this.btnTagInfo.Click += new System.EventHandler(this.btnTagInfo_Click);
             // 
             // btnDownloadShippingLabel
             // 
@@ -186,21 +140,6 @@
             this.btnDownloadEbBox.Text = "下载16#分拣复核装箱信息";
             this.btnDownloadEbBox.UseVisualStyleBackColor = false;
             this.btnDownloadEbBox.Click += new System.EventHandler(this.btnDownloadEbBox_Click);
-            // 
-            // btnDownloadOutLog
-            // 
-            this.btnDownloadOutLog.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnDownloadOutLog.FlatAppearance.BorderSize = 0;
-            this.btnDownloadOutLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDownloadOutLog.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnDownloadOutLog.ForeColor = System.Drawing.Color.White;
-            this.btnDownloadOutLog.Location = new System.Drawing.Point(629, 64);
-            this.btnDownloadOutLog.Name = "btnDownloadOutLog";
-            this.btnDownloadOutLog.Size = new System.Drawing.Size(140, 40);
-            this.btnDownloadOutLog.TabIndex = 46;
-            this.btnDownloadOutLog.Text = "同步下架单";
-            this.btnDownloadOutLog.UseVisualStyleBackColor = false;
-            this.btnDownloadOutLog.Click += new System.EventHandler(this.btnDownloadOutLog_Click);
             // 
             // btnDownload
             // 
@@ -309,13 +248,12 @@
             // 
             this.metroTabControl1.Controls.Add(this.metroTabPage1);
             this.metroTabControl1.Controls.Add(this.metroTabPage2);
-            this.metroTabControl1.Controls.Add(this.metroTabPage3);
             this.metroTabControl1.DM_FontSize = DMSkin.Metro.MetroTabControlSize.Tall;
             this.metroTabControl1.DM_UseSelectable = true;
             this.metroTabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.metroTabControl1.Location = new System.Drawing.Point(10, 30);
             this.metroTabControl1.Name = "metroTabControl1";
-            this.metroTabControl1.SelectedIndex = 2;
+            this.metroTabControl1.SelectedIndex = 0;
             this.metroTabControl1.Size = new System.Drawing.Size(787, 380);
             this.metroTabControl1.TabIndex = 45;
             // 
@@ -426,21 +364,6 @@
             this.pgbMaterialInfo.Size = new System.Drawing.Size(342, 23);
             this.pgbMaterialInfo.TabIndex = 54;
             // 
-            // btnReturnType
-            // 
-            this.btnReturnType.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnReturnType.FlatAppearance.BorderSize = 0;
-            this.btnReturnType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReturnType.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnReturnType.ForeColor = System.Drawing.Color.White;
-            this.btnReturnType.Location = new System.Drawing.Point(483, 202);
-            this.btnReturnType.Name = "btnReturnType";
-            this.btnReturnType.Size = new System.Drawing.Size(286, 40);
-            this.btnReturnType.TabIndex = 46;
-            this.btnReturnType.Text = "下载整理库退货类型";
-            this.btnReturnType.UseVisualStyleBackColor = false;
-            this.btnReturnType.Click += new System.EventHandler(this.btnReturnType_Click);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -477,150 +400,6 @@
             this.txtLog.Size = new System.Drawing.Size(779, 333);
             this.txtLog.TabIndex = 2;
             // 
-            // metroTabPage3
-            // 
-            this.metroTabPage3.Controls.Add(this.label14_msg_manual);
-            this.metroTabPage3.Controls.Add(this.label13);
-            this.metroTabPage3.Controls.Add(this.fendiefuhe_time);
-            this.metroTabPage3.Controls.Add(this.button1_fenjiefuhe);
-            this.metroTabPage3.Controls.Add(this.pbOutAndShipTag);
-            this.metroTabPage3.Controls.Add(this.pbMaterialAndTag);
-            this.metroTabPage3.Controls.Add(this.dtOutAndShipTag);
-            this.metroTabPage3.Controls.Add(this.label11);
-            this.metroTabPage3.Controls.Add(this.label12);
-            this.metroTabPage3.Controls.Add(this.btnOutAndShipTag);
-            this.metroTabPage3.Controls.Add(this.btnMaterialAndTag);
-            this.metroTabPage3.Controls.Add(this.label10);
-            this.metroTabPage3.Controls.Add(this.txtMatnr);
-            this.metroTabPage3.Controls.Add(this.label9);
-            this.metroTabPage3.HorizontalScrollbarBarColor = true;
-            this.metroTabPage3.HorizontalScrollbarDM_HighlightOnWheel = false;
-            this.metroTabPage3.HorizontalScrollbarSize = 10;
-            this.metroTabPage3.Location = new System.Drawing.Point(4, 43);
-            this.metroTabPage3.Name = "metroTabPage3";
-            this.metroTabPage3.Size = new System.Drawing.Size(779, 333);
-            this.metroTabPage3.TabIndex = 2;
-            this.metroTabPage3.Text = "手工服务";
-            this.metroTabPage3.VerticalScrollbarBarColor = true;
-            this.metroTabPage3.VerticalScrollbarDM_HighlightOnWheel = false;
-            this.metroTabPage3.VerticalScrollbarSize = 10;
-            // 
-            // pbOutAndShipTag
-            // 
-            this.pbOutAndShipTag.Location = new System.Drawing.Point(142, 136);
-            this.pbOutAndShipTag.Name = "pbOutAndShipTag";
-            this.pbOutAndShipTag.Size = new System.Drawing.Size(423, 35);
-            this.pbOutAndShipTag.TabIndex = 55;
-            // 
-            // pbMaterialAndTag
-            // 
-            this.pbMaterialAndTag.Location = new System.Drawing.Point(142, 54);
-            this.pbMaterialAndTag.Name = "pbMaterialAndTag";
-            this.pbMaterialAndTag.Size = new System.Drawing.Size(423, 35);
-            this.pbMaterialAndTag.TabIndex = 55;
-            // 
-            // dtOutAndShipTag
-            // 
-            this.dtOutAndShipTag.Location = new System.Drawing.Point(142, 97);
-            this.dtOutAndShipTag.MinimumSize = new System.Drawing.Size(0, 30);
-            this.dtOutAndShipTag.Name = "dtOutAndShipTag";
-            this.dtOutAndShipTag.Size = new System.Drawing.Size(423, 30);
-            this.dtOutAndShipTag.TabIndex = 54;
-            // 
-            // label11
-            // 
-            this.label11.BackColor = System.Drawing.Color.White;
-            this.label11.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label11.Location = new System.Drawing.Point(3, 102);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(133, 21);
-            this.label11.TabIndex = 52;
-            this.label11.Text = "发运日期";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label12
-            // 
-            this.label12.BackColor = System.Drawing.Color.White;
-            this.label12.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label12.Location = new System.Drawing.Point(3, 143);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(133, 21);
-            this.label12.TabIndex = 53;
-            this.label12.Text = "下架单/发运标签";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnOutAndShipTag
-            // 
-            this.btnOutAndShipTag.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnOutAndShipTag.FlatAppearance.BorderSize = 0;
-            this.btnOutAndShipTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOutAndShipTag.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnOutAndShipTag.ForeColor = System.Drawing.Color.White;
-            this.btnOutAndShipTag.Location = new System.Drawing.Point(584, 96);
-            this.btnOutAndShipTag.Margin = new System.Windows.Forms.Padding(0);
-            this.btnOutAndShipTag.Name = "btnOutAndShipTag";
-            this.btnOutAndShipTag.Size = new System.Drawing.Size(180, 75);
-            this.btnOutAndShipTag.TabIndex = 51;
-            this.btnOutAndShipTag.Text = "下载下架单/发运标签";
-            this.btnOutAndShipTag.UseVisualStyleBackColor = false;
-            this.btnOutAndShipTag.Click += new System.EventHandler(this.btnOutAndShipTag_Click);
-            // 
-            // btnMaterialAndTag
-            // 
-            this.btnMaterialAndTag.BackColor = System.Drawing.Color.DodgerBlue;
-            this.btnMaterialAndTag.FlatAppearance.BorderSize = 0;
-            this.btnMaterialAndTag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMaterialAndTag.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.btnMaterialAndTag.ForeColor = System.Drawing.Color.White;
-            this.btnMaterialAndTag.Location = new System.Drawing.Point(584, 13);
-            this.btnMaterialAndTag.Margin = new System.Windows.Forms.Padding(0);
-            this.btnMaterialAndTag.Name = "btnMaterialAndTag";
-            this.btnMaterialAndTag.Size = new System.Drawing.Size(180, 76);
-            this.btnMaterialAndTag.TabIndex = 51;
-            this.btnMaterialAndTag.Text = "下载物料/吊牌";
-            this.btnMaterialAndTag.UseVisualStyleBackColor = false;
-            this.btnMaterialAndTag.Click += new System.EventHandler(this.btnMaterialAndTag_Click);
-            // 
-            // label10
-            // 
-            this.label10.BackColor = System.Drawing.Color.White;
-            this.label10.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label10.Location = new System.Drawing.Point(3, 61);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(133, 21);
-            this.label10.TabIndex = 43;
-            this.label10.Text = "物料/吊牌";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtMatnr
-            // 
-            this.txtMatnr.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtMatnr.DM_FontSize = DMSkin.Metro.MetroTextBoxSize.Medium;
-            this.txtMatnr.DM_UseSelectable = true;
-            this.txtMatnr.Lines = new string[0];
-            this.txtMatnr.Location = new System.Drawing.Point(142, 13);
-            this.txtMatnr.MaxLength = 32767;
-            this.txtMatnr.Multiline = true;
-            this.txtMatnr.Name = "txtMatnr";
-            this.txtMatnr.PasswordChar = '\0';
-            this.txtMatnr.PromptText = "输入产品编码，多个产品编码用;隔开";
-            this.txtMatnr.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtMatnr.SelectedText = "";
-            this.txtMatnr.Size = new System.Drawing.Size(423, 35);
-            this.txtMatnr.TabIndex = 42;
-            this.txtMatnr.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label9
-            // 
-            this.label9.BackColor = System.Drawing.Color.White;
-            this.label9.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label9.Location = new System.Drawing.Point(3, 20);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(133, 21);
-            this.label9.TabIndex = 41;
-            this.label9.Text = "产品编码";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lblSAP
             // 
             this.lblSAP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -632,50 +411,65 @@
             this.lblSAP.TabIndex = 52;
             this.lblSAP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // button1_fenjiefuhe
+            // btnReturnType
             // 
-            this.button1_fenjiefuhe.BackColor = System.Drawing.Color.DodgerBlue;
-            this.button1_fenjiefuhe.FlatAppearance.BorderSize = 0;
-            this.button1_fenjiefuhe.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1_fenjiefuhe.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.button1_fenjiefuhe.ForeColor = System.Drawing.Color.White;
-            this.button1_fenjiefuhe.Location = new System.Drawing.Point(584, 192);
-            this.button1_fenjiefuhe.Name = "button1_fenjiefuhe";
-            this.button1_fenjiefuhe.Size = new System.Drawing.Size(180, 68);
-            this.button1_fenjiefuhe.TabIndex = 57;
-            this.button1_fenjiefuhe.Text = "下载16#分拣复核装箱信息";
-            this.button1_fenjiefuhe.UseVisualStyleBackColor = false;
-            this.button1_fenjiefuhe.Click += new System.EventHandler(this.button1_fenjiefuhe_Click);
+            this.btnReturnType.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnReturnType.FlatAppearance.BorderSize = 0;
+            this.btnReturnType.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReturnType.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnReturnType.ForeColor = System.Drawing.Color.White;
+            this.btnReturnType.Location = new System.Drawing.Point(483, 202);
+            this.btnReturnType.Name = "btnReturnType";
+            this.btnReturnType.Size = new System.Drawing.Size(286, 40);
+            this.btnReturnType.TabIndex = 46;
+            this.btnReturnType.Text = "下载整理库退货类型";
+            this.btnReturnType.UseVisualStyleBackColor = false;
+            this.btnReturnType.Click += new System.EventHandler(this.btnReturnType_Click);
             // 
-            // fendiefuhe_time
+            // btnDownloadOutLog
             // 
-            this.fendiefuhe_time.Location = new System.Drawing.Point(142, 212);
-            this.fendiefuhe_time.MinimumSize = new System.Drawing.Size(0, 30);
-            this.fendiefuhe_time.Name = "fendiefuhe_time";
-            this.fendiefuhe_time.Size = new System.Drawing.Size(423, 30);
-            this.fendiefuhe_time.TabIndex = 58;
+            this.btnDownloadOutLog.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnDownloadOutLog.FlatAppearance.BorderSize = 0;
+            this.btnDownloadOutLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDownloadOutLog.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnDownloadOutLog.ForeColor = System.Drawing.Color.White;
+            this.btnDownloadOutLog.Location = new System.Drawing.Point(629, 64);
+            this.btnDownloadOutLog.Name = "btnDownloadOutLog";
+            this.btnDownloadOutLog.Size = new System.Drawing.Size(140, 40);
+            this.btnDownloadOutLog.TabIndex = 46;
+            this.btnDownloadOutLog.Text = "同步下架单";
+            this.btnDownloadOutLog.UseVisualStyleBackColor = false;
+            this.btnDownloadOutLog.Click += new System.EventHandler(this.btnDownloadOutLog_Click);
             // 
-            // label13
+            // btnTagInfo
             // 
-            this.label13.BackColor = System.Drawing.Color.White;
-            this.label13.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label13.Location = new System.Drawing.Point(3, 216);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(133, 21);
-            this.label13.TabIndex = 59;
-            this.label13.Text = "分拣复合日期";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnTagInfo.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnTagInfo.FlatAppearance.BorderSize = 0;
+            this.btnTagInfo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTagInfo.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnTagInfo.ForeColor = System.Drawing.Color.White;
+            this.btnTagInfo.Location = new System.Drawing.Point(629, 18);
+            this.btnTagInfo.Name = "btnTagInfo";
+            this.btnTagInfo.Size = new System.Drawing.Size(140, 40);
+            this.btnTagInfo.TabIndex = 49;
+            this.btnTagInfo.Text = "下载吊牌";
+            this.btnTagInfo.UseVisualStyleBackColor = false;
+            this.btnTagInfo.Click += new System.EventHandler(this.btnTagInfo_Click);
             // 
-            // label14_msg_manual
+            // btnDownloadMaterials
             // 
-            this.label14_msg_manual.BackColor = System.Drawing.Color.White;
-            this.label14_msg_manual.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label14_msg_manual.Location = new System.Drawing.Point(18, 296);
-            this.label14_msg_manual.Name = "label14_msg_manual";
-            this.label14_msg_manual.Size = new System.Drawing.Size(746, 21);
-            this.label14_msg_manual.TabIndex = 60;
-            this.label14_msg_manual.Text = "msg";
-            this.label14_msg_manual.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnDownloadMaterials.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnDownloadMaterials.FlatAppearance.BorderSize = 0;
+            this.btnDownloadMaterials.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDownloadMaterials.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.btnDownloadMaterials.ForeColor = System.Drawing.Color.White;
+            this.btnDownloadMaterials.Location = new System.Drawing.Point(483, 18);
+            this.btnDownloadMaterials.Name = "btnDownloadMaterials";
+            this.btnDownloadMaterials.Size = new System.Drawing.Size(140, 40);
+            this.btnDownloadMaterials.TabIndex = 50;
+            this.btnDownloadMaterials.Text = "下载物料";
+            this.btnDownloadMaterials.UseVisualStyleBackColor = false;
+            this.btnDownloadMaterials.Click += new System.EventHandler(this.btnDownloadMaterials_Click);
             // 
             // DownloadForm
             // 
@@ -699,7 +493,6 @@
             this.metroTabPage1.PerformLayout();
             this.metroTabPage2.ResumeLayout(false);
             this.metroTabPage2.PerformLayout();
-            this.metroTabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -713,10 +506,7 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ExitToolStripMenuItem;
-        private System.Windows.Forms.Button btnDownloadOutLog;
         private System.Windows.Forms.Button btnDownloadShippingLabel;
-        private System.Windows.Forms.Button btnTagInfo;
-        private System.Windows.Forms.Button btnDownloadMaterials;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnDownloadEbBox;
@@ -728,7 +518,6 @@
         private DMSkin.Metro.Controls.MetroTabPage metroTabPage2;
         private System.Windows.Forms.Label lblSAP;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btnReturnType;
         private System.Windows.Forms.TextBox txtLog;
         private DMSkin.Metro.Controls.MetroProgressBar pbReturnType;
         private DMSkin.Metro.Controls.MetroProgressBar pgbDeliverEpc;
@@ -738,21 +527,10 @@
         private DMSkin.Metro.Controls.MetroProgressBar pgbEpcInfo;
         private DMSkin.Metro.Controls.MetroProgressBar pgbTagInfo;
         private DMSkin.Metro.Controls.MetroProgressBar pgbMaterialInfo;
-        private DMSkin.Metro.Controls.MetroTabPage metroTabPage3;
-        private System.Windows.Forms.Label label9;
-        private DMSkin.Metro.Controls.MetroTextBox txtMatnr;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Button btnMaterialAndTag;
-        private System.Windows.Forms.Label label10;
-        private DMSkin.Metro.Controls.MetroDateTime dtOutAndShipTag;
-        private System.Windows.Forms.Button btnOutAndShipTag;
-        private DMSkin.Metro.Controls.MetroProgressBar pbOutAndShipTag;
-        private DMSkin.Metro.Controls.MetroProgressBar pbMaterialAndTag;
         private System.Windows.Forms.CheckBox EbXCheckBox;
-        private System.Windows.Forms.Label label13;
-        private DMSkin.Metro.Controls.MetroDateTime fendiefuhe_time;
-        private System.Windows.Forms.Button button1_fenjiefuhe;
-        private System.Windows.Forms.Label label14_msg_manual;
+        private System.Windows.Forms.Button btnReturnType;
+        private System.Windows.Forms.Button btnDownloadMaterials;
+        private System.Windows.Forms.Button btnTagInfo;
+        private System.Windows.Forms.Button btnDownloadOutLog;
     }
 }

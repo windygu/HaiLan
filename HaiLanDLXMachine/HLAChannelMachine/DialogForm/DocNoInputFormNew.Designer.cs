@@ -1,6 +1,6 @@
 ﻿namespace HLAChannelMachine
 {
-    partial class DocNoInputForm
+    partial class DocNoInputFormNew
     {
         /// <summary>
         /// Required designer variable.
@@ -195,7 +195,7 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "输入单号：";
             // 
-            // DocNoInputForm
+            // DocNoInputFormNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -203,7 +203,7 @@
             this.ClientSize = new System.Drawing.Size(810, 522);
             this.Controls.Add(this.grouper1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "DocNoInputForm";
+            this.Name = "DocNoInputFormNew";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "海澜之家收货系统";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

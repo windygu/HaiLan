@@ -46,9 +46,9 @@
             // grouper1
             // 
             this.grouper1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.grouper1.BackgroundColor = System.Drawing.Color.White;
-            this.grouper1.BackgroundGradientColor = System.Drawing.Color.SteelBlue;
-            this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.Vertical;
+            this.grouper1.BackgroundColor = System.Drawing.Color.Teal;
+            this.grouper1.BackgroundGradientColor = System.Drawing.Color.Teal;
+            this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouper1.BorderColor = System.Drawing.Color.Black;
             this.grouper1.BorderThickness = 1F;
             this.grouper1.Controls.Add(this.btnSearch);
@@ -74,6 +74,7 @@
             // btnSearch
             // 
             this.btnSearch.Font = new System.Drawing.Font("微软雅黑", 15F);
+            this.btnSearch.ForeColor = System.Drawing.Color.Teal;
             this.btnSearch.Location = new System.Drawing.Point(476, 23);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(92, 44);
@@ -93,6 +94,7 @@
             // btnClose
             // 
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 15F);
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Location = new System.Drawing.Point(305, 414);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(92, 44);
@@ -165,7 +167,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(19)))), ((int)(((byte)(56)))), ((int)(((byte)(91)))));
+            this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(806, 502);
             this.Controls.Add(this.grouper1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

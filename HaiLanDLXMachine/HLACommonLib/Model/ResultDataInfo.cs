@@ -108,7 +108,7 @@ namespace HLACommonLib.Model
         /// <summary>
         /// 数量
         /// </summary>
-        public int QTY { get; private set; }
+        public int QTY { get; set; }
 
         public ListViewTagInfo(string _MATNR, string _ZSATNR, string _ZCOLSN, string _ZSIZTX, string _CHARG, int _QTY)
         {

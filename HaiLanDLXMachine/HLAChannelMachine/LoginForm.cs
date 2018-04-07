@@ -37,7 +37,7 @@ namespace HLAChannelMachine
                 //缓存当前登录用户
                 SysConfig.CurrentLoginUser = new HLACommonLib.Model.UserInfo() { UserId = User, Password = Password };
                 SysConfig.DeviceInfo.LOUCENG = cboLouceng.Text.Trim();
-                InventoryForm form = new InventoryForm();
+                InventoryMainForm form = new InventoryMainForm();
                 form.ShowDialog();
             }
             else

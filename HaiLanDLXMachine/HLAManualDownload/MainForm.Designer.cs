@@ -52,6 +52,8 @@
             this.shipDateTime = new DMSkin.Metro.Controls.MetroDateTime();
             this.label9 = new System.Windows.Forms.Label();
             this.grouper1 = new CodeVendor.Controls.Grouper();
+            this.button1_downloadmat = new System.Windows.Forms.Button();
+            this.button1_allmat = new System.Windows.Forms.Button();
             this.label1_hora = new System.Windows.Forms.Label();
             this.button1_alltag = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,7 +64,9 @@
             this.matLogLabel = new System.Windows.Forms.Label();
             this.matProgressBar = new DMSkin.Metro.Controls.MetroProgressBar();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button1_allmat = new System.Windows.Forms.Button();
+            this.matFileDownButton = new System.Windows.Forms.Button();
+            this.matFileSelButton = new System.Windows.Forms.Button();
+            this.selFileNameTextBox = new DMSkin.Metro.Controls.MetroTextBox();
             this.downloadTabControl.SuspendLayout();
             this.metroTabPage1.SuspendLayout();
             this.grouper4.SuspendLayout();
@@ -381,6 +385,10 @@
             this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouper1.BorderColor = System.Drawing.Color.Teal;
             this.grouper1.BorderThickness = 1F;
+            this.grouper1.Controls.Add(this.matFileDownButton);
+            this.grouper1.Controls.Add(this.matFileSelButton);
+            this.grouper1.Controls.Add(this.selFileNameTextBox);
+            this.grouper1.Controls.Add(this.button1_downloadmat);
             this.grouper1.Controls.Add(this.button1_allmat);
             this.grouper1.Controls.Add(this.label1_hora);
             this.grouper1.Controls.Add(this.button1_alltag);
@@ -406,6 +414,34 @@
             this.grouper1.Size = new System.Drawing.Size(1232, 343);
             this.grouper1.TabIndex = 2;
             // 
+            // button1_downloadmat
+            // 
+            this.button1_downloadmat.BackColor = System.Drawing.Color.Teal;
+            this.button1_downloadmat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1_downloadmat.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.button1_downloadmat.ForeColor = System.Drawing.Color.White;
+            this.button1_downloadmat.Location = new System.Drawing.Point(200, 181);
+            this.button1_downloadmat.Name = "button1_downloadmat";
+            this.button1_downloadmat.Size = new System.Drawing.Size(130, 40);
+            this.button1_downloadmat.TabIndex = 70;
+            this.button1_downloadmat.Text = "开始下载物料";
+            this.button1_downloadmat.UseVisualStyleBackColor = false;
+            this.button1_downloadmat.Click += new System.EventHandler(this.button1_downloadmat_Click);
+            // 
+            // button1_allmat
+            // 
+            this.button1_allmat.BackColor = System.Drawing.Color.Teal;
+            this.button1_allmat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1_allmat.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.button1_allmat.ForeColor = System.Drawing.Color.White;
+            this.button1_allmat.Location = new System.Drawing.Point(429, 106);
+            this.button1_allmat.Name = "button1_allmat";
+            this.button1_allmat.Size = new System.Drawing.Size(204, 40);
+            this.button1_allmat.TabIndex = 69;
+            this.button1_allmat.Text = "下载所有物料";
+            this.button1_allmat.UseVisualStyleBackColor = false;
+            this.button1_allmat.Click += new System.EventHandler(this.button1_allmat_Click);
+            // 
             // label1_hora
             // 
             this.label1_hora.AutoSize = true;
@@ -422,7 +458,7 @@
             this.button1_alltag.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1_alltag.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.button1_alltag.ForeColor = System.Drawing.Color.White;
-            this.button1_alltag.Location = new System.Drawing.Point(543, 35);
+            this.button1_alltag.Location = new System.Drawing.Point(429, 35);
             this.button1_alltag.Name = "button1_alltag";
             this.button1_alltag.Size = new System.Drawing.Size(204, 40);
             this.button1_alltag.TabIndex = 67;
@@ -434,7 +470,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(39, 112);
+            this.label7.Location = new System.Drawing.Point(24, 114);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(68, 17);
             this.label7.TabIndex = 66;
@@ -456,11 +492,11 @@
             this.dateMatTagButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.dateMatTagButton.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.dateMatTagButton.ForeColor = System.Drawing.Color.White;
-            this.dateMatTagButton.Location = new System.Drawing.Point(154, 166);
+            this.dateMatTagButton.Location = new System.Drawing.Point(27, 181);
             this.dateMatTagButton.Name = "dateMatTagButton";
-            this.dateMatTagButton.Size = new System.Drawing.Size(91, 40);
+            this.dateMatTagButton.Size = new System.Drawing.Size(130, 40);
             this.dateMatTagButton.TabIndex = 64;
-            this.dateMatTagButton.Text = "开始下载";
+            this.dateMatTagButton.Text = "开始下载吊牌";
             this.dateMatTagButton.UseVisualStyleBackColor = false;
             this.dateMatTagButton.Click += new System.EventHandler(this.dateMatTagButton_Click);
             // 
@@ -469,7 +505,7 @@
             this.eDateTime.Location = new System.Drawing.Point(113, 106);
             this.eDateTime.MinimumSize = new System.Drawing.Size(0, 30);
             this.eDateTime.Name = "eDateTime";
-            this.eDateTime.Size = new System.Drawing.Size(132, 30);
+            this.eDateTime.Size = new System.Drawing.Size(217, 30);
             this.eDateTime.TabIndex = 63;
             // 
             // sDateTime
@@ -477,7 +513,7 @@
             this.sDateTime.Location = new System.Drawing.Point(113, 45);
             this.sDateTime.MinimumSize = new System.Drawing.Size(0, 30);
             this.sDateTime.Name = "sDateTime";
-            this.sDateTime.Size = new System.Drawing.Size(132, 30);
+            this.sDateTime.Size = new System.Drawing.Size(217, 30);
             this.sDateTime.TabIndex = 62;
             // 
             // matLogLabel
@@ -501,19 +537,49 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button1_allmat
+            // matFileDownButton
             // 
-            this.button1_allmat.BackColor = System.Drawing.Color.Teal;
-            this.button1_allmat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1_allmat.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.button1_allmat.ForeColor = System.Drawing.Color.White;
-            this.button1_allmat.Location = new System.Drawing.Point(543, 106);
-            this.button1_allmat.Name = "button1_allmat";
-            this.button1_allmat.Size = new System.Drawing.Size(204, 40);
-            this.button1_allmat.TabIndex = 69;
-            this.button1_allmat.Text = "下载所有物料";
-            this.button1_allmat.UseVisualStyleBackColor = false;
-            this.button1_allmat.Click += new System.EventHandler(this.button1_allmat_Click);
+            this.matFileDownButton.BackColor = System.Drawing.Color.Teal;
+            this.matFileDownButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.matFileDownButton.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.matFileDownButton.ForeColor = System.Drawing.Color.White;
+            this.matFileDownButton.Location = new System.Drawing.Point(889, 106);
+            this.matFileDownButton.Name = "matFileDownButton";
+            this.matFileDownButton.Size = new System.Drawing.Size(92, 40);
+            this.matFileDownButton.TabIndex = 73;
+            this.matFileDownButton.Text = "开始下载";
+            this.matFileDownButton.UseVisualStyleBackColor = false;
+            this.matFileDownButton.Click += new System.EventHandler(this.matFileDownButton_Click);
+            // 
+            // matFileSelButton
+            // 
+            this.matFileSelButton.BackColor = System.Drawing.Color.Teal;
+            this.matFileSelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.matFileSelButton.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.matFileSelButton.ForeColor = System.Drawing.Color.White;
+            this.matFileSelButton.Location = new System.Drawing.Point(827, 106);
+            this.matFileSelButton.Name = "matFileSelButton";
+            this.matFileSelButton.Size = new System.Drawing.Size(56, 40);
+            this.matFileSelButton.TabIndex = 72;
+            this.matFileSelButton.Text = "选择";
+            this.matFileSelButton.UseVisualStyleBackColor = false;
+            this.matFileSelButton.Click += new System.EventHandler(this.matFileSelButton_Click);
+            // 
+            // selFileNameTextBox
+            // 
+            this.selFileNameTextBox.DM_FontSize = DMSkin.Metro.MetroTextBoxSize.Medium;
+            this.selFileNameTextBox.DM_UseSelectable = true;
+            this.selFileNameTextBox.Lines = new string[0];
+            this.selFileNameTextBox.Location = new System.Drawing.Point(723, 113);
+            this.selFileNameTextBox.MaxLength = 32767;
+            this.selFileNameTextBox.Name = "selFileNameTextBox";
+            this.selFileNameTextBox.PasswordChar = '\0';
+            this.selFileNameTextBox.PromptText = "产品编码文件";
+            this.selFileNameTextBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.selFileNameTextBox.SelectedText = "";
+            this.selFileNameTextBox.Size = new System.Drawing.Size(98, 30);
+            this.selFileNameTextBox.TabIndex = 71;
+            this.selFileNameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainForm
             // 
@@ -575,6 +641,10 @@
         private System.Windows.Forms.Button button1_alltag;
         private System.Windows.Forms.Label label1_hora;
         private System.Windows.Forms.Button button1_allmat;
+        private System.Windows.Forms.Button button1_downloadmat;
+        private System.Windows.Forms.Button matFileDownButton;
+        private System.Windows.Forms.Button matFileSelButton;
+        private DMSkin.Metro.Controls.MetroTextBox selFileNameTextBox;
     }
 }
 

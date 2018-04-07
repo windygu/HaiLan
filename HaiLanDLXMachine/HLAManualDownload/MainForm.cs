@@ -287,7 +287,7 @@ namespace HLAManualDownload
 
             new Thread(new ThreadStart(() =>
             {
-                List<HLATagInfo> tagList = SAPDataService.GetHLATagInfoListByDate(SysConfig.LGNUM, sDateTime.Value.Date, eDateTime.Value.Date);
+                List<HLATagInfo> tagList = SAPDataService.GetHLATagInfoListByDate(SysConfig.LGNUM, sDateTime.Value.Date.ToString("yyyyMMdd"), eDateTime.Value.Date.ToString("yyyyMMdd"));
 
                 if (tagList == null)
                 {
@@ -364,28 +364,7 @@ namespace HLAManualDownload
 
             new Thread(new ThreadStart(() =>
             {
-                List<HLATagInfo> tagList = new List<HLATagInfo>();
-                {
-                    DataTable tagTable = SAPDataService.GetTagInfoList(SysConfig.LGNUM, true);
-                    foreach (DataRow row in tagTable.Rows)
-                    {
-                        HLATagInfo tag = new HLATagInfo();
-                        tag.MATNR = row["MATNR"].CastTo("");
-                        tag.CHARG = row["CHARG"].CastTo("");
-                        tag.BARCD = row["BARCD"].CastTo("");
-                        tag.BARCD_ADD = row["BARCD_ADD"].CastTo("");
-                        tag.RFID_EPC = row["RFID_EPC"].CastTo("").Trim() != "" ? ((string)row["RFID_EPC"]).PadRight(20, '0').Trim() : row["RFID_EPC"].CastTo("").Trim();
-                        tag.RFID_ADD_EPC = row["RFID_ADD_EPC"].CastTo("");
-                        tag.BARDL = row["BARDL"].CastTo("");
-                        tag.LIFNR = row["LIFNR"].CastTo("");
-
-                        if (tagList == null)
-                            tagList = new List<HLATagInfo>();
-
-                        tagList.Add(tag);
-                    }
-
-                }
+                List<HLATagInfo> tagList = SAPDataService.GetTagInfoList(SysConfig.LGNUM);
 
                 if (tagList != null)
                 {
@@ -445,39 +424,7 @@ namespace HLAManualDownload
 
             new Thread(new ThreadStart(() =>
             {
-                List<MaterialInfo> mtrList = new List<MaterialInfo>();
-                {
-                    DataTable mtrTable = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM, true);
-
-                    foreach (DataRow row in mtrTable.Rows)
-                    {
-                        MaterialInfo material = new MaterialInfo();
-                        material.MATNR = row["MATNR"] != null ? row["MATNR"].ToString() : "";
-                        int pxqty;
-                        int.TryParse(row["PXQTY"] != null ? row["PXQTY"].ToString() : "0", out pxqty);
-                        material.PXQTY = pxqty;
-                        int pxqty_fh;
-                        int.TryParse(row["PXQTY_FH"] != null ? row["PXQTY_FH"].ToString() : "0", out pxqty_fh);
-                        material.PXQTY_FH = pxqty_fh;
-                        material.ZCOLSN = row["ZCOLSN"] != null ? row["ZCOLSN"].ToString() : "";
-                        material.ZSATNR = row["ZSATNR"] != null ? row["ZSATNR"].ToString() : "";
-                        material.ZSIZTX = row["ZSIZTX"] != null ? row["ZSIZTX"].ToString() : "";
-                        material.ZSUPC2 = row["ZSUPC2"] != null ? row["ZSUPC2"].ToString() : "";
-                        material.PUT_STRA = row["PUT_STRA"] != null ? row["PUT_STRA"].ToString() : "";
-                        material.ZCOLSN_WFG = row["ZCOLSN_WFG"] != null ? row["ZCOLSN_WFG"].ToString() : "";
-                        material.PXMAT = row["PXMAT"] != null ? row["PXMAT"].ToString() : "";
-                        material.PXMAT_FH = row["PXMAT_FH"] != null ? row["PXMAT_FH"].ToString() : "";
-                        double brgew;
-                        double.TryParse(row["BRGEW"] != null ? row["BRGEW"].ToString() : "0", out brgew);
-                        material.BRGEW = brgew;
-
-                        if (mtrList == null)
-                            mtrList = new List<MaterialInfo>();
-
-                        mtrList.Add(material);
-                    }
-
-                }
+                List<MaterialInfo> mtrList = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
 
                 if (mtrList != null)
                 {
@@ -520,6 +467,173 @@ namespace HLAManualDownload
                 }));
 
             })).Start();
+        }
+
+        private void button1_downloadmat_Click(object sender, EventArgs e)
+        {
+            matProgressBar.Value = 0;
+
+            if (eDateTime.Value.Date < sDateTime.Value.Date)
+            {
+                matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "结束日期必须大于等于开始日期";
+                return;
+            }
+
+            button1_downloadmat.Enabled = false;
+            dateMatTagButton.Enabled = false;
+
+            new Thread(new ThreadStart(() =>
+            {
+                List<MaterialInfo> mtrList = SAPDataService.GetMaterialInfoListByDate(SysConfig.LGNUM, sDateTime.Value.Date.ToString("yyyyMMdd"), eDateTime.Value.Date.ToString("yyyyMMdd"));
+
+                if (mtrList == null)
+                {
+                    matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "下载出错";
+                    return;
+                }
+
+                Invoke(new Action(() => { matProgressBar.Maximum = mtrList.Count; }));
+
+                int matFailCount = 0;
+                foreach (MaterialInfo m in mtrList)
+                {
+                    Invoke(new Action(() => { matProgressBar.Value++; }));
+                    if (!LocalDataService.SaveMaterialInfo(m))
+                    {
+                        matFailCount++;
+                    }
+                }
+
+
+                string log = string.Format("下载物料{0}条，同步失败{1}条"
+                    , mtrList.Count, matFailCount);
+
+                Invoke(new Action(() =>
+                {
+                    matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
+                    if (matFailCount > 0)
+                    {
+                        matLogLabel.BackColor = Color.Red;
+                    }
+                    else
+                    {
+                        matLogLabel.BackColor = Color.White;
+                    }
+                }));
+
+
+                Invoke(new Action(() =>
+                {
+                    button1_downloadmat.Enabled = true;
+                    dateMatTagButton.Enabled = true;
+
+                }));
+
+            })).Start();
+
+        }
+
+        private void matFileSelButton_Click(object sender, EventArgs e)
+        {
+            List<string> mtrList = new List<string>();
+
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                selFileNameTextBox.Text = openFileDialog1.FileName;
+            }
+
+        }
+
+        private void matFileDownButton_Click(object sender, EventArgs e)
+        {
+            matProgressBar.Value = 0;
+
+            if (selFileNameTextBox.Text == "")
+            {
+                matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "请选择sku文件";
+                return;
+            }
+
+            List<string> mtrList = new List<string>();
+
+            try
+            {
+                string file = openFileDialog1.FileName;
+                var lines = File.ReadLines(file);
+                foreach (var line in lines)
+                {
+                    string lineStr = line.Trim();
+                    if (lineStr.StartsWith("H"))
+                    {
+                        mtrList.Add(line);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                mLog.log(ex.Message);
+                mLog.log(ex.StackTrace);
+            }
+
+            if (mtrList.Count <= 0)
+            {
+                matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "该文件中没有sku数据";
+                return;
+            }
+
+            dateMatTagButton.Enabled = false;
+            matFileDownButton.Enabled = false;
+
+            new Thread(new ThreadStart(() =>
+            {
+                int matTotalCount = 0;
+                int matFailCount = 0;
+                Invoke(new Action(() => { matProgressBar.Maximum = mtrList.Count; }));
+
+                foreach (string mtr in mtrList)
+                {
+                    Invoke(new Action(() => { matProgressBar.Value++; }));
+
+                    List<MaterialInfo> matList = SAPDataService.GetMaterialInfoListByMATNR(SysConfig.LGNUM, mtr);
+                    if (matList != null)
+                    {
+                        matTotalCount += matList.Count;
+                        foreach (MaterialInfo m in matList)
+                        {
+                            if (!LocalDataService.SaveMaterialInfo(m))
+                            {
+                                matFailCount++;
+                                mLog.log("SaveMaterialInfo fail:" + m.MATNR);
+                            }
+                        }
+                    }
+
+                }
+
+                string log = string.Format("下载物料{0}条，同步失败{1}条", matTotalCount, matFailCount);
+                Invoke(new Action(() =>
+                {
+                    matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
+                    if (matFailCount > 0)
+                    {
+                        matLogLabel.BackColor = Color.Red;
+                    }
+                    else
+                    {
+                        matLogLabel.BackColor = Color.White;
+                    }
+                }));
+
+                Invoke(new Action(() =>
+                {
+                    dateMatTagButton.Enabled = true;
+                    matFileDownButton.Enabled = true;
+                }));
+
+            })).Start();
+
         }
     }
 }

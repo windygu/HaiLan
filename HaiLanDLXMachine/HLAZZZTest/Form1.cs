@@ -32,17 +32,7 @@ namespace HLAZZZTest
 
             SAPDataService.Init();
 
-            SysConfig.DeviceInfo = SAPDataService.GetHLANo(SysConfig.LGNUM, "XD180301", "01C");
-            foreach (var v in SysConfig.DeviceInfo.AuthList)
-            {
-                if (v.AUTH_CODE.StartsWith("M") || v.AUTH_VALUE.StartsWith("M"))
-                {
-                    string a = v.AUTH_CODE;
-                    string b = v.AUTH_CODE_DES;
-                    string c = v.AUTH_VALUE;
-                    string d = v.AUTH_VALUE_DES;
-                }
-            }
+            SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
         }
 
         public void LoadConfig()

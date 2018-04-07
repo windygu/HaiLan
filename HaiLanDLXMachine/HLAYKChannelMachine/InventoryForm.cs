@@ -644,7 +644,9 @@ namespace HLAYKChannelMachine
                 if (closed) return;
 
                 ShowLoading("正在更新SAP最新物料数据...");
-                materialList = SAPDataService.GetMaterialInfoListAll(SysConfig.LGNUM);
+                //materialList = SAPDataService.GetMaterialInfoListAll(SysConfig.LGNUM);
+                materialList = LocalDataService.GetMaterialInfoList();
+
                 if (materialList == null || materialList.Count<=0)
                 {
                     
@@ -727,54 +729,25 @@ namespace HLAYKChannelMachine
 
         private void UpdateTotalInfo()
         {
-            if (InvokeRequired)
-            {
-                if (!this.IsHandleCreated)
-                    this.CreateHandle();
-
-                Invoke(new Action(() =>
-                {
-                    int totalBoxNum = (int)boxList?.Count(i => i.SapStatus == "S" && i.Status == "S").CastTo<int>(0);
-                    int totalNum = (int)boxList?.FindAll(i => i.SapStatus == "S" && i.Status == "S").Sum(j => j.Details?.Count);
-                    lblTotalBoxNum.Text = totalBoxNum.ToString();
-                    lblTotalNum.Text = totalNum.ToString();
-                }));
-            }
-            else
+            Invoke(new Action(() =>
             {
                 int totalBoxNum = (int)boxList?.Count(i => i.SapStatus == "S" && i.Status == "S").CastTo<int>(0);
                 int totalNum = (int)boxList?.FindAll(i => i.SapStatus == "S" && i.Status == "S").Sum(j => j.Details?.Count);
                 lblTotalBoxNum.Text = totalBoxNum.ToString();
                 lblTotalNum.Text = totalNum.ToString();
-
-            }
+            }));
         }
 
         private void UpdateErrorBoxButton()
         {
-            if (InvokeRequired)
-            {
-                if (!this.IsHandleCreated)
-                    this.CreateHandle();
-
-                Invoke(new Action(() =>
-                {
-                    int errorcount = (boxList?.Count(i => i.SapStatus == "E" && i.Status == "S")).CastTo<int>(0);
-                    btnErrorBox.Text = string.Format("异常箱明细({0})", errorcount);
-                    btnErrorBox.DM_NormalColor = errorcount > 0 ? Color.FromArgb(255, 100, 0) : Color.FromArgb(27, 163, 203);
-                    btnErrorBox.DM_MoveColor = errorcount > 0 ? Color.FromArgb(255, 60, 0) : Color.FromArgb(27, 123, 203);
-                    btnErrorBox.DM_DownColor = errorcount > 0 ? Color.FromArgb(255, 20, 0) : Color.FromArgb(27, 93, 203);
-                }));
-            }
-            else
+            Invoke(new Action(() =>
             {
                 int errorcount = (boxList?.Count(i => i.SapStatus == "E" && i.Status == "S")).CastTo<int>(0);
                 btnErrorBox.Text = string.Format("异常箱明细({0})", errorcount);
                 btnErrorBox.DM_NormalColor = errorcount > 0 ? Color.FromArgb(255, 100, 0) : Color.FromArgb(27, 163, 203);
                 btnErrorBox.DM_MoveColor = errorcount > 0 ? Color.FromArgb(255, 60, 0) : Color.FromArgb(27, 123, 203);
                 btnErrorBox.DM_DownColor = errorcount > 0 ? Color.FromArgb(255, 20, 0) : Color.FromArgb(27, 93, 203);
-
-            }
+            }));
         }
 
         private void AddGrid(YKBoxInfo box)
@@ -782,26 +755,34 @@ namespace HLAYKChannelMachine
             if(box.Details!=null && box.Details.Count>0)
             {
                 List<string> matnrlist = box.Details.Select(i => i.Matnr).Distinct().ToList();
-                foreach(string matnr in matnrlist)
+                Invoke(new Action(() =>
                 {
-                    grid.Rows.Insert(0, box.Source, box.Target, box.Hu,
-                        box.Details.First(i => i.Matnr == matnr).Zsatnr,
-                        box.Details.First(i => i.Matnr == matnr).Zcolsn,
-                        box.Details.First(i => i.Matnr == matnr).Zsiztx,
-                        box.Details.Count(i => i.Matnr == matnr), box.Remark + " SAP:" + box.SapRemark);
-                    grid.Rows[0].Tag = matnr;
-
-                    if(box.Status == "E" || box.SapStatus == "E")
+                    foreach (string matnr in matnrlist)
                     {
-                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                        grid.Rows.Insert(0, box.Source, box.Target, box.Hu,
+                            box.Details.First(i => i.Matnr == matnr).Zsatnr,
+                            box.Details.First(i => i.Matnr == matnr).Zcolsn,
+                            box.Details.First(i => i.Matnr == matnr).Zsiztx,
+                            box.Details.Count(i => i.Matnr == matnr), box.Remark + " SAP:" + box.SapRemark);
+                        grid.Rows[0].Tag = matnr;
+
+                        if (box.Status == "E" || box.SapStatus == "E")
+                        {
+                            grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                        }
                     }
-                }
+                }));
+
             }
             else
             {
-                grid.Rows.Insert(0, box.Source, box.Target, box.Hu, "", "", "", 0,box.Remark);
-                grid.Rows[0].Tag = "";
-                grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                Invoke(new Action(() =>
+                {
+                    grid.Rows.Insert(0, box.Source, box.Target, box.Hu, "", "", "", 0, box.Remark);
+                    grid.Rows[0].Tag = "";
+                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                }));
+
             }
         }
 

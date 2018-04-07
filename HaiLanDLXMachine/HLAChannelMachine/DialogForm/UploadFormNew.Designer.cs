@@ -1,6 +1,6 @@
 ﻿namespace HLAChannelMachine
 {
-    partial class UploadForm
+    partial class UploadFormNew
     {
         /// <summary>
         /// Required designer variable.
@@ -88,7 +88,7 @@
             this.button3_shezhi.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button3_shezhi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3_shezhi.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.button3_shezhi.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button3_shezhi.ForeColor = System.Drawing.Color.Teal;
             this.button3_shezhi.Location = new System.Drawing.Point(731, 606);
             this.button3_shezhi.Name = "button3_shezhi";
             this.button3_shezhi.Size = new System.Drawing.Size(144, 43);
@@ -108,7 +108,7 @@
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.button2.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button2.ForeColor = System.Drawing.Color.Teal;
             this.button2.Location = new System.Drawing.Point(495, 606);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(155, 61);
@@ -127,7 +127,7 @@
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.button1.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button1.ForeColor = System.Drawing.Color.Teal;
             this.button1.Location = new System.Drawing.Point(320, 605);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(135, 61);
@@ -146,7 +146,7 @@
             this.button1_clearXiang.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button1_clearXiang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1_clearXiang.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.button1_clearXiang.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button1_clearXiang.ForeColor = System.Drawing.Color.Teal;
             this.button1_clearXiang.Location = new System.Drawing.Point(495, 686);
             this.button1_clearXiang.Name = "button1_clearXiang";
             this.button1_clearXiang.Size = new System.Drawing.Size(194, 48);
@@ -165,7 +165,7 @@
             this.checkItemButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.checkItemButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkItemButton.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.checkItemButton.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.checkItemButton.ForeColor = System.Drawing.Color.Teal;
             this.checkItemButton.Location = new System.Drawing.Point(320, 686);
             this.checkItemButton.Name = "checkItemButton";
             this.checkItemButton.Size = new System.Drawing.Size(135, 47);
@@ -184,7 +184,7 @@
             this.btnUpload.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.btnUpload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpload.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.btnUpload.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnUpload.ForeColor = System.Drawing.Color.Teal;
             this.btnUpload.Location = new System.Drawing.Point(77, 605);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(212, 61);
@@ -203,7 +203,7 @@
             this.btnRefresh.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.btnRefresh.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnRefresh.ForeColor = System.Drawing.Color.Teal;
             this.btnRefresh.Location = new System.Drawing.Point(77, 686);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(212, 48);
@@ -220,7 +220,7 @@
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.OrangeRed;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
-            this.btnClose.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnClose.ForeColor = System.Drawing.Color.Teal;
             this.btnClose.Location = new System.Drawing.Point(732, 673);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(143, 61);
@@ -277,7 +277,7 @@
             this.columnHeader4.Text = "上传状态";
             this.columnHeader4.Width = 100;
             // 
-            // UploadForm
+            // UploadFormNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -285,7 +285,7 @@
             this.ClientSize = new System.Drawing.Size(955, 772);
             this.Controls.Add(this.grouper1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "UploadForm";
+            this.Name = "UploadFormNew";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "上传任务";
             this.Load += new System.EventHandler(this.UploadForm_Load);

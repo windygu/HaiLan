@@ -249,8 +249,6 @@ namespace HLAAutoDownload
 
         private void DownloadMaterialInfo()
         {
-            DataTable table = null;
-
             //下载物料主数据
             try
             {
@@ -259,34 +257,31 @@ namespace HLAAutoDownload
                     btnDownloadMaterials.Enabled = false;
                     pgbMaterialInfo.Value = 100;
                 }));
-                table = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
-                int failCount = 0;
-                if (table != null && table.Rows.Count > 0)
+
+                List<MaterialInfo> matList = null;
+
+                string dateFrom = LocalDataService.GetSysInfoFieldValue("MaterialInfo");
+                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
+                if (dateFrom == null)
                 {
-                    int total = table.Rows.Count;
+                    matList = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
+                }
+                else
+                {
+                    matList = SAPDataService.GetMaterialInfoListByDate(SysConfig.LGNUM, dateFrom, dateEnd);
+                }
+
+                int failCount = 0;
+                if (matList != null && matList.Count > 0)
+                {
+                    LocalDataService.SaveSysInfo("MaterialInfo", dateEnd);
+
+                    int total = matList.Count;
                     int i = 0;
-                    foreach (DataRow row in table.Rows)
+                    foreach (var material in matList)
                     {
                         i++;
-                        MaterialInfo material = new MaterialInfo();
-                        material.MATNR = row["MATNR"] != null ? row["MATNR"].ToString() : "";
-                        int pxqty;
-                        int.TryParse(row["PXQTY"] != null ? row["PXQTY"].ToString() : "0", out pxqty);
-                        material.PXQTY = pxqty;
-                        int pxqty_fh;
-                        int.TryParse(row["PXQTY_FH"] != null ? row["PXQTY_FH"].ToString() : "0", out pxqty_fh);
-                        material.PXQTY_FH = pxqty_fh;
-                        material.ZCOLSN = row["ZCOLSN"] != null ? row["ZCOLSN"].ToString() : "";
-                        material.ZSATNR = row["ZSATNR"] != null ? row["ZSATNR"].ToString() : "";
-                        material.ZSIZTX = row["ZSIZTX"] != null ? row["ZSIZTX"].ToString() : "";
-                        material.ZSUPC2 = row["ZSUPC2"] != null ? row["ZSUPC2"].ToString() : "";
-                        material.PUT_STRA = row["PUT_STRA"] != null ? row["PUT_STRA"].ToString() : "";
-                        material.ZCOLSN_WFG = row["ZCOLSN_WFG"] != null ? row["ZCOLSN_WFG"].ToString() : "";
-                        material.PXMAT = row["PXMAT"] != null ? row["PXMAT"].ToString() : "";
-                        material.PXMAT_FH = row["PXMAT_FH"] != null ? row["PXMAT_FH"].ToString() : "";
-                        double brgew;
-                        double.TryParse(row["BRGEW"] != null ? row["BRGEW"].ToString() : "0", out brgew);
-                        material.BRGEW = brgew;
+
                         if (!LocalDataService.SaveMaterialInfo(material))
                             failCount++;
                         this.Invoke(new Action(() =>
@@ -302,7 +297,7 @@ namespace HLAAutoDownload
                         this.pgbMaterialInfo.Value = 100;
                     }));
                 }
-                ShowLog(string.Format("下载{0}条物料数据,同步失败{1}条", table?.Rows?.Count, failCount));
+                ShowLog(string.Format("下载{0}条物料数据,同步失败{1}条", matList?.Count, failCount));
                 this.Invoke(new Action(() =>
                 {
                     this.btnDownloadMaterials.Enabled = true;
@@ -323,39 +318,33 @@ namespace HLAAutoDownload
                 this.btnTagInfo.Enabled = false;
             }));
 
-            DataTable table = null;
             //下载吊牌信息
             try
             {
-                table = SAPDataService.GetTagInfoList(SysConfig.LGNUM);
-                
-                if (table != null && table.Rows.Count > 0)
+                List<HLATagInfo> tagList = null;
+
+                string dateFrom = LocalDataService.GetSysInfoFieldValue("TagInfo");
+                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
+                if (dateFrom == null)
                 {
-                    int total = table.Rows.Count;
+                    tagList = SAPDataService.GetTagInfoList(SysConfig.LGNUM);
+                }
+                else
+                {
+                    tagList = SAPDataService.GetHLATagInfoListByDate(SysConfig.LGNUM, dateFrom, dateEnd);
+                }
+
+                if (tagList != null && tagList.Count > 0)
+                {
+                    LocalDataService.SaveSysInfo("TagInfo", dateEnd);
+
+                    int total = tagList.Count;
                     int i = 0;
-                    foreach (DataRow row in table.Rows)
+                    foreach (var tag in tagList)
                     {
                         i++;
-                        HLATagInfo tag = new HLATagInfo();
-                        tag.MATNR = row["MATNR"].CastTo("");
-                        tag.CHARG = row["CHARG"].CastTo("");
-                        tag.BARCD = row["BARCD"].CastTo("");
-                        tag.BARCD_ADD = row["BARCD_ADD"].CastTo("");
-                        tag.RFID_EPC = row["RFID_EPC"].CastTo("").Trim() != "" ? ((string)row["RFID_EPC"]).PadRight(20, '0').Trim() : row["RFID_EPC"].CastTo("").Trim();
-                        tag.RFID_ADD_EPC = row["RFID_ADD_EPC"].CastTo("");
-                        tag.BARDL = row["BARDL"].CastTo("");
-                        tag.LIFNR = row["LIFNR"].CastTo("");
-
-                        //当主epc和辅epc都为空时，跳过，不保存
-                        //if (string.IsNullOrEmpty(tag.RFID_EPC) && string.IsNullOrEmpty(tag.RFID_ADD_EPC))
-                        //{
-                        //    //不作处理
-                        //}
-                        //else
-                        //{
                         if(!string.IsNullOrEmpty(tag.RFID_EPC))
                             LocalDataService.SaveTagInfo(tag);
-                        //}
                         this.Invoke(new Action(() =>
                         {
                             this.pgbTagInfo.Value = i * 100 / total;
@@ -369,7 +358,7 @@ namespace HLAAutoDownload
                         this.pgbTagInfo.Value = 100;
                     }));
                 }
-                ShowLog(string.Format("下载{0}条吊牌数据", table?.Rows?.Count));
+                ShowLog(string.Format("下载{0}条吊牌数据", tagList?.Count));
 
             }
             catch (Exception ex)
@@ -768,144 +757,5 @@ namespace HLAAutoDownload
             }));
         }
 
-        private void btnMaterialAndTag_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtMatnr.Text))
-                return;
-            btnMaterialAndTag.Enabled = false;
-            new Thread(new ThreadStart(() => {
-                List<string> matnrList = txtMatnr.Text.Split(';').ToList();
-                List<MaterialInfo> mList = new List<MaterialInfo>();
-                List<HLATagInfo> tList = new List<HLATagInfo>();
-                int mFailCount = 0, tFailCount = 0;
-                foreach (string matnr in matnrList)
-                {
-                    List<MaterialInfo> list = SAPDataService.GetMaterialInfoListByMATNR(SysConfig.LGNUM, matnr);
-                    List<HLATagInfo> list2 = SAPDataService.GetHLATagInfoListByMATNR(SysConfig.LGNUM, matnr);
-                    if (list != null) mList.AddRange(list);
-                    if (list2 != null) tList.AddRange(list2);
-                }
-                Invoke(new Action(() => { pbMaterialAndTag.Maximum = mList.Count + tList.Count; }));
-                
-
-                if (pbMaterialAndTag.Maximum > 0)
-                {
-                    foreach (MaterialInfo m in mList)
-                    {
-                        Invoke(new Action(() => { pbMaterialAndTag.Value++; }));
-                        if (!LocalDataService.SaveMaterialInfo(m))
-                            mFailCount++;
-                    }
-
-                    foreach (HLATagInfo t in tList)
-                    {
-                        Invoke(new Action(() => { pbMaterialAndTag.Value++; }));
-                        if (!LocalDataService.SaveTagInfo(t))
-                            tFailCount++;
-                    }
-                }
-                ShowLog(string.Format("手工下载物料{0}条，失败{1}条", mList.Count, mFailCount));
-                ShowLog(string.Format("手工下载吊牌{0}条，失败{1}条", tList.Count, tFailCount));
-                Invoke(new Action(() => { btnMaterialAndTag.Enabled = true; }));
-            })).Start();
-            
-        }
-
-        private void btnOutAndShipTag_Click(object sender, EventArgs e)
-        {
-            btnOutAndShipTag.Enabled = false;
-            new Thread(new ThreadStart(() =>
-            {
-                List<string> s = SAPDataService.GetProType(SysConfig.LGNUM);
-                DateTime dt = dtOutAndShipTag.Value;
-                List<InventoryOutLogDetailInfo> outLogList = new List<InventoryOutLogDetailInfo>();
-                if (s != null && s.Count > 0)
-                {
-                    foreach (string item in s)
-                    {
-                        List<InventoryOutLogDetailInfo> list = SAPDataService.GetHLAShelvesSingleList(
-                            SysConfig.LGNUM, dt.ToString("yyyyMMdd"), item);
-                        if (list != null && list.Count > 0)
-                        {
-                            outLogList.AddRange(list);
-                        }
-                        List<InventoryOutLogDetailInfo> list_List = SAPDataService.GetHLASanHeList(SysConfig.LGNUM);
-                        if (list_List != null && list_List.Count > 0)
-                        {
-                            outLogList.AddRange(list_List);
-                        }
-                    }
-                }
-                List<ShippingLabel> labelList = SAPDataService.GetShippingLabelList(
-                    SysConfig.LGNUM, dt.ToString("yyyyMMdd"));
-                if (labelList == null) labelList = new List<ShippingLabel>();
-                Invoke(new Action(() => { pbOutAndShipTag.Maximum = (int)(labelList?.Count + outLogList?.Count); }));
-
-                int oFailCount = 0, sFailCount = 0;
-                if (pbOutAndShipTag.Maximum >0 )
-                {
-                    foreach(InventoryOutLogDetailInfo iout in outLogList)
-                    {
-                        Invoke(new Action(() => { pbOutAndShipTag.Value++; }));
-                        if (!LocalDataService.SaveInventoryOutLogDetail(iout))
-                            oFailCount++;
-                        List<MaterialInfo> mList = SAPDataService.GetMaterialInfoListByMATNR(SysConfig.LGNUM, iout.PRODUCTNO);
-                        List<HLATagInfo> tList = SAPDataService.GetHLATagInfoListByMATNR(SysConfig.LGNUM, iout.PRODUCTNO);
-                        foreach (MaterialInfo mitem in mList)
-                        {
-                            LocalDataService.SaveMaterialInfo(mitem);
-                        }
-
-                        foreach (HLATagInfo titem in tList)
-                        {
-                            LocalDataService.SaveTagInfo(titem);
-                        }
-                    }
-
-                    foreach (ShippingLabel label in labelList)
-                    {
-                        Invoke(new Action(() => { pbOutAndShipTag.Value++; }));
-                        if (!LocalDataService.SaveShippingLabelNew(label))
-                            sFailCount++;
-                    }
-                }
-                ShowLog(string.Format("手工下载下架单{0}条，失败{1}条", outLogList.Count, oFailCount));
-                ShowLog(string.Format("手工下载发运标签{0}条，失败{1}条", labelList.Count, sFailCount));
-                Invoke(new Action(() => { btnOutAndShipTag.Enabled = true; }));
-            })).Start();
-        }
-
-        private void button1_fenjiefuhe_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DateTime shipDate = fendiefuhe_time.Value;
-
-                List<EbBoxInfo> ebBoxList = null;
-                string errormsg = "";
-                ebBoxList = SAPDataService.GetEbBoxList(SysConfig.LGNUM, "", shipDate.ToString("yyyy-MM-dd"), "", out errormsg);
-                Log4netHelper.LogInfo(shipDate.ToString("yyyy-MM-dd") + ":" + errormsg);
-                label14_msg_manual.Text = shipDate.ToString("yyyy-MM-dd") + ":" + errormsg;
-
-                if (ebBoxList != null && ebBoxList.Count > 0)
-                {
-                    List<string> hulist = new List<string>();
-                    foreach (EbBoxInfo item in ebBoxList)
-                    {
-                        LocalDataService.SaveEbBox(item, HLACommonLib.Model.ENUM.CheckType.分拣复核);
-                        if (!hulist.Contains(item.HU))
-                            hulist.Add(item.HU);
-                    }
-
-                    SAPDataService.DeleteDownloadedBox(SysConfig.LGNUM, shipDate, hulist);
-                }
-            }
-            catch(Exception ep)
-            {
-                Log4netHelper.LogError(ep);
-                label14_msg_manual.Text = ep.ToString();
-            }
-
-        }
     }
 }

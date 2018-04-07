@@ -737,7 +737,9 @@ namespace HLAEBReceiveChannelMachine
                 List<MaterialInfo> materialList;
                 if (Cache.Instance[CacheKey.MATERIAL] == null)
                 {
-                    materialList = SAPDataService.GetMaterialInfoListAll(SysConfig.LGNUM);
+                    //materialList = SAPDataService.GetMaterialInfoListAll(SysConfig.LGNUM);
+                    materialList = LocalDataService.GetMaterialInfoList();
+
                     if (materialList == null || materialList.Count <= 0)
                     {
                         MetroMessageBox.Show(this, "未下载到物料主数据，请检查网络情况", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);

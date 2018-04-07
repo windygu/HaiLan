@@ -182,8 +182,6 @@ namespace HLAManualDownload
 
         private void DownloadMaterialInfo()
         {
-            DataTable table = null;
-
             //下载物料主数据
             try
             {
@@ -192,34 +190,30 @@ namespace HLAManualDownload
                     btnDownloadMaterials.Enabled = false;
                     pgbMaterialInfo.Value = 100;
                 }));
-                table = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
-                int failCount = 0;
-                if (table != null && table.Rows.Count > 0)
+                List<MaterialInfo> matList = null;
+
+                string dateFrom = LocalDataService.GetSysInfoFieldValue("MaterialInfo");
+                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
+                if (dateFrom == null)
                 {
-                    int total = table.Rows.Count;
+                    matList = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
+                }
+                else
+                {
+                    matList = SAPDataService.GetMaterialInfoListByDate(SysConfig.LGNUM, dateFrom, dateEnd);
+                }
+
+                int failCount = 0;
+                if (matList != null && matList.Count > 0)
+                {
+                    LocalDataService.SaveSysInfo("MaterialInfo", dateEnd);
+
+                    int total = matList.Count;
                     int i = 0;
-                    foreach (DataRow row in table.Rows)
+                    foreach (var material in matList)
                     {
                         i++;
-                        MaterialInfo material = new MaterialInfo();
-                        material.MATNR = row["MATNR"] != null ? row["MATNR"].ToString() : "";
-                        int pxqty;
-                        int.TryParse(row["PXQTY"] != null ? row["PXQTY"].ToString() : "0", out pxqty);
-                        material.PXQTY = pxqty;
-                        int pxqty_fh;
-                        int.TryParse(row["PXQTY_FH"] != null ? row["PXQTY_FH"].ToString() : "0", out pxqty_fh);
-                        material.PXQTY_FH = pxqty_fh;
-                        material.ZCOLSN = row["ZCOLSN"] != null ? row["ZCOLSN"].ToString() : "";
-                        material.ZSATNR = row["ZSATNR"] != null ? row["ZSATNR"].ToString() : "";
-                        material.ZSIZTX = row["ZSIZTX"] != null ? row["ZSIZTX"].ToString() : "";
-                        material.ZSUPC2 = row["ZSUPC2"] != null ? row["ZSUPC2"].ToString() : "";
-                        material.PUT_STRA = row["PUT_STRA"] != null ? row["PUT_STRA"].ToString() : "";
-                        material.ZCOLSN_WFG = row["ZCOLSN_WFG"] != null ? row["ZCOLSN_WFG"].ToString() : "";
-                        material.PXMAT = row["PXMAT"] != null ? row["PXMAT"].ToString() : "";
-                        material.PXMAT_FH = row["PXMAT_FH"] != null ? row["PXMAT_FH"].ToString() : "";
-                        double brgew;
-                        double.TryParse(row["BRGEW"] != null ? row["BRGEW"].ToString() : "0", out brgew);
-                        material.BRGEW = brgew;
+
                         if (!LocalDataService.SaveMaterialInfo(material))
                             failCount++;
                         this.Invoke(new Action(() =>
@@ -235,7 +229,7 @@ namespace HLAManualDownload
                         this.pgbMaterialInfo.Value = 100;
                     }));
                 }
-                ShowLog(string.Format("下载{0}条物料数据,同步失败{1}条", table?.Rows?.Count, failCount));
+                ShowLog(string.Format("下载{0}条物料数据,同步失败{1}条", matList?.Count, failCount));
                 this.Invoke(new Action(() =>
                 {
                     this.btnDownloadMaterials.Enabled = true;
@@ -263,39 +257,33 @@ namespace HLAManualDownload
                 this.btnTagInfo.Enabled = false;
             }));
 
-            DataTable table = null;
             //下载吊牌信息
             try
             {
-                table = SAPDataService.GetTagInfoList(SysConfig.LGNUM);
+                List<HLATagInfo> tagList = null;
 
-                if (table != null && table.Rows.Count > 0)
+                string dateFrom = LocalDataService.GetSysInfoFieldValue("TagInfo");
+                string dateEnd = DateTime.Now.ToString("yyyyMMdd");
+                if (dateFrom == null)
                 {
-                    int total = table.Rows.Count;
+                    tagList = SAPDataService.GetTagInfoList(SysConfig.LGNUM);
+                }
+                else
+                {
+                    tagList = SAPDataService.GetHLATagInfoListByDate(SysConfig.LGNUM, dateFrom, dateEnd);
+                }
+
+                if (tagList != null && tagList.Count > 0)
+                {
+                    LocalDataService.SaveSysInfo("TagInfo", dateEnd);
+
+                    int total = tagList.Count;
                     int i = 0;
-                    foreach (DataRow row in table.Rows)
+                    foreach (var tag in tagList)
                     {
                         i++;
-                        HLATagInfo tag = new HLATagInfo();
-                        tag.MATNR = row["MATNR"].CastTo("");
-                        tag.CHARG = row["CHARG"].CastTo("");
-                        tag.BARCD = row["BARCD"].CastTo("");
-                        tag.BARCD_ADD = row["BARCD_ADD"].CastTo("");
-                        tag.RFID_EPC = row["RFID_EPC"].CastTo("").Trim() != "" ? ((string)row["RFID_EPC"]).PadRight(20, '0').Trim() : row["RFID_EPC"].CastTo("").Trim();
-                        tag.RFID_ADD_EPC = row["RFID_ADD_EPC"].CastTo("");
-                        tag.BARDL = row["BARDL"].CastTo("");
-                        tag.LIFNR = row["LIFNR"].CastTo("");
-
-                        //当主epc和辅epc都为空时，跳过，不保存
-                        //if (string.IsNullOrEmpty(tag.RFID_EPC) && string.IsNullOrEmpty(tag.RFID_ADD_EPC))
-                        //{
-                        //    //不作处理
-                        //}
-                        //else
-                        //{
                         if (!string.IsNullOrEmpty(tag.RFID_EPC))
                             LocalDataService.SaveTagInfo(tag);
-                        //}
                         this.Invoke(new Action(() =>
                         {
                             this.pgbTagInfo.Value = i * 100 / total;
@@ -309,7 +297,7 @@ namespace HLAManualDownload
                         this.pgbTagInfo.Value = 100;
                     }));
                 }
-                ShowLog(string.Format("下载{0}条吊牌数据", table?.Rows?.Count));
+                ShowLog(string.Format("下载{0}条吊牌数据", tagList?.Count));
 
             }
             catch (Exception ex)

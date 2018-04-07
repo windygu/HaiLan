@@ -159,7 +159,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnCancel.BackColor = System.Drawing.Color.Teal;
             this.btnCancel.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.btnCancel.DM_UseCustomBackColor = true;
             this.btnCancel.DM_UseCustomForeColor = true;
@@ -176,7 +176,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.btnSave.BackColor = System.Drawing.Color.Teal;
             this.btnSave.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
             this.btnSave.DM_UseCustomBackColor = true;
             this.btnSave.DM_UseCustomForeColor = true;
