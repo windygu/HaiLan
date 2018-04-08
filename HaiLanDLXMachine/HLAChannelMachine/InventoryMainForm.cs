@@ -1097,7 +1097,7 @@ namespace HLAChannelMachine
             }
             if (errorEpcNumber>0)
             {
-                result.UpdateMessage(EPC_WEI_ZHU_CE);
+                result.UpdateMessage("不在本单");
                 result.InventoryResult = false;
             }
 
@@ -1320,7 +1320,7 @@ namespace HLAChannelMachine
                         List<CTagDetail> lvTagDetail = getTags();
                         if (lvTagDetail.Count > 0)
                         {
-                            bool isFit = false;
+                            bool isFit = true;
                             foreach (CTagDetail item in lvTagDetail)
                             {
                                 string zsatnr = item.zsatnr;
@@ -1331,7 +1331,11 @@ namespace HLAChannelMachine
                                     currentDocdetailItem.SubItems[2].Text == zcolsn &&
                                     currentDocdetailItem.SubItems[3].Text == zsiztx)
                                 {
-                                    isFit = true;
+                                }
+                                else
+                                {
+                                    isFit = false;
+                                    break;
                                 }
                             }
                             if (!isFit)
@@ -1515,7 +1519,7 @@ namespace HLAChannelMachine
                     if (IsYpxWx())
                         record.ZPBNO = "";
                     else
-                        record.ZPBNO = getSelItem().SubItems[1].Text;
+                        record.ZPBNO = getSelItem()?.SubItems[1].Text;
                 }
                 else
                 {

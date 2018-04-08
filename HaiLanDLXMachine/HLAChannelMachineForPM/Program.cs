@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using DMSkin;
+using HLAChannelMachine.Utils;
 using HLACommonLib;
 using HLACommonLib.Model;
-using HLADeliverChannelMachine.Utils;
+using System.Threading;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using Newtonsoft.Json;
+using System.Data;
+using HLAChannelMachine.DialogForm;
 
-namespace HLADeliverChannelMachine
+namespace HLAChannelMachine
 {
     static class Program
     {
@@ -20,9 +23,8 @@ namespace HLADeliverChannelMachine
         [STAThread]
         static void Main()
         {
-            LogHelper.WriteLine("程序开始运行...");
-            Process[] processes = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
             Process curProcess = Process.GetCurrentProcess();
+            Process[] processes = Process.GetProcessesByName(curProcess.ProcessName);
             if (processes.Length > 1)
             {
                 foreach (Process process in processes)
@@ -34,34 +36,24 @@ namespace HLADeliverChannelMachine
                             process.WaitForExit(2000);//等待上次的进程结束后再检查，否则重启终端时会有问题
                             if (!process.HasExited)
                             {
-                                MessageBox.Show("检测到 单检机发货 已运行！", "警告");
+                                MessageBox.Show("检测到 单检机收货系统 已运行！");
                                 return;
                             }
                         }
                     }
                 }
             }
-
             //载入默认配置
             AppConfig.Load();
-            SysConfig.InitUomDic();
 
-            //检测版本
-            if (AutoUpdate.Update(SoftwareType.单检机发货))
+            if (AutoUpdate.Update(SoftwareType.单检机收货))
             {
                 SAPDataService.Init();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                try
-                {
-                    Application.Run(new LoginForm());
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Error(e.Message, e.StackTrace);
-                    MessageBox.Show("程序出现问题，请联系管理员！" + e.Message, "警告");
-                }
+                Application.Run(new LoginForm());
             }
         }
+
     }
 }

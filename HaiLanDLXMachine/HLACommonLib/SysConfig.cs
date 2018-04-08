@@ -135,7 +135,7 @@ namespace HLACommonLib
         public static int TrackNum = 2;
         public static int EachTrackNum = 10;
         #endregion
-
+        public static int BoxQty = 0;
 
         /// <summary>
         /// 初始化单位中英对照表

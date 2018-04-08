@@ -301,6 +301,7 @@ namespace HLAChannelMachine
                             break;
                     }
 
+                    /*
                     foreach (var v in materialList)
                         LocalDataService.SaveMaterialInfo(v);
                     foreach (var v in hlaTagList)
@@ -308,6 +309,7 @@ namespace HLAChannelMachine
 
                     materialList = LocalDataService.GetMaterialInfoList();
                     hlaTagList = LocalDataService.GetAllRfidHlaTagList();
+                    
 
                     if (materialList == null || materialList.Count <= 0)
                     {
@@ -321,6 +323,7 @@ namespace HLAChannelMachine
                         OnThreadReturn();
                         return;
                     }
+                    */
 
                     if (!right)
                     {
