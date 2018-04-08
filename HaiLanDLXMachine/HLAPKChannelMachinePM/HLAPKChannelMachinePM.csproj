@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{456D30D0-A252-4CA0-9B1F-D887B6165A9F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HLADeliverChannelMachine</RootNamespace>
+    <AssemblyName>HLAPKChannelMachinePM</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;IMPINJkk;TEST</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;IMPINJF;TESTT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ThingMagic840 TEST</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="Codetag.Rfid.ClassLibrary">
+      <HintPath>..\packages\Codetag.Rfid.ClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeTagClassLibrary">
+      <HintPath>..\packages\CodeTagClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DMSkin">
+      <HintPath>..\packages\DMSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="HLA.BLL">
+      <HintPath>.\HLA.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="HLA.DAL">
+      <HintPath>.\HLA.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="HLA.IBLL">
+      <HintPath>.\HLA.IBLL.dll</HintPath>
+    </Reference>
+    <Reference Include="HLA.IDAL">
+      <HintPath>.\HLA.IDAL.dll</HintPath>
+    </Reference>
+    <Reference Include="HLA.Model">
+      <HintPath>.\HLA.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Impinj.OctaneSdk">
+      <HintPath>..\packages\Impinj.OctaneSdk.dll</HintPath>
+    </Reference>
+    <Reference Include="LLRP">
+      <HintPath>..\packages\LLRP.dll</HintPath>
+    </Reference>
+    <Reference Include="LLRP.Impinj">
+      <HintPath>..\packages\LLRP.Impinj.dll</HintPath>
+    </Reference>
+    <Reference Include="MercuryAPI">
+      <HintPath>..\packages\MercuryAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Base">
+      <HintPath>..\packages\Stimulsoft.Report\Stimulsoft.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report">
+      <HintPath>..\packages\Stimulsoft.Report\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DialogForms\BoxCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\BoxCheckForm.Designer.cs">
+      <DependentUpon>BoxCheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\GxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\GxForm.Designer.cs">
+      <DependentUpon>GxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\UnlockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\UnlockForm.Designer.cs">
+      <DependentUpon>UnlockForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\UploadMgForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\UploadMgForm.Designer.cs">
+      <DependentUpon>UploadMgForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\BoxDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\BoxDetailForm.Designer.cs">
+      <DependentUpon>BoxDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\ErrorLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\ErrorLogForm.Designer.cs">
+      <DependentUpon>ErrorLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\NotFullBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\NotFullBoxForm.Designer.cs">
+      <DependentUpon>NotFullBoxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\OutConfirmForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\OutConfirmForm.Designer.cs">
+      <DependentUpon>OutConfirmForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\OutLogDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\OutLogDetailForm.Designer.cs">
+      <DependentUpon>OutLogDetailForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\PrintForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\PrintForm.Designer.cs">
+      <DependentUpon>PrintForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\ConfirmOutLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\ConfirmOutLogForm.Designer.cs">
+      <DependentUpon>ConfirmOutLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\SingleShelvesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\SingleShelvesForm.Designer.cs">
+      <DependentUpon>SingleShelvesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DialogForms\StoreNoOutLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForms\StoreNoOutLogForm.Designer.cs">
+      <DependentUpon>StoreNoOutLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InventoryOutLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InventoryOutLogForm.Designer.cs">
+      <DependentUpon>InventoryOutLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\AppConfig.cs" />
+    <Compile Include="Utils\FUM6E.cs" />
+    <Compile Include="Utils\ImpinjR420.cs" />
+    <Compile Include="Utils\IUHFReader.cs" />
+    <Compile Include="Utils\PrinterHelper.cs" />
+    <Compile Include="Utils\ThingMagic840.cs" />
+    <Compile Include="Utils\UploadServer.cs" />
+    <Compile Include="Utils\UserMsgDef.cs" />
+    <Compile Include="Utils\WindowsFullScreenApi.cs" />
+    <Compile Include="Utils\XDUR840.cs" />
+    <EmbeddedResource Include="DialogForms\BoxCheckForm.resx">
+      <DependentUpon>BoxCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\GxForm.resx">
+      <DependentUpon>GxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\UnlockForm.resx">
+      <DependentUpon>UnlockForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\UploadMgForm.resx">
+      <DependentUpon>UploadMgForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\BoxDetailForm.resx">
+      <DependentUpon>BoxDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\ErrorLogForm.resx">
+      <DependentUpon>ErrorLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\NotFullBoxForm.resx">
+      <DependentUpon>NotFullBoxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\OutConfirmForm.resx">
+      <DependentUpon>OutConfirmForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\OutLogDetailForm.resx">
+      <DependentUpon>OutLogDetailForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\PrintForm.resx">
+      <DependentUpon>PrintForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\ConfirmOutLogForm.resx">
+      <DependentUpon>ConfirmOutLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\SingleShelvesForm.resx">
+      <DependentUpon>SingleShelvesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DialogForms\StoreNoOutLogForm.resx">
+      <DependentUpon>StoreNoOutLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InventoryOutLogForm.resx">
+      <DependentUpon>InventoryOutLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="CASERPT.mrt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="PinBoxCASERPT.mrt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HLACommonLib\HLACommonLib.csproj">
+      <Project>{e936aa4c-e048-49eb-8755-4827453d1b10}</Project>
+      <Name>HLACommonLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HLACommonView\HLACommonView.csproj">
+      <Project>{65902545-3d81-4490-8a17-7aef8e94293a}</Project>
+      <Name>HLACommonView</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\packages\TabTip.exe">
+      <Link>TabTip.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cpl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Linkage.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\打印.png" />
+    <None Include="Resources\空箱.png" />
+    <None Include="Resources\满箱.png" />
+    <None Include="Resources\明细.png" />
+    <None Include="Resources\删除.png" />
+    <None Include="Resources\tag.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Resources\fail.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\notify.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\success.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\warning.mp3" />
+    <Content Include="logo.ico" />
+    <None Include="Resources\warningwav.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="rfid.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="rfidtx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TidInfo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

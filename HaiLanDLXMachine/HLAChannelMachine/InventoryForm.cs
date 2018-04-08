@@ -1372,12 +1372,6 @@ namespace HLAChannelMachine
             {
                 ErrorHandle(WEI_SAO_DAO_XIANG_MA, 0);
                 result = false;
-
-                LocalDataService.InsertErrorDataRecord(ERRORDATATYPE.未扫描到箱号, "设备号：" + lblDeviceNo.Text + " 楼层号：" + lblLouceng.Text);
-            }
-            else
-            {
-                LocalDataService.InsertErrorDataRecord(ERRORDATATYPE.正常, "设备号：" + lblDeviceNo.Text + " 楼层号：" + lblLouceng.Text);
             }
             //高位库 需要检测的箱子与所选行项目对应
             if (this.cbUseBoxStandard.Checked && receiveType == ReceiveType.交货单收货)
@@ -2528,10 +2522,6 @@ namespace HLAChannelMachine
                 lblReaderStatus.Text = "异常";
                 lblReaderStatus.ForeColor = Color.OrangeRed;
                 MessageBox.Show("连接读写器失败！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                LocalDataService.InsertErrorDataRecord(ERRORDATATYPE.读写器未连接, "设备号：" + lblDeviceNo.Text + " 楼层号：" + lblLouceng.Text);
-
-                //return;
             }
             else
             {

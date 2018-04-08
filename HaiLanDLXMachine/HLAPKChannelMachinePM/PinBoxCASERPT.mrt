@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="1">
+      <Data Ref="2" type="Stimulsoft.Report.Dictionary.StiBusinessObject" isKey="true">
+        <Alias>Data</Alias>
+        <BusinessObjects isList="true" count="0" />
+        <Category>Data</Category>
+        <Columns isList="true" count="10">
+          <value>HWK_AREA,System.String</value>
+          <value>HWK_BPDS,System.String</value>
+          <value>HWK_WAVS,System.String</value>
+          <value>HWP_BP,System.String</value>
+          <value>HWK_HUTYPE,System.String</value>
+          <value>HWK_HUADD,System.String</value>
+          <value>HWK_QtyDesc,System.String</value>
+          <value>HWK_TagTitle,System.String</value>
+          <value>HWK_PickDoc,System.String</value>
+          <value>HWK_PinSerno,System.String</value>
+        </Columns>
+        <Dictionary isRef="1" />
+        <Guid>3ea7e5c374c84805a17556b0500b3858</Guid>
+        <Name>Data</Name>
+      </Data>
+    </BusinessObjects>
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="10">
+      <value>,HWK_TagTitle,HWK_TagTitle,System.String,,False,False</value>
+      <value>,HWK_AREA,HWK_AREA,System.String,,False,False</value>
+      <value>,HWP_BP,HWP_BP,System.String,,False,False</value>
+      <value>,HWK_BPDS,HWK_BPDS,System.String,,False,False</value>
+      <value>,HWK_QtyDesc,HWK_QtyDesc,System.String,,False,False</value>
+      <value>,HWK_WAVS,HWK_WAVS,System.String,,False,False</value>
+      <value>,HWK_HUTYPE,HWK_HUTYPE,System.String,,False,False</value>
+      <value>,HWK_PickDoc,HWK_PickDoc,System.String,,False,False</value>
+      <value>,HWK_PinSerno,HWK_PinSerno,System.String,,False,False</value>
+      <value>,HWK_HUADD,HWK_HUADD,System.String,,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="3" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="21">
+        <Text1 Ref="4" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,1.8,3,1.3</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,14,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>集货区编号：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text1>
+        <Text2 Ref="5" type="Text" isKey="true">
+          <AutoWidth>True</AutoWidth>
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,3.3,2.6,0.67</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,14,Bold</Font>
+          <GrowToHeight>True</GrowToHeight>
+          <Guid>765375b1d8654bd6a7b2346ebf0b3b71</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text2</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>门店代码：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text2>
+        <Text7 Ref="6" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,6.77,2.5,1</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,14,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text7</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>货品数量：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text7>
+        <Text9 Ref="7" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,8.31,2.1,0.67</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,14,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text9</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>波次号：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text9>
+        <Text13 Ref="8" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>1.7,13,6.8,1.2</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,28,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text13</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_HUADD}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text13>
+        <Text14 Ref="9" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.9,1.8,5.8,1.1</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,31,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text14</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_AREA}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text14>
+        <Text15 Ref="10" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.5,3.3,6,0.8</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,29,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text15</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWP_BP}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text15>
+        <Text20 Ref="11" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.6,6.38,5.8,1.6</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>Tahoma,20,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text20</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_QtyDesc}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text20>
+        <Text22 Ref="12" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.1,7.91,6.25,1.5</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>Tahoma,24,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text22</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_WAVS}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text22>
+        <Text26 Ref="13" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.39,1.2,0.67</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,12,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text26</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>箱型:</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text26>
+        <Text28 Ref="14" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>1.2,9.39,7.2,0.7</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,12,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text28</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_HUTYPE}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text28>
+        <Text30 Ref="15" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>-0.2,13,1.8,1.2</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,22,Bold</Font>
+          <Guid>b453be9a844b4b4a9b4f97feac9df335</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text30</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>箱号</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text30>
+        <Text3 Ref="16" type="Text" isKey="true">
+          <AutoWidth>True</AutoWidth>
+          <Brush>Transparent</Brush>
+          <CanGrow>True</CanGrow>
+          <CanShrink>True</CanShrink>
+          <ClientRectangle>0,4.4,2.6,0.6</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,14,Bold</Font>
+          <GrowToHeight>True</GrowToHeight>
+          <Guid>9b981a57c64a48faaa4415876683cb4a</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text3</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>门店名称：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text3>
+        <Text16 Ref="17" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.6,4.4,5.8,1.8</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,14,Bold</Font>
+          <Guid>cd4fbaef00584cfa98c3afccdf12df61</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text16</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_BPDS}</Text>
+          <TextBrush>Black</TextBrush>
+          <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+          <Type>Expression</Type>
+        </Text16>
+        <Text4 Ref="18" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,0,8.4,1.4</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,20,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text4</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_TagTitle}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text4>
+        <Text5 Ref="19" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,10.6,2.1,0.67</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,14,Bold</Font>
+          <Guid>400578d47e9e46e5bbff2be6a44eff5c</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text5</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>下架单:
+</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text5>
+        <Text6 Ref="20" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.1,10.2,6.25,1.5</ClientRectangle>
+          <ComponentPlacement>p.Page1</ComponentPlacement>
+          <Conditions isList="true" count="0" />
+          <Font>Tahoma,20,Bold</Font>
+          <Guid>3191f4f21cd14871a8d6ec595247cba3</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text6</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_PickDoc}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text6>
+        <Text8 Ref="21" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>1.4,11.8,1.8,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Tahoma,20,Bold</Font>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text8</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>{HWK_PinSerno}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text8>
+        <Text10 Ref="22" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.2,11.8,1.2,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,20,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text10</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>第</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text10>
+        <Text11 Ref="23" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>3.2,11.8,4,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,20,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text11</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <Text>张下架单</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text11>
+        <HorizontalLinePrimitive1 Ref="24" type="HorizontalLinePrimitive" isKey="true">
+          <ClientRectangle>0,1.4,8.4,0.0254</ClientRectangle>
+          <Color>Black</Color>
+          <EndCap Ref="25" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </EndCap>
+          <Name>HorizontalLinePrimitive1</Name>
+          <Page isRef="3" />
+          <Parent isRef="3" />
+          <StartCap Ref="26" type="Cap" isKey="true">
+            <Color>Black</Color>
+          </StartCap>
+        </HorizontalLinePrimitive1>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>a1ba2dc647f542bb8a45b8a78b392140</Guid>
+      <Margins>0.7,1.3,0.4,0.2</Margins>
+      <Name>Page1</Name>
+      <PageHeight>15</PageHeight>
+      <PageWidth>10.5</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="27" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268427775</PreviewSettings>
+  <PrinterSettings Ref="28" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>报表</ReportAlias>
+  <ReportChanged>10/20/2015 10:22:04 AM</ReportChanged>
+  <ReportCreated>5/29/2013 8:48:17 AM</ReportCreated>
+  <ReportFile>D:\xindeco\svn\heilan\Code\ChannelMachine for Xinglin\HLADeliverChannelMachine\PinBoxCASERPT.mrt</ReportFile>
+  <ReportGuid>cf23786d97904f3aa7db869129a78203</ReportGuid>
+  <ReportName>报表</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2012.3.1500</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class 报表 : Stimulsoft.Report.StiReport
+    {
+        public 报表()
+
+        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>

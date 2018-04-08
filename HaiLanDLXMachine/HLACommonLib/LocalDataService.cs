@@ -2659,7 +2659,7 @@ VALUES ", param[0].HU);
                 SqlParameter p13 = DBHelper.CreateParameter("@PXMAT", m.PXMAT);
                 SqlParameter p14 = DBHelper.CreateParameter("@MAKTX", m.MAKTX);
 
-                sql = @"INSERT INTO materialinfo (MATNR, ZSATNR, ZCOLSN, ZSIZTX, ZSUPC2, PXQTY, PXQTY_FH,BRGEW,PUT_STRA,ZCOLSN_WFG,PXMAT_FH,PXMAT) 
+                sql = @"INSERT INTO materialinfo (MATNR, ZSATNR, ZCOLSN, ZSIZTX, ZSUPC2, PXQTY, PXQTY_FH,BRGEW,PUT_STRA,ZCOLSN_WFG,PXMAT_FH,PXMAT,MAKTX) 
 VALUES (@MATNR, @ZSATNR, @ZCOLSN, @ZSIZTX, @ZSUPC2, @PXQTY,@PXQTY_FH,@BRGEW,@PUT_STRA,@ZCOLSN_WFG,@PXMAT_FH,@PXMAT,@MAKTX)";
                 int result = DBHelper.ExecuteSql(sql, false, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11,p12,p13,p14);
                 return result > 0 ? true : false;
@@ -4070,29 +4070,6 @@ SELECT Id ,
 
         #endregion
 
-        #region  采集器
-
-        /// <summary>
-        /// 获取品色规为空的物料编码
-        /// </summary>
-        /// <returns></returns>
-        public static DataTable GetMaterialInfoByMATNR()
-        {
-            string sSql = " select MATNR from materialinfo where  ZSATNR='' or ZCOLSN='' or ZSIZTX=''";
-            DataTable table = DBHelper.GetTable(sSql, false);
-            if (table != null && table.Rows.Count > 0)
-            {
-                return table;
-            }
-            return null;
-        }
-
-
-
-
-        #endregion
-
-
         public static List<string> GetMaterialInfoByPin(string pin)
         {
             List<string> re = new List<string>();
@@ -4114,16 +4091,6 @@ SELECT Id ,
                 }
             }
             return re;
-        }
-        public static bool InsertErrorDataRecord(ERRORDATATYPE errorType, string errorText)
-        {
-            return true;
-
-            //StringBuilder sb = new StringBuilder();
-            //int eT = (int)errorType;
-            //sb.AppendFormat("INSERT INTO ErrorDataSts(ERROR_TYPE,ERROR_TEXT,CREATE_TIME) VALUES('{0}','{1}','{2}')"
-            //    , eT, errorText, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            //return DBHelper.ExecuteNonQuery(sb.ToString()) > 0;
         }
 
         public static int InsertCancelReData(string doc,string hu,int main,int add,int real,int mainDiff,int addDiff,int noReg,int noInnum,string msg,int re)

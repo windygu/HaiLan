@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<TidMatchInfo>
+    <ClassInfo>
+	<!-- 十六进制 -->
+        <Class Value="E2" Description="GS1" />
+    </ClassInfo>
+    <SupplierInfo>
+	<!-- 十六进制 -->
+	<Supplier Class="E2" Value="001" Description="IMPINJ" />
+	<Supplier Class="E2" Value="801" Description="IMPINJ" />
+	<Supplier Class="E2" Value="006" Description="NXP" />
+	<Supplier Class="E2" Value="806" Description="NXP" />
+	<Supplier Class="E2" Value="003" Description="ALIEN" />
+	<Supplier Class="E2" Value="803" Description="ALIEN" />
+	<Supplier Class="E2" Value="00F" Description="QR" />
+    </SupplierInfo>
+    <TypeInfo>
+    	<!-- 十六进制 -->
+	<Type Supplier="801" Value="105" Description="M4QT" Epc="公共模式：
+公共EPC 96bit；
+私有模式：
+公共EPC 96bit，
+私有EPC128bit。
+" User="公共模式：无
+私有模式：512bit
+" />
+	<Type Supplier="001" Value="093" Description="M3" Epc="96bit" User="无" />
+	<Type Supplier="801" Value="104" Description="M4U" Epc="128bit" User="512bit" />
+	<Type Supplier="801" Value="10C" Description="M4E" Epc="496bit" User="128bit" />
+	<Type Supplier="801" Value="100" Description="M4D" Epc="128bit" User="32bit" />
+	<Type Supplier="801" Value="130" Description="M5" Epc="128bit" User="无" />
+	<Type Supplier="006" Value="003" Description="G2XM" Epc="240bit" User="512bit" />
+	<Type Supplier="006" Value="806" Description="G2iL" Epc="128bit" User="无" />
+	<Type Supplier="006" Value="80A" Description="G2iM" Epc="256bit" User="512bit" />
+	<Type Supplier="003" Value="412" Description="H3" Epc="96bit" User="512bit" />
+	<Type Supplier="003" Value="414" Description="H4" Epc="128bit" User="128bit" />
+	<Type Supplier="00F" Value="352" Description="QR2352" Epc="128bit" User="2Kbit" />
+    </TypeInfo>
+</TidMatchInfo>
+

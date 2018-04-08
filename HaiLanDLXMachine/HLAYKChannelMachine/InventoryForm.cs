@@ -600,8 +600,6 @@ namespace HLAYKChannelMachine
                 {
                     Invoke(new Action(() => {
                         lblReader.Text = "异常"; lblReader.ForeColor = Color.OrangeRed;
-                        LocalDataService.InsertErrorDataRecord(ERRORDATATYPE.读写器未连接, "设备号：" + lblDeviceNo.Text + " 楼层号：" + lblLouceng.Text);
-
                     }));
                 }
 

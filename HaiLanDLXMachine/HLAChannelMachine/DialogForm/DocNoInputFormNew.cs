@@ -251,6 +251,7 @@ namespace HLAChannelMachine
                         OnThreadReturn();
                         return;
                     }
+
                     bool right = true;
                     foreach (MaterialInfo item in materialList)
                     {
@@ -298,6 +299,27 @@ namespace HLAChannelMachine
 
                         if (!right)
                             break;
+                    }
+
+                    foreach (var v in materialList)
+                        LocalDataService.SaveMaterialInfo(v);
+                    foreach (var v in hlaTagList)
+                        LocalDataService.SaveTagInfo(v);
+
+                    materialList = LocalDataService.GetMaterialInfoList();
+                    hlaTagList = LocalDataService.GetAllRfidHlaTagList();
+
+                    if (materialList == null || materialList.Count <= 0)
+                    {
+                        ShowMessageBox("主数据-物料信息下载失败");
+                        OnThreadReturn();
+                        return;
+                    }
+                    if (hlaTagList == null || hlaTagList.Count <= 0)
+                    {
+                        ShowMessageBox("主数据-吊牌信息下载失败");
+                        OnThreadReturn();
+                        return;
                     }
 
                     if (!right)

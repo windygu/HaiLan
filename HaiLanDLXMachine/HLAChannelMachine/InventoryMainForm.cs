@@ -37,8 +37,9 @@ namespace HLAChannelMachine
         private Queue<ErrorRecord> savingData_Local = new Queue<ErrorRecord>();
         private Thread savingDataThread_Local = null;
 
-        List<string> curPici = new List<string>();
         private List<ErrorRecord> currentErrorRecordList = new List<ErrorRecord>();
+
+        Queue<string> boxNoQueue = new Queue<string>();
 
         #region 检测结果
         /// <summary>
@@ -590,10 +591,10 @@ namespace HLAChannelMachine
             cbUseBoxStandard.Checked = true;
             btnSwitchStandardBox.BackColor = Color.Tan;
 
-            lblCurrentZSATNR.Text = "";
 
             lblType.Text = string.Format("{0}单号：", mReceiveType == ReceiveType.交货单收货 ? "交货" : "交接");
             initErrorRecord();
+            lblCurrentZSATNR.Text = "";
         }
 
         private void btnSetBoxQty_Click(object sender, EventArgs e)
@@ -661,7 +662,6 @@ namespace HLAChannelMachine
                 epcList.Clear();
                 tagDetailList.Clear();
 
-                curPici.Clear();
                 currentErrorRecordList.Clear();
 
                 Invoke(new Action(() =>
@@ -741,7 +741,7 @@ namespace HLAChannelMachine
                 if (IsYpxWx())
                     result.ZPBNO = "";
                 else
-                    result.ZPBNO = lvPBDetail.SelectedItems[0].SubItems[1].Text;
+                    result.ZPBNO = getSelItem()?.SubItems[1].Text;
             }
             else
             {
@@ -899,7 +899,654 @@ namespace HLAChannelMachine
 
         public override CheckResult CheckData()
         {
-            return base.CheckData();
+            if (SysConfig.RunningModel == RunMode.高位库)
+            {
+                return CheckDataForGaoWeiKu();
+            }
+            else
+            {
+                return CheckDataForPingKu();
+            }
+        }
+        private void SetBoxNo(string boxNo)
+        {
+            if (boxNoQueue.Count > 0)
+                boxNo = boxNoQueue.Dequeue();
+            else
+            {
+                getBoxNoQueue();
+                boxNo = boxNoQueue.Dequeue();
+            }
+
+            this.Invoke(new Action(() =>
+            {
+                this.lblBoxNo.Text = boxNo;
+            }));
+        }
+        private void getBoxNoQueue()
+        {
+            boxNoQueue = SAPDataService.GetBoxNo(SysConfig.LGNUM);
+        }
+        private CheckResult CheckDataForPingKu()
+        {
+            CheckResult result = new CheckResult();
+            CheckDataForCommon(ref result);
+
+            string boxNo = "";
+            List<EpcDetail> epcListBefore = GetHistoryEpcDetailListy();
+            if (epcListBefore?.Count > 0)
+            {
+                boxNo = epcListBefore.FirstOrDefault().HU;
+                this.Invoke(new Action(() =>
+                {
+                    this.lblBoxNo.Text = boxNo;
+                }));
+            }
+            if (string.IsNullOrEmpty(boxNo))
+            {
+                SetBoxNo(boxNo);
+            }
+            else
+            {
+                if (epcListBefore?.Count > 0)
+                {
+                    if (epcListBefore.Select(i => i.HU).Distinct().Count() > 1 || epcListBefore.FirstOrDefault().HU != lblBoxNo.Text.Trim())
+                    {
+                        //商品已扫描
+                        result.UpdateMessage(EPC_YI_SAO_MIAO);
+                        result.InventoryResult = false;
+                    }
+                    else
+                    {
+                        bool isSame = true;
+                        //是否完全不匹配
+                        bool isAllNotSame = true;
+                        if (epcListBefore != null && epcListBefore.Count > 0)
+                        {
+                            if (this.epcList.Count == epcListBefore.Count)
+                            {
+                                foreach (EpcDetail epc in epcListBefore)
+                                {
+                                    if (!epcList.Contains(epc.EPC_SER))
+                                    {
+                                        isSame = false;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        isAllNotSame = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                isSame = false;
+                                foreach (EpcDetail epc in epcListBefore)
+                                {
+                                    if (epcList.Contains(epc.EPC_SER))
+                                    {
+                                        isAllNotSame = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            isSame = false;
+                            isAllNotSame = true;
+                        }
+
+                        if (isSame)
+                        {
+                            //两批EPC对比，完全一样，示为重投
+                            result.IsRecheck = true;
+                            result.InventoryResult = false;
+                        }
+                        else if (isAllNotSame)
+                        {
+                            //两批EPC对比，完全不一样，示为箱码重复使用
+                            result.UpdateMessage(XIANG_MA_CHONG_FU_SHI_YONG);
+                            result.InventoryResult = false;
+                        }
+
+                        if (epcListBefore.Count > 0 && !isSame && !isAllNotSame)
+                        {
+                            result.UpdateMessage(EPC_YI_SAO_MIAO);
+                            result.InventoryResult = false;
+                        }
+                    }
+                }
+            }
+
+
+            if (result.InventoryResult || result.IsRecheck)
+            {
+                result.UpdateMessage(result.IsRecheck ? CHONG_TOU : RIGHT);
+                ShowInventoryResult(result);
+                SetInventoryResult(1);
+            }
+            else
+            {
+                SetInventoryResult(3);
+                ShowInventoryResult(result);
+            }
+            return result;
+        }
+
+        List<CTagDetail> getTags()
+        {
+            List<CTagDetail> re = new List<CTagDetail>();
+
+            try
+            {
+                if(tagDetailList!=null &&tagDetailList.Count>0)
+                {
+                    foreach(var v in tagDetailList)
+                    {
+                        if(!v.IsAddEpc)
+                        {
+                            if(!re.Exists(i=>i.proNo == v.MATNR))
+                            {
+                                CTagDetail t = new CTagDetail();
+                                t.proNo = v.MATNR;
+                                t.zsatnr = v.ZSATNR;
+                                t.zcolsn = v.ZCOLSN;
+                                t.zsiztx = v.ZSIZTX;
+                                t.charg = v.CHARG;
+                                t.quan = 1;
+
+                                re.Add(t);
+                            }
+                            else
+                            {
+                                re.FirstOrDefault(i => i.proNo == v.MATNR).quan += 1;
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception)
+            { }
+
+            return re;
+        }
+
+        bool checkPiCiNotSame()
+        {
+            foreach (var doc in mDocDetailInfoList)
+            {
+                foreach (var pc in tagDetailList)
+                {
+                    if (pc.CHARG != doc.ZCHARG)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+        private void CheckDataForCommon(ref CheckResult result)
+        {
+            if (this.btnStart.Enabled)
+            {
+                result.UpdateMessage(WEI_KAI_SHI_JIAN_HUO);
+                result.InventoryResult = false;
+            }
+            if (errorEpcNumber>0)
+            {
+                result.UpdateMessage(EPC_WEI_ZHU_CE);
+                result.InventoryResult = false;
+            }
+
+            if (this.epcList.Count == 0)
+            {
+                result.UpdateMessage(WEI_SAO_DAO_EPC);
+                result.InventoryResult = false;
+            }
+
+            if (checkPiCiNotSame())
+            {
+                result.UpdateMessage("批次不一致");
+                result.InventoryResult = false;
+            }
+
+            //检查该箱内主条码是否全部相同
+            TagDetailInfo tdiExtend = null;
+            string zpbno = string.Empty;
+            List<MixRatioInfo> mixs = null;
+            if (IsYupinxiang() && !IsYpxWx())
+            {
+                zpbno = getSelItem()?.SubItems[1].Text;
+                mixs = mMixRatioList.FindAll(i => i.ZPBNO == zpbno);
+            }
+
+            if (this.tagDetailList != null && this.tagDetailList.Count > 0)
+            {
+                tdiExtend = this.tagDetailList.First();
+            }
+            if (tdiExtend != null)
+            {
+                string matnr = tdiExtend.MATNR;
+                int pxqty = 0;
+                if (IsYupinxiang() && !IsYpxWx())
+                {
+                    if (mixs != null && mixs.Count > 0)
+                    {
+                        pxqty = mixs.Sum(i => i.QUAN);
+                    }
+                }
+                else
+                {
+                    pxqty = tdiExtend.PXQTY;
+                }
+                int normalNum = this.tagDetailList.Count;//统计合法数量
+                int tempNum = this.tagDetailList.Count(o => o.MATNR == matnr);
+                int rfidEpcNum = this.tagDetailList.Count(o => o.IsAddEpc == false);//统计主条码epc数
+                int rfidAddEpcNum = this.tagDetailList.Count(o => o.IsAddEpc == true);//统计辅条码epc数
+
+                if (normalNum != tempNum)
+                {
+                    //不是预拼箱，或者是预拼箱尾箱，则需要判断是否串规格
+                    if (!IsYupinxiang() || IsYpxWx())
+                    {
+                        result.UpdateMessage(CUAN_GUI_GE);
+                        result.InventoryResult = false;
+                    }
+                }
+
+                if (IsYupinxiang() && IsYpxWx())
+                {
+                    if (epcList.Count > pxqty)
+                    {
+                        result.UpdateMessage(SHU_LIANG_DA_YU_XIANG_GUI);
+                        result.InventoryResult = false;
+                    }
+                }
+
+                //如果勾选了[按箱规收货]，则判断总数量是否等于箱规
+                if (this.cbUseBoxStandard.Checked)
+                {
+                    if (!IsYupinxiang())
+                    {
+                        if (epcList.Count <= 0 || epcList.Count != pxqty)
+                        {
+                            result.UpdateMessage(BU_FU_HE_XIANG_GUI);
+                            result.InventoryResult = false;
+                        }
+                    }
+                }
+                else
+                {
+                        if (epcList.Count > pxqty)
+                        {
+                            result.UpdateMessage(SHU_LIANG_DA_YU_XIANG_GUI);
+                            result.InventoryResult = false;
+                        }
+                }
+                //如果存在辅条码，检查主条码和辅条码数量是否一致
+                if (rfidAddEpcNum > 0 && rfidEpcNum != rfidAddEpcNum)
+                {
+                    result.UpdateMessage(TWO_NUMBER_ERROR);
+                    result.InventoryResult = false;
+                }
+
+                if (mReceiveType == ReceiveType.交接单收货)
+                {
+                    //只有交接单收货才需要判断是否超收
+                    string msg;
+                    if (IsOvercharge(tdiExtend.ZSATNR, tdiExtend.ZCOLSN, tdiExtend.ZSIZTX, rfidEpcNum, out msg))
+                    {
+                        result.UpdateMessage(msg);
+                        result.InventoryResult = false;
+                    }
+                }
+            }
+
+            if (IsYupinxiang() && !IsYpxWx())
+            {
+                //预拼箱的情况下做是否装箱不符的判断
+                bool isPinXiangFit = true;
+
+                List<CTagDetail> lvTagDetail = getTags();
+
+                if (lvTagDetail.Count > 0)
+                {
+                    if (lvTagDetail.Count != mixs.Count)
+                    {
+                        isPinXiangFit = false;
+                    }
+                    if (isPinXiangFit)
+                    {
+                        if (mixs != null && mixs.Count > 0)
+                        {
+                            foreach (CTagDetail lvi in lvTagDetail)
+                            {
+                                if (mixs.Exists(i => i.MATNR.ToUpper() == lvi.proNo.ToUpper()))
+                                {
+                                    if (lvi.quan != mixs.Find(i => i.MATNR.ToUpper() == lvi.proNo.ToUpper()).QUAN)
+                                    {
+                                        isPinXiangFit = false;
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    isPinXiangFit = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+
+                if (!isPinXiangFit)
+                {
+                    result.UpdateMessage(PEI_BI_BU_FU);
+                    result.InventoryResult = false;
+                }
+
+            }
+
+        }
+        private bool IsOvercharge(string zsatnr, string zcolsn, string zsiztx, int qty, out string errormsg)
+        {
+            errormsg = "";
+            try
+            {
+                foreach (ListViewItem docDetailItem in this.lvDocDetail.Items)
+                {
+                    if (docDetailItem.SubItems[1].Text == zsatnr && docDetailItem.SubItems[2].Text == zcolsn
+                        && docDetailItem.SubItems[3].Text == zsiztx)
+                    {
+                        int tempqty = 0;
+                        int.TryParse(docDetailItem.SubItems[5].Text, out tempqty);
+                        int realqty = 0;
+                        int.TryParse(docDetailItem.SubItems[6].Text, out realqty);
+                        realqty = realqty + qty;
+                        errormsg = string.Format(SHU_LIANG_CHAO_SHOU, realqty - tempqty);
+                        //实收>应收
+                        if (realqty > tempqty)
+                            return true;
+                        else
+                            return false;
+                    }
+                }
+                errormsg = string.Format(SHU_LIANG_CHAO_SHOU, qty);
+            }
+            catch (Exception)
+            {
+
+            }
+            return true;
+        }
+
+        private CheckResult CheckDataForGaoWeiKu()
+        {
+            CheckResult result = new CheckResult();
+
+            CheckDataForCommon(ref result);
+
+            if (boxNoList.Count > 0)
+            {
+                boxNoList.Clear();
+                result.UpdateMessage(XIANG_MA_BU_YI_ZHI);
+                result.InventoryResult = false;
+            }
+            if (string.IsNullOrEmpty(this.lblBoxNo.Text.Trim()))
+            {
+                result.UpdateMessage(WEI_SAO_DAO_XIANG_MA);
+                result.InventoryResult = false;
+
+                string hu = LocalDataService.GetNewErrorHu(SysConfig.DeviceNO);
+                this.Invoke(new Action(() =>
+                {
+                    this.lblBoxNo.Text = hu;
+                }));
+            }
+            //高位库 需要检测的箱子与所选行项目对应
+            if (this.cbUseBoxStandard.Checked && mReceiveType == ReceiveType.交货单收货)
+            {
+                ListViewItem currentDocdetailItem = getSelItem();
+
+                if (currentDocdetailItem != null)
+                {
+                    if (!IsYupinxiang())
+                    {
+                        List<CTagDetail> lvTagDetail = getTags();
+                        if (lvTagDetail.Count > 0)
+                        {
+                            bool isFit = false;
+                            foreach (CTagDetail item in lvTagDetail)
+                            {
+                                string zsatnr = item.zsatnr;
+                                string zcolsn = item.zcolsn;
+                                string zsiztx = item.zsiztx;
+
+                                if (currentDocdetailItem.SubItems[1].Text == zsatnr &&
+                                    currentDocdetailItem.SubItems[2].Text == zcolsn &&
+                                    currentDocdetailItem.SubItems[3].Text == zsiztx)
+                                {
+                                    isFit = true;
+                                }
+                            }
+                            if (!isFit)
+                            {
+                                result.UpdateMessage(HANG_XIANG_MU_BU_FU);
+                                result.InventoryResult = false;
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    result.UpdateMessage(WEI_XUAN_ZE_HANG_XIANG_MU);
+                    result.InventoryResult = false;
+                }
+            }
+            if (!string.IsNullOrEmpty(lblBoxNo.Text.Trim()))
+            {
+                List<EpcDetail> epcListBefore = GetHistoryEpcDetailListy();
+
+                if (epcListBefore?.Count > 0)
+                {
+                    if (epcListBefore.Select(i => i.HU).Distinct().Count() > 1 || epcListBefore.FirstOrDefault().HU != lblBoxNo.Text.Trim())
+                    {
+                        //商品已扫描
+                        result.UpdateMessage(EPC_YI_SAO_MIAO);
+                        result.InventoryResult = false;
+                    }
+                    else
+                    {
+                        bool isSame = true;
+                        //是否完全不匹配
+                        bool isAllNotSame = true;
+                        if (epcListBefore != null && epcListBefore.Count > 0)
+                        {
+                            if (this.epcList.Count == epcListBefore.Count)
+                            {
+                                foreach (EpcDetail epc in epcListBefore)
+                                {
+                                    if (!epcList.Contains(epc.EPC_SER))
+                                    {
+                                        isSame = false;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        isAllNotSame = false;
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                isSame = false;
+                                foreach (EpcDetail epc in epcListBefore)
+                                {
+                                    if (epcList.Contains(epc.EPC_SER))
+                                    {
+                                        isAllNotSame = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            isSame = false;
+                            isAllNotSame = true;
+                        }
+
+                        if (isSame)
+                        {
+                            //两批EPC对比，完全一样，示为重投
+                            result.IsRecheck = true;
+                            result.InventoryResult = false;
+                        }
+                        else if (isAllNotSame)
+                        {
+                            //两批EPC对比，完全不一样，示为箱码重复使用
+                            result.UpdateMessage(XIANG_MA_CHONG_FU_SHI_YONG);
+                            result.InventoryResult = false;
+                        }
+
+                        if (epcListBefore.Count > 0 && !isSame && !isAllNotSame)
+                        {
+                            result.UpdateMessage(EPC_YI_SAO_MIAO);
+                            result.InventoryResult = false;
+                        }
+                    }
+                }
+                else
+                {
+                    if (LocalDataService.hasExistHu(SysConfig.LGNUM, lblBoxNo.Text.Trim(), mReceiveType))
+                    {
+                        //两批EPC对比，完全不一样，示为箱码重复使用
+                        result.UpdateMessage(XIANG_MA_CHONG_FU_SHI_YONG);
+                        result.InventoryResult = false;
+                    }
+
+                }
+
+            }
+
+
+            if (result.InventoryResult || result.IsRecheck)
+            {
+                result.UpdateMessage(result.IsRecheck ? CHONG_TOU : RIGHT);
+                ShowInventoryResult(result);
+                SetInventoryResult(1);
+            }
+            else
+            {
+                SetInventoryResult(3);
+                ShowInventoryResult(result);
+            }
+
+
+            return result;
+        }
+        private void ShowInventoryResult(CheckResult cr)
+        {
+            this.Invoke(new Action(() =>
+            {
+                if (cr.InventoryResult || cr.IsRecheck)
+                    this.lblInventoryResult.ForeColor = Color.DarkGreen;
+                else
+                    this.lblInventoryResult.ForeColor = Color.Red;
+
+                this.lblInventoryResult.Text = cr.Message;
+
+                UpdateRecordInfo(cr);
+            }));
+
+        }
+        private void UpdateRecordInfo(CheckResult cr)
+        {
+            List<CTagDetail> lvTagDetail = getTags();
+            if (lvTagDetail.Count > 0)
+            {
+                foreach (CTagDetail item in lvTagDetail)
+                {
+                    if (currentErrorRecordList.Count >= lvTagDetail.Count)
+                    {
+                        currentErrorRecordList.ForEach(new Action<ErrorRecord>((record) =>
+                        {
+                            record.REMARK = cr.Message;
+                        }));
+                    }
+                    else
+                    {
+                        ErrorRecord record = new ErrorRecord();
+                        if (IsYupinxiang())
+                        {
+                            if (IsYpxWx())
+                                record.ZPBNO = "";
+                            else
+                                record.ZPBNO = getSelItem()?.SubItems[1].Text;
+                        }
+                        else
+                        {
+                            record.ZPBNO = "";
+                        }
+                        record.HU = this.lblBoxNo.Text.Trim();
+                        record.QTY = item.quan;
+                        record.REMARK = cr.Message;
+                        record.RESULT = (cr.InventoryResult||cr.IsRecheck) ? "S" : "E";
+                        record.ZCOLSN = item.zcolsn;
+                        record.ZSATNR = item.zsatnr;
+                        record.ZSIZTX = item.zsiztx;
+                        record.DOCNO = this.lblDocNo.Text.Trim();
+                        currentErrorRecordList.Add(record);
+                    }
+                }
+            }
+            if (errorEpcNumber> 0)
+            {
+                ErrorRecord record = new ErrorRecord();
+                if (IsYupinxiang())
+                {
+                    if (IsYpxWx())
+                        record.ZPBNO = "";
+                    else
+                        record.ZPBNO = getSelItem().SubItems[1].Text;
+                }
+                else
+                {
+                    record.ZPBNO = "";
+                }
+                record.HU = this.lblBoxNo.Text.Trim();
+                record.QTY = errorEpcNumber;
+                record.REMARK = cr.Message;
+                record.RESULT = (cr.InventoryResult || cr.IsRecheck) ? "S" : "E";
+                record.ZCOLSN = "";
+                record.ZSATNR = "";
+                record.ZSIZTX = "";
+                record.DOCNO = this.lblDocNo.Text.Trim();
+                currentErrorRecordList.Add(record);
+            }
+        }
+
+        private List<EpcDetail> GetHistoryEpcDetailListy()
+        {
+            if (epcList?.Count <= 0)
+                return null;
+            List<EpcDetail> result = mDocEpcDetailList.FindAll(i => epcList.Contains(i.EPC_SER) && i.Result == "S");
+            if (result?.Count <= 0)
+            {
+                if (mCurDocInfo != null && mCurDocInfo.DOCTYPE.Trim() == "DI21")
+                {
+                    result = ReceiveService.GetBeforeEpcDetailByEpcList(lblDocNo.Text, epcList, mReceiveType);
+                }
+            }
+
+            return result;
         }
 
         private void lvDocDetail_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -1006,18 +1653,18 @@ namespace HLAChannelMachine
             }
         }
 
-        public bool isItemSel()
+        public ListViewItem getSelItem()
         {
-            if(lvDocDetail.Visible)
+            if (lvDocDetail.Visible)
             {
-                return lvDocDetail.SelectedItems.Count > 0;
+                return lvDocDetail.SelectedItems.Count > 0 ? lvDocDetail.SelectedItems[0] : null;
             }
-            if(lvPBDetail.Visible)
+            if (lvPBDetail.Visible)
             {
-                return lvPBDetail.SelectedItems.Count > 0;
+                return lvPBDetail.SelectedItems.Count > 0 ? lvPBDetail.SelectedItems[0] : null;
             }
 
-            return false;
+            return null;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -1035,7 +1682,7 @@ namespace HLAChannelMachine
                 {
                     if (mReceiveType != ReceiveType.交接单收货)
                     {
-                        if (!isItemSel())
+                        if (getSelItem() == null)
                         {
                             MessageBox.Show("请先选择行项目", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
@@ -1047,7 +1694,7 @@ namespace HLAChannelMachine
             {
                 if (!IsYpxWx())
                 {
-                    if (!isItemSel())
+                    if (getSelItem() == null)
                     {
                         MessageBox.Show("请先选择行项目", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
@@ -1079,5 +1726,15 @@ namespace HLAChannelMachine
             PBForm pb = new PBForm(mMixRatioList);
             pb.ShowDialog();
         }
+    }
+
+    public class CTagDetail
+    {
+        public string proNo;
+        public string zsatnr;
+        public string zcolsn;
+        public string zsiztx;
+        public string charg;
+        public int quan;
     }
 }
