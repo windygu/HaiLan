@@ -36,7 +36,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.button1_danjian = new System.Windows.Forms.Button();
-            this.lblBoxNo = new System.Windows.Forms.Label();
             this.buttonUpload = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
@@ -86,6 +85,7 @@
             this.EB_REAL = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_REMARK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lblBoxNo = new System.Windows.Forms.TextBox();
             this.grouper1.SuspendLayout();
             this.grouper4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridBox)).BeginInit();
@@ -102,10 +102,10 @@
             this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouper1.BorderColor = System.Drawing.Color.SkyBlue;
             this.grouper1.BorderThickness = 1F;
+            this.grouper1.Controls.Add(this.lblBoxNo);
             this.grouper1.Controls.Add(this.label3);
             this.grouper1.Controls.Add(this.label6);
             this.grouper1.Controls.Add(this.button1_danjian);
-            this.grouper1.Controls.Add(this.lblBoxNo);
             this.grouper1.Controls.Add(this.buttonUpload);
             this.grouper1.Controls.Add(this.btnClose);
             this.grouper1.Controls.Add(this.btnStop);
@@ -185,17 +185,6 @@
             this.button1_danjian.UseVisualStyleBackColor = false;
             this.button1_danjian.Click += new System.EventHandler(this.button1_danjian_Click);
             // 
-            // lblBoxNo
-            // 
-            this.lblBoxNo.AutoSize = true;
-            this.lblBoxNo.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.lblBoxNo.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lblBoxNo.Location = new System.Drawing.Point(308, 102);
-            this.lblBoxNo.Name = "lblBoxNo";
-            this.lblBoxNo.Size = new System.Drawing.Size(50, 21);
-            this.lblBoxNo.TabIndex = 18;
-            this.lblBoxNo.Text = "XXXX";
-            // 
             // buttonUpload
             // 
             this.buttonUpload.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -205,7 +194,7 @@
             this.buttonUpload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonUpload.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.buttonUpload.ForeColor = System.Drawing.Color.DarkBlue;
-            this.buttonUpload.Location = new System.Drawing.Point(678, 148);
+            this.buttonUpload.Location = new System.Drawing.Point(700, 148);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(120, 45);
             this.buttonUpload.TabIndex = 54;
@@ -239,7 +228,7 @@
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.btnStop.ForeColor = System.Drawing.Color.DarkBlue;
-            this.btnStop.Location = new System.Drawing.Point(678, 92);
+            this.btnStop.Location = new System.Drawing.Point(700, 92);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(120, 44);
             this.btnStop.TabIndex = 43;
@@ -252,7 +241,7 @@
             this.lblTotalCheckNum.AutoSize = true;
             this.lblTotalCheckNum.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lblTotalCheckNum.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lblTotalCheckNum.Location = new System.Drawing.Point(308, 137);
+            this.lblTotalCheckNum.Location = new System.Drawing.Point(309, 157);
             this.lblTotalCheckNum.Name = "lblTotalCheckNum";
             this.lblTotalCheckNum.Size = new System.Drawing.Size(19, 21);
             this.lblTotalCheckNum.TabIndex = 51;
@@ -267,7 +256,7 @@
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.btnStart.ForeColor = System.Drawing.Color.DarkBlue;
-            this.btnStart.Location = new System.Drawing.Point(432, 89);
+            this.btnStart.Location = new System.Drawing.Point(471, 89);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(147, 45);
             this.btnStart.TabIndex = 42;
@@ -292,7 +281,7 @@
             this.cbUseBoxStandard.BackColor = System.Drawing.Color.WhiteSmoke;
             this.cbUseBoxStandard.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.cbUseBoxStandard.ForeColor = System.Drawing.Color.DarkBlue;
-            this.cbUseBoxStandard.Location = new System.Drawing.Point(678, 33);
+            this.cbUseBoxStandard.Location = new System.Drawing.Point(700, 33);
             this.cbUseBoxStandard.Name = "cbUseBoxStandard";
             this.cbUseBoxStandard.Size = new System.Drawing.Size(120, 45);
             this.cbUseBoxStandard.TabIndex = 41;
@@ -383,7 +372,7 @@
             this.btnGX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGX.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.btnGX.ForeColor = System.Drawing.Color.DarkBlue;
-            this.btnGX.Location = new System.Drawing.Point(432, 148);
+            this.btnGX.Location = new System.Drawing.Point(471, 148);
             this.btnGX.Name = "btnGX";
             this.btnGX.Size = new System.Drawing.Size(147, 44);
             this.btnGX.TabIndex = 32;
@@ -400,7 +389,7 @@
             this.btnSelectDocNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSelectDocNo.Font = new System.Drawing.Font("微软雅黑", 15F);
             this.btnSelectDocNo.ForeColor = System.Drawing.Color.DarkBlue;
-            this.btnSelectDocNo.Location = new System.Drawing.Point(432, 33);
+            this.btnSelectDocNo.Location = new System.Drawing.Point(471, 33);
             this.btnSelectDocNo.Name = "btnSelectDocNo";
             this.btnSelectDocNo.Size = new System.Drawing.Size(147, 45);
             this.btnSelectDocNo.TabIndex = 45;
@@ -489,7 +478,7 @@
             this.btnSetBoxQty.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSetBoxQty.Font = new System.Drawing.Font("微软雅黑", 12F);
             this.btnSetBoxQty.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnSetBoxQty.Location = new System.Drawing.Point(212, 132);
+            this.btnSetBoxQty.Location = new System.Drawing.Point(212, 153);
             this.btnSetBoxQty.Name = "btnSetBoxQty";
             this.btnSetBoxQty.Size = new System.Drawing.Size(90, 30);
             this.btnSetBoxQty.TabIndex = 13;
@@ -827,6 +816,13 @@
             this.splitContainer1.SplitterDistance = 206;
             this.splitContainer1.TabIndex = 7;
             // 
+            // lblBoxNo
+            // 
+            this.lblBoxNo.Location = new System.Drawing.Point(308, 98);
+            this.lblBoxNo.Name = "lblBoxNo";
+            this.lblBoxNo.Size = new System.Drawing.Size(150, 30);
+            this.lblBoxNo.TabIndex = 58;
+            // 
             // InventoryFormNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -859,7 +855,6 @@
         private System.Windows.Forms.Label lblWorkStatus;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label lblBoxNo;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblScanNum;
         private CodeVendor.Controls.Grouper grouper4;
@@ -909,5 +904,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader19;
         private System.Windows.Forms.Label lblActualTotalNum;
         private System.Windows.Forms.Label lblTotalBoxNum;
+        private System.Windows.Forms.TextBox lblBoxNo;
     }
 }

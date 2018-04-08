@@ -275,7 +275,7 @@ namespace HLAChannelMachine
                 this.Invoke(new Action(() =>
                 {
                     this.parentForm.LoadDocNoInfo(di, docDetailList
-                        , materialList, hlaTagList, epcDetailList, curHisEpcs);
+                        , materialList, hlaTagList, epcDetailList, curHisEpcs,receiveType);
                     this.Close();
                 }));
             }));

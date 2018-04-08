@@ -26,11 +26,14 @@ using HLAChannelMachine.Utils;
 using HLACommonLib.Model.RECEIVE;
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
+using HLACommonLib.Model.ENUM;
 
 namespace HLAChannelMachine
 {
     public partial class InventoryFormNew : CommonPMInventoryForm
     {
+        public ReceiveType mReceiveType;
+
         private DocInfo mDocInfo;
         private List<DocDetailInfo> mDocDetailInfoList;
         private Dictionary<string, EpcDetail> mCurrentEpcdetailList_dic = new Dictionary<string, EpcDetail>();
@@ -231,7 +234,55 @@ namespace HLAChannelMachine
                 return false;
             }
 
+            if (mReceiveType == ReceiveType.交接单收货 && !tag.IsAddEpc)
+            {
+                //只有交接单收货才需要判断是否超收
+                if (IsOvercharge(tag, out msg))
+                {
+                    return false;
+                }
+            }
+
+
             msg = "";
+            return true;
+        }
+        private bool IsOvercharge(TagDetailInfo tag, out string errormsg)
+        {
+            errormsg = "";
+            try
+            {
+                int realqty = 0;
+                realqty = tagDetailList.Count(i => i.MATNR == tag.MATNR && !i.IsAddEpc);
+                realqty = realqty + 1;
+
+                foreach (ListViewItem docDetailItem in this.lvDocDetail.Items)
+                {
+                    if (docDetailItem.SubItems[1].Text == tag.ZSATNR && docDetailItem.SubItems[2].Text == tag.ZCOLSN
+                        && docDetailItem.SubItems[3].Text == tag.ZSIZTX)
+                    {
+                        int tempqty = 0;
+                        int.TryParse(docDetailItem.SubItems[5].Text, out tempqty);
+                        int curRealqty = 0;
+                        int.TryParse(docDetailItem.SubItems[6].Text, out curRealqty);
+                        realqty += curRealqty;
+
+                        //实收>应收
+                        if (realqty > tempqty)
+                        {
+                            errormsg = string.Format("数量超收({0})", realqty - tempqty);
+                            return true;
+                        }
+                        else
+                            return false;
+                    }
+                }
+                errormsg = string.Format("数量超收({0})", realqty);
+            }
+            catch (Exception)
+            {
+
+            }
             return true;
         }
 
@@ -312,8 +363,10 @@ namespace HLAChannelMachine
         public void LoadDocNoInfo(DocInfo docInfo
             , List<DocDetailInfo> _docDetailInfoList
             , List<MaterialInfo> _materialList, List<HLATagInfo> _hlaTagInfo
-            , List<EpcDetail> _epcdetailList, List<EpcDetail> curHis)
+            , List<EpcDetail> _epcdetailList, List<EpcDetail> curHis, ReceiveType _receiveType)
         {
+            mReceiveType = _receiveType;
+
             mDocInfo = docInfo;
             mDocDetailInfoList = _docDetailInfoList;
 
@@ -603,7 +656,8 @@ namespace HLAChannelMachine
                 return;
             }
 
-            if (!getBox())
+            //if (!getBox())
+            if(string.IsNullOrEmpty(lblBoxNo.Text.Trim()))
             {
                 AudioHelper.PlayWithSystem("Resources\\fail.wav");
                 MessageBox.Show("获取箱号失败，请重新开始", "提示");
