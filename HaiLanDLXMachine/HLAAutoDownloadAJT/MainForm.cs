@@ -134,7 +134,7 @@ namespace HLAManualDownload
                 bool forceDown = false;
 
                 DateTime start = DateTime.Now;
-                if (DateTime.Now.Hour == 23)
+                if (DateTime.Now.Hour == 0)
                 {
                     if (!this.tagInfoUpdateTime.HasValue || (this.tagInfoUpdateTime.Value.Date.ToString("yyyy-MM-dd") != DateTime.Now.ToString("yyyy-MM-dd")))
                     {

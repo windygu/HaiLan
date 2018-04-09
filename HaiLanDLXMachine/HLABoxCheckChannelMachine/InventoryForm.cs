@@ -26,7 +26,6 @@ namespace HLABoxCheckChannelMachine
     public partial class InventoryForm : CommonInventoryForm
     {
         CLogManager mLog = new CLogManager(true);
-        List<PSGCount> mPSGList = new List<PSGCount>();
         string mCurBoxNo = "";
         Thread thread = null;
         public InventoryForm()
@@ -36,8 +35,7 @@ namespace HLABoxCheckChannelMachine
         }
         private void InitView()
         {
-            Invoke(new Action(() =>
-            {
+            Invoke(new Action(() => {
                 lblCurrentUser.Text = SysConfig.CurrentLoginUser != null ? SysConfig.CurrentLoginUser.UserId : "登录信息异常";
                 lblLouceng.Text = SysConfig.DeviceInfo != null ? SysConfig.DeviceInfo.LOUCENG : "设备信息异常";
                 lblPlc.Text = "连接中...";
@@ -52,8 +50,7 @@ namespace HLABoxCheckChannelMachine
             InitView();
 
             btnStart.Enabled = false;
-            thread = new Thread(new ThreadStart(() =>
-            {
+            thread = new Thread(new ThreadStart(() => {
                 ShowLoading("正在连接PLC...");
                 if (ConnectPlc())
                     Invoke(new Action(() => { lblPlc.Text = "正常"; lblPlc.ForeColor = Color.Black; }));
@@ -109,6 +106,7 @@ namespace HLABoxCheckChannelMachine
 
                 if (closed) return;
 
+
                 Invoke(new Action(() =>
                 {
                     btnStart.Enabled = true;
@@ -163,14 +161,16 @@ namespace HLABoxCheckChannelMachine
                 tagDetailList.Clear();
 
                 mCurBoxNo = "";
-                mPSGList.Clear();
 
                 if (boxNoList.Count > 0)
                 {
                     mCurBoxNo = boxNoList.Dequeue();
                 }
 
-                reader.StartInventory(mGhost, mTrigger, mR6ghost);
+                //int mv, trigger, r6mv;
+                //LocalDataService.GetGhostAndTrigger(out mv, out trigger, out r6mv);
+
+                reader.StartInventory(0, 0, 0);
                 isInventory = true;
                 lastReadTime = DateTime.Now;
 
@@ -178,25 +178,6 @@ namespace HLABoxCheckChannelMachine
         }
         public override CheckResult CheckData()
         {
-            if (tagDetailList != null)
-            {
-                try
-                {
-                    var re = tagDetailList.GroupBy(i => new { i.ZSATNR, i.ZCOLSN, i.ZSIZTX })
-                        .Select(i => new { i.Key.ZSATNR, i.Key.ZCOLSN, i.Key.ZSIZTX, Count = i.Count() });
-
-                    if (re != null)
-                    {
-                        foreach (var item in re)
-                        {
-                            mPSGList.Add(new PSGCount(item.ZSATNR, item.ZCOLSN, item.ZSIZTX, item.Count));
-                        }
-                    }
-                }
-                catch (Exception)
-                { }
-            }
-
             CheckResult result = base.CheckData();
 
             bool pinseCheckBool = false;
@@ -208,19 +189,44 @@ namespace HLABoxCheckChannelMachine
             }));
             if (allCheckBool)
             {
-                if (mPSGList.Count != 1)
+                if (tagDetailList != null && tagDetailList.Count > 0)
                 {
-                    result.UpdateMessage(@"品色规不唯一");
-                    result.InventoryResult = false;
+                    TagDetailInfo t = tagDetailList[0];
+                    foreach (var v in tagDetailList)
+                    {
+                        if (v.ZSATNR == t.ZSATNR && v.ZCOLSN == t.ZCOLSN && v.ZSIZTX == t.ZSIZTX)
+                        {
+
+                        }
+                        else
+                        {
+                            result.UpdateMessage(@"品色规不唯一");
+                            result.InventoryResult = false;
+
+                            break;
+                        }
+                    }
                 }
             }
             if (pinseCheckBool)
             {
-                var re = mPSGList.Select(i => new { i.p, i.s }).Distinct().ToList();
-                if (re.Count() != 1)
+                if (tagDetailList != null && tagDetailList.Count > 0)
                 {
-                    result.UpdateMessage(@"品色不唯一");
-                    result.InventoryResult = false;
+                    TagDetailInfo t = tagDetailList[0];
+                    foreach (var v in tagDetailList)
+                    {
+                        if (v.ZSATNR == t.ZSATNR && v.ZCOLSN == t.ZCOLSN)
+                        {
+
+                        }
+                        else
+                        {
+                            result.UpdateMessage(@"品色不唯一");
+                            result.InventoryResult = false;
+
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -228,6 +234,7 @@ namespace HLABoxCheckChannelMachine
             {
                 result.UpdateMessage(Consts.Default.RIGHT);
             }
+
             return result;
         }
         public override void StopInventory()
@@ -247,6 +254,8 @@ namespace HLABoxCheckChannelMachine
                 reader.StopInventory();
                 CheckResult cre = CheckData();
 
+                List<CTagDetail> tags = getTags();
+
                 //print
                 bool shouldPrint = false;
                 Invoke(new Action(() =>
@@ -255,61 +264,29 @@ namespace HLABoxCheckChannelMachine
                 }));
                 if (shouldPrint)
                 {
-                    HLABoxCheckChannelMachine.Utils.PrintHelper.PrintRightTag(mPSGList, mCurBoxNo);
-                }
-
-                if (cre.InventoryResult)
-                {
-
-                }
-                else
-                {
-
+                    HLABoxCheckChannelMachine.Utils.PrintHelper.PrintRightTag(tags, mCurBoxNo);
                 }
 
                 //show in grid
-                if (cre.InventoryResult)
+                if (tags != null && tags.Count > 0)
                 {
-                    foreach (PSGCount item in mPSGList)
+                    foreach(var v in tags)
                     {
-                        Invoke(new Action(() =>
+                        grid.Rows.Insert(0, mCurBoxNo, v.zsatnr, v.zcolsn, v.zsiztx, v.quan, cre.Message);
+                        if (!cre.InventoryResult)
                         {
-                            grid.Rows.Insert(0, mCurBoxNo, item.p, item.s, item.g, item.count, cre.Message);
-                        }));
-
+                            grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                        }
                     }
-
                 }
                 else
                 {
-                    foreach (PSGCount item in mPSGList)
+                    grid.Rows.Insert(0, mCurBoxNo, "", "", "", "", cre.Message);
+                    if (!cre.InventoryResult)
                     {
-                        Invoke(new Action(() =>
-                        {
-                            grid.Rows.Insert(0, mCurBoxNo, item.p, item.s, item.g, item.count, cre.Message);
-                            grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-                        }));
+                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
                     }
                 }
-
-                if (errorEpcNumber > 0)
-                {
-                    Invoke(new Action(() =>
-                    {
-                        grid.Rows.Insert(0, mCurBoxNo, "", "", "", errorEpcNumber, "商品未注册");
-                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-                    }));
-                }
-
-                if(epcList.Count<=0)
-                {
-                    Invoke(new Action(() =>
-                    {
-                        grid.Rows.Insert(0, mCurBoxNo, "", "", "", errorEpcNumber, "未扫描到商品");
-                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-                    }));
-                }
-
 
                 if (cre.InventoryResult)
                 {
@@ -319,7 +296,6 @@ namespace HLABoxCheckChannelMachine
                 {
                     SetInventoryResult(3);
                 }
-
 
             }
         }
@@ -368,21 +344,56 @@ namespace HLABoxCheckChannelMachine
             Pause();
         }
 
+        List<CTagDetail> getTags()
+        {
+            List<CTagDetail> re = new List<CTagDetail>();
+
+            try
+            {
+                if (tagDetailList != null && tagDetailList.Count > 0)
+                {
+                    foreach (var v in tagDetailList)
+                    {
+                        if (!v.IsAddEpc)
+                        {
+                            if (!re.Exists(i => i.proNo == v.MATNR))
+                            {
+                                CTagDetail t = new CTagDetail();
+                                t.proNo = v.MATNR;
+                                t.zsatnr = v.ZSATNR;
+                                t.zcolsn = v.ZCOLSN;
+                                t.zsiztx = v.ZSIZTX;
+                                t.charg = v.CHARG;
+                                t.quan = 1;
+
+                                re.Add(t);
+                            }
+                            else
+                            {
+                                re.FirstOrDefault(i => i.proNo == v.MATNR).quan += 1;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            { }
+
+            return re;
+        }
+
         private void InventoryForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseWindow();
         }
     }
-
-    public class PSGCount
+    public class CTagDetail
     {
-        public string p;
-        public string s;
-        public string g;
-        public int count;
-        public PSGCount(string p_, string s_, string g_, int count_)
-        {
-            p = p_; s = s_; g = g_; count = count_;
-        }
+        public string proNo;
+        public string zsatnr;
+        public string zcolsn;
+        public string zsiztx;
+        public string charg;
+        public int quan;
     }
 }

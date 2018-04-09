@@ -1,4 +1,5 @@
 ﻿using HLACommonLib;
+using HLACommonLib.Model;
 using HLACommonLib.Model.YK;
 using Stimulsoft.Report;
 using System;
@@ -13,7 +14,7 @@ namespace HLABoxCheckChannelMachine.Utils
 {
     class PrintHelper
     {
-        public static void PrintRightTag(List<HLABoxCheckChannelMachine.PSGCount> box,string curBoxNo)
+        public static void PrintRightTag(List<CTagDetail> box,string curBoxNo)
         {
             try
             {
@@ -34,14 +35,14 @@ namespace HLABoxCheckChannelMachine.Utils
                 {
                     if (skuCount > 1)
                     {
-                        if (box.Exists(i => !i.g.Contains("/")))
+                        if (box.Exists(i => !i.zsiztx.Contains("/")))
                             filepath = Application.StartupPath + "\\LabelMultiSku_Small.mrt";
                         else
                             filepath = Application.StartupPath + "\\LabelMultiSku.mrt";
                     }
                     else
                     {
-                        if (box.Exists(i => !i.g.Contains("/")))
+                        if (box.Exists(i => !i.zsiztx.Contains("/")))
                             filepath = Application.StartupPath + "\\LabelSku_Small.mrt";
                         else
                             filepath = Application.StartupPath + "\\LabelSku.mrt";
@@ -62,10 +63,10 @@ namespace HLABoxCheckChannelMachine.Utils
                     string content = "";
                     foreach (var matnr in box)
                     {
-                        string zsatnr = matnr.p;
-                        string zcolsn = matnr.s;
-                        string zsiztx = matnr.g;
-                        int count = matnr.count;
+                        string zsatnr = matnr.zsatnr;
+                        string zcolsn = matnr.zcolsn;
+                        string zsiztx = matnr.zsiztx;
+                        int count = matnr.quan;
                         string newzsiztx = null;
                         if (zsiztx.Contains("/"))
                         {
@@ -90,11 +91,11 @@ namespace HLABoxCheckChannelMachine.Utils
                 }
                 else
                 {
-                    HLABoxCheckChannelMachine.PSGCount matnr = box[0];
-                    string zsatnr = matnr.p;
-                    string zcolsn = matnr.s;
-                    string zsiztx = matnr.g;
-                    int count = matnr.count;
+                    CTagDetail matnr = box[0];
+                    string zsatnr = matnr.zsatnr;
+                    string zcolsn = matnr.zcolsn;
+                    string zsiztx = matnr.zsiztx;
+                    int count = matnr.quan;
                     string newzsiztx = null;
                     if (zsiztx.Contains("/"))
                     {
