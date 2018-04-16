@@ -671,9 +671,7 @@ namespace HLAChannelMachine
                     lblInventoryResult.Text = "";
                 }));
 
-                int i, j, k;
-                LocalDataService.GetGhostAndTrigger(out i, out j, out k);
-                reader.StartInventory(i, j, k);
+                reader.StartReading();
                 lastReadTime = DateTime.Now;
                 isInventory = true;
 
@@ -700,7 +698,7 @@ namespace HLAChannelMachine
             try
             {
                 this.isInventory = false;
-                reader.StopInventory();
+                reader.StopReading();
 
                 this.Invoke(new Action(() =>
                 {

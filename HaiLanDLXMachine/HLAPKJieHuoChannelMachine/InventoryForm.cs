@@ -240,9 +240,7 @@ namespace HLABoxCheckChannelMachine
                     }));
                 }
 
-                int mv, trigger, r6mv;
-                LocalDataService.GetGhostAndTrigger(out mv, out trigger, out r6mv);
-                reader.StartInventory(mv, trigger, r6mv);
+                reader.StartReading();
 
                 isInventory = true;
                 lastReadTime = DateTime.Now;
@@ -510,6 +508,10 @@ namespace HLABoxCheckChannelMachine
                     result.InventoryResult = false;
                     result.UpdateMessage("异常");
                 }           
+                else
+                {
+                    result.UpdateMessage(Consts.Default.RIGHT);
+                }
                 // add grid
                 addGrid(re);
                 //print
@@ -622,7 +624,6 @@ namespace HLABoxCheckChannelMachine
             if (result.InventoryResult)
             {
                 SetInventoryResult(1);
-                result.UpdateMessage(Consts.Default.RIGHT);
             }
             else
             {
@@ -642,7 +643,7 @@ namespace HLABoxCheckChannelMachine
                 }));
                 isInventory = false;
 
-                reader.StopInventory();
+                reader.StopReading();
 
                 CheckResult cre = CheckData();
                 Invoke(new Action(() =>

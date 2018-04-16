@@ -1164,7 +1164,7 @@ namespace HLAPKChannelMachine
                         UpdateUIControl(InventoryControlType.HU_LABEL, boxno);
                     }
 
-                    reader.StartInventory(mGhost, mTrigger, mR6ghost);
+                    reader.StartReading();
                     isInventory = true;
                     lastReadTime = DateTime.Now;
 
@@ -1260,7 +1260,7 @@ namespace HLAPKChannelMachine
                     {
                         UpdateUIControl(InventoryControlType.STATUS_LABEL, "停止扫描");
                         isInventory = false;
-                        reader.StopInventory();
+                        reader.StopReading();
                         ShowLoading("正在保存发货数据和上传SAP，请耐心等待...");
                         CheckResult checkResult = CheckData();
                         playSound(checkResult);
@@ -1627,11 +1627,6 @@ namespace HLAPKChannelMachine
                     {
                         if (!string.IsNullOrEmpty(epc))
                         {
-                            Reader_OnTagReported(new Xindeco.Device.Model.TagInfo()
-                            {
-                                Epc = epc.Trim(),
-                                Rssi = -30
-                            });
                         }
                     }
                 }

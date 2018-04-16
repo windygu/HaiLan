@@ -227,10 +227,8 @@ namespace HLACancelCheckChannelMachine
 
                 setBoxNo(mCurBoxNo);
 
-                int mv, trigger, r6mv;
-                LocalDataService.GetGhostAndTrigger(out mv, out trigger, out r6mv);
 
-                reader.StartInventory(mv, trigger, r6mv);
+                reader.StartReading();
                 isInventory = true;
                 lastReadTime = DateTime.Now;
 
@@ -479,7 +477,7 @@ namespace HLACancelCheckChannelMachine
                     lblWorkStatus.Text = "停止扫描";
                 }));
                 isInventory = false;
-                reader.StopInventory();
+                reader.StopReading();
                 CheckResult cre = CheckData();
 
                 if (cre.InventoryResult)

@@ -54,6 +54,7 @@ namespace HLACommonLib
         public static string SearchMode = "1";
         public static string Session = "2";
 
+        public static int mReaderPower = 2700;
         //读写器参数
         public static ReaderConfig ReaderConfig = new ReaderConfig();
         /// <summary>
@@ -214,6 +215,28 @@ namespace HLACommonLib
             UOMDic.Add("WID", "幅");
         }
 
+        public static void loadConfig()
+        {
+            SysConfig.ReaderIp = ConfigurationManager.AppSettings["ReaderIp"];
+            SysConfig.mReaderPower = int.Parse(ConfigurationManager.AppSettings["AntennaPower"]);
+            SysConfig.DelayTime = ConfigurationManager.AppSettings["DelayTime"] == null ? 700 : int.Parse(ConfigurationManager.AppSettings["DelayTime"]);
+
+            //SAP相关配置
+            SysConfig.AppServerHost = ConfigurationManager.AppSettings["AppServerHost"];
+            SysConfig.SystemNumber = ConfigurationManager.AppSettings["SystemNumber"];
+            SysConfig.User = ConfigurationManager.AppSettings["User"];
+            SysConfig.Password = ConfigurationManager.AppSettings["Password"];
+            SysConfig.Client = ConfigurationManager.AppSettings["Client"];
+            SysConfig.Language = ConfigurationManager.AppSettings["Language"];
+            SysConfig.PoolSize = ConfigurationManager.AppSettings["PoolSize"];
+            SysConfig.PeakConnectionsLimit = ConfigurationManager.AppSettings["PeakConnectionsLimit"];
+            SysConfig.IdleTimeout = ConfigurationManager.AppSettings["IdleTimeout"];
+
+            //通道机硬件设备相关配置
+            SysConfig.Port = ConfigurationManager.AppSettings["Port"];
+            SysConfig.ScannerPort_1 = ConfigurationManager.AppSettings["ScannerPort_1"];
+            SysConfig.ScannerPort_2 = ConfigurationManager.AppSettings["ScannerPort_2"];
+        }
         public static void Load()
         {
             LGNUM = ConfigurationManager.AppSettings["LGNUM"];

@@ -53,6 +53,10 @@
     <Reference Include="DMSkin">
       <HintPath>..\packages\DMSkin.dll</HintPath>
     </Reference>
+    <Reference Include="MercuryAPI, Version=1.27.2.22, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MercuryAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
     </Reference>

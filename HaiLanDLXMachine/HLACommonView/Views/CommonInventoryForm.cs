@@ -17,14 +17,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Xindeco.Device;
 using Xindeco.Device.Model;
-
+using ThingMagic;
 
 namespace HLACommonView.Views
 {
     public partial class CommonInventoryForm : MetroForm
     {
         #region 通用属性
-        public UHFReader reader = null;
+        //public UHFReader reader = null;
+        public Reader reader = null;
         public PLCController plc = null;
         public BarcodeDevice barcode1 = null;
         public BarcodeDevice barcode2 = null;
@@ -180,7 +181,10 @@ namespace HLACommonView.Views
         #region 设备相关
         public virtual void InitDevice(UHFReaderType readerType, bool connectBarcode)
         {
-            reader = new UHFReader(readerType);
+            //reader = new UHFReader(readerType);
+            Reader.SetSerialTransport("tcp", SerialTransportTCP.CreateSerialReader);
+            reader = Reader.Create(string.Format("tcp://{0}", readerIp));
+
             plc = new PLCController(SysConfig.Port);
             if (connectBarcode)
             {
@@ -198,62 +202,71 @@ namespace HLACommonView.Views
         #region reader
         private void DisconnectReader()
         {
-            reader.Disconnect();
+            reader.Destroy();
         }
         
         public virtual bool ConnectReader()
         {
-            reader.OnTagReported += Reader_OnTagReported;
-            bool result = reader.Connect(readerIp, Xindeco.Device.Model.ConnectType.TCP, WindowsFormsSynchronizationContext.Current);
-            if (result)
+            try
             {
-                Xindeco.Device.Model.ReaderConfig config = new Xindeco.Device.Model.ReaderConfig();
-                config.SearchMode = SysConfig.ReaderConfig.SearchMode;
-                config.Session = SysConfig.ReaderConfig.Session;
-                if (config.AntennaList == null) config.AntennaList = new List<Xindeco.Device.Model.ReaderAntenna>();
-                if (SysConfig.ReaderConfig.UseAntenna1)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(1, true, SysConfig.ReaderConfig.AntennaPower1));
-                else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(1, false, SysConfig.ReaderConfig.AntennaPower1));
+                if (reader == null)
+                    return false;
 
-                if (SysConfig.ReaderConfig.UseAntenna2)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(2, true, SysConfig.ReaderConfig.AntennaPower2));
-                else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(2, false, SysConfig.ReaderConfig.AntennaPower2));
+                reader.Connect();
 
-                if (SysConfig.ReaderConfig.UseAntenna3)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(3, true, SysConfig.ReaderConfig.AntennaPower3));
-                else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(3, false, SysConfig.ReaderConfig.AntennaPower3));
+                int[] antennaList = { 1, 2, 3, 4 }; //选择天线1,2,3,4
 
-                if (SysConfig.ReaderConfig.UseAntenna4)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(4, true, SysConfig.ReaderConfig.AntennaPower4));
-                else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(4, false, SysConfig.ReaderConfig.AntennaPower4));
-                reader.SetParameter(config);
+                reader.ParamSet("/reader/region/id", Reader.Region.NA);
 
-                
-                int i, j, k;
-                LocalDataService.GetGhostAndTrigger(out i, out j, out k);
-                mGhost = i;
-                mTrigger = j;
-                mR6ghost = k;
-                
+                SimpleReadPlan plan = new SimpleReadPlan(antennaList, TagProtocol.GEN2, null, null, 1000); //设置天线和协议
+                reader.ParamSet("/reader/read/plan", plan);
+
+                //场景配置,用于隧道机
+                Gen2.LinkFrequency blf = Gen2.LinkFrequency.LINK320KHZ;
+                reader.ParamSet("/reader/gen2/BLF", blf);
+
+                Gen2.Tari tari = Gen2.Tari.TARI_6_25US;
+                reader.ParamSet("/reader/gen2/tari", tari);
+
+                Gen2.TagEncoding tagncoding = Gen2.TagEncoding.FM0;
+                reader.ParamSet("/reader/gen2/tagEncoding", tagncoding);
+
+                Gen2.Session session = Gen2.Session.S1;
+                reader.ParamSet("/reader/gen2/session", session);
+
+                Gen2.Target target = Gen2.Target.A;
+                reader.ParamSet("/reader/gen2/target", target);
+
+                //500~3150
+                reader.ParamSet("/reader/radio/readPower", SysConfig.mReaderPower);
+
+                reader.TagRead += Reader_OnTagReported;
+                reader.ReadException += new EventHandler<ReaderExceptionEventArgs>(r_ReadException);
+
             }
-            return result;
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+                return false;
+            }
+            return true;
         }
 
+        private void r_ReadException(object sender, ReaderExceptionEventArgs e)
+        {
+            MetroMessageBox.Show(this, e.ReaderException.Message,"Error");
+        }
 
-        public void Reader_OnTagReported(Xindeco.Device.Model.TagInfo taginfo)
+        public void Reader_OnTagReported(Object sender,TagReadDataEventArgs taginfo)
         {
             if (!isInventory) return;
-            if (taginfo == null || string.IsNullOrEmpty(taginfo.Epc)) return;
-            if (!epcList.Contains(taginfo.Epc))
+            if (taginfo == null || taginfo.TagReadData == null || string.IsNullOrEmpty(taginfo.TagReadData.EpcString)) return;
+            if (!epcList.Contains(taginfo.TagReadData.EpcString))
             {
                 lastReadTime = DateTime.Now;
-                epcList.Add(taginfo.Epc);
+                epcList.Add(taginfo.TagReadData.EpcString);
 
-                TagDetailInfo tag = GetTagDetailInfoByEpc(taginfo.Epc);
+                TagDetailInfo tag = GetTagDetailInfoByEpc(taginfo.TagReadData.EpcString);
                 if (tag != null)   //合法EPC
                 {
                     tagDetailList.Add(tag);

@@ -161,7 +161,7 @@ namespace HLAEBReceiveChannelMachine
                         this.lblStatus.Text = "停止扫描";
                     }));
                     this.isInventory = false;
-                    reader.StopInventory();
+                    reader.StopReading();
                     if (!btnStart.Enabled)
                     {
                         //等待基础数据加载完成后再判断数据
@@ -227,9 +227,7 @@ namespace HLAEBReceiveChannelMachine
                         lblStatus.Text = "正在扫描";
                         lblResult.Text = "";
                     }));
-                    int i, j, k;
-                    LocalDataService.GetGhostAndTrigger(out i, out j, out k);
-                    reader.StartInventory(i, j, k);
+                    reader.StartReading();
                     isInventory = true;
                     lastReadTime = DateTime.Now;
 
@@ -821,7 +819,6 @@ namespace HLAEBReceiveChannelMachine
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Reader_OnTagReported(new Xindeco.Device.Model.TagInfo() { Epc = textBox1.Text });
         }
 
         private void timer1_Tick(object sender, EventArgs e)

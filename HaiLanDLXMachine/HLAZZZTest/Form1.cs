@@ -23,16 +23,21 @@ namespace HLAZZZTest
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            
+            ShowLoading("123");
+            Thread.Sleep(1000);
+            ShowLoading("456");
+            Thread.Sleep(1000);
+            ShowLoading("789");
+            Thread.Sleep(1000);
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadConfig();
-
+            timer1.Enabled = false;
             SAPDataService.Init();
 
-            SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
         }
 
         public void LoadConfig()
@@ -79,5 +84,27 @@ namespace HLAZZZTest
 
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            int i = 9;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            int i = 9;
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //timer1.Enabled = true;
+
+            label1.Text = "123";
+            Thread.Sleep(3000);
+            //label1.Text = "456";
+            //Thread.Sleep(1000);
+            //label1.Text = "789";
+            //Thread.Sleep(1000);
+        }
     }
 }

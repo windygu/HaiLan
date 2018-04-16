@@ -16,9 +16,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Xindeco.Device.Model;
-using System.Xml;
-using OSharp.Utility.Extensions;
-using Newtonsoft.Json;
 
 namespace HLABoxCheckChannelMachine
 {
@@ -167,10 +164,7 @@ namespace HLABoxCheckChannelMachine
                     mCurBoxNo = boxNoList.Dequeue();
                 }
 
-                //int mv, trigger, r6mv;
-                //LocalDataService.GetGhostAndTrigger(out mv, out trigger, out r6mv);
-
-                reader.StartInventory(0, 0, 0);
+                reader.StartReading();
                 isInventory = true;
                 lastReadTime = DateTime.Now;
 
@@ -251,7 +245,7 @@ namespace HLABoxCheckChannelMachine
                     lblWorkStatus.Text = "停止扫描";
                 }));
                 isInventory = false;
-                reader.StopInventory();
+                reader.StopReading();
                 CheckResult cre = CheckData();
 
                 List<CTagDetail> tags = getTags();

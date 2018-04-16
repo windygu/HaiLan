@@ -27,7 +27,7 @@ namespace HLACommonView.Views
 
         private void LoadGlConfig()
         {
-            textBox1_gl.Text = SysConfig.ReaderConfig.AntennaPower1.ToString();
+            textBox1_gl.Text = SysConfig.mReaderPower.ToString();
         }
         public static void UpdateAppConfig(string newKey, string newValue)
         {
@@ -56,18 +56,15 @@ namespace HLACommonView.Views
             {
                 string gl = textBox1_gl.Text.Trim();
 
-                double dgl = 0;
-                double.TryParse(gl, out dgl);
-                if(dgl<1 || dgl>32.5)
+                int dgl = 0;
+                int.TryParse(gl, out dgl);
+                if(dgl<500 || dgl>3150)
                 {
                     MetroMessageBox.Show(this, "请输入有效功率",
                         "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
-                UpdateAppConfig("AntennaPower1", gl);
-                UpdateAppConfig("AntennaPower2", gl);
-                UpdateAppConfig("AntennaPower3", gl);
-                UpdateAppConfig("AntennaPower4", gl);
+                UpdateAppConfig("AntennaPower", gl);
 
                 MetroMessageBox.Show(this, "更改配置后，需要重新启动程序才能使新配置生效",
                     "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);

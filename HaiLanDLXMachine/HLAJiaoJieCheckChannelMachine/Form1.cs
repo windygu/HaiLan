@@ -244,9 +244,7 @@ namespace HLAJiaoJieCheckChannelMachine
                         label17_currentHu.Text = boxNoList.Dequeue();
                     }));
                 }
-                int mv, trigger, r6mv;
-                LocalDataService.GetGhostAndTrigger(out mv, out trigger, out r6mv);
-                reader.StartInventory(mv, trigger, r6mv);
+                reader.StartReading();
                 isInventory = true;
                 lastReadTime = DateTime.Now;
             }
@@ -279,7 +277,7 @@ namespace HLAJiaoJieCheckChannelMachine
                     curHu = label17_currentHu.Text;
                 }));
                 isInventory = false;
-                reader.StopInventory();
+                reader.StopReading();
 
                 checkResult = check(curHu);
 

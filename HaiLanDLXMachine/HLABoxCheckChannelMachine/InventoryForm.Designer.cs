@@ -141,13 +141,13 @@
             // 
             this.btnStart.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnStart.AutoEllipsis = true;
-            this.btnStart.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnStart.BackColor = System.Drawing.Color.Transparent;
             this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnStart.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
             this.btnStart.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(93)))), ((int)(((byte)(203)))));
             this.btnStart.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
             this.btnStart.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.btnStart.DM_Radius = 1;
+            this.btnStart.DM_Radius = 10;
             this.btnStart.Enabled = false;
             this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -167,13 +167,13 @@
             // 
             this.btnPause.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnPause.AutoEllipsis = true;
-            this.btnPause.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnPause.BackColor = System.Drawing.Color.Transparent;
             this.btnPause.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPause.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
             this.btnPause.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(93)))), ((int)(((byte)(203)))));
             this.btnPause.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
             this.btnPause.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.btnPause.DM_Radius = 1;
+            this.btnPause.DM_Radius = 10;
             this.btnPause.Enabled = false;
             this.btnPause.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnPause.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -193,13 +193,13 @@
             // 
             this.btnClose.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnClose.AutoEllipsis = true;
-            this.btnClose.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btnClose.BackColor = System.Drawing.Color.Transparent;
             this.btnClose.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnClose.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
             this.btnClose.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(20)))), ((int)(((byte)(0)))));
             this.btnClose.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(60)))), ((int)(((byte)(0)))));
             this.btnClose.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.btnClose.DM_Radius = 1;
+            this.btnClose.DM_Radius = 10;
             this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);

@@ -65,6 +65,9 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MercuryAPI">
+      <HintPath>..\packages\MercuryAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
     </Reference>

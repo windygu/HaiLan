@@ -247,9 +247,7 @@ namespace HLAPackingBoxChannelMachine
                         lblHu.Text = boxNoList.Dequeue();
                     }));
                 }
-                int mv, trigger, r6mv;
-                LocalDataService.GetGhostAndTrigger(out mv, out trigger,out r6mv);
-                reader.StartInventory(mv, trigger, r6mv);
+                reader.StartReading();
                 
                 isInventory = true;
                 lastReadTime = DateTime.Now;
@@ -264,7 +262,7 @@ namespace HLAPackingBoxChannelMachine
                     lblWorkStatus.Text = "停止扫描";
                 }));
                 isInventory = false;
-                reader.StopInventory();
+                reader.StopReading();
                 HLACommonView.Model.CheckResult result = CheckData();
                 UploadBoxInfo box = GetUploadBox(result);
                 
@@ -794,7 +792,6 @@ namespace HLAPackingBoxChannelMachine
         {
             if (!string.IsNullOrWhiteSpace(metroTextBox2.Text))
             {
-                Reader_OnTagReported(new Xindeco.Device.Model.TagInfo() { Epc = metroTextBox2.Text.Trim() });
             }
         }
 

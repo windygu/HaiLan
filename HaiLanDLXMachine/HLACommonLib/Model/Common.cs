@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using OSharp.Utility.Extensions;
+using ThingMagic;
 
 namespace HLACommonLib.Model
 {
@@ -401,4 +402,5 @@ namespace HLACommonLib.Model
         public List<string> epc = new List<string>();
         public List<TagDetailInfo> tags = new List<TagDetailInfo>();
     }
+
 }

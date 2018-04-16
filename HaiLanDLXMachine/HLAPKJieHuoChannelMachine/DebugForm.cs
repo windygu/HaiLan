@@ -35,7 +35,6 @@ namespace HLABoxCheckChannelMachine
                 {
                     Xindeco.Device.Model.TagInfo ti = new Xindeco.Device.Model.TagInfo();
                     ti.Epc = v;
-                    mParentForm.Reader_OnTagReported(ti);
                 }
 
                 mParentForm.StopInventoryDebug();

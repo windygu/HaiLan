@@ -69,32 +69,23 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Codetag.Rfid.ClassLibrary, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ThingMagic840\Codetag.Rfid.ClassLibrary.dll</HintPath>
+    <Reference Include="Codetag.Rfid.ClassLibrary">
+      <HintPath>..\packages\Codetag.Rfid.ClassLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="CodeTagClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\840\CodeTagClassLibrary.dll</HintPath>
+    <Reference Include="CodeTagClassLibrary">
+      <HintPath>..\packages\CodeTagClassLibrary.dll</HintPath>
     </Reference>
     <Reference Include="CodeVendor.Controls">
-      <HintPath>..\packages\GroupControl\CodeVendor.Controls.dll</HintPath>
+      <HintPath>..\packages\CodeVendor.Controls.dll</HintPath>
     </Reference>
     <Reference Include="DMSkin">
       <HintPath>..\packages\DMSkin.dll</HintPath>
     </Reference>
     <Reference Include="Impinj.OctaneSdk">
-      <HintPath>..\packages\ImpinjR420\Impinj.OctaneSdk.dll</HintPath>
-    </Reference>
-    <Reference Include="LLRP, Version=1.0.0.6, Culture=neutral, PublicKeyToken=92f466b54dae9fc4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ImpinjR420\LLRP.dll</HintPath>
-    </Reference>
-    <Reference Include="LLRP.Impinj">
-      <HintPath>..\packages\ImpinjR420\LLRP.Impinj.dll</HintPath>
+      <HintPath>..\packages\Impinj.OctaneSdk.dll</HintPath>
     </Reference>
     <Reference Include="MercuryAPI">
-      <HintPath>..\packages\840\MercuryAPI.dll</HintPath>
+      <HintPath>..\packages\MercuryAPI.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
@@ -102,12 +93,6 @@
     <Reference Include="OSharp.Utility, Version=3.0.0.0, Culture=neutral, PublicKeyToken=e7429fb96767d50d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\OSharp.Utility.dll</HintPath>
-    </Reference>
-    <Reference Include="sapnco">
-      <HintPath>..\packages\Nco3.0\sapnco.dll</HintPath>
-    </Reference>
-    <Reference Include="sapnco_utils">
-      <HintPath>..\packages\Nco3.0\sapnco_utils.dll</HintPath>
     </Reference>
     <Reference Include="Stimulsoft.Base, Version=2012.3.1500.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -135,9 +120,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xindeco.Device, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Xindeco.Device\Xindeco.Device.dll</HintPath>
+    <Reference Include="Xindeco.Device">
+      <HintPath>..\packages\Xindeco.Device.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
