@@ -91,7 +91,7 @@
             this.button3_shezhi.ForeColor = System.Drawing.Color.Teal;
             this.button3_shezhi.Location = new System.Drawing.Point(731, 606);
             this.button3_shezhi.Name = "button3_shezhi";
-            this.button3_shezhi.Size = new System.Drawing.Size(144, 43);
+            this.button3_shezhi.Size = new System.Drawing.Size(144, 51);
             this.button3_shezhi.TabIndex = 27;
             this.button3_shezhi.Text = "设置";
             this.button3_shezhi.UseVisualStyleBackColor = false;
@@ -111,7 +111,7 @@
             this.button2.ForeColor = System.Drawing.Color.Teal;
             this.button2.Location = new System.Drawing.Point(495, 606);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(155, 61);
+            this.button2.Size = new System.Drawing.Size(194, 51);
             this.button2.TabIndex = 26;
             this.button2.Text = "删除选中数据";
             this.button2.UseVisualStyleBackColor = false;
@@ -130,7 +130,7 @@
             this.button1.ForeColor = System.Drawing.Color.Teal;
             this.button1.Location = new System.Drawing.Point(320, 605);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(135, 61);
+            this.button1.Size = new System.Drawing.Size(135, 51);
             this.button1.TabIndex = 25;
             this.button1.Text = "全选/全不选";
             this.button1.UseVisualStyleBackColor = false;
@@ -149,7 +149,7 @@
             this.button1_clearXiang.ForeColor = System.Drawing.Color.Teal;
             this.button1_clearXiang.Location = new System.Drawing.Point(495, 686);
             this.button1_clearXiang.Name = "button1_clearXiang";
-            this.button1_clearXiang.Size = new System.Drawing.Size(194, 48);
+            this.button1_clearXiang.Size = new System.Drawing.Size(194, 51);
             this.button1_clearXiang.TabIndex = 24;
             this.button1_clearXiang.Text = "清除单箱/单号数据";
             this.button1_clearXiang.UseVisualStyleBackColor = false;
@@ -168,7 +168,7 @@
             this.checkItemButton.ForeColor = System.Drawing.Color.Teal;
             this.checkItemButton.Location = new System.Drawing.Point(320, 686);
             this.checkItemButton.Name = "checkItemButton";
-            this.checkItemButton.Size = new System.Drawing.Size(135, 47);
+            this.checkItemButton.Size = new System.Drawing.Size(135, 51);
             this.checkItemButton.TabIndex = 23;
             this.checkItemButton.Text = "检货记录";
             this.checkItemButton.UseVisualStyleBackColor = false;
@@ -185,9 +185,9 @@
             this.btnUpload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpload.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.btnUpload.ForeColor = System.Drawing.Color.Teal;
-            this.btnUpload.Location = new System.Drawing.Point(77, 605);
+            this.btnUpload.Location = new System.Drawing.Point(77, 606);
             this.btnUpload.Name = "btnUpload";
-            this.btnUpload.Size = new System.Drawing.Size(212, 61);
+            this.btnUpload.Size = new System.Drawing.Size(212, 51);
             this.btnUpload.TabIndex = 22;
             this.btnUpload.Text = "重新上传选中数据";
             this.btnUpload.UseVisualStyleBackColor = false;
@@ -206,7 +206,7 @@
             this.btnRefresh.ForeColor = System.Drawing.Color.Teal;
             this.btnRefresh.Location = new System.Drawing.Point(77, 686);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(212, 48);
+            this.btnRefresh.Size = new System.Drawing.Size(212, 51);
             this.btnRefresh.TabIndex = 22;
             this.btnRefresh.Text = "刷新";
             this.btnRefresh.UseVisualStyleBackColor = false;
@@ -221,9 +221,9 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.btnClose.ForeColor = System.Drawing.Color.Teal;
-            this.btnClose.Location = new System.Drawing.Point(732, 673);
+            this.btnClose.Location = new System.Drawing.Point(732, 686);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(143, 61);
+            this.btnClose.Size = new System.Drawing.Size(143, 51);
             this.btnClose.TabIndex = 20;
             this.btnClose.Text = "关闭";
             this.btnClose.UseVisualStyleBackColor = false;

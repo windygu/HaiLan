@@ -71,62 +71,57 @@ namespace HLAChannelMachine.Utils
         /// <returns></returns>
         public static bool PrintRightBoxTagV2(bool inventoryResult, string boxNo, List<ListViewTagInfo> lvTagInfo)
         {
-            new Thread(new ThreadStart(() =>
+            try
             {
-                try
-                {
-                    ListViewTagInfo tagDetailItem = lvTagInfo[0];
-                    string zsatnr = tagDetailItem.ZSATNR;
-                    string zcolsn = tagDetailItem.ZCOLSN;
-                    string zsiztx = tagDetailItem.ZSIZTX;
-                    string charg = tagDetailItem.CHARG;
-                    int qty = tagDetailItem.QTY;
+                ListViewTagInfo tagDetailItem = lvTagInfo[0];
+                string zsatnr = tagDetailItem.ZSATNR;
+                string zcolsn = tagDetailItem.ZCOLSN;
+                string zsiztx = tagDetailItem.ZSIZTX;
+                string charg = tagDetailItem.CHARG;
+                int qty = tagDetailItem.QTY;
 
-                    string filepath;
-                    string newzsiztx = null;
-                    if (zsiztx.Contains("/"))
+                string filepath;
+                string newzsiztx = null;
+                if (zsiztx.Contains("/"))
+                {
+                    filepath = Application.StartupPath + "\\RIGHTLABEL.mrt";
+                    try
                     {
-                        filepath = Application.StartupPath + "\\RIGHTLABEL.mrt";
-                        try
-                        {
-                            newzsiztx = zsiztx.Substring(zsiztx.IndexOf('(') + 1).TrimEnd(')');
-                        }
-                        catch (Exception ex)
-                        {
-                            LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-                            newzsiztx = zsiztx;
-                        }
+                        newzsiztx = zsiztx.Substring(zsiztx.IndexOf('(') + 1).TrimEnd(')');
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        filepath = Application.StartupPath + "\\RIGHTLABEL_SMALL.mrt";
+                        LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
                         newzsiztx = zsiztx;
                     }
-
-                    StiReport stiReport1 = new StiReport();
-                    stiReport1.Load(filepath);
-                    //////设置报表内的参数值
-                    stiReport1.Compile();
-                    stiReport1["HU"] = boxNo;
-                    stiReport1["PINHAO"] = zsatnr;
-                    stiReport1["SEHAO"] = zcolsn;
-                    stiReport1["GUIGE"] = newzsiztx;
-                    stiReport1["SHULIANG"] = qty.ToString();
-
-                    StiReport.HideMessages = true;
-
-                    //Create Printer Settings
-                    PrinterSettings printerSettings = new PrinterSettings();
-                    //Set Printer to Use for Printing
-                    printerSettings.PrinterName = SysConfig.PrinterName;
-                    //Direct Print - Don't Show Print Dialog
-                    stiReport1.Print(false, printerSettings);
                 }
-                catch (Exception ex)
+                else
                 {
-                    LogHelper.Error("打印正常箱标出错", ex.Message);
+                    filepath = Application.StartupPath + "\\RIGHTLABEL_SMALL.mrt";
+                    newzsiztx = zsiztx;
                 }
-            })).Start();
+
+                StiReport stiReport1 = new StiReport();
+                stiReport1.Load(filepath);
+                //////设置报表内的参数值
+                stiReport1.Compile();
+                stiReport1["HU"] = boxNo;
+                stiReport1["PINHAO"] = zsatnr;
+                stiReport1["SEHAO"] = zcolsn;
+                stiReport1["GUIGE"] = newzsiztx;
+                stiReport1["SHULIANG"] = qty.ToString();
+
+                //Create Printer Settings
+                PrinterSettings printerSettings = new PrinterSettings();
+                //Set Printer to Use for Printing
+                //printerSettings.PrinterName = SysConfig.PrinterName;
+                //Direct Print - Don't Show Print Dialog
+                stiReport1.Print(false, printerSettings);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error("打印正常箱标出错", ex.Message);
+            }
 
             return true;
         }
@@ -250,8 +245,6 @@ namespace HLAChannelMachine.Utils
 
                         i++;
                     }
-
-                    StiReport.HideMessages = true;
 
                     //Create Printer Settings
                     PrinterSettings printerSettings = new PrinterSettings();

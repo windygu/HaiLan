@@ -197,7 +197,7 @@ void control_GotFocus(object sender, EventArgs e)
         /// <summary>
         /// 存储箱型
         /// </summary>
-        string res = string.Empty;
+        string mDefaultXiangXin = string.Empty;
 
         private void InventoryOutLogForm_Load(object sender, EventArgs e)
         {
@@ -1469,7 +1469,7 @@ void control_GotFocus(object sender, EventArgs e)
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 string sPMAT_MATNR = dt.Rows[i][1].ToString();//PMAT_MATNR
-                if (res.Contains(sPMAT_MATNR))
+                if (mDefaultXiangXin.Contains(sPMAT_MATNR))
                 {
                     iIndex = i;
                     cboBoxstyle.SelectedIndex = i;
@@ -2801,7 +2801,7 @@ void control_GotFocus(object sender, EventArgs e)
 
         private void btnSetDefault_Click(object sender, EventArgs e)
         {
-            res = cboBoxstyle.SelectedValue.ToString();
+            mDefaultXiangXin = cboBoxstyle.SelectedValue.ToString();
             AudioHelper.PlayWithSystem("Resources/notify.wav");
         }
     }

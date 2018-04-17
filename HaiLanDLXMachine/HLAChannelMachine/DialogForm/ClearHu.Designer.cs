@@ -71,7 +71,7 @@
             this.button1.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button1.Location = new System.Drawing.Point(665, 165);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 41);
+            this.button1.Size = new System.Drawing.Size(188, 41);
             this.button1.TabIndex = 3;
             this.button1.Text = "清除箱号数据";
             this.button1.UseVisualStyleBackColor = true;
@@ -80,9 +80,9 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button2.Location = new System.Drawing.Point(654, 456);
+            this.button2.Location = new System.Drawing.Point(665, 456);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(199, 41);
+            this.button2.Size = new System.Drawing.Size(188, 41);
             this.button2.TabIndex = 4;
             this.button2.Text = "关闭";
             this.button2.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@
             this.button3_clearDoc.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.button3_clearDoc.Location = new System.Drawing.Point(665, 274);
             this.button3_clearDoc.Name = "button3_clearDoc";
-            this.button3_clearDoc.Size = new System.Drawing.Size(139, 41);
+            this.button3_clearDoc.Size = new System.Drawing.Size(188, 41);
             this.button3_clearDoc.TabIndex = 8;
             this.button3_clearDoc.Text = "清除单号数据";
             this.button3_clearDoc.UseVisualStyleBackColor = true;

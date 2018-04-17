@@ -124,6 +124,7 @@ namespace HLACommonView.Views
                     item.PACKMAT = mater.PXMAT;
                     item.PACKMAT_FH = mater.PXMAT_FH;
                     item.PUT_STRA = mater.PUT_STRA;
+                    item.BRGEW = mater.BRGEW;
 
                     if (rfidEpc == item.RFID_EPC)
                         item.IsAddEpc = false;

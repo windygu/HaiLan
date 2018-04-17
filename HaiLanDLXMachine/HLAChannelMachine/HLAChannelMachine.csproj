@@ -149,12 +149,6 @@
     <Compile Include="DialogForm\BoxQtyConfigForm.Designer.cs">
       <DependentUpon>BoxQtyConfigForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DialogForm\Customsetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DialogForm\Customsetting.Designer.cs">
-      <DependentUpon>Customsetting.cs</DependentUpon>
-    </Compile>
     <Compile Include="DialogForm\ClearHu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,12 +166,6 @@
     </Compile>
     <Compile Include="DialogForm\DocNoInputFormNew.Designer.cs">
       <DependentUpon>DocNoInputFormNew.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DialogForm\DocNoInputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DialogForm\DocNoInputForm.Designer.cs">
-      <DependentUpon>DocNoInputForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DialogForm\ErrorRecordForm.cs">
       <SubType>Form</SubType>
@@ -208,12 +196,6 @@
     </Compile>
     <Compile Include="DialogForm\UploadMsgForm.Designer.cs">
       <DependentUpon>UploadMsgForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InventoryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InventoryForm.Designer.cs">
-      <DependentUpon>InventoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="InventoryMainForm.cs">
       <SubType>Form</SubType>
@@ -253,12 +235,6 @@
     <Compile Include="DialogForm\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DialogForm\UploadForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DialogForm\UploadForm.Designer.cs">
-      <DependentUpon>UploadForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utils\AppConfig.cs" />
     <Compile Include="Utils\CacheKey.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
@@ -272,9 +248,6 @@
     <EmbeddedResource Include="DialogForm\BoxQtyConfigForm.resx">
       <DependentUpon>BoxQtyConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DialogForm\Customsetting.resx">
-      <DependentUpon>Customsetting.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\ClearHu.resx">
       <DependentUpon>ClearHu.cs</DependentUpon>
     </EmbeddedResource>
@@ -283,9 +256,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\DocNoInputFormNew.resx">
       <DependentUpon>DocNoInputFormNew.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DialogForm\DocNoInputForm.resx">
-      <DependentUpon>DocNoInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\ErrorRecordForm.resx">
       <DependentUpon>ErrorRecordForm.cs</DependentUpon>
@@ -301,9 +271,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\UploadMsgForm.resx">
       <DependentUpon>UploadMsgForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InventoryForm.resx">
-      <DependentUpon>InventoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InventoryMainForm.resx">
       <DependentUpon>InventoryMainForm.cs</DependentUpon>
@@ -332,9 +299,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DialogForm\UploadForm.resx">
-      <DependentUpon>UploadForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>

@@ -284,11 +284,6 @@ namespace HLAJiaoJieCheckChannelMachine
                 if (checkResult.InventoryResult)
                 {
                     checkResult.UpdateMessage(Consts.Default.RIGHT);
-                    SetInventoryResult(1);
-                }
-                else
-                {
-                    SetInventoryResult(3);
                 }
 
                 Invoke(new Action(() => {
@@ -314,6 +309,15 @@ namespace HLAJiaoJieCheckChannelMachine
                 //add grid
                 addgrid(curBox);
                 updateHuCount();
+
+                if (checkResult.InventoryResult)
+                {
+                    SetInventoryResult(1);
+                }
+                else
+                {
+                    SetInventoryResult(3);
+                }
             }
         }
         bool duibi(string hu)

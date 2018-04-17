@@ -773,7 +773,6 @@ namespace HLAChannelMachine
                 return;
             }
             StopInventory();
-            setControlState(false);
 
             ResultDataInfo rdi = GetResultData();
             //add to grid
@@ -782,6 +781,8 @@ namespace HLAChannelMachine
             printData(rdi);
             //upload
             upload(rdi);
+
+            setControlState(false);
 
             AudioHelper.PlayWithSystem("Resources\\success.wav");
         }

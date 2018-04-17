@@ -155,12 +155,6 @@
     <Compile Include="DialogForm\DocNoInputFormNew.Designer.cs">
       <DependentUpon>DocNoInputFormNew.cs</DependentUpon>
     </Compile>
-    <Compile Include="DialogForm\DocNoInputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DialogForm\DocNoInputForm.Designer.cs">
-      <DependentUpon>DocNoInputForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="DialogForm\ErrorLogForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,12 +184,6 @@
     </Compile>
     <Compile Include="InventoryFormNew.Designer.cs">
       <DependentUpon>InventoryFormNew.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InventoryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InventoryForm.Designer.cs">
-      <DependentUpon>InventoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
@@ -263,9 +251,6 @@
     <EmbeddedResource Include="DialogForm\DocNoInputFormNew.resx">
       <DependentUpon>DocNoInputFormNew.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DialogForm\DocNoInputForm.resx">
-      <DependentUpon>DocNoInputForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\ErrorLogForm.resx">
       <DependentUpon>ErrorLogForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -280,9 +265,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InventoryFormNew.resx">
       <DependentUpon>InventoryFormNew.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InventoryForm.resx">
-      <DependentUpon>InventoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
