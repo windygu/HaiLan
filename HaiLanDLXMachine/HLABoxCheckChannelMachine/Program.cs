@@ -69,7 +69,7 @@ namespace HLABoxCheckChannelMachine
                 SAPDataService.Init();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new InventoryForm());
+                Application.Run(new LoginForm());
             }
 
         }

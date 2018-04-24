@@ -14,7 +14,7 @@ namespace HLABoxCheckChannelMachine.Utils
 {
     class PrintHelper
     {
-        public static void PrintRightTag(List<CTagDetail> box,string curBoxNo)
+        public static void PrintRightTag(List<CTagDetail> box, string curBoxNo)
         {
             try
             {
@@ -35,18 +35,11 @@ namespace HLABoxCheckChannelMachine.Utils
                 {
                     if (skuCount > 1)
                     {
-                        if (box.Exists(i => !i.zsiztx.Contains("/")))
-                            filepath = Application.StartupPath + "\\LabelMultiSku_Small.mrt";
-                        else
-                            filepath = Application.StartupPath + "\\LabelMultiSku.mrt";
+                        filepath = Application.StartupPath + "\\LabelMultiSku.mrt";
                     }
                     else
                     {
-                        if (box.Exists(i => !i.zsiztx.Contains("/")))
-                            filepath = Application.StartupPath + "\\LabelSku_Small.mrt";
-                        else
-                            filepath = Application.StartupPath + "\\LabelSku.mrt";
-
+                        filepath = Application.StartupPath + "\\LabelSku.mrt";
                     }
                 }
                 StiReport report = new StiReport();
@@ -55,7 +48,8 @@ namespace HLABoxCheckChannelMachine.Utils
                 if (skuCount > 10)
                 {
                     report["HU"] = curBoxNo;
-                    report["CONTENT"] = box.Count.ToString();
+                    report["SKUCOUNT"] = box.Count.ToString();
+                    report["COUNT"] = box.Sum(i => i.quan).ToString();
                 }
                 else if (skuCount > 1)
                 {
@@ -88,6 +82,8 @@ namespace HLABoxCheckChannelMachine.Utils
                             zsatnr, zcolsn, newzsiztx, count);
                     }
                     report["CONTENT"] = content;
+                    report["COUNT"] = box.Sum(i => i.quan).ToString();
+
                 }
                 else
                 {

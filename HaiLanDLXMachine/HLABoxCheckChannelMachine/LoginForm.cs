@@ -31,7 +31,10 @@ namespace HLABoxCheckChannelMachine
         }
         public override void Login()
         {
+            InventoryForm form = new InventoryForm();
+            form.ShowDialog();
 
+            /*
             if (string.IsNullOrEmpty(User) || string.IsNullOrEmpty(Password))
             {
                 MetroMessageBox.Show(this, "工号密码不能为空", "提示",
@@ -60,10 +63,12 @@ namespace HLABoxCheckChannelMachine
                 MetroMessageBox.Show(this, "用户名或密码错误！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             base.Login();
+            */
         }
         private void LoginForm_Load(object sender, EventArgs e)
         {
-
+            EnableLoginButton();
+            /*
             Thread thread = new Thread(new ThreadStart(() => {
                 ShowLoading("正在从SAP下载设备信息...");
                 SysConfig.DeviceInfo = SAPDataService.GetHLANo(SysConfig.LGNUM, SysConfig.DeviceNO, "01F");
@@ -80,6 +85,7 @@ namespace HLABoxCheckChannelMachine
             }));
             thread.IsBackground = true;
             thread.Start();
+            */
         }
     }
 }

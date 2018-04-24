@@ -38,6 +38,7 @@ namespace HLAZZZTest
             timer1.Enabled = false;
             SAPDataService.Init();
 
+            this.reportViewer1.RefreshReport();
         }
 
         public void LoadConfig()
