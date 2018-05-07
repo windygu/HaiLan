@@ -79,6 +79,9 @@ namespace HLACommonLib.Model
         public double BRGEW { get; set; }
 
         public string PUT_STRA { get; set; }
+
+        public string MAKTX { get; set; }
+
         public object Clone()
         {
             TagDetailInfo re = new TagDetailInfo();

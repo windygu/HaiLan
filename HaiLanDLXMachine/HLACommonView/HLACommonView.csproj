@@ -78,6 +78,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UARTRfidLink">
+      <HintPath>..\packages\UARTRfidLink.dll</HintPath>
+    </Reference>
     <Reference Include="Xindeco.Device">
       <HintPath>..\packages\Xindeco.Device.dll</HintPath>
     </Reference>

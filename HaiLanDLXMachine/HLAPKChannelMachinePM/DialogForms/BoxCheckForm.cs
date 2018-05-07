@@ -10,28 +10,46 @@ using DMSkin;
 using HLACommonLib;
 using HLACommonLib.Model;
 using HLADeliverChannelMachine.Utils;
+using UARTRfidLink.Exparam;
+using UARTRfidLink.Extend;
 
 namespace HLADeliverChannelMachine.DialogForms
 {
     public partial class BoxCheckForm : MetroForm
     {
         private Dictionary<string, DataGridViewRow> dgvList = new Dictionary<string, DataGridViewRow>();
-        private IUHFReader reader;
+        private RfidUARTLinkExtend reader;
         private bool isInventory = false;
         private ShippingBox box = null;
         private ShippingBoxDetail currentShippingBoxDetail = null;
         private List<string> epcList = new List<string>();
-
+        string mComPort;
         public BoxCheckForm()
         {
             InitializeComponent(); 
         }
 
-        public BoxCheckForm(IUHFReader _reader)
+        public BoxCheckForm(RfidUARTLinkExtend _reader,string port)
         {
             InitializeComponent();
             reader = _reader;
-            reader.OnTagReported += reader_OnTagReported;
+            mComPort = port;
+            reader.RadioInventory += rfid_RadioInventory;
+
+        }
+        public void rfid_RadioInventory(object sender, RadioInventoryEventArgs e)
+        {
+            string epc = "";
+            try
+            {
+                for (int i = 0; i < e.tagInfo.epc.Length; i++)
+                {
+                    epc += string.Format("{0:X4}", e.tagInfo.epc[i]);
+                }
+            }
+            catch (Exception) { }
+
+            reader_OnTagReported(epc);
         }
 
         private void CheckTag(string data)
@@ -72,9 +90,9 @@ namespace HLADeliverChannelMachine.DialogForms
             }
         }
 
-        void reader_OnTagReported(TagInfo taginfo)
+        void reader_OnTagReported(string Epc)
         {
-            CheckTag(taginfo.Epc);
+            CheckTag(Epc);
         }
 
         private void btnQuery_Click(object sender, EventArgs e)
@@ -137,7 +155,7 @@ namespace HLADeliverChannelMachine.DialogForms
             if (this.isInventory == false)
             {
                 this.isInventory = true;
-                reader.StartInventory(1000, 0);
+                reader.StartInventory(mComPort, RadioOperationMode.Continuous, 1);
             }
 
             return true;
@@ -149,7 +167,7 @@ namespace HLADeliverChannelMachine.DialogForms
             if (this.isInventory == true)
             {
                 this.isInventory = false;
-                reader.StopInventory();
+                reader.StopInventory(mComPort);
             }
             return true;
         }
@@ -158,7 +176,7 @@ namespace HLADeliverChannelMachine.DialogForms
         {
             if (this.isInventory)
                 StopInventory();
-            reader.OnTagReported -= new TagReportedHandler(reader_OnTagReported);
+            reader.RadioInventory -= new EventHandler<RadioInventoryEventArgs>(rfid_RadioInventory);
         }
 
         private void txtBarcode_KeyPress(object sender, KeyPressEventArgs e)

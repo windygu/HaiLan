@@ -4456,6 +4456,44 @@ namespace HLACommonLib
             }
         }
 
+        public static List<string> getIngnoreEpcs(string date = "")
+        {
+            List<string> re = new List<string>();
+
+            try
+            {
+                RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
+                RfcRepository rfcrep = dest.Repository;
+                IRfcFunction myfun = null;
+                myfun = rfcrep.CreateFunction("Z_EW_RF_5000");
+
+                myfun.SetValue("IV_LGNUM", SysConfig.LGNUM);
+                if (!string.IsNullOrEmpty(date))
+                    myfun.SetValue("IV_DATE", date);
+
+                myfun.Invoke(dest);
+
+                IRfcTable IrfTable = myfun.GetTable("ET_DATA");
+                for (int i = 0; i < IrfTable.Count; i++)
+                {
+                    IrfTable.CurrentIndex = i;
+                    string epc = getZiDuan(IrfTable, "EPC");
+                    if (!string.IsNullOrEmpty(epc))
+                        re.Add(epc);
+                }
+
+                string result = myfun.GetString("EV_STATUS");
+                string sapMsg = myfun.GetString("EV_MSG");
+                RfcSessionManager.EndContext(dest);
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return re;
+        }
+
     }
 
 }

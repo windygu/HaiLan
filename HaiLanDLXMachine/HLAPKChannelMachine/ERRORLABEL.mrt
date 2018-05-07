@@ -113,7 +113,7 @@
         <HeaderBand1 Ref="9" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,10,2.2</ClientRectangle>
-          <Components isList="true" count="10">
+          <Components isList="true" count="9">
             <Text4 Ref="10" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0.5,1.2,0.6</ClientRectangle>
@@ -133,7 +133,7 @@
               <Brush>Transparent</Brush>
               <ClientRectangle>1.4,0.1,4,1.4</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>微软雅黑,22,Bold</Font>
+              <Font>微软雅黑,14,Bold</Font>
               <Guid>59f39ce29b274da68e9bae2695646aef</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -240,7 +240,7 @@
               <Name>Text13</Name>
               <Page isRef="3" />
               <Parent isRef="9" />
-              <Text>实发</Text>
+              <Text>主</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
@@ -257,57 +257,43 @@
               <Name>Text14</Name>
               <Page isRef="3" />
               <Parent isRef="9" />
-              <Text>差异</Text>
+              <Text>辅</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
-            <Text10 Ref="19" type="Text" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>9.8,0,1.4,2.2</ClientRectangle>
-              <Conditions isList="true" count="0" />
-              <Font>微软雅黑,22,Bold</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text10</Name>
-              <Page isRef="3" />
-              <Parent isRef="9" />
-              <Text>QTY</Text>
-              <TextBrush>Black</TextBrush>
-              <VertAlignment>Center</VertAlignment>
-            </Text10>
           </Components>
           <Conditions isList="true" count="0" />
           <Name>HeaderBand1</Name>
           <Page isRef="3" />
           <Parent isRef="3" />
         </HeaderBand1>
-        <DataBand1 Ref="20" type="DataBand" isKey="true">
+        <DataBand1 Ref="19" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <BusinessObjectGuid isNull="true" />
           <ClientRectangle>0,3.4,10,0.6</ClientRectangle>
           <Components isList="true" count="7">
-            <Text90 Ref="21" type="Text" isKey="true">
+            <Text90 Ref="20" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>4.5,0,1.7,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
-              <Font>Arial,10</Font>
+              <Font>Arial,8</Font>
               <Guid>6c399bb7bb9a4481b53ce0779c24bbdb</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text90</Name>
               <Page isRef="3" />
-              <Parent isRef="20" />
+              <Parent isRef="19" />
               <Text>{Inventory.ZSIZTX}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text90>
-            <Text94 Ref="22" type="Text" isKey="true">
+            <Text94 Ref="21" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>8,0,0.9,0.6</ClientRectangle>
+              <ClientRectangle>6.2,0,1.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
               <Guid>5b9126d9802646b2ac8487d4b72c1f7a</Guid>
@@ -316,16 +302,16 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text94</Name>
               <Page isRef="3" />
-              <Parent isRef="20" />
+              <Parent isRef="19" />
               <Text>{Inventory.YQTY}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text94>
-            <Text95 Ref="23" type="Text" isKey="true">
+            <Text95 Ref="22" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.9,0,0.9,0.6</ClientRectangle>
+              <ClientRectangle>8,0,1.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
               <Guid>6b2c7ca050bb4a8299e1f64e2d0584ff</Guid>
@@ -334,13 +320,13 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text95</Name>
               <Page isRef="3" />
-              <Parent isRef="20" />
+              <Parent isRef="19" />
               <Text>{Inventory.ADDYQTY}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text95>
-            <Text2 Ref="24" type="Text" isKey="true">
+            <Text2 Ref="23" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>3.4,0,1.1,0.6</ClientRectangle>
@@ -351,13 +337,13 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text2</Name>
               <Page isRef="3" />
-              <Parent isRef="20" />
+              <Parent isRef="19" />
               <Text>{Inventory.ZCOLSN}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text2>
-            <Text1 Ref="25" type="Text" isKey="true">
+            <Text1 Ref="24" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,3.2,0.6</ClientRectangle>
@@ -368,16 +354,16 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
               <Page isRef="3" />
-              <Parent isRef="20" />
+              <Parent isRef="19" />
               <Text>{Inventory.ZSATNR}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text1>
-            <Text5 Ref="26" type="Text" isKey="true">
+            <Text5 Ref="25" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>6.2,0,0.9,0.6</ClientRectangle>
+              <ClientRectangle>6.2,0,0,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
               <Guid>01ccd907df5d4d42aa6d2e3c80572fcb</Guid>
@@ -386,16 +372,16 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text5</Name>
               <Page isRef="3" />
-              <Parent isRef="20" />
+              <Parent isRef="19" />
               <Text>{Inventory.QTY}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
               <VertAlignment>Center</VertAlignment>
             </Text5>
-            <Text6 Ref="27" type="Text" isKey="true">
+            <Text6 Ref="26" type="Text" isKey="true">
               <Border>All;Black;1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
-              <ClientRectangle>7.1,0,0.9,0.6</ClientRectangle>
+              <ClientRectangle>7.1,0,0,0.6</ClientRectangle>
               <Conditions isList="true" count="0" />
               <Font>Arial,10</Font>
               <Guid>704aeca75cd84a75afb2bde36410113b</Guid>
@@ -404,7 +390,7 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text6</Name>
               <Page isRef="3" />
-              <Parent isRef="20" />
+              <Parent isRef="19" />
               <Text>{Inventory.ADDQTY}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
@@ -421,11 +407,11 @@
           <PrintOnAllPages>True</PrintOnAllPages>
           <Sort isList="true" count="0" />
         </DataBand1>
-        <FooterBand1 Ref="28" type="FooterBand" isKey="true">
+        <FooterBand1 Ref="27" type="FooterBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,4.8,10,1.2</ClientRectangle>
           <Components isList="true" count="1">
-            <Text7 Ref="29" type="Text" isKey="true">
+            <Text7 Ref="28" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0.1,9.8,1</ClientRectangle>
               <Conditions isList="true" count="0" />
@@ -435,7 +421,7 @@
               <Margins>0,0,0,0</Margins>
               <Name>Text7</Name>
               <Page isRef="3" />
-              <Parent isRef="28" />
+              <Parent isRef="27" />
               <Text>{REMARK}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
@@ -456,14 +442,14 @@
       <PageHeight>15</PageHeight>
       <PageWidth>10</PageWidth>
       <Report isRef="0" />
-      <Watermark Ref="30" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <Watermark Ref="29" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
   <PreviewSettings>268427775</PreviewSettings>
-  <PrinterSettings Ref="31" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <PrinterSettings Ref="30" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -475,10 +461,10 @@
     <value>Stimulsoft.Report.Dll</value>
   </ReferencedAssemblies>
   <ReportAlias>报表</ReportAlias>
-  <ReportChanged>7/5/2016 4:26:08 PM</ReportChanged>
+  <ReportChanged>3/21/2018 12:51:18 PM</ReportChanged>
   <ReportCreated>5/29/2013 8:48:17 AM</ReportCreated>
-  <ReportFile>D:\xindeco\svn\heilan\Code\ChannelMachine for Xinglin\HLAPKChannelMachine\ERRORLABEL.mrt</ReportFile>
-  <ReportGuid>afb11e4faf0641ad9644e55e1ba370ab</ReportGuid>
+  <ReportFile>E:\HaiLan\Code\ChannelMachine for Xinglin\HLAPKChannelMachine\bin\x86\Release\ERRORLABEL.mrt</ReportFile>
+  <ReportGuid>2975a5e78a764d9b8d1773197c881437</ReportGuid>
   <ReportName>报表</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2012.3.1500</ReportVersion>

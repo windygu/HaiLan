@@ -46,12 +46,16 @@ namespace HLACommonView.Views
         public static int mTrigger = 0;
         public static int mR6ghost = 0;
 
+        private List<string> mIgnoreEpcs = new List<string>();
+
+
         public CommonInventoryForm()
         {
             InitializeComponent();
+            mIgnoreEpcs = SAPDataService.getIngnoreEpcs();
         }
 
-        
+
 
         public virtual CheckResult CheckData()
         {
@@ -125,6 +129,7 @@ namespace HLACommonView.Views
                     item.PACKMAT_FH = mater.PXMAT_FH;
                     item.PUT_STRA = mater.PUT_STRA;
                     item.BRGEW = mater.BRGEW;
+                    item.MAKTX = mater.MAKTX;
 
                     if (rfidEpc == item.RFID_EPC)
                         item.IsAddEpc = false;
@@ -257,11 +262,35 @@ namespace HLACommonView.Views
         {
             MetroMessageBox.Show(this, e.ReaderException.Message,"Error");
         }
+        public bool ignore(string epc)
+        {
+            try
+            {
+                if (mIgnoreEpcs != null && mIgnoreEpcs.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(epc) && epc.Length >= 14)
+                    {
+                        string rfidEpc = epc.Substring(0, 14);
+                        if (mIgnoreEpcs.Exists(i => i.Contains(rfidEpc)))
+                        {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return false;
+        }
 
         public void Reader_OnTagReported(Object sender,TagReadDataEventArgs taginfo)
         {
             if (!isInventory) return;
-            if (taginfo == null || taginfo.TagReadData == null || string.IsNullOrEmpty(taginfo.TagReadData.EpcString)) return;
+            if (taginfo == null || taginfo.TagReadData == null || string.IsNullOrEmpty(taginfo.TagReadData.EpcString) || ignore(taginfo.TagReadData.EpcString)) return;
             if (!epcList.Contains(taginfo.TagReadData.EpcString))
             {
                 lastReadTime = DateTime.Now;

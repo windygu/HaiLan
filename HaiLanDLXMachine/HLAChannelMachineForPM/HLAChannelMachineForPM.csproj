@@ -69,23 +69,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Codetag.Rfid.ClassLibrary">
-      <HintPath>..\packages\Codetag.Rfid.ClassLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="CodeTagClassLibrary">
-      <HintPath>..\packages\CodeTagClassLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="CodeVendor.Controls">
       <HintPath>..\packages\CodeVendor.Controls.dll</HintPath>
     </Reference>
     <Reference Include="DMSkin">
       <HintPath>..\packages\DMSkin.dll</HintPath>
-    </Reference>
-    <Reference Include="Impinj.OctaneSdk">
-      <HintPath>..\packages\Impinj.OctaneSdk.dll</HintPath>
-    </Reference>
-    <Reference Include="MercuryAPI">
-      <HintPath>..\packages\MercuryAPI.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
@@ -120,9 +108,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xindeco.Device">
-      <HintPath>..\packages\Xindeco.Device.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DialogForm\BoxDetailForm.cs">
@@ -225,13 +210,6 @@
     </Compile>
     <Compile Include="Utils\AppConfig.cs" />
     <Compile Include="Utils\CommonUtils.cs" />
-    <Compile Include="Utils\ImpinjR420.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\IUHFReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Utils\ThingMagic840.cs" />
     <Compile Include="Utils\TypeConvert.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -20,6 +20,8 @@ using HLADeliverChannelMachine.Utils;
 using HLA.IBLL;
 using HLA.BLL;
 using HLA.Model;
+using UARTRfidLink.Exparam;
+using UARTRfidLink.Extend;
 
 namespace HLADeliverChannelMachine
 {
@@ -28,11 +30,10 @@ namespace HLADeliverChannelMachine
 
         IInventoryOutLogDetailService _services = new InventoryOutLogDetailService();
         #region 属性
-#if IMPINJ
-        IUHFReader reader = new ImpinjR420();
-#else
-        IUHFReader reader = new ThingMagic840();
-#endif
+        public RfidUARTLinkExtend reader = new RfidUARTLinkExtend();
+        string mComPort;
+        uint mPower;
+
         bool isInventory = false;
         /// <summary>
         /// 当前下架单
@@ -242,7 +243,7 @@ void control_GotFocus(object sender, EventArgs e)
             LGTYPCheckedComboBox.MaxDropDownItems = 10;
             LGTYPCheckedComboBox.DisplayMember = "Name";
             LGTYPCheckedComboBox.ValueSeparator = " ";
-                      
+
         }
 
         private void LblDifferentcount_TextChanged(object sender, EventArgs e)
@@ -318,8 +319,7 @@ void control_GotFocus(object sender, EventArgs e)
             if (this.isInventory)
                 StopInventory();
             //关闭读写器连接
-            reader.Disconnect();
-            reader.OnTagReported -= new TagReportedHandler(reader_OnTagReported);
+            reader.DisconnectRadio(mComPort);
             uploadServer.OnUploadSuccess -= new UploadSuccessHandler(uploadServer_OnUploadSuccess);
             //保存配置信息，比如打印机编号的配置
             SetConfigValue("PrinterName", this.txtPrinter.Text.Trim());
@@ -337,16 +337,16 @@ void control_GotFocus(object sender, EventArgs e)
 
         private List<string> epcLists = new List<string>();
 
-        void reader_OnTagReported(TagInfo taginfo)
+        void reader_OnTagReported(string Epc)
         {
             //if (!epcLists.Contains(taginfo.Epc))
             //{
             //    epcLists.Add(taginfo.Epc);
             //    this.lblCurrentcountBig.Text = (int.Parse(this.lblCurrentcountBig.Text) + 1).ToString();
             //}
-            if (!this.isInventory || taginfo == null || string.IsNullOrEmpty(taginfo.Epc) || currentScanBox == null)
+            if (!this.isInventory || string.IsNullOrEmpty(Epc) || currentScanBox == null)
                 return;
-            CheckTag(taginfo.Epc, true);
+            CheckTag(Epc, true);
         }
 
         private void grid_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -393,7 +393,7 @@ void control_GotFocus(object sender, EventArgs e)
                     break;
                 case 6:
                     //打印
-                    PrintForm printForm = new PrintForm(getDOCNO(),shipDate, shippingBox,mFYDT, vsart, this.togLocalprint.Checked, this.lblOutlog.Text);
+                    PrintForm printForm = new PrintForm(getDOCNO(), shipDate, shippingBox, mFYDT, vsart, this.togLocalprint.Checked, this.lblOutlog.Text);
                     printForm.ShowDialog();
                     //AutoPrintBox(shippingBox);
                     break;
@@ -747,9 +747,9 @@ void control_GotFocus(object sender, EventArgs e)
                         foreach (InventoryOutLogDetailInfo detail in currentOutlogList)
                         {
 
-                            if(errorList.Exists(i=>i.MATNR == detail.PRODUCTNO && i.ERRTYPE == ErrorType.少拣))
+                            if (errorList.Exists(i => i.MATNR == detail.PRODUCTNO && i.ERRTYPE == ErrorType.少拣))
                             {
-                                OutLogErrorRecord error= errorList.Find(i => i.MATNR == detail.PRODUCTNO && i.ERRTYPE == ErrorType.少拣);
+                                OutLogErrorRecord error = errorList.Find(i => i.MATNR == detail.PRODUCTNO && i.ERRTYPE == ErrorType.少拣);
                                 error.QTY = error.QTY - (detail.QTY - detail.REALQTY);
                             }
                         }
@@ -816,16 +816,16 @@ void control_GotFocus(object sender, EventArgs e)
                     }
 
                     string vsart = xjd.VSART;
-                    if(xjd.VSART == "")
+                    if (xjd.VSART == "")
                     {
                         List<InventoryOutLogDetailInfo> re = LocalDataService.GetDeliverInventoryOutLogDetailByPicktask(pick_task);
-                        if(re!=null && re.Count>0)
+                        if (re != null && re.Count > 0)
                         {
                             vsart = re[0].VSART;
                         }
                     }
 
-                    if (!PrinterHelper.PrintTag(getDOCNO(),pick_task, shipDate, mFYDT, vsart, box, BoxIsPrintMergeTag, this.togLocalprint.Checked, out errorMsg))
+                    if (!PrinterHelper.PrintTag(getDOCNO(), pick_task, shipDate, mFYDT, vsart, box, BoxIsPrintMergeTag, this.togLocalprint.Checked, out errorMsg))
                     {
                         MetroMessageBox.Show(this, errorMsg, "提示",
                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -858,7 +858,7 @@ void control_GotFocus(object sender, EventArgs e)
             this.btnOutConfirm.Enabled = true;
         }
 
-        
+
         private void btnTempSave_Click(object sender, EventArgs e)
         {
             FocusLastControl();
@@ -1225,7 +1225,7 @@ void control_GotFocus(object sender, EventArgs e)
 
         private void loadInventoryOutLogInfo()
         {
-            if(SysConfig.DeviceInfo.LGTYP.Count<=0)
+            if (SysConfig.DeviceInfo.LGTYP.Count <= 0)
             {
                 MetroMessageBox.Show(this, "请先选择存储类型，再扫描下架单号", "提示",
                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1253,7 +1253,7 @@ void control_GotFocus(object sender, EventArgs e)
                 /*领路牌：则查询领路牌（领路牌+当前时间_发运单号,构造为流水号，根据流水号查询。且状态为0的数据，为9则为已提交的数据）*/
                 //outLogList = LocalDataService.GetLLPInventoryOutLogDetailList(pick_task);
                 outLogList = _services.GetLLPInventoryOutLogDetailList(pick_task);
-                if(outLogList?.Count>0)
+                if (outLogList?.Count > 0)
                 {
                     isLLP = true;
                 }
@@ -1613,7 +1613,7 @@ void control_GotFocus(object sender, EventArgs e)
                     }
                 }
                 //打印货运标签
-                if (!PrinterHelper.PrintTag(getDOCNO(),pick_task, shipDate, mFYDT, vsart, this.currentScanBox.Tag as ShippingBox, BoxIsPrintMergeTag, this.togLocalprint.Checked, out errorMsg))
+                if (!PrinterHelper.PrintTag(getDOCNO(), pick_task, shipDate, mFYDT, vsart, this.currentScanBox.Tag as ShippingBox, BoxIsPrintMergeTag, this.togLocalprint.Checked, out errorMsg))
                 {
                     MetroMessageBox.Show(this, errorMsg, "错误",
                      MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1629,11 +1629,11 @@ void control_GotFocus(object sender, EventArgs e)
             {
                 string pick_task = this.lblOutlog.Text.Trim();
                 InventoryOutLogDetailInfo xjd = this.outLogList.FirstOrDefault(o => o.PICK_TASK == pick_task);
-                if(xjd!=null)
+                if (xjd != null)
                 {
                     re = xjd.DOCNO;
                 }
-                if(string.IsNullOrEmpty(re))
+                if (string.IsNullOrEmpty(re))
                 {
                     List<InventoryOutLogDetailInfo> ins = LocalDataService.GetDeliverInventoryOutLogDetailByPicktask(pick_task);
                     if (ins != null && ins.Count > 0)
@@ -1818,9 +1818,9 @@ void control_GotFocus(object sender, EventArgs e)
             if (IsRFID)
                 LogHelper.WriteLine(string.Format("------{0}------", tag.EPC));
             if (tag != null)
-                InputErrorRecord(tag.BARCD, tag.IsAddEpc ? tag.RFID_ADD_EPC : tag.RFID_EPC, type, tag.MATNR, this.lblOutlog.Text,1);
+                InputErrorRecord(tag.BARCD, tag.IsAddEpc ? tag.RFID_ADD_EPC : tag.RFID_EPC, type, tag.MATNR, this.lblOutlog.Text, 1);
             else
-                InputErrorRecord(IsRFID ? "" : epcOrBarcd, IsRFID ? epcOrBarcd : "", type, "", this.lblOutlog.Text,1);
+                InputErrorRecord(IsRFID ? "" : epcOrBarcd, IsRFID ? epcOrBarcd : "", type, "", this.lblOutlog.Text, 1);
         }
 
         /// <summary>
@@ -1832,7 +1832,7 @@ void control_GotFocus(object sender, EventArgs e)
             if (this.isInventory == false)
             {
                 this.isInventory = true;
-                reader.StartInventory(1000, 0);
+                reader.StartInventory(mComPort, RadioOperationMode.Continuous, 1);
                 this.btnInventory.Text = "停止扫描";
                 this.txtBarcode.Focus();
                 //ErrorWarning("");//清空异常信息 
@@ -1900,7 +1900,7 @@ void control_GotFocus(object sender, EventArgs e)
             if (this.isInventory == true)
             {
                 this.isInventory = false;
-                reader.StopInventory();
+                reader.StopInventory(mComPort);
                 this.btnInventory.Text = "开始扫描";
             }
 
@@ -2009,10 +2009,6 @@ void control_GotFocus(object sender, EventArgs e)
             grid.Rows[rowindex].Cells["FullBox"].Value = isfull ? Resources.满箱 : Resources.空箱;
         }
 
-        public void SetParameter()
-        {
-            reader.SetParameter(SysConfig.ReaderConfig);
-        }
 
         /// <summary>
         /// 新增拣错记录
@@ -2022,7 +2018,7 @@ void control_GotFocus(object sender, EventArgs e)
         /// <param name="ERRTYPE"></param>
         /// <param name="MATNR"></param>
         /// <param name="PICK_TASK"></param>
-        private void InputErrorRecord(string BARCD, string EPC, ErrorType ERRTYPE, string MATNR, string PICK_TASK,int QTY)
+        private void InputErrorRecord(string BARCD, string EPC, ErrorType ERRTYPE, string MATNR, string PICK_TASK, int QTY)
         {
             OutLogErrorRecord error = new OutLogErrorRecord();
             error.BARCD = BARCD;
@@ -2033,7 +2029,7 @@ void control_GotFocus(object sender, EventArgs e)
             error.QTY = QTY;
             if (errorList == null)
                 errorList = new List<OutLogErrorRecord>();
-            if (ERRTYPE == ErrorType.少拣 && !errorList.Exists(i=>i.MATNR == MATNR))
+            if (ERRTYPE == ErrorType.少拣 && !errorList.Exists(i => i.MATNR == MATNR))
             {
                 errorList.Add(error);
                 return;
@@ -2681,10 +2677,10 @@ void control_GotFocus(object sender, EventArgs e)
         {
             if (this.isInventory)
                 StopInventory();
-            reader.OnTagReported -= new TagReportedHandler(reader_OnTagReported);
-            BoxCheckForm form = new BoxCheckForm(this.reader);
+            reader.RadioInventory -= new EventHandler<RadioInventoryEventArgs>(rfid_RadioInventory);
+            BoxCheckForm form = new BoxCheckForm(this.reader, mComPort);
             form.ShowDialog();
-            reader.OnTagReported += new TagReportedHandler(reader_OnTagReported);
+            reader.RadioInventory += new EventHandler<RadioInventoryEventArgs>(rfid_RadioInventory);
         }
 
         private void btnUnUpload_Click(object sender, EventArgs e)
@@ -2704,22 +2700,76 @@ void control_GotFocus(object sender, EventArgs e)
         {
             ShowOutLogDetail();
         }
+        public void rfid_RadioInventory(object sender, RadioInventoryEventArgs e)
+        {
+            string epc = "";
+            try
+            {
+                for (int i = 0; i < e.tagInfo.epc.Length; i++)
+                {
+                    epc += string.Format("{0:X4}", e.tagInfo.epc[i]);
+                }
+            }
+            catch (Exception) { }
+
+            reader_OnTagReported(epc);
+        }
+        public bool ConnectReader()
+        {
+            bool re = true;
+            try
+            {
+                if (reader.ConnectRadio(mComPort, 115200) == operateResult.ok)
+                {
+                    // 这里演示初始化参数
+                    // 配置天线功率
+                    AntennaPortConfiguration portConfig = new AntennaPortConfiguration();
+                    portConfig.powerLevel = mPower * 10; // 23dbm
+                    portConfig.numberInventoryCycles = 8192;
+                    portConfig.dwellTime = 2000;
+                    reader.SetAntennaPortConfiguration(mComPort, 0, portConfig);
+
+                    reader.SetCurrentLinkProfile(mComPort, 1);
+
+                    // 配置单化算法
+                    SingulationAlgorithmParms singParm = new SingulationAlgorithmParms();
+                    singParm.singulationAlgorithmType = SingulationAlgorithm.Dynamicq;
+                    singParm.startQValue = 4;
+                    singParm.minQValue = 0;
+                    singParm.maxQValue = 15;
+                    singParm.thresholdMultiplier = 4;
+                    singParm.toggleTarget = 1;
+                    reader.SetCurrentSingulationAlgorithm(mComPort, singParm);
+                    reader.SetTagGroupSession(mComPort, Session.S0);
+
+                }
+                else
+                {
+                    re = false;
+                }
+            }
+            catch (Exception)
+            {
+                re = false;
+            }
+
+            return re;
+        }
+
 
         private void InventoryOutLogForm_Shown(object sender, EventArgs e)
         {
+            mComPort = SysConfig.ReaderComPort;
+            mPower = 0;
+            uint.TryParse(SysConfig.ReaderPower, out mPower);
 
             #region 连接读写器
-            reader.OnTagReported += new TagReportedHandler(reader_OnTagReported);
-            bool result = reader.Connect(SysConfig.ReaderIp, SynchronizationContext.Current);
+            reader.RadioInventory += new EventHandler<RadioInventoryEventArgs>(rfid_RadioInventory);
 
-            if (!result)
+            if (!ConnectReader())
             {
-                MetroMessageBox.Show(this, "连接读写器失败", "警告",
-                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                //this.Close();
-                //return;
+                MetroMessageBox.Show(this, "连接读写器失败", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            SetParameter();
             #endregion
 
             #region 加载箱型

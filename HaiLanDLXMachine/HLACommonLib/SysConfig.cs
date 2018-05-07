@@ -138,6 +138,8 @@ namespace HLACommonLib
         #endregion
         public static int BoxQty = 0;
 
+        public static string ReaderComPort = "COM1";
+        public static string ReaderPower = "23";
         /// <summary>
         /// 初始化单位中英对照表
         /// </summary>

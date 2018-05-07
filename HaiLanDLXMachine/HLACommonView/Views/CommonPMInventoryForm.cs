@@ -15,16 +15,17 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Xindeco.Device;
-using Xindeco.Device.Model;
-
+using UARTRfidLink.Exparam;
+using UARTRfidLink.Extend;
 
 namespace HLACommonView.Views
 {
     public partial class CommonPMInventoryForm : MetroForm
     {
-        public UHFReader reader = null;
-        public ToastForm toast = null;
+        public RfidUARTLinkExtend rfid = new RfidUARTLinkExtend();
+        string mComPort;
+        uint mPower;
+
         public bool isConnected = false;
         public bool isInventory = false;
         public DateTime lastReadTime = DateTime.Now;
@@ -33,55 +34,81 @@ namespace HLACommonView.Views
         public int errorEpcNumber = 0, mainEpcNumber = 0, addEpcNumber = 0;
         public List<HLATagInfo> hlaTagList = null;
         public List<MaterialInfo> materialList = null;
-        public SynchronizationContext CurrentSyncContext = null;
         public Queue<string> boxNoList = new Queue<string>();
         public CheckResult checkResult = new CheckResult();
-        private OpaqueCommand oc = new OpaqueCommand();
+
         public CommonPMInventoryForm()
         {
             InitializeComponent();
-
-            CurrentSyncContext = SynchronizationContext.Current;
         }
 
-        public virtual void InitDevice(UHFReaderType readerType)
+        public virtual void InitDevice(string comPort,string power = "23")
         {
-            reader = new UHFReader(readerType);
-        }
+            mComPort = comPort;
+            mPower = 0;
+            uint.TryParse(power, out mPower);
 
+            rfid.RadioInventory += new EventHandler<RadioInventoryEventArgs>(rfid_RadioInventory);
+
+        }
+        public void rfid_RadioInventory(object sender, RadioInventoryEventArgs e)
+        {
+            string epc = "";
+            try
+            {
+                for (int i = 0; i < e.tagInfo.epc.Length; i++)
+                {
+                    epc += string.Format("{0:X4}", e.tagInfo.epc[i]);
+                }
+            }
+            catch (Exception) { }
+
+            reportEpc(epc);
+        }
+        public virtual void reportEpc(string epc)
+        {
+            throw new NotImplementedException();
+        }
         public virtual bool ConnectReader()
         {
-            bool result = reader.Connect(SysConfig.ReaderIp, Xindeco.Device.Model.ConnectType.TCP, CurrentSyncContext);
-            if (result)
+            bool re = true;
+            try
             {
-                Xindeco.Device.Model.ReaderConfig config = new Xindeco.Device.Model.ReaderConfig();
-                config.SearchMode = SysConfig.ReaderConfig.SearchMode;
-                config.Session = SysConfig.ReaderConfig.Session;
-                if (config.AntennaList == null) config.AntennaList = new List<Xindeco.Device.Model.ReaderAntenna>();
-                if (SysConfig.ReaderConfig.UseAntenna1)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(1, true, SysConfig.ReaderConfig.AntennaPower1));
-                else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(1, false, SysConfig.ReaderConfig.AntennaPower1));
+                if (rfid.ConnectRadio(mComPort, 115200) == operateResult.ok)
+                {
+                    // 这里演示初始化参数
+                    // 配置天线功率
+                    AntennaPortConfiguration portConfig = new AntennaPortConfiguration();
+                    portConfig.powerLevel = mPower * 10; // 23dbm
+                    portConfig.numberInventoryCycles = 8192;
+                    portConfig.dwellTime = 2000;
+                    rfid.SetAntennaPortConfiguration(mComPort, 0, portConfig);
 
-                if (SysConfig.ReaderConfig.UseAntenna2)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(2, true, SysConfig.ReaderConfig.AntennaPower2));
-                else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(2, false, SysConfig.ReaderConfig.AntennaPower2));
+                    rfid.SetCurrentLinkProfile(mComPort, 1);
 
-                if (SysConfig.ReaderConfig.UseAntenna3)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(3, true, SysConfig.ReaderConfig.AntennaPower3));
-                else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(3, false, SysConfig.ReaderConfig.AntennaPower3));
+                    // 配置单化算法
+                    SingulationAlgorithmParms singParm = new SingulationAlgorithmParms();
+                    singParm.singulationAlgorithmType = SingulationAlgorithm.Dynamicq;
+                    singParm.startQValue = 4;
+                    singParm.minQValue = 0;
+                    singParm.maxQValue = 15;
+                    singParm.thresholdMultiplier = 4;
+                    singParm.toggleTarget = 1;
+                    rfid.SetCurrentSingulationAlgorithm(mComPort, singParm);
+                    rfid.SetTagGroupSession(mComPort, Session.S0);
 
-                if (SysConfig.ReaderConfig.UseAntenna4)
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(4, true, SysConfig.ReaderConfig.AntennaPower4));
+                }
                 else
-                    config.AntennaList.Add(new Xindeco.Device.Model.ReaderAntenna(4, false, SysConfig.ReaderConfig.AntennaPower4));
-                reader.SetParameter(config);
-
-                isConnected = true;
+                {
+                    re = false;
+                }
             }
-            return result;
+            catch(Exception)
+            {
+                re = false;
+            }
+
+            return re;
         }
 
         public virtual CheckResult CheckData()
@@ -108,8 +135,10 @@ namespace HLACommonView.Views
         
         private void DisconnectReader()
         {
-            reader.Disconnect();
             this.isConnected = false;
+
+            rfid.StopInventory(mComPort);
+            rfid.DisconnectRadio(mComPort);
         }
         public TagDetailInfo GetTagDetailInfoByEpc(string epc)
         {
@@ -149,6 +178,7 @@ namespace HLACommonView.Views
                     item.PACKMAT_FH = mater.PXMAT_FH;
                     item.PUT_STRA = mater.PUT_STRA;
                     item.BRGEW = mater.BRGEW;
+                    item.MAKTX = mater.MAKTX;
 
                     if (rfidEpc == item.RFID_EPC)
                         item.IsAddEpc = false;
@@ -174,7 +204,6 @@ namespace HLACommonView.Views
         public virtual void ShowLoading(string message)
         {
             Invoke(new Action(() => {
-                //oc.ShowOpaqueLayer(this, 150,false);
                 metroPanel1.Show();
                 lblText.Text = message;
             }));
@@ -184,7 +213,6 @@ namespace HLACommonView.Views
         public virtual void HideLoading()
         {
             Invoke(new Action(() => {
-                //oc.HideOpaqueLayer();
                 metroPanel1.Hide();
                 lblText.Text = "";
             }));
@@ -203,12 +231,15 @@ namespace HLACommonView.Views
 
         public virtual void StartInventory()
         {
-            throw new NotImplementedException();
+            if (rfid.StartInventory(mComPort, RadioOperationMode.Continuous, 1) != operateResult.ok)
+            {
+                MetroMessageBox.Show(this, "开启扫描失败，请重新启动程序", "Error");
+            }
         }
 
         public virtual void StopInventory()
         {
-            throw new NotImplementedException();
+            rfid.StopInventory(mComPort);
         }
     }
 }

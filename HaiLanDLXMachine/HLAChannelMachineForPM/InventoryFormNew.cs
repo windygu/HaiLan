@@ -15,8 +15,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Xindeco.Device;
-using Xindeco.Device.Model;
 using HLACommonView.Views;
 using OSharp.Utility.Extensions;
 using HLACommonLib.Model.PACKING;
@@ -57,8 +55,7 @@ namespace HLAChannelMachine
         {
             InitializeComponent();
 
-            InitDevice(UHFReaderType.ThingMagic840);
-            reader.OnTagReported += Reader_OnTagReported;
+            InitDevice(SysConfig.ReaderComPort,SysConfig.ReaderPower);
         }
         public bool delEpcInDanJie(string epc, out string msg)
         {
@@ -88,26 +85,26 @@ namespace HLAChannelMachine
             msg = "";
             return true;
         }
-        public void Reader_OnTagReported(Xindeco.Device.Model.TagInfo taginfo)
+        public override void reportEpc(string Epc)
         {
             if (!isInventory) return;
-            if (taginfo == null || string.IsNullOrEmpty(taginfo.Epc)) return;
+            if (string.IsNullOrEmpty(Epc)) return;
 
             if (mInDanJie)
             {
-                mDanJieForm.reportTag(taginfo.Epc);
+                mDanJieForm.reportTag(Epc);
                 return;
             }
 
-            if (!epcList.Contains(taginfo.Epc))
+            if (!epcList.Contains(Epc))
             {
                 lastReadTime = DateTime.Now;
 
-                TagDetailInfo tag = GetTagDetailInfoByEpc(taginfo.Epc);
+                TagDetailInfo tag = GetTagDetailInfoByEpc(Epc);
                 string errorMsg = "";
                 if (!checkTag(tag, out errorMsg))
                 {
-                    mErrorForm.showErrorInfo(taginfo.Epc, tag, errorMsg);
+                    mErrorForm.showErrorInfo(Epc, tag, errorMsg);
                     return;
                 }
 
@@ -126,7 +123,7 @@ namespace HLAChannelMachine
                     errorEpcNumber++;
                 }
 
-                epcList.Add(taginfo.Epc);
+                epcList.Add(Epc);
                 updateScanNum();
 
             }
@@ -701,7 +698,7 @@ namespace HLAChannelMachine
             {
                 if (this.isInventory == false)
                 {
-                    reader.StartInventory(1000, 0, 0);
+                    base.StartInventory();
                     isInventory = true;
                 }
             }
@@ -719,7 +716,7 @@ namespace HLAChannelMachine
                 if (isInventory)
                 {
                     isInventory = false;
-                    reader.StopInventory();
+                    base.StopInventory();
                 }
             }
             catch (Exception ex)
