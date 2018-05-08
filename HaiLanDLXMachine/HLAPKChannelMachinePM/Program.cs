@@ -18,7 +18,7 @@ namespace HLADeliverChannelMachine
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] arg)
         {
             LogHelper.WriteLine("程序开始运行...");
             Process[] processes = Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName);
@@ -46,6 +46,17 @@ namespace HLADeliverChannelMachine
             AppConfig.Load();
             SysConfig.InitUomDic();
 
+            if (arg.Length >= 3)
+            {
+                SysConfig.LGNUM = arg[0];
+                SysConfig.DeviceNO = arg[1];
+                SysConfig.DBUrl = arg[2];
+            }
+            else
+            {
+                MessageBox.Show("请从主界面运行程序", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             //检测版本
             if (AutoUpdate.Update(SoftwareType.单检机发货))
             {

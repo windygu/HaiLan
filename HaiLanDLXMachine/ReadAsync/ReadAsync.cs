@@ -27,10 +27,6 @@ namespace ReadAsync
         static void Main(string[] args)
         {
             // Program setup
-            if (1 > args.Length)
-            {
-                Usage();
-            }
             int[] antennaList = {1,2,3,4}; //Ñ¡ÔñÌìÏß1,2,3,4
 
             try

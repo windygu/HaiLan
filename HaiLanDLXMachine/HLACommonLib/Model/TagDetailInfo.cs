@@ -105,6 +105,7 @@ namespace HLACommonLib.Model
             re.ZSATNR = ZSATNR;
             re.ZSIZTX = ZSIZTX;
             re.PUT_STRA = PUT_STRA;
+            re.MAKTX = MAKTX;
             return re;
         }
     }

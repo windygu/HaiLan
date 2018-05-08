@@ -349,6 +349,16 @@ namespace HLAChannelMachine
             ClearData();
             updateScanNum();
         }
+        public void addUploadData(List<UploadData> ri)
+        {
+            lock (savingDataLockObject)
+            {
+                foreach (var v in ri)
+                {
+                    savingData.Enqueue(v);
+                }
+            }
+        }
 
         private void buttonUpload_Click(object sender, EventArgs e)
         {

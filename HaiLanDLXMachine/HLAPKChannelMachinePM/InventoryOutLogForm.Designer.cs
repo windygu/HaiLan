@@ -42,6 +42,7 @@ namespace HLADeliverChannelMachine
             this.togAutoprint = new DMSkin.Metro.Controls.MetroToggle();
             this.btnQuery = new DMSkin.Metro.Controls.MetroButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.LGTYPCheckedComboBox = new HLACommonView.Views.CheckedComboBox();
             this.metroLabel6 = new DMSkin.Metro.Controls.MetroLabel();
             this.togLocalprint = new DMSkin.Metro.Controls.MetroToggle();
             this.lbcurrentuser = new DMSkin.Metro.Controls.MetroLabel();
@@ -123,7 +124,6 @@ namespace HLADeliverChannelMachine
             this.btnUnUpload = new DMSkin.Controls.DMLabel();
             this.btnKeyboard = new DMSkin.Controls.DMLabel();
             this.tmeStop = new System.Windows.Forms.Timer(this.components);
-            this.LGTYPCheckedComboBox = new HLACommonView.Views.CheckedComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -246,6 +246,20 @@ namespace HLADeliverChannelMachine
             this.splitContainer1.Size = new System.Drawing.Size(1358, 695);
             this.splitContainer1.SplitterDistance = 35;
             this.splitContainer1.TabIndex = 5;
+            // 
+            // LGTYPCheckedComboBox
+            // 
+            this.LGTYPCheckedComboBox.CheckOnClick = true;
+            this.LGTYPCheckedComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.LGTYPCheckedComboBox.DropDownHeight = 1;
+            this.LGTYPCheckedComboBox.Font = new System.Drawing.Font("宋体", 13F, System.Drawing.FontStyle.Bold);
+            this.LGTYPCheckedComboBox.FormattingEnabled = true;
+            this.LGTYPCheckedComboBox.IntegralHeight = false;
+            this.LGTYPCheckedComboBox.Location = new System.Drawing.Point(832, 1);
+            this.LGTYPCheckedComboBox.Name = "LGTYPCheckedComboBox";
+            this.LGTYPCheckedComboBox.Size = new System.Drawing.Size(270, 28);
+            this.LGTYPCheckedComboBox.TabIndex = 4;
+            this.LGTYPCheckedComboBox.ValueSeparator = ", ";
             // 
             // metroLabel6
             // 
@@ -549,6 +563,7 @@ namespace HLADeliverChannelMachine
             this.txtPrinter.Size = new System.Drawing.Size(299, 30);
             this.txtPrinter.TabIndex = 2;
             this.txtPrinter.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPrinter.Visible = false;
             this.txtPrinter.TextChanged += new System.EventHandler(this.txtPrinter_TextChanged);
             // 
             // txtImportBoxNo
@@ -828,6 +843,7 @@ namespace HLADeliverChannelMachine
             this.metroLabel21.Size = new System.Drawing.Size(86, 24);
             this.metroLabel21.TabIndex = 0;
             this.metroLabel21.Text = "打印机号:";
+            this.metroLabel21.Visible = false;
             // 
             // metroLabel19
             // 
@@ -1410,20 +1426,6 @@ namespace HLADeliverChannelMachine
             this.btnKeyboard.TabIndex = 0;
             this.btnKeyboard.Text = "dmLabel1";
             this.btnKeyboard.Click += new System.EventHandler(this.btnKeyboard_Click);
-            // 
-            // LGTYPCheckedComboBox
-            // 
-            this.LGTYPCheckedComboBox.CheckOnClick = true;
-            this.LGTYPCheckedComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.LGTYPCheckedComboBox.DropDownHeight = 1;
-            this.LGTYPCheckedComboBox.Font = new System.Drawing.Font("宋体", 13F, System.Drawing.FontStyle.Bold);
-            this.LGTYPCheckedComboBox.FormattingEnabled = true;
-            this.LGTYPCheckedComboBox.IntegralHeight = false;
-            this.LGTYPCheckedComboBox.Location = new System.Drawing.Point(832, 1);
-            this.LGTYPCheckedComboBox.Name = "LGTYPCheckedComboBox";
-            this.LGTYPCheckedComboBox.Size = new System.Drawing.Size(270, 28);
-            this.LGTYPCheckedComboBox.TabIndex = 4;
-            this.LGTYPCheckedComboBox.ValueSeparator = ", ";
             // 
             // InventoryOutLogForm
             // 

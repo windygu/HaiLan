@@ -38,6 +38,8 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.grouper1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +51,8 @@
             this.grouper1.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None;
             this.grouper1.BorderColor = System.Drawing.Color.Black;
             this.grouper1.BorderThickness = 1F;
+            this.grouper1.Controls.Add(this.button2);
+            this.grouper1.Controls.Add(this.button1);
             this.grouper1.Controls.Add(this.btnUpload);
             this.grouper1.Controls.Add(this.btnRefresh);
             this.grouper1.Controls.Add(this.btnClose);
@@ -71,11 +75,11 @@
             // btnUpload
             // 
             this.btnUpload.Font = new System.Drawing.Font("微软雅黑", 15F);
-            this.btnUpload.Location = new System.Drawing.Point(344, 664);
+            this.btnUpload.Location = new System.Drawing.Point(404, 664);
             this.btnUpload.Name = "btnUpload";
-            this.btnUpload.Size = new System.Drawing.Size(181, 61);
+            this.btnUpload.Size = new System.Drawing.Size(140, 61);
             this.btnUpload.TabIndex = 22;
-            this.btnUpload.Text = "全部重新上传";
+            this.btnUpload.Text = "重新上传";
             this.btnUpload.UseVisualStyleBackColor = true;
             this.btnUpload.Visible = false;
             this.btnUpload.Click += new System.EventHandler(this.btnUpload_Click);
@@ -83,7 +87,7 @@
             // btnRefresh
             // 
             this.btnRefresh.Font = new System.Drawing.Font("微软雅黑", 15F);
-            this.btnRefresh.Location = new System.Drawing.Point(202, 664);
+            this.btnRefresh.Location = new System.Drawing.Point(77, 664);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(136, 61);
             this.btnRefresh.TabIndex = 22;
@@ -96,9 +100,9 @@
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Font = new System.Drawing.Font("微软雅黑", 15F);
-            this.btnClose.Location = new System.Drawing.Point(531, 664);
+            this.btnClose.Location = new System.Drawing.Point(704, 664);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(164, 61);
+            this.btnClose.Size = new System.Drawing.Size(105, 61);
             this.btnClose.TabIndex = 20;
             this.btnClose.Text = "关闭";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -151,6 +155,29 @@
             this.columnHeader4.Text = "上传状态";
             this.columnHeader4.Width = 100;
             // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("微软雅黑", 15F);
+            this.button2.Location = new System.Drawing.Point(251, 664);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(125, 61);
+            this.button2.TabIndex = 26;
+            this.button2.Text = "全选反选";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("微软雅黑", 15F);
+            this.button1.Location = new System.Drawing.Point(572, 664);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(110, 61);
+            this.button1.TabIndex = 25;
+            this.button1.Text = "删除";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // UploadForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -181,5 +208,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.Button btnUpload;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }

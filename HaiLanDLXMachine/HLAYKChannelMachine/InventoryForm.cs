@@ -299,12 +299,6 @@ namespace HLAYKChannelMachine
 
                 if (tagDetailList.Count > 0)
                 {
-                    if (tagDetailList != null && tagDetailList.Count > 0 && tagDetailList.Select(i => i.PUT_STRA).Distinct().Count() > 1)
-                    {
-                        result.UpdateMessage("控制标识不一致");
-                        result.InventoryResult = false;
-                    }
-
                     TagDetailInfo firstTag = tagDetailList.First();
                     if(firstTag!=null)
                     {

@@ -49,7 +49,7 @@ namespace HLACommonLib
         public static string ScannerPort_1 = "COM4";
         public static string ScannerPort_2 = "COM5";
         //读写器IP
-        public static string ReaderIp = "10.0.0.101";
+        public static string ReaderIp = "192.168.8.166:8086";
 
         public static string SearchMode = "1";
         public static string Session = "2";
@@ -215,6 +215,23 @@ namespace HLACommonLib
             UOMDic.Add("VAL", "VAL");
             UOMDic.Add("VEH", "辆");
             UOMDic.Add("WID", "幅");
+        }
+        public static void loadConfigPM()
+        {
+            SysConfig.ReaderComPort = ConfigurationManager.AppSettings["ReaderComPort"];
+            SysConfig.ReaderPower = ConfigurationManager.AppSettings["ReaderPower"];
+
+            //SAP相关配置
+            SysConfig.AppServerHost = ConfigurationManager.AppSettings["AppServerHost"];
+            SysConfig.SystemNumber = ConfigurationManager.AppSettings["SystemNumber"];
+            SysConfig.User = ConfigurationManager.AppSettings["User"];
+            SysConfig.Password = ConfigurationManager.AppSettings["Password"];
+            SysConfig.Client = ConfigurationManager.AppSettings["Client"];
+            SysConfig.Language = ConfigurationManager.AppSettings["Language"];
+            SysConfig.PoolSize = ConfigurationManager.AppSettings["PoolSize"];
+            SysConfig.PeakConnectionsLimit = ConfigurationManager.AppSettings["PeakConnectionsLimit"];
+            SysConfig.IdleTimeout = ConfigurationManager.AppSettings["IdleTimeout"];
+
         }
 
         public static void loadConfig()

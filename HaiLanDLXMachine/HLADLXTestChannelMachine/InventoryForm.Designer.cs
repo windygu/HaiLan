@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.boxCheckCheckBox = new System.Windows.Forms.CheckBox();
             this.printCheckBox = new System.Windows.Forms.CheckBox();
@@ -52,10 +52,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblReader = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.grid = new DMSkin.Metro.Controls.MetroGrid();
-            this.label2 = new System.Windows.Forms.Label();
-            this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblQty = new System.Windows.Forms.Label();
+            this.grid = new DMSkin.Metro.Controls.MetroGrid();
+            this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9_hu = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -72,6 +74,8 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
+            this.splitContainer1.Panel1.Controls.Add(this.label8);
+            this.splitContainer1.Panel1.Controls.Add(this.label9_hu);
             this.splitContainer1.Panel1.Controls.Add(this.boxCheckCheckBox);
             this.splitContainer1.Panel1.Controls.Add(this.printCheckBox);
             this.splitContainer1.Panel1.Controls.Add(this.btnStart);
@@ -109,7 +113,7 @@
             this.boxCheckCheckBox.FlatAppearance.BorderSize = 5;
             this.boxCheckCheckBox.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.boxCheckCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.boxCheckCheckBox.Location = new System.Drawing.Point(26, 267);
+            this.boxCheckCheckBox.Location = new System.Drawing.Point(26, 321);
             this.boxCheckCheckBox.Margin = new System.Windows.Forms.Padding(0);
             this.boxCheckCheckBox.Name = "boxCheckCheckBox";
             this.boxCheckCheckBox.Size = new System.Drawing.Size(121, 36);
@@ -125,7 +129,7 @@
             this.printCheckBox.FlatAppearance.BorderSize = 5;
             this.printCheckBox.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.printCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.printCheckBox.Location = new System.Drawing.Point(191, 267);
+            this.printCheckBox.Location = new System.Drawing.Point(191, 321);
             this.printCheckBox.Margin = new System.Windows.Forms.Padding(0);
             this.printCheckBox.Name = "printCheckBox";
             this.printCheckBox.Size = new System.Drawing.Size(121, 36);
@@ -151,7 +155,7 @@
             this.btnStart.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Image = null;
-            this.btnStart.Location = new System.Drawing.Point(26, 372);
+            this.btnStart.Location = new System.Drawing.Point(26, 426);
             this.btnStart.Margin = new System.Windows.Forms.Padding(0);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(286, 55);
@@ -177,7 +181,7 @@
             this.btnPause.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnPause.ForeColor = System.Drawing.Color.Teal;
             this.btnPause.Image = null;
-            this.btnPause.Location = new System.Drawing.Point(26, 487);
+            this.btnPause.Location = new System.Drawing.Point(26, 519);
             this.btnPause.Margin = new System.Windows.Forms.Padding(0);
             this.btnPause.Name = "btnPause";
             this.btnPause.Size = new System.Drawing.Size(286, 55);
@@ -218,7 +222,7 @@
             this.allCheck.FlatAppearance.BorderSize = 5;
             this.allCheck.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.allCheck.ForeColor = System.Drawing.Color.Black;
-            this.allCheck.Location = new System.Drawing.Point(191, 321);
+            this.allCheck.Location = new System.Drawing.Point(191, 375);
             this.allCheck.Margin = new System.Windows.Forms.Padding(0);
             this.allCheck.Name = "allCheck";
             this.allCheck.Size = new System.Drawing.Size(121, 36);
@@ -235,7 +239,7 @@
             this.pinseCheck.FlatAppearance.BorderSize = 5;
             this.pinseCheck.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold);
             this.pinseCheck.ForeColor = System.Drawing.Color.Black;
-            this.pinseCheck.Location = new System.Drawing.Point(26, 321);
+            this.pinseCheck.Location = new System.Drawing.Point(26, 375);
             this.pinseCheck.Margin = new System.Windows.Forms.Padding(0);
             this.pinseCheck.Name = "pinseCheck";
             this.pinseCheck.Size = new System.Drawing.Size(121, 36);
@@ -392,6 +396,20 @@
             this.label1.Text = "状态监控";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lblQty
+            // 
+            this.lblQty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblQty.AutoSize = true;
+            this.lblQty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblQty.Font = new System.Drawing.Font("微软雅黑", 100F);
+            this.lblQty.ForeColor = System.Drawing.Color.Teal;
+            this.lblQty.Location = new System.Drawing.Point(179, 519);
+            this.lblQty.Name = "lblQty";
+            this.lblQty.Size = new System.Drawing.Size(154, 175);
+            this.lblQty.TabIndex = 20;
+            this.lblQty.Text = "0";
+            this.lblQty.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // grid
             // 
             this.grid.AllowUserToAddRows = false;
@@ -403,25 +421,25 @@
             this.grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.grid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.grid.ColumnHeadersHeight = 65;
             this.grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MSG});
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.grid.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.grid.DefaultCellStyle = dataGridViewCellStyle3;
             this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grid.EnableHeadersVisualStyles = false;
             this.grid.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -431,24 +449,35 @@
             this.grid.Name = "grid";
             this.grid.ReadOnly = true;
             this.grid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grid.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grid.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.grid.RowHeadersVisible = false;
             this.grid.RowHeadersWidth = 43;
             this.grid.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.grid.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.grid.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.grid.RowTemplate.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.grid.RowTemplate.Height = 43;
             this.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grid.Size = new System.Drawing.Size(880, 672);
             this.grid.TabIndex = 19;
+            // 
+            // MSG
+            // 
+            this.MSG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.MSG.DefaultCellStyle = dataGridViewCellStyle2;
+            this.MSG.FillWeight = 38F;
+            this.MSG.HeaderText = "EPC";
+            this.MSG.Name = "MSG";
+            this.MSG.ReadOnly = true;
+            this.MSG.Width = 69;
             // 
             // label2
             // 
@@ -464,30 +493,31 @@
             this.label2.Text = "复核明细";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // MSG
+            // label8
             // 
-            this.MSG.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.MSG.DefaultCellStyle = dataGridViewCellStyle7;
-            this.MSG.FillWeight = 38F;
-            this.MSG.HeaderText = "EPC";
-            this.MSG.Name = "MSG";
-            this.MSG.ReadOnly = true;
-            this.MSG.Width = 69;
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label8.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
+            this.label8.ForeColor = System.Drawing.Color.Black;
+            this.label8.Location = new System.Drawing.Point(7, 266);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(111, 32);
+            this.label8.TabIndex = 24;
+            this.label8.Text = "箱号：";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblQty
+            // label9_hu
             // 
-            this.lblQty.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblQty.AutoSize = true;
-            this.lblQty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblQty.Font = new System.Drawing.Font("微软雅黑", 100F);
-            this.lblQty.ForeColor = System.Drawing.Color.Teal;
-            this.lblQty.Location = new System.Drawing.Point(179, 519);
-            this.lblQty.Name = "lblQty";
-            this.lblQty.Size = new System.Drawing.Size(154, 175);
-            this.lblQty.TabIndex = 20;
-            this.lblQty.Text = "0";
-            this.lblQty.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label9_hu.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label9_hu.BackColor = System.Drawing.Color.White;
+            this.label9_hu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label9_hu.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.label9_hu.Location = new System.Drawing.Point(117, 266);
+            this.label9_hu.Name = "label9_hu";
+            this.label9_hu.Size = new System.Drawing.Size(210, 32);
+            this.label9_hu.TabIndex = 25;
+            this.label9_hu.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // InventoryForm
             // 
@@ -536,5 +566,7 @@
         private System.Windows.Forms.CheckBox boxCheckCheckBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn MSG;
         private System.Windows.Forms.Label lblQty;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9_hu;
     }
 }

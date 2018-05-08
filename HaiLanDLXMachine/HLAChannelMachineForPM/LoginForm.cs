@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace HLAChannelMachine
 {
-    public partial class LoginForm : CommonLoginForm
+    public partial class LoginForm : CommonLoginFormPM
     {
         public LoginForm()
         {

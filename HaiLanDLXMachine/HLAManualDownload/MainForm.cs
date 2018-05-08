@@ -590,6 +590,9 @@ namespace HLAManualDownload
             {
                 int matTotalCount = 0;
                 int matFailCount = 0;
+
+                int tagTotalCount = 0;
+                int tagFailCount = 0;
                 Invoke(new Action(() => { matProgressBar.Maximum = mtrList.Count; }));
 
                 foreach (string mtr in mtrList)
@@ -597,6 +600,7 @@ namespace HLAManualDownload
                     Invoke(new Action(() => { matProgressBar.Value++; }));
 
                     List<MaterialInfo> matList = SAPDataService.GetMaterialInfoListByMATNR(SysConfig.LGNUM, mtr);
+                    List<HLATagInfo> tagList = SAPDataService.GetHLATagInfoListByMATNR(SysConfig.LGNUM, mtr);
                     if (matList != null)
                     {
                         matTotalCount += matList.Count;
@@ -609,10 +613,22 @@ namespace HLAManualDownload
                             }
                         }
                     }
+                    if(tagList!=null)
+                    {
+                        tagTotalCount += tagList.Count;
+                        foreach(HLATagInfo t in tagList)
+                        {
+                            if(!LocalDataService.SaveTagInfo(t))
+                            {
+                                tagFailCount++;
+                                mLog.log("SaveTagInfo fail:" + t.MATNR);
+                            }
+                        }
+                    }
 
                 }
 
-                string log = string.Format("下载物料{0}条，同步失败{1}条", matTotalCount, matFailCount);
+                string log = string.Format("下载物料{0}条，同步失败{1}条，下载吊牌{2}条，同步失败{3}条", matTotalCount, matFailCount, tagTotalCount, tagFailCount);
                 Invoke(new Action(() =>
                 {
                     matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
@@ -634,6 +650,77 @@ namespace HLAManualDownload
 
             })).Start();
 
+        }
+
+        private void button1_singlemat_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(metroTextBox1_singlemat.Text))
+            {
+                matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + "请输入产品编码";
+                return;
+            }
+            matProgressBar.Value = 0;
+
+            List<string> mtrList = new List<string>();
+            mtrList.Add(metroTextBox1_singlemat.Text.Trim());
+
+            new Thread(new ThreadStart(() =>
+            {
+                int matTotalCount = 0;
+                int matFailCount = 0;
+
+                int tagTotalCount = 0;
+                int tagFailCount = 0;
+                Invoke(new Action(() => { matProgressBar.Maximum = mtrList.Count; }));
+
+                foreach (string mtr in mtrList)
+                {
+                    Invoke(new Action(() => { matProgressBar.Value++; }));
+
+                    List<MaterialInfo> matList = SAPDataService.GetMaterialInfoListByMATNR(SysConfig.LGNUM, mtr);
+                    List<HLATagInfo> tagList = SAPDataService.GetHLATagInfoListByMATNR(SysConfig.LGNUM, mtr);
+                    if (matList != null)
+                    {
+                        matTotalCount += matList.Count;
+                        foreach (MaterialInfo m in matList)
+                        {
+                            if (!LocalDataService.SaveMaterialInfo(m))
+                            {
+                                matFailCount++;
+                                mLog.log("SaveMaterialInfo fail:" + m.MATNR);
+                            }
+                        }
+                    }
+                    if (tagList != null)
+                    {
+                        tagTotalCount += tagList.Count;
+                        foreach (HLATagInfo t in tagList)
+                        {
+                            if (!LocalDataService.SaveTagInfo(t))
+                            {
+                                tagFailCount++;
+                                mLog.log("SaveTagInfo fail:" + t.MATNR);
+                            }
+                        }
+                    }
+
+                }
+
+                string log = string.Format("下载物料{0}条，同步失败{1}条，下载吊牌{2}条，同步失败{3}条", matTotalCount, matFailCount, tagTotalCount, tagFailCount);
+                Invoke(new Action(() =>
+                {
+                    matLogLabel.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + log;
+                    if (matFailCount > 0)
+                    {
+                        matLogLabel.BackColor = Color.Red;
+                    }
+                    else
+                    {
+                        matLogLabel.BackColor = Color.White;
+                    }
+                }));
+
+            })).Start();
         }
     }
 }

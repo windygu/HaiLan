@@ -109,6 +109,7 @@ namespace HLABoxCheckChannelMachine
                 Invoke(new Action(() =>
                 {
                     lblWorkStatus.Text = "开始扫描";
+                    label9_hu.Text = "";
                     if (btnStart.Enabled)
                     {
                         Start();
@@ -128,7 +129,10 @@ namespace HLABoxCheckChannelMachine
                 {
                     mCurBoxNo = boxNoList.Dequeue();
                 }
-
+                Invoke(new Action(() =>
+                {
+                    label9_hu.Text = mCurBoxNo;
+                }));
                 reader.StartReading();
                 isInventory = true;
                 lastReadTime = DateTime.Now;

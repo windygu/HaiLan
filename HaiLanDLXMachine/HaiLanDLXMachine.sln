@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadAsync", "ReadAsync\Read
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLADLXTestChannelMachine", "HLADLXTestChannelMachine\HLADLXTestChannelMachine.csproj", "{D2CCA1B6-76A0-42A0-AF42-39D22B11AD44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLABigChannelPM", "HLABigChannelPM\HLABigChannelPM.csproj", "{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,14 @@ Global
 		{D2CCA1B6-76A0-42A0-AF42-39D22B11AD44}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2CCA1B6-76A0-42A0-AF42-39D22B11AD44}.Release|x86.ActiveCfg = Release|x86
 		{D2CCA1B6-76A0-42A0-AF42-39D22B11AD44}.Release|x86.Build.0 = Release|x86
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Debug|x86.ActiveCfg = Debug|x86
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Debug|x86.Build.0 = Debug|x86
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Release|x86.ActiveCfg = Release|x86
+		{D3EBC8C6-0D11-4B5D-9062-458A647CE8FB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
