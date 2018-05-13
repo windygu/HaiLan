@@ -25,7 +25,7 @@ using HLAPKChannelMachine.Utils;
 namespace HLABoxCheckChannelMachine
 {
     
-    public partial class InventoryForm : CommonInventoryForm
+    public partial class InventoryForm : CommonInventoryFormIMP
     {
         CLogManager mLog = new CLogManager(true);
         public string mCurBoxNo = "";
@@ -240,7 +240,7 @@ namespace HLABoxCheckChannelMachine
                     }));
                 }
 
-                reader.StartReading();
+                reader.StartInventory(0, 0, 0);
 
                 isInventory = true;
                 lastReadTime = DateTime.Now;
@@ -643,7 +643,7 @@ namespace HLABoxCheckChannelMachine
                 }));
                 isInventory = false;
 
-                reader.StopReading();
+                reader.StopInventory();
 
                 CheckResult cre = CheckData();
                 Invoke(new Action(() =>

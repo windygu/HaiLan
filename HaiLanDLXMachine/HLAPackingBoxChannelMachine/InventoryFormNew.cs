@@ -25,7 +25,7 @@ using OSharp.Utility.Extensions;
 
 namespace HLAPackingBoxChannelMachine
 {
-    public partial class InventoryFormNew : CommonInventoryForm
+    public partial class InventoryFormNew : CommonInventoryFormIMP
     {
         private ProcessDialog pd = new ProcessDialog();
         private Thread initThread = null;
@@ -247,7 +247,7 @@ namespace HLAPackingBoxChannelMachine
                         lblHu.Text = boxNoList.Dequeue();
                     }));
                 }
-                reader.StartReading();
+                reader.StartInventory(0, 0, 0);
                 
                 isInventory = true;
                 lastReadTime = DateTime.Now;
@@ -262,7 +262,7 @@ namespace HLAPackingBoxChannelMachine
                     lblWorkStatus.Text = "停止扫描";
                 }));
                 isInventory = false;
-                reader.StopReading();
+                reader.StopInventory();
                 HLACommonView.Model.CheckResult result = CheckData();
                 UploadBoxInfo box = GetUploadBox(result);
                 

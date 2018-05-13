@@ -108,6 +108,12 @@
     <Compile Include="Views\ComboBoxList\CheckedComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Views\CommonInventoryFormIMP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CommonInventoryFormIMP.Designer.cs">
+      <DependentUpon>CommonInventoryFormIMP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\CommonLoginFormPM.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     <EmbeddedResource Include="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CommonInventoryFormIMP.resx">
+      <DependentUpon>CommonInventoryFormIMP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CommonLoginFormPM.resx">
       <DependentUpon>CommonLoginFormPM.cs</DependentUpon>

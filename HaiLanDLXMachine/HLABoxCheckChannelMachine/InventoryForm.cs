@@ -20,7 +20,7 @@ using Xindeco.Device.Model;
 namespace HLABoxCheckChannelMachine
 {
 
-    public partial class InventoryForm : CommonInventoryForm
+    public partial class InventoryForm : CommonInventoryFormIMP
     {
         CLogManager mLog = new CLogManager(true);
         string mCurBoxNo = "";
@@ -164,7 +164,7 @@ namespace HLABoxCheckChannelMachine
                     mCurBoxNo = boxNoList.Dequeue();
                 }
 
-                reader.StartReading();
+                reader.StartInventory(0, 0, 0);
                 isInventory = true;
                 lastReadTime = DateTime.Now;
 
@@ -245,7 +245,7 @@ namespace HLABoxCheckChannelMachine
                     lblWorkStatus.Text = "停止扫描";
                 }));
                 isInventory = false;
-                reader.StopReading();
+                reader.StopInventory();
                 CheckResult cre = CheckData();
 
                 List<CTagDetail> tags = getTags();

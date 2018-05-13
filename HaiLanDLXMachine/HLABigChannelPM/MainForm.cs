@@ -20,8 +20,8 @@ namespace HLABigChannel
 {
     public partial class MainForm : Form
     {
-       [DllImport("msvcrt.dll")]
-       static extern int system(string cmd);
+        [DllImport("msvcrt.dll")]
+        static extern int system(string cmd);
         public MainForm()
         {
             InitializeComponent();
@@ -63,15 +63,15 @@ namespace HLABigChannel
             }
             else
             {
-                    MessageBox.Show("程序不存在，请检查安装目录！",
-                        "提示", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show("程序不存在，请检查安装目录！",
+                    "提示", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
         }
 
         private void btnYk_Click(object sender, EventArgs e)
         {
             btnDJJ.Enabled = false;
-            StartProgram(sender, "HLAToolsPM.exe", "djj");
+            StartProgram(sender, "HLAToolsPM.exe", "tools");
             btnDJJ.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
         }
@@ -100,7 +100,7 @@ namespace HLABigChannel
 
             label2_IP.Text = GetLocalIPAddress();
         }
-        
+
         public static string GetLocalIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());

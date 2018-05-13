@@ -4283,6 +4283,12 @@ namespace HLACommonLib
                 re.status = string.IsNullOrEmpty(myfun.GetString("O_FLAG")) ? "" : myfun.GetString("O_FLAG");
                 re.msg = string.IsNullOrEmpty(myfun.GetString("O_MESSAGE")) ? "" : myfun.GetString("O_MESSAGE");
                 re.hu = string.IsNullOrEmpty(myfun.GetString("BOX_NO")) ? "" : myfun.GetString("BOX_NO");
+                re.pxqty_fh = getZiDuan2Int(myfun, "O_PXQTY_FH");
+                re.flag = getZiDuan2(myfun, "OUT_FLAG");
+                re.equip_hla = getZiDuan2(myfun, "OUT_EQUIP_HLA");
+                re.loucheng = getZiDuan2(myfun, "OUT_LOUCENG");
+                re.date = getZiDuan2(myfun, "OUT_SUBDATE");
+                re.time = getZiDuan2(myfun, "OUT_SUBTIME");
 
                 RfcSessionManager.EndContext(dest);
 
@@ -4294,7 +4300,28 @@ namespace HLACommonLib
 
             return re;
         }
+        public static string getZiDuan2(IRfcFunction f, string ziduan)
+        {
+            try
+            {
+                return f.GetString(ziduan);
+            }
+            catch (Exception)
+            { }
 
+            return "";
+        }
+        public static int getZiDuan2Int(IRfcFunction f, string ziduan)
+        {
+            try
+            {
+                return f.GetInt(ziduan);
+            }
+            catch (Exception)
+            { }
+
+            return 0;
+        }
         public static CJiaoJieDan getJiaoJieDan(string doc, ref string sapRe, ref string sapMsg)
         {
             CJiaoJieDan re = new CJiaoJieDan();
@@ -4490,6 +4517,32 @@ namespace HLACommonLib
             catch (Exception)
             {
 
+            }
+            return re;
+        }
+
+        public static int RFID_075F(string hu, ref string result, ref string sapMsg)
+        {
+            int re = 0;
+            try
+            {
+                RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
+                RfcRepository rfcrep = dest.Repository;
+                IRfcFunction myfun = null;
+                myfun = rfcrep.CreateFunction("Z_EW_RFID_075F");
+
+                myfun.SetValue("LGNUM", SysConfig.LGNUM);
+                myfun.SetValue("BOX_NO", hu);
+
+                myfun.Invoke(dest);
+                result = myfun.GetString("STATUS");
+                sapMsg = myfun.GetString("MSG");
+                re = myfun.GetInt("QTY");
+            }
+            catch (Exception e)
+            {
+                result = "E";
+                sapMsg = e.ToString();
             }
             return re;
         }

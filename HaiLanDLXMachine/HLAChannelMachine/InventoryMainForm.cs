@@ -20,7 +20,7 @@ using HLAChannelMachine.Utils;
 
 namespace HLAChannelMachine
 {
-    public partial class InventoryMainForm : CommonInventoryForm
+    public partial class InventoryMainForm : CommonInventoryFormIMP
     {
         public ReceiveType mReceiveType;
         public List<HuInfo> mHuList = new List<HuInfo>();
@@ -671,7 +671,7 @@ namespace HLAChannelMachine
                     lblInventoryResult.Text = "";
                 }));
 
-                reader.StartReading();
+                reader.StartInventory(0, 0, 0);
                 lastReadTime = DateTime.Now;
                 isInventory = true;
 
@@ -698,7 +698,7 @@ namespace HLAChannelMachine
             try
             {
                 this.isInventory = false;
-                reader.StopReading();
+                reader.StopInventory();
 
                 this.Invoke(new Action(() =>
                 {

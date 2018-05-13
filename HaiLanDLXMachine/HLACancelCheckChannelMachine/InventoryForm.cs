@@ -23,7 +23,7 @@ using System.Data.SqlClient;
 
 namespace HLACancelCheckChannelMachine
 {
-    public partial class InventoryForm : CommonInventoryForm
+    public partial class InventoryForm : CommonInventoryFormIMP
     {
         CLogManager mLog = new CLogManager(true);
 
@@ -228,7 +228,7 @@ namespace HLACancelCheckChannelMachine
                 setBoxNo(mCurBoxNo);
 
 
-                reader.StartReading();
+                reader.StartInventory(0, 0, 0);
                 isInventory = true;
                 lastReadTime = DateTime.Now;
 
@@ -477,7 +477,7 @@ namespace HLACancelCheckChannelMachine
                     lblWorkStatus.Text = "停止扫描";
                 }));
                 isInventory = false;
-                reader.StopReading();
+                reader.StopInventory();
                 CheckResult cre = CheckData();
 
                 if (cre.InventoryResult)

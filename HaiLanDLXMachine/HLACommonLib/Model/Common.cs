@@ -286,6 +286,12 @@ namespace HLACommonLib.Model
         public string status;
         public string msg;
         public string hu;
+        public int pxqty_fh;
+        public string flag;
+        public string equip_hla;
+        public string loucheng;
+        public string date;
+        public string time;
     }
 
     public class CDeliverStoreQuery

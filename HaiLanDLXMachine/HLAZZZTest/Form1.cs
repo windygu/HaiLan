@@ -14,7 +14,7 @@ using System.Configuration;
 
 namespace HLAZZZTest
 {
-    public partial class Form1 : CommonInventoryForm
+    public partial class Form1 : CommonInventoryFormIMP
     {
         public Form1()
         {
@@ -38,7 +38,7 @@ namespace HLAZZZTest
             timer1.Enabled = false;
             SAPDataService.Init();
 
-            this.reportViewer1.RefreshReport();
+            string s = tabControl1.SelectedTab?.Text;
         }
 
         public void LoadConfig()

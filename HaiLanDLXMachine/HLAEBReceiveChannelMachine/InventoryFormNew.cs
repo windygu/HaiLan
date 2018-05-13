@@ -20,7 +20,7 @@ using HLACommonView.Model;
 
 namespace HLAEBReceiveChannelMachine
 {
-    public partial class InventoryFormNew : CommonInventoryForm
+    public partial class InventoryFormNew : CommonInventoryFormIMP
     {
         #region properties
 
@@ -161,7 +161,7 @@ namespace HLAEBReceiveChannelMachine
                         this.lblStatus.Text = "停止扫描";
                     }));
                     this.isInventory = false;
-                    reader.StopReading();
+                    reader.StopInventory();
                     if (!btnStart.Enabled)
                     {
                         //等待基础数据加载完成后再判断数据
@@ -227,7 +227,7 @@ namespace HLAEBReceiveChannelMachine
                         lblStatus.Text = "正在扫描";
                         lblResult.Text = "";
                     }));
-                    reader.StartReading();
+                    reader.StartInventory(0, 0, 0);
                     isInventory = true;
                     lastReadTime = DateTime.Now;
 

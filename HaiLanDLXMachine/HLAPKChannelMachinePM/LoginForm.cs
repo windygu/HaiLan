@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace HLADeliverChannelMachine
 {
-    public partial class LoginForm : CommonLoginForm
+    public partial class LoginForm : CommonLoginFormPM
     {
         private List<string> mLGTYP;
         public LoginForm()

@@ -26,7 +26,7 @@ using Newtonsoft.Json;
 
 namespace HLAYKChannelMachine
 {
-    public partial class InventoryForm : CommonInventoryForm
+    public partial class InventoryForm : CommonInventoryFormIMP
     {
         private List<AuthInfo> mControlFlag = new List<AuthInfo>();
 
@@ -98,7 +98,7 @@ namespace HLAYKChannelMachine
                 }
 
                 lastReadTime = DateTime.Now;
-                reader.StartReading();
+                reader.StartInventory(0, 0, 0);
                 isInventory = true;
 
             }
@@ -115,7 +115,7 @@ namespace HLAYKChannelMachine
                         lblWorkStatus.Text = "停止扫描";
                     }));
                     isInventory = false;
-                    reader.StopReading();
+                    reader.StopInventory();
 
                     checkResult = CheckData();
                     YKBoxInfo box = GetCurrentYKBox();
@@ -299,64 +299,14 @@ namespace HLAYKChannelMachine
 
                 if (tagDetailList.Count > 0)
                 {
-                    TagDetailInfo firstTag = tagDetailList.First();
-                    if(firstTag!=null)
+                    if (tagDetailList.First().LIFNRS?.Count > 1)
                     {
-                        List<string> LIFNRS = firstTag.LIFNRS;
-                        if(LIFNRS!=null)
-                        {
-                            if(LIFNRS.Count>1)
-                            {
-                                result.UpdateMessage(Consts.Default.JIAO_JIE_HAO_BU_YI_ZHI);
-                                result.InventoryResult = false;
-                            }
-                            if(LIFNRS.Count == 1)
-                            {
-                                lifnr = tagDetailList.First().LIFNRS.FirstOrDefault();
-                            }
-                        }
-                    }
-
-                    if (tagDetailList.Select(i => i.MATNR).Distinct().Count() > 10)
-                    {
-                        if (lblCheckSku.DM_Key == DMSkin.Controls.DMLabelKey.正确)
-                        {
-                            result.UpdateMessage(Consts.Default.SHANG_PIN_DA_YU_SHI);
-                            result.InventoryResult = false;
-                        }
-                    }
-                    if (lblCheckPinSe.DM_Key == DMSkin.Controls.DMLabelKey.正确)
-                    {
-                        if (!string.IsNullOrEmpty(currentZsatnr) && !string.IsNullOrEmpty(currentZcolsn))
-                        {
-                            if (tagDetailList?.First().ZSATNR != currentZsatnr || tagDetailList?.First().ZCOLSN != currentZcolsn)
-                            {
-                                result.UpdateMessage(Consts.Default.PIN_SE_BU_FU);
-                                result.InventoryResult = false;
-                            }
-                        }
-                    }
-                    if (tagDetailList.Exists(i => i.IsAddEpc) && tagDetailList.Count(i => i.IsAddEpc) != tagDetailList.Count(i => !i.IsAddEpc))
-                    {
-                        result.UpdateMessage(Consts.Default.TWO_NUMBER_ERROR);
+                        result.UpdateMessage(Consts.Default.JIAO_JIE_HAO_BU_YI_ZHI);
                         result.InventoryResult = false;
                     }
-
-                    if (GetCurrentReceiveMode() == ReceiveMode.按品色装箱)
+                    else
                     {
-                        if (!IsOnePinSe())
-                        {
-                            result.UpdateMessage(Consts.Default.DUO_GE_PIN_SE);
-                            result.InventoryResult = false;
-                        }
-                    }
-                    if (GetCurrentReceiveMode() == ReceiveMode.按规格装箱)
-                    {
-                        if (!IsOneSku())
-                        {
-                            result.UpdateMessage(Consts.Default.DUO_GE_SHANG_PIN);
-                            result.InventoryResult = false;
-                        }
+                        lifnr = tagDetailList.First().LIFNRS?.FirstOrDefault();
                     }
 
                     YKBoxInfo box = boxList == null ? null : boxList.Find(i => i.Hu == lblHu.Text);
@@ -404,22 +354,29 @@ namespace HLAYKChannelMachine
                             result.UpdateMessage(Consts.Default.EPC_YI_SAO_MIAO);
                             result.InventoryResult = false;
                         }
-
-                        //if (cboTarget.Text == "Y001")
-                        {
-                            if (tagDetailList.First().LIFNRS?.Count > 1)
-                            {
-                                result.UpdateMessage(Consts.Default.JIAO_JIE_HAO_BU_YI_ZHI);
-                                result.InventoryResult = false;
-                            }
-                            else
-                            {
-                                lifnr = tagDetailList.First().LIFNRS?.FirstOrDefault();
-                            }
-                        }
                     }
                     else
                     {
+                        if (tagDetailList.Select(i => i.MATNR).Distinct().Count() > 10)
+                        {
+                            if (lblCheckSku.DM_Key == DMSkin.Controls.DMLabelKey.正确)
+                            {
+                                result.UpdateMessage(Consts.Default.SHANG_PIN_DA_YU_SHI);
+                                result.InventoryResult = false;
+                            }
+                        }
+                        if (lblCheckPinSe.DM_Key == DMSkin.Controls.DMLabelKey.正确)
+                        {
+                            if (!string.IsNullOrEmpty(currentZsatnr) && !string.IsNullOrEmpty(currentZcolsn))
+                            {
+                                if (tagDetailList?.First().ZSATNR != currentZsatnr || tagDetailList?.First().ZCOLSN != currentZcolsn)
+                                {
+                                    result.UpdateMessage(Consts.Default.PIN_SE_BU_FU);
+                                    result.InventoryResult = false;
+                                }
+                            }
+                        }
+
                         if (ExistsSameEpc())
                         {
                             result.UpdateMessage(Consts.Default.EPC_YI_SAO_MIAO);
@@ -434,27 +391,12 @@ namespace HLAYKChannelMachine
                                 result.InventoryResult = false;
                             }
                         }
-                        else if (GetCurrentReceiveMode() == ReceiveMode.按规格装箱)
+                        if (GetCurrentReceiveMode() == ReceiveMode.按规格装箱)
                         {
                             if (!IsOneSku())
                             {
                                 result.UpdateMessage(Consts.Default.DUO_GE_SHANG_PIN);
                                 result.InventoryResult = false;
-                            }
-                            else
-                            {
-                                //if(cboTarget.Text == "Y001")
-                                {
-                                    if (tagDetailList.First().LIFNRS?.Count > 1)
-                                    {
-                                        result.UpdateMessage(Consts.Default.JIAO_JIE_HAO_BU_YI_ZHI);
-                                        result.InventoryResult = false;
-                                    }
-                                    else
-                                    {
-                                        lifnr = tagDetailList.First().LIFNRS?.FirstOrDefault();
-                                    }
-                                }
                             }
 
                             int pxqty = 0;
@@ -499,6 +441,26 @@ namespace HLAYKChannelMachine
                                 }
                             }
                         }
+                        else
+                        {
+                            //075接口获取数量对比
+                            string sapRe = "";
+                            string sapMsg = "";
+                            int re = SAPDataService.RFID_075F(lblHu.Text, ref sapRe, ref sapMsg);
+                            if (sapRe == "E")
+                            {
+                                result.UpdateMessage(string.Format("未获取到装箱数据 {0}", lblHu.Text));
+                                result.InventoryResult = false;
+                            }
+                            else
+                            {
+                                if (mainEpcNumber != re)
+                                {
+                                    result.UpdateMessage(string.Format("装箱数量错误 {0}-{1}", re, mainEpcNumber));
+                                    result.InventoryResult = false;
+                                }
+                            }
+                        }
 
                         if (lblUseBoxStandard.DM_Key != DMSkin.Controls.DMLabelKey.正确)
                         {
@@ -507,7 +469,7 @@ namespace HLAYKChannelMachine
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4netHelper.LogError(ex);
                 result.InventoryResult = false;
@@ -515,9 +477,9 @@ namespace HLAYKChannelMachine
                 result.Message = ex.ToString();
             }
 
-            if (result.InventoryResult || result.IsRecheck)
+            if (checkResult.InventoryResult || checkResult.IsRecheck)
             {
-                result.UpdateMessage(result.IsRecheck ? Consts.Default.CHONG_TOU : Consts.Default.RIGHT);
+                checkResult.UpdateMessage(checkResult.IsRecheck ? Consts.Default.CHONG_TOU : Consts.Default.RIGHT);
             }
 
             lblResult.Text = result.Message;

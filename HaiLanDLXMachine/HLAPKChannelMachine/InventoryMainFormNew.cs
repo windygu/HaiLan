@@ -22,7 +22,7 @@ using Xindeco.Device.Model;
 
 namespace HLAPKChannelMachine
 {
-    public partial class InventoryMainFormNew : CommonInventoryForm
+    public partial class InventoryMainFormNew : CommonInventoryFormIMP
     {
         #region 属性
         private List<DeliverEpcDetail> deliverEpcDetailList = null;
@@ -1164,7 +1164,7 @@ namespace HLAPKChannelMachine
                         UpdateUIControl(InventoryControlType.HU_LABEL, boxno);
                     }
 
-                    reader.StartReading();
+                    reader.StartInventory(0, 0, 0);
                     isInventory = true;
                     lastReadTime = DateTime.Now;
 
@@ -1260,7 +1260,7 @@ namespace HLAPKChannelMachine
                     {
                         UpdateUIControl(InventoryControlType.STATUS_LABEL, "停止扫描");
                         isInventory = false;
-                        reader.StopReading();
+                        reader.StopInventory();
                         ShowLoading("正在保存发货数据和上传SAP，请耐心等待...");
                         CheckResult checkResult = CheckData();
                         playSound(checkResult);

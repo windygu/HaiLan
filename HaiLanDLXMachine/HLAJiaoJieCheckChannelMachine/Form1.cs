@@ -19,7 +19,7 @@ using HLACommonLib.Model.YK;
 
 namespace HLAJiaoJieCheckChannelMachine
 {
-    public partial class Form1 : CommonInventoryForm
+    public partial class Form1 : CommonInventoryFormIMP
     {
         public const string XIANGHAO_BUZAI_BENDAN = "箱号不在当前单";
         public const string XIANGHAO_DATA_BUFU = "明细不一致";
@@ -244,7 +244,7 @@ namespace HLAJiaoJieCheckChannelMachine
                         label17_currentHu.Text = boxNoList.Dequeue();
                     }));
                 }
-                reader.StartReading();
+                reader.StartInventory(0, 0, 0);
                 isInventory = true;
                 lastReadTime = DateTime.Now;
             }
@@ -277,7 +277,7 @@ namespace HLAJiaoJieCheckChannelMachine
                     curHu = label17_currentHu.Text;
                 }));
                 isInventory = false;
-                reader.StopReading();
+                reader.StopInventory();
 
                 checkResult = check(curHu);
 
