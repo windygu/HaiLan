@@ -15,7 +15,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Xindeco.Device.Model;
 using System.Xml;
 using OSharp.Utility.Extensions;
 using Newtonsoft.Json;
@@ -23,11 +22,10 @@ using System.Data.SqlClient;
 
 namespace HLACancelCheckChannelMachine
 {
-    public partial class InventoryForm : CommonInventoryFormIMP
+    public partial class InventoryForm : CommonPMInventoryForm
     {
         CLogManager mLog = new CLogManager(true);
 
-        string mCurBoxNo = "";
         Thread thread = null;
 
         public string mDocNo = "";
@@ -46,23 +44,22 @@ namespace HLACancelCheckChannelMachine
         public InventoryForm()
         {
             InitializeComponent();
-            InitDevice(UHFReaderType.ImpinjR420, true);
+            InitDevice(SysConfig.ReaderComPort, SysConfig.ReaderPower);
 
         }
         public InventoryForm(string docNo,string num)
         {
             InitializeComponent();
-            InitDevice(UHFReaderType.ImpinjR420, true);
-
             mDocNo = docNo;
             mTotalBoxNum = num;
+
+            InitDevice(SysConfig.ReaderComPort, SysConfig.ReaderPower);
         }
         private void InitView()
         {
             Invoke(new Action(() => {
                 lblCurrentUser.Text = SysConfig.CurrentLoginUser != null ? SysConfig.CurrentLoginUser.UserId : "登录信息异常";
                 lblLouceng.Text = SysConfig.DeviceInfo != null ? SysConfig.DeviceInfo.LOUCENG : "设备信息异常";
-                lblPlc.Text = "连接中...";
                 lblReader.Text = "连接中...";
                 lblWorkStatus.Text = "未开始工作";
                 label11_deviceNo.Text = SysConfig.DeviceInfo != null ? SysConfig.DeviceInfo.EQUIP_HLA : "设备信息异常";
@@ -117,16 +114,8 @@ namespace HLACancelCheckChannelMachine
             InitView();
 
             btnStart.Enabled = false;
-            thread = new Thread(new ThreadStart(() => {
-                ShowLoading("正在连接PLC...");
-                if (ConnectPlc())
-                    Invoke(new Action(() => { lblPlc.Text = "正常"; lblPlc.ForeColor = Color.Black; }));
-                else
-                    Invoke(new Action(() => { lblPlc.Text = "异常"; lblPlc.ForeColor = Color.OrangeRed; }));
-
-                ShowLoading("正在连接条码扫描枪...");
-                ConnectBarcode();
-
+            thread = new Thread(new ThreadStart(() => 
+            {
                 ShowLoading("正在连接读写器...");
                 if (ConnectReader())
                     Invoke(new Action(() => { lblReader.Text = "正常"; lblReader.ForeColor = Color.Black; }));
@@ -211,35 +200,21 @@ namespace HLACancelCheckChannelMachine
                         Start();
                     }
                 }));
-                SetInventoryResult(0);
+                checkResult.Init();
                 errorEpcNumber = 0;
                 mainEpcNumber = 0;
                 addEpcNumber = 0;
                 epcList.Clear();
                 tagDetailList.Clear();
 
-                mCurBoxNo = "";
-
-                if (boxNoList.Count > 0)
-                {
-                    mCurBoxNo = boxNoList.Dequeue();
-                }
-
-                setBoxNo(mCurBoxNo);
-
-
-                reader.StartInventory(0, 0, 0);
+                base.StartInventory();
                 isInventory = true;
                 lastReadTime = DateTime.Now;
-
             }
         }
-        private void setBoxNo(string boxNo)
+        string getBoxNo()
         {
-            Invoke(new Action(() =>
-            {
-                label9_boxNo.Text = boxNo;
-            }));
+            return textBox1_boxno.Text.Trim();
         }
         public override CheckResult CheckData()
         {
@@ -260,7 +235,7 @@ namespace HLACancelCheckChannelMachine
                 result.UpdateMessage(Consts.Default.WEI_SAO_DAO_EPC);
                 result.InventoryResult = false;
             }
-            if(mCurBoxNo == "")
+            if(string.IsNullOrEmpty(getBoxNo()))
             {
                 result.UpdateMessage(HU_IS_NULL);
                 result.InventoryResult = false;
@@ -269,7 +244,7 @@ namespace HLACancelCheckChannelMachine
             int mainDif = -1;
             int addDif = -1;
             int notInBoxNum = 0;
-            CCancelCheckHu re = piPei(mCurBoxNo, ref notInBoxNum);
+            CCancelCheckHu re = piPei(getBoxNo(), ref notInBoxNum);
             if(re!=null)
             {
                 mainDif = re.getMainDif();
@@ -288,12 +263,12 @@ namespace HLACancelCheckChannelMachine
             }
 
             int shouldSao = 0;
-            if(mCancelHuDetail.ContainsKey(mCurBoxNo))
+            if(mCancelHuDetail.ContainsKey(getBoxNo()))
             {
-                shouldSao = mCancelHuDetail[mCurBoxNo].getMainDif();
+                shouldSao = mCancelHuDetail[getBoxNo()].getMainDif();
             }
 
-            grid.Rows.Insert(0, mCurBoxNo, tagDetailList.Count(i => i.IsAddEpc == false)
+            grid.Rows.Insert(0, getBoxNo(), tagDetailList.Count(i => i.IsAddEpc == false)
                 , tagDetailList.Count(i => i.IsAddEpc == true)
                 , shouldSao, -mainDif, -addDif);
 
@@ -321,7 +296,7 @@ namespace HLACancelCheckChannelMachine
             }
 
             //save inventory re to sql
-            LocalDataService.InsertCancelReData(mDocNo, mCurBoxNo, tagDetailList.Count(i => i.IsAddEpc == false)
+            LocalDataService.InsertCancelReData(mDocNo, getBoxNo(), tagDetailList.Count(i => i.IsAddEpc == false)
                 , tagDetailList.Count(i => i.IsAddEpc == true)
                 , shouldSao, -mainDif, -addDif, errorEpcNumber, notInBoxNum
                 , result.Message
@@ -332,7 +307,7 @@ namespace HLACancelCheckChannelMachine
             {
                 CCancelUpload uploadData = new CCancelUpload();
                 uploadData.lgnum = SysConfig.LGNUM;
-                uploadData.boxno = mCurBoxNo;
+                uploadData.boxno = getBoxNo();
                 uploadData.subuser = SysConfig.CurrentLoginUser.UserId;
                 uploadData.inventoryRe = result.InventoryResult;
                 uploadData.equipID = SysConfig.DeviceInfo.EQUIP_HLA;
@@ -358,13 +333,13 @@ namespace HLACancelCheckChannelMachine
                 if (checkRe == null)
                     return re;
 
-                re.hu = mCurBoxNo;
+                re.hu = getBoxNo();
                 re.inventoryRe = cr.InventoryResult;
                 re.totalNum = 0;
                 re.beizhu = "";
-                if (mCancelHuDetail.ContainsKey(mCurBoxNo))
+                if (mCancelHuDetail.ContainsKey(getBoxNo()))
                 {
-                    re.totalNum = mCancelHuDetail[mCurBoxNo].getMainDif() + mCancelHuDetail[mCurBoxNo].getAddDif();
+                    re.totalNum = mCancelHuDetail[getBoxNo()].getMainDif() + mCancelHuDetail[getBoxNo()].getAddDif();
                 }
                 foreach (var v in checkRe.mBarcd)
                 {
@@ -477,19 +452,8 @@ namespace HLACancelCheckChannelMachine
                     lblWorkStatus.Text = "停止扫描";
                 }));
                 isInventory = false;
-                reader.StopInventory();
+                base.StopInventory();
                 CheckResult cre = CheckData();
-
-                if (cre.InventoryResult)
-                {
-                    SetInventoryResult(1);
-                }
-                else
-                {
-                    SetInventoryResult(3);
-                }
-
-
             }
         }
 
@@ -502,11 +466,13 @@ namespace HLACancelCheckChannelMachine
         private void btnStart_Click(object sender, EventArgs e)
         {
             Start();
+            StartInventory();
         }
 
         private void btnPause_Click(object sender, EventArgs e)
         {
             Pause();
+            StopInventory();
         }
 
         private void dmButton3_Click(object sender, EventArgs e)

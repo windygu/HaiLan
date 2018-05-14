@@ -148,7 +148,7 @@ namespace HLABigChannel
         private void dmButton9_Cancel_Click(object sender, EventArgs e)
         {
             dmButton9_Cancel.Enabled = false;
-            StartProgram(sender, "HLACancelCheckChannelMachine.exe", "cancelcheck");
+            StartProgram(sender, "HLACancelCheckChannelMachinePM.exe", "cancelcheck");
             dmButton9_Cancel.Enabled = true;
             this.WindowState = FormWindowState.Maximized;
         }

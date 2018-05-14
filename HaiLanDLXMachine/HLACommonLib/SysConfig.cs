@@ -237,7 +237,17 @@ namespace HLACommonLib
         public static void loadConfig()
         {
             SysConfig.ReaderIp = ConfigurationManager.AppSettings["ReaderIp"];
-            SysConfig.mReaderPower = int.Parse(ConfigurationManager.AppSettings["AntennaPower"]);
+            SysConfig.ReaderConfig.SearchMode = int.Parse(ConfigurationManager.AppSettings["SearchMode"]);
+            SysConfig.ReaderConfig.Session = ushort.Parse(ConfigurationManager.AppSettings["Session"]);
+            SysConfig.ReaderConfig.UseAntenna1 = int.Parse(ConfigurationManager.AppSettings["UseAntenna1"]) == 0 ? false : true;
+            SysConfig.ReaderConfig.UseAntenna2 = int.Parse(ConfigurationManager.AppSettings["UseAntenna2"]) == 0 ? false : true;
+            SysConfig.ReaderConfig.UseAntenna3 = int.Parse(ConfigurationManager.AppSettings["UseAntenna3"]) == 0 ? false : true;
+            SysConfig.ReaderConfig.UseAntenna4 = int.Parse(ConfigurationManager.AppSettings["UseAntenna4"]) == 0 ? false : true;
+            SysConfig.ReaderConfig.AntennaPower1 = double.Parse(ConfigurationManager.AppSettings["AntennaPower1"]);
+            SysConfig.ReaderConfig.AntennaPower2 = double.Parse(ConfigurationManager.AppSettings["AntennaPower2"]);
+            SysConfig.ReaderConfig.AntennaPower3 = double.Parse(ConfigurationManager.AppSettings["AntennaPower3"]);
+            SysConfig.ReaderConfig.AntennaPower4 = double.Parse(ConfigurationManager.AppSettings["AntennaPower4"]);
+
             SysConfig.DelayTime = ConfigurationManager.AppSettings["DelayTime"] == null ? 700 : int.Parse(ConfigurationManager.AppSettings["DelayTime"]);
 
             //SAP相关配置
@@ -255,6 +265,7 @@ namespace HLACommonLib
             SysConfig.Port = ConfigurationManager.AppSettings["Port"];
             SysConfig.ScannerPort_1 = ConfigurationManager.AppSettings["ScannerPort_1"];
             SysConfig.ScannerPort_2 = ConfigurationManager.AppSettings["ScannerPort_2"];
+
         }
         public static void Load()
         {

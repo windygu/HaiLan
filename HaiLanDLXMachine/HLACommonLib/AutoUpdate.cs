@@ -107,7 +107,8 @@ namespace HLACommonLib
         自动下载_AJT = 28,
         单检机收货 = 29,
         单检机发货 = 30,
-        BigChannelPM = 31
+        BigChannelPM = 31,
+        退货复核PM = 32
 
 
     }

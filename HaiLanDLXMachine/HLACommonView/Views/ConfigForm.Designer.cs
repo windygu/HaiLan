@@ -90,9 +90,9 @@
             this.label8.ForeColor = System.Drawing.Color.Teal;
             this.label8.Location = new System.Drawing.Point(75, 69);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(234, 27);
+            this.label8.Size = new System.Drawing.Size(204, 27);
             this.label8.TabIndex = 22;
-            this.label8.Text = "功率范围（500~3150）";
+            this.label8.Text = "功率范围（1~32.5）";
             // 
             // label7
             // 
