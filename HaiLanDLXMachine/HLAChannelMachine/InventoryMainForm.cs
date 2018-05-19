@@ -132,6 +132,12 @@ namespace HLAChannelMachine
                 lblPlcStatus.Text = "连接中...";
                 lblReaderStatus.Text = "连接中...";
                 lblWorkStatus.Text = "未开始工作";
+
+                if (SysConfig.RunningModel == RunMode.高位库)
+                {
+                    label1.Text += "-高位库";
+                }
+
             }));
         }
 
@@ -1027,7 +1033,8 @@ namespace HLAChannelMachine
             }
             else
             {
-                SetInventoryResult(3);
+                SetInventoryResult(1);
+                playSound(false);
                 ShowInventoryResult(result);
             }
             return result;
@@ -1447,13 +1454,32 @@ namespace HLAChannelMachine
             }
             else
             {
-                SetInventoryResult(3);
+                SetInventoryResult(1);
+                playSound(false);
                 ShowInventoryResult(result);
             }
 
 
             return result;
         }
+
+        void playSound(bool re)
+        {
+            try
+            {
+                if (re)
+                {
+                    AudioHelper.Play("success.wav");
+                }
+                else
+                {
+                    AudioHelper.Play("fail.wav");
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
         private void ShowInventoryResult(CheckResult cr)
         {
             this.Invoke(new Action(() =>

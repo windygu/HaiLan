@@ -143,10 +143,14 @@ namespace HLAYKChannelMachine
                             currentZsatnr = box.Details?.First().Zsatnr;
                         }
                     }
-                    boxList.RemoveAll(i => i.Hu == box.Hu);
-                    boxList.Add(box);
-                    AddGrid(box);
 
+                    if (!checkResult.IsRecheck)
+                    {
+                        boxList.RemoveAll(i => i.Hu == box.Hu);
+                        boxList.Add(box);
+                    }
+
+                    AddGrid(box);
                     updateUIInfo();
 
                     if (checkResult.InventoryResult || checkResult.IsRecheck)
@@ -310,7 +314,7 @@ namespace HLAYKChannelMachine
                     }
 
                     YKBoxInfo box = boxList == null ? null : boxList.Find(i => i.Hu == lblHu.Text);
-                    if (box != null && box.Status != null && box.Status == "S")
+                    if (box != null && box.Status != null && box.Status == "S" && box.SapStatus == "S")
                     {
                         //上次检测结果为正常，
                         bool isAllSame = true;
@@ -443,21 +447,24 @@ namespace HLAYKChannelMachine
                         }
                         else
                         {
-                            //075接口获取数量对比
-                            string sapRe = "";
-                            string sapMsg = "";
-                            int re = SAPDataService.RFID_075F(lblHu.Text, ref sapRe, ref sapMsg);
-                            if (sapRe == "E")
+                            if (shouldCheckNum())
                             {
-                                result.UpdateMessage(string.Format("未获取到装箱数据 {0}", lblHu.Text));
-                                result.InventoryResult = false;
-                            }
-                            else
-                            {
-                                if (mainEpcNumber != re)
+                                //075接口获取数量对比
+                                string sapRe = "";
+                                string sapMsg = "";
+                                int re = SAPDataService.RFID_075F(lblHu.Text, ref sapRe, ref sapMsg);
+                                if (sapRe == "E")
                                 {
-                                    result.UpdateMessage(string.Format("装箱数量错误 {0}-{1}", re, mainEpcNumber));
+                                    result.UpdateMessage(string.Format("未获取到装箱数据 {0}", lblHu.Text));
                                     result.InventoryResult = false;
+                                }
+                                else
+                                {
+                                    if (mainEpcNumber != re)
+                                    {
+                                        result.UpdateMessage(string.Format("装箱数量错误 {0}-{1}", re, mainEpcNumber));
+                                        result.InventoryResult = false;
+                                    }
                                 }
                             }
                         }
@@ -477,15 +484,34 @@ namespace HLAYKChannelMachine
                 result.Message = ex.ToString();
             }
 
-            if (checkResult.InventoryResult || checkResult.IsRecheck)
+            if (result.InventoryResult || result.IsRecheck)
             {
-                checkResult.UpdateMessage(checkResult.IsRecheck ? Consts.Default.CHONG_TOU : Consts.Default.RIGHT);
+                result.UpdateMessage(result.IsRecheck ? Consts.Default.CHONG_TOU : Consts.Default.RIGHT);
             }
 
             lblResult.Text = result.Message;
             return result;
         }
+        string getSourceDes()
+        {
+            return cboSource.Text.Trim();
+        }
 
+        bool shouldCheckNum()
+        {
+            try
+            {
+                AuthInfo ai = SysConfig.DeviceInfo?.AuthList?.FirstOrDefault(i => i.AUTH_VALUE == getSourceDes());
+                if (ai != null && ai.AUTH_VALUE_DES == "X")
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            { }
+
+            return false;
+        }
 
         private bool IsOneSku()
         {
