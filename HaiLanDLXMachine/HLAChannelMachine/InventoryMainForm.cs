@@ -17,6 +17,7 @@ using HLACommonView.Model;
 using Newtonsoft.Json;
 using HLACommonLib.DAO;
 using HLAChannelMachine.Utils;
+using Xindeco.Device.Model;
 
 namespace HLAChannelMachine
 {
@@ -354,7 +355,7 @@ namespace HLAChannelMachine
                 int.TryParse(lblActualTotalNum.Text, out actualTotalNum);
                 actualTotalNum = actualTotalNum + qty;
                 this.lblActualTotalNum.Text = actualTotalNum.ToString();
-                this.lblTotalBoxNum.Text = mDocDetailInfoList.Sum(i => i.BOXCOUNT).ToString();
+                this.lblTotalBoxNum.Text = (mDocDetailInfoList.Sum(i => i.BOXCOUNT)+1).ToString();
 
                 bool isExists = false;
                 foreach (ListViewItem docDetailItem in lvDocDetail.Items)
@@ -1030,6 +1031,7 @@ namespace HLAChannelMachine
                 result.UpdateMessage(result.IsRecheck ? CHONG_TOU : RIGHT);
                 ShowInventoryResult(result);
                 SetInventoryResult(1);
+                playSound(true);
             }
             else
             {
@@ -1451,6 +1453,7 @@ namespace HLAChannelMachine
                 result.UpdateMessage(result.IsRecheck ? CHONG_TOU : RIGHT);
                 ShowInventoryResult(result);
                 SetInventoryResult(1);
+                playSound(true);
             }
             else
             {
@@ -1734,6 +1737,38 @@ namespace HLAChannelMachine
 
             this.btnStart.Enabled = false;
             this.btnStop.Enabled = true;
+
+            openMachine();
+        }
+
+        void openMachine()
+        {
+            try
+            {
+                if (plc!=null)
+                {
+                    plc.SendCommand((PLCResponse)5);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        void closeMachine()
+        {
+            try
+            {
+                if (plc!=null)
+                {
+                    plc.SendCommand((PLCResponse)6);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -1741,12 +1776,16 @@ namespace HLAChannelMachine
             this.btnStop.Enabled = false;
             if (SysConfig.RunningModel == RunMode.高位库)
             {
-                this.lblCurrentZSATNR.Text = "";
+                //this.lblCurrentZSATNR.Text = "";
             }
             else
+            {
                 this.btnSetBoxQty.Enabled = true;
+            }
             StopInventory();
             this.btnStart.Enabled = true;
+
+            closeMachine();
         }
 
         private void btnPeibi_Click(object sender, EventArgs e)

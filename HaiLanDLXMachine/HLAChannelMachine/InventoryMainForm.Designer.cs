@@ -124,7 +124,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.lvPBErrorRecord);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Size = new System.Drawing.Size(1221, 712);
-            this.splitContainer1.SplitterDistance = 499;
+            this.splitContainer1.SplitterDistance = 523;
             this.splitContainer1.TabIndex = 1;
             // 
             // splitContainer2
@@ -172,7 +172,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.grouper2);
-            this.splitContainer2.Size = new System.Drawing.Size(499, 672);
+            this.splitContainer2.Size = new System.Drawing.Size(523, 672);
             this.splitContainer2.SplitterDistance = 357;
             this.splitContainer2.TabIndex = 2;
             // 
@@ -643,7 +643,7 @@
             this.grouper2.ShadowColor = System.Drawing.Color.DarkGray;
             this.grouper2.ShadowControl = false;
             this.grouper2.ShadowThickness = 3;
-            this.grouper2.Size = new System.Drawing.Size(497, 309);
+            this.grouper2.Size = new System.Drawing.Size(521, 309);
             this.grouper2.TabIndex = 5;
             // 
             // label5
@@ -653,7 +653,7 @@
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(45, 273);
+            this.label5.Location = new System.Drawing.Point(57, 273);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(102, 27);
             this.label5.TabIndex = 38;
@@ -665,7 +665,7 @@
             this.lblActualTotalNum.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lblActualTotalNum.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.lblActualTotalNum.ForeColor = System.Drawing.Color.Red;
-            this.lblActualTotalNum.Location = new System.Drawing.Point(337, 273);
+            this.lblActualTotalNum.Location = new System.Drawing.Point(349, 273);
             this.lblActualTotalNum.Name = "lblActualTotalNum";
             this.lblActualTotalNum.Size = new System.Drawing.Size(111, 27);
             this.lblActualTotalNum.TabIndex = 37;
@@ -678,7 +678,7 @@
             this.label9.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label9.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.label9.ForeColor = System.Drawing.Color.Red;
-            this.label9.Location = new System.Drawing.Point(235, 273);
+            this.label9.Location = new System.Drawing.Point(247, 273);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(96, 27);
             this.label9.TabIndex = 36;
@@ -690,7 +690,7 @@
             this.lblTotalBoxNum.BackColor = System.Drawing.Color.WhiteSmoke;
             this.lblTotalBoxNum.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.lblTotalBoxNum.ForeColor = System.Drawing.Color.Red;
-            this.lblTotalBoxNum.Location = new System.Drawing.Point(155, 273);
+            this.lblTotalBoxNum.Location = new System.Drawing.Point(167, 273);
             this.lblTotalBoxNum.Name = "lblTotalBoxNum";
             this.lblTotalBoxNum.Size = new System.Drawing.Size(72, 27);
             this.lblTotalBoxNum.TabIndex = 35;
@@ -729,7 +729,7 @@
             this.lvDocDetail.Location = new System.Drawing.Point(6, 52);
             this.lvDocDetail.MultiSelect = false;
             this.lvDocDetail.Name = "lvDocDetail";
-            this.lvDocDetail.Size = new System.Drawing.Size(483, 213);
+            this.lvDocDetail.Size = new System.Drawing.Size(507, 213);
             this.lvDocDetail.TabIndex = 7;
             this.lvDocDetail.UseCompatibleStateImageBehavior = false;
             this.lvDocDetail.View = System.Windows.Forms.View.Details;
@@ -793,7 +793,7 @@
             this.lvPBDetail.Location = new System.Drawing.Point(6, 52);
             this.lvPBDetail.MultiSelect = false;
             this.lvPBDetail.Name = "lvPBDetail";
-            this.lvPBDetail.Size = new System.Drawing.Size(483, 213);
+            this.lvPBDetail.Size = new System.Drawing.Size(507, 213);
             this.lvPBDetail.TabIndex = 8;
             this.lvPBDetail.UseCompatibleStateImageBehavior = false;
             this.lvPBDetail.View = System.Windows.Forms.View.Details;
@@ -825,7 +825,7 @@
             this.label1.ForeColor = System.Drawing.Color.Teal;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(499, 40);
+            this.label1.Size = new System.Drawing.Size(523, 40);
             this.label1.TabIndex = 1;
             this.label1.Text = "状态监控";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -847,7 +847,7 @@
             this.lvErrorRecord.Location = new System.Drawing.Point(0, 40);
             this.lvErrorRecord.MultiSelect = false;
             this.lvErrorRecord.Name = "lvErrorRecord";
-            this.lvErrorRecord.Size = new System.Drawing.Size(718, 672);
+            this.lvErrorRecord.Size = new System.Drawing.Size(694, 672);
             this.lvErrorRecord.TabIndex = 10;
             this.lvErrorRecord.UseCompatibleStateImageBehavior = false;
             this.lvErrorRecord.View = System.Windows.Forms.View.Details;
@@ -904,7 +904,7 @@
             this.lvPBErrorRecord.Location = new System.Drawing.Point(0, 40);
             this.lvPBErrorRecord.MultiSelect = false;
             this.lvPBErrorRecord.Name = "lvPBErrorRecord";
-            this.lvPBErrorRecord.Size = new System.Drawing.Size(718, 672);
+            this.lvPBErrorRecord.Size = new System.Drawing.Size(694, 672);
             this.lvPBErrorRecord.TabIndex = 11;
             this.lvPBErrorRecord.UseCompatibleStateImageBehavior = false;
             this.lvPBErrorRecord.View = System.Windows.Forms.View.Details;
@@ -957,7 +957,7 @@
             this.label2.ForeColor = System.Drawing.Color.Teal;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(718, 40);
+            this.label2.Size = new System.Drawing.Size(694, 40);
             this.label2.TabIndex = 2;
             this.label2.Text = "复核明细";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

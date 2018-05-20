@@ -57,11 +57,13 @@ namespace HLABigChannel
                     + "\"" + SysConfig.DBUrl + "\"";
                 myProcess.Start();
 
+                
                 while (!myProcess.HasExited)
                 {
                     myProcess.WaitForExit();
 
                 }
+                
             }
             else
             {
