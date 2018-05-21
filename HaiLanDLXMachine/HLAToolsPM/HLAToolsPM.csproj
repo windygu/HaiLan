@@ -155,7 +155,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>Copy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannelPM\bin\x86\Release\tools\</PostBuildEvent>
+    <PostBuildEvent>xCopy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannelPM\bin\x86\Release\tools\ /s</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -107,11 +107,15 @@
     </Reference>
     <Reference Include="Stimulsoft.Base, Version=2012.3.1500.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Stimulsoft.Report\Stimulsoft.Base.dll</HintPath>
+      <HintPath>..\packages\Stimulsoft.Base.dll</HintPath>
     </Reference>
     <Reference Include="Stimulsoft.Report, Version=2012.3.1500.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Stimulsoft.Report\Stimulsoft.Report.dll</HintPath>
+      <HintPath>..\packages\Stimulsoft.Report.dll</HintPath>
+    </Reference>
+    <Reference Include="Stimulsoft.Report.Win, Version=2012.3.1500.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Stimulsoft.Report.Win.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -378,9 +382,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>Copy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannel\bin\x86\Release\receiver\
+    <PostBuildEvent>xCopy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannel\bin\x86\Release\receiver\ /s
 
-Copy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannel\bin\x86\Release\receiverlow\</PostBuildEvent>
+xCopy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannel\bin\x86\Release\receiverlow\ /s</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

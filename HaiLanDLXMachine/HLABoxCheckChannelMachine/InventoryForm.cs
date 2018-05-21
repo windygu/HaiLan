@@ -16,10 +16,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Xindeco.Device.Model;
+using System.IO.Ports;
 
 namespace HLABoxCheckChannelMachine
 {
-
     public partial class InventoryForm : CommonInventoryFormIMP
     {
         CLogManager mLog = new CLogManager(true);
@@ -41,7 +41,35 @@ namespace HLABoxCheckChannelMachine
 
             }));
         }
+        void openMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)5);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        void closeMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)6);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         private void InventoryForm_Load(object sender, EventArgs e)
         {
             InitView();
@@ -170,17 +198,23 @@ namespace HLABoxCheckChannelMachine
 
             }
         }
+
         public override CheckResult CheckData()
         {
             CheckResult result = base.CheckData();
 
+            if(string.IsNullOrEmpty(mCurBoxNo))
+            {
+                result.UpdateMessage(@"未扫描到箱号");
+                result.InventoryResult = false;
+            }
+
             bool pinseCheckBool = false;
             bool allCheckBool = false;
-            Invoke(new Action(() =>
-            {
-                pinseCheckBool = pinseCheck.Checked;
-                allCheckBool = allCheck.Checked;
-            }));
+
+            pinseCheckBool = pinseCheck.Checked;
+            allCheckBool = allCheck.Checked;
+
             if (allCheckBool)
             {
                 if (tagDetailList != null && tagDetailList.Count > 0)
@@ -331,11 +365,14 @@ namespace HLABoxCheckChannelMachine
         private void btnStart_Click(object sender, EventArgs e)
         {
             Start();
+            openMachine();
         }
 
         private void btnPause_Click(object sender, EventArgs e)
         {
             Pause();
+            StopInventory();
+            closeMachine();
         }
 
         List<CTagDetail> getTags()
@@ -390,4 +427,5 @@ namespace HLABoxCheckChannelMachine
         public string charg;
         public int quan;
     }
+
 }
