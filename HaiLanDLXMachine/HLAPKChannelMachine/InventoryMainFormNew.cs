@@ -128,7 +128,7 @@ namespace HLAPKChannelMachine
         {
             timer1.Enabled = false;
 
-            btnGetData.Visible = SysConfig.LGNUM == "ET01" ? true : false;
+            //btnGetData.Visible = SysConfig.LGNUM == "ET01" ? true : false;
 
             if(SysConfig.DeviceInfo.AuthList!=null)
             {
@@ -1680,19 +1680,50 @@ namespace HLAPKChannelMachine
             PKBoxDetailForm form = new PKBoxDetailForm(boxInfo, errorList);
             form.ShowDialog();
         }
+        void openMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)5);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        void closeMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)6);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         private void btnStart_Click(object sender, EventArgs e)
         {
             if (btnStart.Text == "开始")
             {
                 Start();
+                openMachine();
             }
             else
             {
                 btnGetData.Enabled = true;
                 btnStop.Enabled = false;
-
                 btnStart.Text = "开始";
+
+                StopInventory();
+                closeMachine();
             }
         }
 
@@ -1729,16 +1760,6 @@ namespace HLAPKChannelMachine
                 uploadButton.Text = string.Format("上传列表({0})", cou);
             }));
         }
-        private void newUploadButton_Click(object sender, EventArgs e)
-        {
-            ShorUploadMsgForm();
-        }
-
-        private void button1_dj_Click(object sender, EventArgs e)
-        {
-            MainForm djform = new MainForm(materialList);
-            djform.ShowDialog();
-        }
 
         private void uploadButton_Click(object sender, EventArgs e)
         {
@@ -1759,6 +1780,12 @@ namespace HLAPKChannelMachine
         private void gridDeliverErrorBox_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void metroButton1_dj_Click(object sender, EventArgs e)
+        {
+            MainForm djform = new MainForm(materialList);
+            djform.ShowDialog();
         }
     }
 

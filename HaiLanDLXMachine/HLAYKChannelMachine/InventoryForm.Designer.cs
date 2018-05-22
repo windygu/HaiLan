@@ -293,7 +293,7 @@ namespace HLAYKChannelMachine
             this.cboPxmat.DM_UseSelectable = true;
             this.cboPxmat.FormattingEnabled = true;
             this.cboPxmat.ItemHeight = 24;
-            this.cboPxmat.Location = new System.Drawing.Point(120, 397);
+            this.cboPxmat.Location = new System.Drawing.Point(120, 396);
             this.cboPxmat.Name = "cboPxmat";
             this.cboPxmat.Size = new System.Drawing.Size(210, 30);
             this.cboPxmat.TabIndex = 20;
@@ -305,7 +305,7 @@ namespace HLAYKChannelMachine
             this.label15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label15.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(10, 397);
+            this.label15.Location = new System.Drawing.Point(10, 396);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(111, 30);
             this.label15.TabIndex = 19;
@@ -903,7 +903,7 @@ namespace HLAYKChannelMachine
             this.txtPrinter.DM_FontSize = DMSkin.Metro.MetroTextBoxSize.Tall;
             this.txtPrinter.DM_UseSelectable = true;
             this.txtPrinter.Lines = new string[0];
-            this.txtPrinter.Location = new System.Drawing.Point(120, 399);
+            this.txtPrinter.Location = new System.Drawing.Point(120, 396);
             this.txtPrinter.MaxLength = 32767;
             this.txtPrinter.Name = "txtPrinter";
             this.txtPrinter.PasswordChar = '\0';
@@ -922,7 +922,7 @@ namespace HLAYKChannelMachine
             this.label12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label12.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(10, 399);
+            this.label12.Location = new System.Drawing.Point(10, 396);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(111, 30);
             this.label12.TabIndex = 53;

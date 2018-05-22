@@ -118,6 +118,7 @@ namespace HLAYKChannelMachine
                     reader.StopInventory();
 
                     checkResult = CheckData();
+                    playSound(checkResult);
                     YKBoxInfo box = GetCurrentYKBox();
 
                     if (lblUsePrint.DM_Key == DMSkin.Controls.DMLabelKey.正确)
@@ -281,6 +282,22 @@ namespace HLAYKChannelMachine
                 }
             }
             return "";
+        }
+        void playSound(CheckResult cr)
+        {
+            try
+            {
+                if (cr.InventoryResult)
+                {
+                    AudioHelper.Play("success.wav");
+                }
+                else
+                {
+                    AudioHelper.Play("fail.wav");
+                }
+            }
+            catch (Exception)
+            { }
         }
         public override CheckResult CheckData()
         {
@@ -1034,15 +1051,47 @@ namespace HLAYKChannelMachine
         {
 
         }
+        void openMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)5);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        void closeMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)6);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
 
         private void dmButtonStart_Click(object sender, EventArgs e)
         {
             Start();
+            openMachine();
         }
 
         private void dmButtonStop_Click(object sender, EventArgs e)
         {
             Stop();
+            StopInventory();
+            closeMachine();
         }
 
 

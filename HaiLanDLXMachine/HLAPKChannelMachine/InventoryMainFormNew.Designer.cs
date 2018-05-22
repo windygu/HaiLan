@@ -71,7 +71,6 @@
             this.lblPLCStatus = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.lblResultMessage = new System.Windows.Forms.Label();
-            this.button1_dj = new System.Windows.Forms.Button();
             this.uploadButton = new DMSkin.Metro.Controls.MetroButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -87,6 +86,7 @@
             this.EB_DIFF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EB_REMARK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label11 = new System.Windows.Forms.Label();
+            this.metroButton1_dj = new DMSkin.Metro.Controls.MetroButton();
             this.gbTestPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -459,9 +459,9 @@
             this.btnGetData.DM_UseCustomForeColor = true;
             this.btnGetData.DM_UseSelectable = true;
             this.btnGetData.ForeColor = System.Drawing.Color.Teal;
-            this.btnGetData.Location = new System.Drawing.Point(137, 441);
+            this.btnGetData.Location = new System.Drawing.Point(110, 441);
             this.btnGetData.Name = "btnGetData";
-            this.btnGetData.Size = new System.Drawing.Size(112, 44);
+            this.btnGetData.Size = new System.Drawing.Size(140, 44);
             this.btnGetData.TabIndex = 32;
             this.btnGetData.Text = "货运数据获取";
             this.btnGetData.Click += new System.EventHandler(this.btnGetData_Click);
@@ -477,7 +477,7 @@
             this.btnStart.ForeColor = System.Drawing.Color.Teal;
             this.btnStart.Location = new System.Drawing.Point(8, 441);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(111, 44);
+            this.btnStart.Size = new System.Drawing.Size(95, 44);
             this.btnStart.TabIndex = 34;
             this.btnStart.Text = "开始";
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
@@ -567,19 +567,6 @@
             this.lblResultMessage.Text = "XXXX";
             this.lblResultMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // button1_dj
-            // 
-            this.button1_dj.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.button1_dj.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1_dj.ForeColor = System.Drawing.Color.Teal;
-            this.button1_dj.Location = new System.Drawing.Point(8, 545);
-            this.button1_dj.Name = "button1_dj";
-            this.button1_dj.Size = new System.Drawing.Size(241, 50);
-            this.button1_dj.TabIndex = 45;
-            this.button1_dj.Text = "短拣";
-            this.button1_dj.UseVisualStyleBackColor = false;
-            this.button1_dj.Click += new System.EventHandler(this.button1_dj_Click);
-            // 
             // uploadButton
             // 
             this.uploadButton.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -611,9 +598,9 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
+            this.splitContainer1.Panel1.Controls.Add(this.metroButton1_dj);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.label14);
-            this.splitContainer1.Panel1.Controls.Add(this.button1_dj);
             this.splitContainer1.Panel1.Controls.Add(this.btnGetData);
             this.splitContainer1.Panel1.Controls.Add(this.label16);
             this.splitContainer1.Panel1.Controls.Add(this.uploadButton);
@@ -820,6 +807,22 @@
             this.label11.Text = "发货包装明细";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // metroButton1_dj
+            // 
+            this.metroButton1_dj.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.metroButton1_dj.DM_FontSize = DMSkin.Metro.MetroButtonSize.Tall;
+            this.metroButton1_dj.DM_UseCustomBackColor = true;
+            this.metroButton1_dj.DM_UseCustomForeColor = true;
+            this.metroButton1_dj.DM_UseSelectable = true;
+            this.metroButton1_dj.DM_UseStyleColors = true;
+            this.metroButton1_dj.ForeColor = System.Drawing.Color.Teal;
+            this.metroButton1_dj.Location = new System.Drawing.Point(7, 549);
+            this.metroButton1_dj.Name = "metroButton1_dj";
+            this.metroButton1_dj.Size = new System.Drawing.Size(241, 44);
+            this.metroButton1_dj.TabIndex = 47;
+            this.metroButton1_dj.Text = "短拣";
+            this.metroButton1_dj.Click += new System.EventHandler(this.metroButton1_dj_Click);
+            // 
             // InventoryMainFormNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -887,7 +890,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Timer timer1;
         private DMSkin.Metro.Controls.MetroButton uploadButton;
-        private System.Windows.Forms.Button button1_dj;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label label1;
         private DMSkin.Metro.Controls.MetroGrid gridDeliverErrorBox;
@@ -901,6 +903,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_REAL;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_DIFF;
         private System.Windows.Forms.DataGridViewTextBoxColumn EB_REMARK;
+        private DMSkin.Metro.Controls.MetroButton metroButton1_dj;
     }
 }
 
