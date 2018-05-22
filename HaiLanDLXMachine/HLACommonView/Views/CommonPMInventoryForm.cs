@@ -65,9 +65,55 @@ namespace HLACommonView.Views
 
             reportEpc(epc);
         }
+
         public virtual void reportEpc(string epc)
         {
-            throw new NotImplementedException();
+            if (!isInventory || string.IsNullOrEmpty(epc)) return;
+            if (!epcList.Contains(epc))
+            {
+                lastReadTime = DateTime.Now;
+                epcList.Add(epc);
+
+                TagDetailInfo tag = GetTagDetailInfoByEpc(epc);
+                if (tag != null)   //合法EPC
+                {
+                    tagDetailList.Add(tag);
+                    if (!tag.IsAddEpc)   //主条码
+                        mainEpcNumber++;
+                    else
+                        addEpcNumber++;
+                }
+                else
+                {
+                    //累加非法EPC数量
+                    errorEpcNumber++;
+                }
+                UpdateView();
+            }
+
+        }
+        public virtual void reportBar(string bar)
+        {
+            TagDetailInfo tag = GetTagDetailInfoByBar(bar);
+
+            if (tag != null)   //合法EPC
+            {
+                tagDetailList.Add(tag);
+                if (!tag.IsAddEpc)   //主条码
+                    mainEpcNumber++;
+                else
+                    addEpcNumber++;
+            }
+            else
+            {
+                //累加非法EPC数量
+                errorEpcNumber++;
+            }
+            UpdateView();
+        }
+        public virtual void UpdateView()
+        {
+
         }
         public virtual bool ConnectReader()
         {
@@ -199,7 +245,65 @@ namespace HLACommonView.Views
                 }
             }
         }
-        
+
+        public TagDetailInfo GetTagDetailInfoByBar(string bar)
+        {
+            if (string.IsNullOrEmpty(bar))
+                return null;
+            if (hlaTagList == null || materialList == null)
+                return null;
+            List<HLATagInfo> tags = hlaTagList.FindAll(i => i.BARCD.ToUpper() == bar.ToUpper() || (i.BARCD_ADD.ToUpper() == bar.ToUpper()));
+
+            if (tags == null || tags.Count == 0)
+                return null;
+            else
+            {
+                HLATagInfo tag = tags.First();
+                MaterialInfo mater = materialList.FirstOrDefault(i => i.MATNR == tag.MATNR);
+                if (mater == null)
+                    return null;
+                else
+                {
+                    TagDetailInfo item = new TagDetailInfo();
+                    item.EPC = "";
+                    item.RFID_EPC = tag.RFID_EPC;
+                    item.RFID_ADD_EPC = tag.RFID_ADD_EPC;
+                    item.CHARG = tag.CHARG;
+                    item.MATNR = tag.MATNR;
+                    item.BARCD = tag.BARCD;
+                    item.BARCD_ADD = tag.BARCD_ADD;
+
+                    item.ZSATNR = mater.ZSATNR;
+                    item.ZCOLSN = mater.ZCOLSN;
+                    item.ZSIZTX = mater.ZSIZTX;
+                    item.ZCOLSN_WFG = mater.ZCOLSN_WFG;
+                    item.PXQTY = mater.PXQTY;
+                    item.PXQTY_FH = mater.PXQTY_FH;
+                    item.PACKMAT = mater.PXMAT;
+                    item.PACKMAT_FH = mater.PXMAT_FH;
+                    item.PUT_STRA = mater.PUT_STRA;
+                    item.BRGEW = mater.BRGEW;
+                    item.MAKTX = mater.MAKTX;
+
+                    if (bar.ToUpper() == item.BARCD.ToUpper())
+                        item.IsAddEpc = false;
+                    else
+                        item.IsAddEpc = true;
+                    item.LIFNRS = new List<string>();
+                    foreach (HLATagInfo t in tags)
+                    {
+                        if (!string.IsNullOrEmpty(t.LIFNR))
+                        {
+                            if (!item.LIFNRS.Contains(t.LIFNR))
+                            {
+                                item.LIFNRS.Add(t.LIFNR);
+                            }
+                        }
+                    }
+                    return item;
+                }
+            }
+        }
 
         public virtual void ShowLoading(string message)
         {

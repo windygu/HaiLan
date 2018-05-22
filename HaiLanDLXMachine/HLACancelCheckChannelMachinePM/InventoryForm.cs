@@ -27,7 +27,6 @@ namespace HLACancelCheckChannelMachine
         CLogManager mLog = new CLogManager(true);
 
         Thread thread = null;
-
         public string mDocNo = "";
         string mTotalBoxNum = "";
         Dictionary<string, CCancelCheckHu> mCancelHuDetail = null;
@@ -64,6 +63,7 @@ namespace HLACancelCheckChannelMachine
                 lblWorkStatus.Text = "未开始工作";
                 label11_deviceNo.Text = SysConfig.DeviceInfo != null ? SysConfig.DeviceInfo.EQUIP_HLA : "设备信息异常";
                 ComboBox_Boci.SelectedIndex = 0;
+                label9_docno.Text = mDocNo;
             }));
         }
         private void InventoryForm_Shown(object sender, EventArgs e)
@@ -712,6 +712,28 @@ namespace HLACancelCheckChannelMachine
             {
                 LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
             }
+        }
+
+        private void textBox1_bar_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 13)
+                return;
+            onBarcodeScan();
+        }
+
+        void onBarcodeScan()
+        {
+            string bar = textBox1_bar.Text.Trim();
+
+            reportBar(bar);
+        }
+
+        private void textBox1_boxno_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 13)
+                return;
+
+
         }
     }
 

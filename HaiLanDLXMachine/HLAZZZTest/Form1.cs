@@ -107,5 +107,14 @@ namespace HLAZZZTest
             //label1.Text = "789";
             //Thread.Sleep(1000);
         }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar != 13)
+                return;
+            string s = textBox1.Text;
+            MessageBox.Show(s);
+
+        }
     }
 }

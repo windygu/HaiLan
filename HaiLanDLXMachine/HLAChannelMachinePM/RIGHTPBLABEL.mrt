@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<StiSerializer version="1.02" type="Net" application="StiReport">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
+    <BusinessObjects isList="true" count="0" />
+    <Databases isList="true" count="0" />
+    <DataSources isList="true" count="0" />
+    <Relations isList="true" count="0" />
+    <Report isRef="0" />
+    <Variables isList="true" count="3">
+      <value>,ZPBNO,ZPBNO,System.String,,False,False</value>
+      <value>,SHULIANG,SHULIANG,System.String,,False,False</value>
+      <value>,HU,HU,System.String,,False,False</value>
+    </Variables>
+  </Dictionary>
+  <EngineVersion>EngineV2</EngineVersion>
+  <GlobalizationStrings isList="true" count="0" />
+  <MetaTags isList="true" count="0" />
+  <Pages isList="true" count="1">
+    <Page1 Ref="2" type="Page" isKey="true">
+      <Border>All;Black;2;Solid;False;4;Black</Border>
+      <Brush>Transparent</Brush>
+      <Components isList="true" count="6">
+        <Text1 Ref="3" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.4,2.6,2.4,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,18,Bold</Font>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text1</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>配比号：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text1>
+        <Text4 Ref="4" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0.6,6.4,1.8,0.8</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>微软雅黑,18,Bold</Font>
+          <Guid>81956a54f926426fae6a3893b7293a04</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text4</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>数量：</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text4>
+        <BarCode1 Ref="5" type="Stimulsoft.Report.BarCodes.StiBarCode" isKey="true">
+          <AutoScale>True</AutoScale>
+          <BackColor>Transparent</BackColor>
+          <BarCodeType Ref="6" type="Stimulsoft.Report.BarCodes.StiCode128AutoBarCodeType" isKey="true" />
+          <ClientRectangle>0.4,9.8,9.8,2.6</ClientRectangle>
+          <Code>{HU}</Code>
+          <Conditions isList="true" count="0" />
+          <Font>Arial,12,Bold</Font>
+          <ForeColor>Black</ForeColor>
+          <Name>BarCode1</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <ShowLabelText>False</ShowLabelText>
+        </BarCode1>
+        <Text5 Ref="7" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>-0.2,12.4,10.4,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,20,Bold</Font>
+          <Guid>86c772adc7394d7793f435acc30779a7</Guid>
+          <HorAlignment>Center</HorAlignment>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text5</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{HU}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+        </Text5>
+        <Text6 Ref="8" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.8,2.4,7.2,1.2</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,24,Bold</Font>
+          <Guid>8738339cfdbf4f279d3165234bf9fdbd</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text6</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{ZPBNO}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text6>
+        <Text9 Ref="9" type="Text" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>2.8,6.2,7.2,1</ClientRectangle>
+          <Conditions isList="true" count="0" />
+          <Font>Arial Black,22,Bold</Font>
+          <Guid>afff20ac304641baae59f28e0a62abc3</Guid>
+          <Margins>0,0,0,0</Margins>
+          <Name>Text9</Name>
+          <Page isRef="2" />
+          <Parent isRef="2" />
+          <Text>{SHULIANG}</Text>
+          <TextBrush>Black</TextBrush>
+          <Type>Expression</Type>
+          <VertAlignment>Center</VertAlignment>
+        </Text9>
+      </Components>
+      <Conditions isList="true" count="0" />
+      <Guid>a1ba2dc647f542bb8a45b8a78b392140</Guid>
+      <Margins>0,0,0,0</Margins>
+      <Name>Page1</Name>
+      <PageHeight>15</PageHeight>
+      <PageWidth>10.5</PageWidth>
+      <Report isRef="0" />
+      <Watermark Ref="10" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+        <Font>Arial,100</Font>
+        <ShowImageBehind>False</ShowImageBehind>
+        <TextBrush>[50:0:0:0]</TextBrush>
+      </Watermark>
+    </Page1>
+  </Pages>
+  <PreviewSettings>268427775</PreviewSettings>
+  <PrinterSettings Ref="11" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true" />
+  <ReferencedAssemblies isList="true" count="8">
+    <value>System.Dll</value>
+    <value>System.Drawing.Dll</value>
+    <value>System.Windows.Forms.Dll</value>
+    <value>System.Data.Dll</value>
+    <value>System.Xml.Dll</value>
+    <value>Stimulsoft.Controls.Dll</value>
+    <value>Stimulsoft.Base.Dll</value>
+    <value>Stimulsoft.Report.Dll</value>
+  </ReferencedAssemblies>
+  <ReportAlias>报表</ReportAlias>
+  <ReportChanged>4/19/2016 5:57:07 PM</ReportChanged>
+  <ReportCreated>5/29/2013 8:48:17 AM</ReportCreated>
+  <ReportFile>D:\xindeco\svn\heilan\Code\ChannelMachine for Xinglin\HLAChannelMachine\RIGHTPBLABEL.mrt</ReportFile>
+  <ReportGuid>eaff780d531a42ca9461b439da6be191</ReportGuid>
+  <ReportName>报表</ReportName>
+  <ReportUnit>Centimeters</ReportUnit>
+  <ReportVersion>2012.3.1500</ReportVersion>
+  <Script>using System;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data;
+using Stimulsoft.Controls;
+using Stimulsoft.Base.Drawing;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Dialogs;
+using Stimulsoft.Report.Components;
+
+namespace Reports
+{
+    public class 报表 : Stimulsoft.Report.StiReport
+    {
+        public 报表()
+
+        {
+            this.InitializeComponent();
+        }
+
+        #region StiReport Designer generated code - do not modify
+		#endregion StiReport Designer generated code - do not modify
+    }
+}
+</Script>
+  <ScriptLanguage>CSharp</ScriptLanguage>
+  <Styles isList="true" count="0" />
+</StiSerializer>
