@@ -13,7 +13,7 @@ namespace HLACommonLib
     {
         public static void updateMsgToSqlite(string guid,string msg)
         {
-            string sql = string.Format("update UploadData set MSG='{0}' WHERE GUID='{1}'", msg, guid);
+            string sql = string.Format("update UploadData set MSG='{0}',IsUpload=1 WHERE GUID='{1}'", msg, guid);
             SqliteDBHelp.ExecuteSql(sql);
         }
         public static void saveToSqlite(CUploadData d)

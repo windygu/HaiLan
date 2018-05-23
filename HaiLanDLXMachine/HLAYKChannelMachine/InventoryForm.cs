@@ -289,11 +289,11 @@ namespace HLAYKChannelMachine
             {
                 if (cr.InventoryResult)
                 {
-                    AudioHelper.Play("success.wav");
+                    AudioHelper.Play(".\\Res\\success.wav");
                 }
                 else
                 {
-                    AudioHelper.Play("fail.wav");
+                    AudioHelper.Play(".\\Res\\fail.wav");
                 }
             }
             catch (Exception)

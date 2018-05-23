@@ -27,6 +27,17 @@ namespace HLACommonLib.Model
             return re;
         }
     }
+    public class CCancelBarcdData2
+    {
+        public string barcd;
+        public string barcdAdd;
+        public int mQty;
+        public bool mIsHz;
+        public bool mIsDd;
+        public bool mIsCp;
+        public bool mIsRFID;
+    }
+    
     public class CCancelCheckHu:ICloneable
     {
         public string mHu;

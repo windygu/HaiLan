@@ -419,7 +419,7 @@ namespace HLACancelCheckChannelMachine
         public List<CCancelUploadSubData> getUploadSubData()
         {
             List<CCancelUploadSubData> re = new List<CCancelUploadSubData>();
-
+            /*
             var reData = tagDetailList.GroupBy(i => new { i.BARCD, i.BARCD_ADD, i.IsAddEpc }).Select(i => new { i.Key.BARCD, i.Key.BARCD_ADD, i.Key.IsAddEpc, Count = i.Count() });
 
             foreach(var item in reData)
@@ -440,7 +440,27 @@ namespace HLACancelCheckChannelMachine
                 else
                     usd.qtyAdd += item.Count;
             }
-
+            */
+            foreach (var v in tagDetailList)
+            {
+                CCancelUploadSubData data = re.FirstOrDefault(i => (i.barcd + i.barcdAdd) == (v.BARCD + v.BARCD_ADD));
+                if (data == null)
+                {
+                    CCancelUploadSubData d = new CCancelUploadSubData(v.BARCD, v.IsAddEpc ? 0 : 1, v.BARCD_ADD, v.IsAddEpc ? 1 : 0);
+                    re.Add(d);
+                }
+                else
+                {
+                    if (v.IsAddEpc)
+                    {
+                        data.qtyAdd += 1;
+                    }
+                    else
+                    {
+                        data.qty += 1;
+                    }
+                }
+            }
             return re;
         }
         public override void StopInventory()
@@ -693,22 +713,12 @@ namespace HLACancelCheckChannelMachine
         {
             try
             {
-                if (InvokeRequired)
-                {
-                    if (!IsHandleCreated)
-                        CreateHandle();
-
-                    Invoke(new Action(() =>
-                    {
-                        dmButton2_upload_query.DM_NormalColor = Color.Red;
-                    }));
-                }
-                else
+                Invoke(new Action(() =>
                 {
                     dmButton2_upload_query.DM_NormalColor = Color.Red;
-                }
+                }));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
             }

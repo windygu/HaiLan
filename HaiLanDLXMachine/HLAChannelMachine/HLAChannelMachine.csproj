@@ -338,6 +338,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Res\fail.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\success.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\warningwav.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Update.txt" />
     <None Include="images\logo.png" />
     <Content Include="..\packages\TabTip.exe">

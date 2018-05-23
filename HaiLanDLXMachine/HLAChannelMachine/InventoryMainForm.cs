@@ -1082,14 +1082,16 @@ namespace HLAChannelMachine
 
         bool checkPiCiNotSame()
         {
-            foreach (var doc in mDocDetailInfoList)
+            foreach(var v in tagDetailList)
             {
-                foreach (var pc in tagDetailList)
+                DocDetailInfo di = mDocDetailInfoList.FirstOrDefault(i => i.PRODUCTNO == v.MATNR);
+                if(di!=null && di.ZCHARG == v.CHARG)
                 {
-                    if (pc.CHARG != doc.ZCHARG)
-                    {
-                        return true;
-                    }
+
+                }
+                else
+                {
+                    return true;
                 }
             }
 
@@ -1472,11 +1474,11 @@ namespace HLAChannelMachine
             {
                 if (re)
                 {
-                    AudioHelper.Play("success.wav");
+                    AudioHelper.Play(".\\Res\\success.wav");
                 }
                 else
                 {
-                    AudioHelper.Play("fail.wav");
+                    AudioHelper.Play(".\\Res\\fail.wav");
                 }
             }
             catch (Exception)

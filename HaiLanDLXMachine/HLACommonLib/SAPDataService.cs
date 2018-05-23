@@ -4086,7 +4086,84 @@ namespace HLACommonLib
             return null;
         }
 
-        public static Dictionary<string,CCancelCheckHu> GetCancelHuDetailList(string lgnum,string danhao)
+        public static Dictionary<string, List<CCancelBarcdData2>> GetCancelHuDetailList2(string lgnum,string danhao)
+        {
+            Dictionary<string, List<CCancelBarcdData2>> re = new Dictionary<string, List<CCancelBarcdData2>>();
+            try
+            {
+                RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
+                RfcRepository rfcrep = dest.Repository;
+                IRfcFunction myfun = null;
+                myfun = rfcrep.CreateFunction("Z_EW_RFID_062");
+                myfun.SetValue("LGNUM", lgnum);
+                myfun.SetValue("IV_KXJFCODE", danhao);
+
+                myfun.Invoke(dest);
+                string result = myfun.GetString("STATUS");
+                string errormsg = myfun.GetString("MSG");
+
+                if (result == "S")
+                {
+                    IRfcTable IrfTable = myfun.GetTable("IN_DATA");
+
+                    //插入表数据
+                    for (int i = 0; i < IrfTable.Count; i++)
+                    {
+                        IrfTable.CurrentIndex = i;
+
+                        string hu = IrfTable.GetString("BOX_NO");
+                        if (string.IsNullOrEmpty(hu))
+                            continue;
+
+                        CCancelBarcdData2 cck = null;
+                        cck = new CCancelBarcdData2();
+                        cck.barcd = getZiDuan(IrfTable, "BARCD");
+                        cck.barcdAdd = getZiDuan(IrfTable, "BARCD_ADD");
+                        int qty = 0;
+                        int.TryParse(IrfTable.GetString("MENGE"), out qty);
+                        cck.mQty = qty;
+                        cck.mIsHz = IrfTable.GetString("IS_HZ") == "X";
+                        cck.mIsDd = IrfTable.GetString("IS_DD") == "X";
+                        cck.mIsCp = IrfTable.GetString("IS_KSCP") == "X";
+                        cck.mIsRFID = IrfTable.GetString("IS_RFID") == "X";
+
+                        if (!re.ContainsKey(hu))
+                        {
+                            List<CCancelBarcdData2> cckList = new List<CCancelBarcdData2>();
+                            cckList.Add(cck);
+                            re[hu] = cckList;
+                        }
+                        else
+                        {
+                            List<CCancelBarcdData2> cckList = re[hu];
+                            CCancelBarcdData2 cd2 = cckList.FirstOrDefault(j => j.barcd == cck.barcd && j.barcdAdd == cck.barcdAdd);
+
+                            if(cd2!=null)
+                            {
+                                cd2.mQty += cck.mQty;
+                            }
+                            else
+                            {
+                                cckList.Add(cck);
+                            }
+                        }
+                    }
+
+                    RfcSessionManager.EndContext(dest);
+                }
+                else
+                {
+                    LogHelper.WriteLine("Z_EW_RFID_062_错误消息:" + errormsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error(ex.Message, ex.StackTrace);
+            }
+
+            return re;
+    }
+        public static Dictionary<string, CCancelCheckHu> GetCancelHuDetailList(string lgnum, string danhao)
         {
             try
             {
@@ -4102,7 +4179,7 @@ namespace HLACommonLib
                 if (result == "S")
                 {
                     IRfcTable IrfTable = myfun.GetTable("IN_DATA");
-                    Dictionary<string,CCancelCheckHu> list = new Dictionary<string,CCancelCheckHu>();
+                    Dictionary<string, CCancelCheckHu> list = new Dictionary<string, CCancelCheckHu>();
 
                     //插入表数据
                     for (int i = 0; i < IrfTable.Count; i++)
@@ -4144,11 +4221,11 @@ namespace HLACommonLib
                         barData.mIsRFID = IrfTable.GetString("IS_RFID") == "X";
                         barData.mQty = qty;
 
-                        if (barcd!="")
+                        if (barcd != "")
                         {
                             cck.addBar(barcd, barData);
                         }
-                        if (barcdadd!="")
+                        if (barcdadd != "")
                         {
                             cck.addBarAdd(barcdadd, (CCancelBarcdData)(barData.Clone()));
                         }

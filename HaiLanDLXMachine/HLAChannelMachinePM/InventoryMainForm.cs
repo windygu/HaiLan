@@ -142,8 +142,76 @@ namespace HLAChannelMachine
             }));
         }
 
+        public override void UpdateView()
+        {
+            lblMainNumber.Text = mainEpcNumber.ToString();
+        }
 
+        public override bool checkTagOK(TagDetailInfo tg,out string msg)
+        {
+            msg = "";
+            if (tg == null)
+            {
+                msg = "不在本单";
+                return false;
+            }
 
+            if (!IsYupinxiang() || IsYpxWx())
+            {
+                if (tagDetailList != null && tagDetailList.Count > 0)
+                {
+                    if (tg.MATNR != tagDetailList[0].MATNR)
+                    {
+                        msg = "串规格";
+                        return false;
+                    }
+                    if (this.cbUseBoxStandard.Checked)
+                    {
+                        if(mainEpcNumber == tagDetailList[0].PXQTY)
+                        {
+                            msg = "箱规不符";
+                            return false;
+                        }
+                    }
+
+                    if (mainEpcNumber > tagDetailList[0].PXQTY || addEpcNumber > tagDetailList[0].PXQTY)
+                    {
+                        msg = "数量大于箱规";
+                        return false;
+                    }
+                }
+
+            }
+
+            if (checkPiCiNotSame(tg))
+            {
+                msg = "批次不一致";
+                return false;
+            }
+
+            return true;
+        }
+        bool checkPiCiNotSame(TagDetailInfo tg)
+        {
+            try
+            {
+                DocDetailInfo di = mDocDetailInfoList.FirstOrDefault(i => i.PRODUCTNO == tg.MATNR);
+                if (di != null && di.ZCHARG == tg.CHARG)
+                {
+
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return true;
+            }
+
+            return false;
+        }
         private void btnInputDoc_Click(object sender, EventArgs e)
         {
             DocNoInputFormNew form = new DocNoInputFormNew(this);
@@ -723,12 +791,26 @@ namespace HLAChannelMachine
         {
             CloseWindow();
         }
-
-        public override void UpdateView()
+        void clearData(bool needBox = true)
         {
-            base.UpdateView();
-        }
+            //清除当前屏幕统计数量
+            errorEpcNumber = 0;
+            mainEpcNumber = 0;
+            addEpcNumber = 0;
+            epcList.Clear();
+            tagDetailList.Clear();
 
+            currentErrorRecordList.Clear();
+
+            Invoke(new Action(() =>
+            {
+                if(needBox)
+                    lblBoxNo.Text = "";
+                lblWorkStatus.Text = "正在盘点";
+                lblInventoryResult.Text = "";
+                lblMainNumber.Text = "0";
+            }));
+        }
         public override void StartInventory()
         {
             if (isInventory)
@@ -736,34 +818,9 @@ namespace HLAChannelMachine
 
             try
             {
-                //清除当前屏幕统计数量
-                errorEpcNumber = 0;
-                mainEpcNumber = 0;
-                addEpcNumber = 0;
-                epcList.Clear();
-                tagDetailList.Clear();
-
-                currentErrorRecordList.Clear();
-
-                Invoke(new Action(() =>
-                {
-                    lblBoxNo.Text = "";
-                    lblWorkStatus.Text = "正在盘点";
-                    lblInventoryResult.Text = "";
-                }));
-
                 base.StartInventory();
                 lastReadTime = DateTime.Now;
                 isInventory = true;
-
-                if (boxNoList.Count > 0)
-                {
-                    string boxno = boxNoList.Dequeue();
-                    Invoke(new Action(() =>
-                    {
-                        lblBoxNo.Text = boxno;
-                    }));
-                }
             }
             catch (Exception ex)
             {
@@ -780,22 +837,6 @@ namespace HLAChannelMachine
             {
                 this.isInventory = false;
                 base.StopInventory();
-
-                this.Invoke(new Action(() =>
-                {
-                    this.lblWorkStatus.Text = "停止";
-                }));
-
-                CheckResult result = CheckData();
-                EnqueueErrorRecord();
-                ResultDataInfo rdi = GetResultData(result);
-
-                if (SysConfig.RunningModel == RunMode.平库 || SysConfig.LGNUM == "ET01")
-                {
-                    PrintBoxStandard(rdi);
-                }
-
-                EnqueueUploadData(rdi);
             }
             catch (Exception ex)
             {
@@ -1702,6 +1743,8 @@ namespace HLAChannelMachine
             this.btnStart.Enabled = false;
             this.btnStop.Enabled = true;
 
+            clearData();
+
             StartInventory();
         }
 
@@ -1711,6 +1754,29 @@ namespace HLAChannelMachine
             this.btnSetBoxQty.Enabled = true;
 
             StopInventory();
+            try
+            {
+                this.Invoke(new Action(() =>
+                {
+                    this.lblWorkStatus.Text = "停止";
+                }));
+
+                CheckResult result = CheckData();
+                EnqueueErrorRecord();
+                ResultDataInfo rdi = GetResultData(result);
+
+                if (SysConfig.RunningModel == RunMode.平库 || SysConfig.LGNUM == "ET01")
+                {
+                    PrintBoxStandard(rdi);
+                }
+
+                EnqueueUploadData(rdi);
+            }
+            catch(Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+
             this.btnStart.Enabled = true;
         }
 
@@ -1725,6 +1791,17 @@ namespace HLAChannelMachine
             if (e.KeyChar != 13)
                 return;
 
+
+        }
+
+        private void button1_reset_Click(object sender, EventArgs e)
+        {
+            StopInventory();
+            clearData(false);
+
+            this.btnStop.Enabled = false;
+            this.btnSetBoxQty.Enabled = true;
+            this.btnStart.Enabled = true;
 
         }
     }

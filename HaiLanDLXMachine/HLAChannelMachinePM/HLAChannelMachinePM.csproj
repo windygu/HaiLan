@@ -173,6 +173,12 @@
     <Compile Include="DialogForm\ErrorRecordForm.Designer.cs">
       <DependentUpon>ErrorRecordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DialogForm\ErrorWarnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DialogForm\ErrorWarnForm.Designer.cs">
+      <DependentUpon>ErrorWarnForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DialogForm\GXForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -260,6 +266,9 @@
     <EmbeddedResource Include="DialogForm\ErrorRecordForm.resx">
       <DependentUpon>ErrorRecordForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DialogForm\ErrorWarnForm.resx">
+      <DependentUpon>ErrorWarnForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DialogForm\GXForm.resx">
       <DependentUpon>GXForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -338,6 +347,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Res\fail.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\success.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Res\warningwav.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Update.txt" />
     <None Include="images\logo.png" />
     <Content Include="..\packages\TabTip.exe">
@@ -378,8 +396,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xCopy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannelPM\bin\x86\Release\receiver\ /s</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -80,6 +80,7 @@
             this.columnHeader23 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader26 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lblMainNumber = new System.Windows.Forms.Label();
             this.lvErrorRecord = new System.Windows.Forms.ListView();
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -95,6 +96,7 @@
             this.columnHeader28 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader29 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader30 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button1_reset = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -131,6 +133,7 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.BackColor = System.Drawing.Color.Teal;
+            this.splitContainer2.Panel1.Controls.Add(this.button1_reset);
             this.splitContainer2.Panel1.Controls.Add(this.lblBoxNo);
             this.splitContainer2.Panel1.Controls.Add(this.btnStop);
             this.splitContainer2.Panel1.Controls.Add(this.btnStart);
@@ -194,7 +197,7 @@
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(119, 40);
             this.btnStop.TabIndex = 65;
-            this.btnStop.Text = "暂停";
+            this.btnStop.Text = "装箱";
             this.btnStop.UseVisualStyleBackColor = false;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
@@ -224,9 +227,9 @@
             this.button1_close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1_close.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.button1_close.ForeColor = System.Drawing.Color.Teal;
-            this.button1_close.Location = new System.Drawing.Point(923, 126);
+            this.button1_close.Location = new System.Drawing.Point(923, 73);
             this.button1_close.Name = "button1_close";
-            this.button1_close.Size = new System.Drawing.Size(109, 40);
+            this.button1_close.Size = new System.Drawing.Size(110, 40);
             this.button1_close.TabIndex = 63;
             this.button1_close.Text = "退出";
             this.button1_close.UseVisualStyleBackColor = false;
@@ -447,9 +450,9 @@
             this.btnUpload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnUpload.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold);
             this.btnUpload.ForeColor = System.Drawing.Color.Teal;
-            this.btnUpload.Location = new System.Drawing.Point(923, 72);
+            this.btnUpload.Location = new System.Drawing.Point(1050, 73);
             this.btnUpload.Name = "btnUpload";
-            this.btnUpload.Size = new System.Drawing.Size(109, 40);
+            this.btnUpload.Size = new System.Drawing.Size(120, 40);
             this.btnUpload.TabIndex = 62;
             this.btnUpload.Text = "上传列表";
             this.btnUpload.UseVisualStyleBackColor = false;
@@ -500,7 +503,7 @@
             this.btnGX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGX.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnGX.ForeColor = System.Drawing.Color.Teal;
-            this.btnGX.Location = new System.Drawing.Point(774, 18);
+            this.btnGX.Location = new System.Drawing.Point(1050, 17);
             this.btnGX.Name = "btnGX";
             this.btnGX.Size = new System.Drawing.Size(120, 40);
             this.btnGX.TabIndex = 61;
@@ -822,11 +825,26 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lblMainNumber);
             this.splitContainer1.Panel2.Controls.Add(this.lvErrorRecord);
             this.splitContainer1.Panel2.Controls.Add(this.lvPBErrorRecord);
             this.splitContainer1.Size = new System.Drawing.Size(1221, 712);
             this.splitContainer1.SplitterDistance = 234;
             this.splitContainer1.TabIndex = 1;
+            // 
+            // lblMainNumber
+            // 
+            this.lblMainNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMainNumber.AutoSize = true;
+            this.lblMainNumber.Font = new System.Drawing.Font("微软雅黑", 100F);
+            this.lblMainNumber.ForeColor = System.Drawing.Color.Teal;
+            this.lblMainNumber.Location = new System.Drawing.Point(743, 252);
+            this.lblMainNumber.Name = "lblMainNumber";
+            this.lblMainNumber.Size = new System.Drawing.Size(125, 196);
+            this.lblMainNumber.TabIndex = 12;
+            this.lblMainNumber.Text = "0";
+            this.lblMainNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMainNumber.UseCompatibleTextRendering = true;
             // 
             // lvErrorRecord
             // 
@@ -946,6 +964,24 @@
             this.columnHeader30.Text = "结果";
             this.columnHeader30.Width = 250;
             // 
+            // button1_reset
+            // 
+            this.button1_reset.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button1_reset.Enabled = false;
+            this.button1_reset.FlatAppearance.BorderColor = System.Drawing.Color.SkyBlue;
+            this.button1_reset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(161)))), ((int)(((byte)(222)))));
+            this.button1_reset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
+            this.button1_reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1_reset.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
+            this.button1_reset.ForeColor = System.Drawing.Color.Teal;
+            this.button1_reset.Location = new System.Drawing.Point(923, 126);
+            this.button1_reset.Name = "button1_reset";
+            this.button1_reset.Size = new System.Drawing.Size(110, 40);
+            this.button1_reset.TabIndex = 67;
+            this.button1_reset.Text = "重新扫描";
+            this.button1_reset.UseVisualStyleBackColor = false;
+            this.button1_reset.Click += new System.EventHandler(this.button1_reset_Click);
+            // 
             // InventoryMainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -966,6 +1002,7 @@
             this.grouper2.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1041,5 +1078,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader29;
         private System.Windows.Forms.ColumnHeader columnHeader30;
         private System.Windows.Forms.TextBox lblBoxNo;
+        private System.Windows.Forms.Label lblMainNumber;
+        private System.Windows.Forms.Button button1_reset;
     }
 }

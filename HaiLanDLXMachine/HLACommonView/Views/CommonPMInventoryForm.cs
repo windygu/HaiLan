@@ -36,6 +36,7 @@ namespace HLACommonView.Views
         public List<MaterialInfo> materialList = null;
         public Queue<string> boxNoList = new Queue<string>();
         public CheckResult checkResult = new CheckResult();
+        private ErrorWarnForm mErrorForm = new ErrorWarnForm();
 
         public CommonPMInventoryForm()
         {
@@ -72,9 +73,16 @@ namespace HLACommonView.Views
             if (!epcList.Contains(epc))
             {
                 lastReadTime = DateTime.Now;
-                epcList.Add(epc);
 
                 TagDetailInfo tag = GetTagDetailInfoByEpc(epc);
+
+                string errorMsg = "";
+                if (!checkTagOK(tag, out errorMsg))
+                {
+                    mErrorForm.showErrorInfo(tag.EPC, tag, errorMsg);
+                    return;
+                }
+
                 if (tag != null)   //合法EPC
                 {
                     tagDetailList.Add(tag);
@@ -85,16 +93,29 @@ namespace HLACommonView.Views
                 }
                 else
                 {
-                    //累加非法EPC数量
                     errorEpcNumber++;
                 }
+
+                epcList.Add(epc);
                 UpdateView();
             }
 
         }
+        public virtual bool checkTagOK(TagDetailInfo tg,out string msg)
+        {
+            msg = "";
+            return true;
+        }
         public virtual void reportBar(string bar)
         {
             TagDetailInfo tag = GetTagDetailInfoByBar(bar);
+
+            string errorMsg = "";
+            if (!checkTagOK(tag, out errorMsg))
+            {
+                mErrorForm.showErrorInfo(bar, tag, errorMsg);
+                return;
+            }
 
             if (tag != null)   //合法EPC
             {
@@ -106,9 +127,9 @@ namespace HLACommonView.Views
             }
             else
             {
-                //累加非法EPC数量
                 errorEpcNumber++;
             }
+
             UpdateView();
         }
         public virtual void UpdateView()

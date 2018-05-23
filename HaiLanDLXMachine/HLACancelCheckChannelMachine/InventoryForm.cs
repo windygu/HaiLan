@@ -33,11 +33,11 @@ namespace HLACancelCheckChannelMachine
         public string mDocNo = "";
         string mTotalBoxNum = "";
         Dictionary<string, CCancelCheckHu> mCancelHuDetail = null;
-
+        Dictionary<string, List<CCancelBarcdData2>> mCancelHuDetail2 = new Dictionary<string, List<CCancelBarcdData2>>();
         string mDianShuBoCi = "01";
         //upload
         private object savingDataLockObject = new object();
-        private Queue<CCancelUpload> savingData = new Queue<CCancelUpload>();
+        private Queue<CUploadData> savingData = new Queue<CUploadData>();
         private Thread savingDataThread = null;
 
         const string BU_ZAI_BEN_XIANG = "不在本箱";
@@ -49,7 +49,7 @@ namespace HLACancelCheckChannelMachine
             InitDevice(UHFReaderType.ImpinjR420, true);
 
         }
-        public InventoryForm(string docNo,string num)
+        public InventoryForm(string docNo, string num)
         {
             InitializeComponent();
             InitDevice(UHFReaderType.ImpinjR420, true);
@@ -75,13 +75,13 @@ namespace HLACancelCheckChannelMachine
 
             grid.Rows.Clear();
 
-            if(SysConfig.IsTest)
+            if (SysConfig.IsTest)
             {
             }
 
             DataTable dt = LocalDataService.GetCancelReData(mDocNo);
 
-            if(dt!=null && dt.Rows.Count>0)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow row in dt.Rows)
                 {
@@ -136,6 +136,7 @@ namespace HLACancelCheckChannelMachine
 
                 ShowLoading("正在下载箱明细");
                 mCancelHuDetail = SAPDataService.GetCancelHuDetailList(SysConfig.LGNUM, mDocNo);
+                mCancelHuDetail2 = SAPDataService.GetCancelHuDetailList2(SysConfig.LGNUM, mDocNo);
 
                 bool closed = false;
 
@@ -243,74 +244,61 @@ namespace HLACancelCheckChannelMachine
         }
         public override CheckResult CheckData()
         {
-            CheckResult result = new CheckResult();
-            if (errorEpcNumber > 0)
-            {
-                result.UpdateMessage(Consts.Default.EPC_WEI_ZHU_CE);
-                result.InventoryResult = false;
-            }
-            if (boxNoList.Count > 0)
-            {
-                boxNoList.Clear();
-                result.UpdateMessage(Consts.Default.XIANG_MA_BU_YI_ZHI);
-                result.InventoryResult = false;
-            }
-            if (epcList.Count == 0)
-            {
-                result.UpdateMessage(Consts.Default.WEI_SAO_DAO_EPC);
-                result.InventoryResult = false;
-            }
-            if(mCurBoxNo == "")
+            CheckResult result = base.CheckData();
+
+            if (mCurBoxNo == "")
             {
                 result.UpdateMessage(HU_IS_NULL);
                 result.InventoryResult = false;
             }
 
-            int mainDif = -1;
-            int addDif = -1;
-            int notInBoxNum = 0;
-            CCancelCheckHu re = piPei(mCurBoxNo, ref notInBoxNum);
-            if(re!=null)
+            //CCancelCheckHu re = piPei(mCurBoxNo, ref notInBoxNum);
+            List<CCheckRe> re = piPei2(mCurBoxNo);
+            bool fit = true;
+            foreach(var v in re)
             {
-                mainDif = re.getMainDif();
-                addDif = re.getAddDif();
+                if(!string.IsNullOrEmpty(v.barcdadd))
+                {
+                    if (v.shouldSao != v.barcdaddnum || v.shouldSao != v.barcdnum)
+                        fit = false;
+                }
+                else
+                {
+                    if (v.shouldSao != v.barcdnum)
+                        fit = false;
+                }
             }
 
-            if (notInBoxNum > 0)
-            {
-                result.UpdateMessage(BU_ZAI_BEN_XIANG);
-                result.InventoryResult = false;
-            }
-            if(mainDif!=0 || addDif!=0)
+            if(!fit)
             {
                 result.UpdateMessage(BU_PIPEI);
                 result.InventoryResult = false;
             }
-
-            int shouldSao = 0;
-            if(mCancelHuDetail.ContainsKey(mCurBoxNo))
-            {
-                shouldSao = mCancelHuDetail[mCurBoxNo].getMainDif();
-            }
-
-            grid.Rows.Insert(0, mCurBoxNo, tagDetailList.Count(i => i.IsAddEpc == false)
-                , tagDetailList.Count(i => i.IsAddEpc == true)
-                , shouldSao, -mainDif, -addDif);
-
-            if(!result.InventoryResult)
-            {
-                grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-            }
-
-           
             if (result.InventoryResult)
             {
                 result.UpdateMessage(Consts.Default.RIGHT);
             }
 
+            if (mCurBoxNo == "")
+            {
+                grid.Rows.Insert(0, "", "", "", "", "", "", result.Message);
+                if (!result.InventoryResult)
+                {
+                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                }
+            }
+            foreach (var v in re)
+            {
+                grid.Rows.Insert(0, mCurBoxNo, v.barcd, v.barcdadd, v.shouldSao, v.barcdnum - v.shouldSao, string.IsNullOrEmpty(v.barcdadd) ? v.barcdaddnum - 0 : v.barcdaddnum - v.shouldSao, result.Message);
+                if (!result.InventoryResult)
+                {
+                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                }
+            }
+
             //print
             bool isHZ = false;
-            Utils.CPrintData printData = getPrintData(re, result,ref isHZ);
+            Utils.CPrintData printData = getPrintData(re, result, ref isHZ);
             if (result.InventoryResult && printData.beizhu == "")
             {
 
@@ -320,37 +308,39 @@ namespace HLACancelCheckChannelMachine
                 Utils.PrintHelper.PrintTag(printData);
             }
 
-            //save inventory re to sql
-            LocalDataService.InsertCancelReData(mDocNo, mCurBoxNo, tagDetailList.Count(i => i.IsAddEpc == false)
-                , tagDetailList.Count(i => i.IsAddEpc == true)
-                , shouldSao, -mainDif, -addDif, errorEpcNumber, notInBoxNum
-                , result.Message
-                , result.InventoryResult ? 0 : 1);
+            //save to local
+            saveToLocal(mDocNo, mCurBoxNo, result.InventoryResult ? "S" : "E", result.Message, re);
 
-            //upload
-            //if (result.InventoryResult)
-            {
-                CCancelUpload uploadData = new CCancelUpload();
-                uploadData.lgnum = SysConfig.LGNUM;
-                uploadData.boxno = mCurBoxNo;
-                uploadData.subuser = SysConfig.CurrentLoginUser.UserId;
-                uploadData.inventoryRe = result.InventoryResult;
-                uploadData.equipID = SysConfig.DeviceInfo.EQUIP_HLA;
-                uploadData.loucheng = SysConfig.DeviceInfo.LOUCENG;
-                uploadData.docno = mDocNo;
-                uploadData.dianshuBoCi = mDianShuBoCi.ToString();
-                uploadData.epcList.AddRange(epcList);
-                uploadData.barqty = getUploadSubData();
-                uploadData.isHZ = isHZ;
-                //save to sql
-                saveUploadToLocal(uploadData);
+            CCancelUpload uploadData = new CCancelUpload();
+            uploadData.lgnum = SysConfig.LGNUM;
+            uploadData.boxno = mCurBoxNo;
+            uploadData.subuser = SysConfig.CurrentLoginUser.UserId;
+            uploadData.inventoryRe = result.InventoryResult;
+            uploadData.equipID = SysConfig.DeviceInfo.EQUIP_HLA;
+            uploadData.loucheng = SysConfig.DeviceInfo.LOUCENG;
+            uploadData.docno = mDocNo;
+            uploadData.dianshuBoCi = mDianShuBoCi.ToString();
+            uploadData.epcList.AddRange(epcList);
+            uploadData.barqty = getUploadSubData();
+            uploadData.isHZ = isHZ;
 
-                addToSavingQueue(uploadData);
-            }
+            addToSavingQueue(uploadData);
 
             return result;
         }
-        private HLACancelCheckChannelMachine.Utils.CPrintData getPrintData(CCancelCheckHu checkRe,CheckResult cr,ref bool isHZ)
+        void saveToLocal(string doc, string hu, string re,string msg,List<CCheckRe> data)
+        {
+            try
+            {
+                string sql = string.Format("insert into CancelInfo (docNo,boxNo,re,msg,inInfo,timeStamp) values ('{0}','{1}','{2}','{3}','{4}',GETDATE())", doc, hu, re, msg, JsonConvert.SerializeObject(data));
+                DBHelper.ExecuteNonQuery(sql);
+            }
+            catch(Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+        }
+        private HLACancelCheckChannelMachine.Utils.CPrintData getPrintData(CCancelCheckHu checkRe, CheckResult cr, ref bool isHZ)
         {
             HLACancelCheckChannelMachine.Utils.CPrintData re = new Utils.CPrintData();
             try
@@ -434,7 +424,7 @@ namespace HLACancelCheckChannelMachine
                 }
 
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
             }
@@ -444,7 +434,7 @@ namespace HLACancelCheckChannelMachine
         public List<CCancelUploadSubData> getUploadSubData()
         {
             List<CCancelUploadSubData> re = new List<CCancelUploadSubData>();
-
+            /*
             var reData = tagDetailList.GroupBy(i => new { i.BARCD, i.BARCD_ADD, i.IsAddEpc }).Select(i => new { i.Key.BARCD, i.Key.BARCD_ADD, i.Key.IsAddEpc, Count = i.Count() });
 
             foreach(var item in reData)
@@ -465,7 +455,27 @@ namespace HLACancelCheckChannelMachine
                 else
                     usd.qtyAdd += item.Count;
             }
-
+            */
+            foreach (var v in tagDetailList)
+            {
+                CCancelUploadSubData data = re.FirstOrDefault(i => (i.barcd + i.barcdAdd) == (v.BARCD + v.BARCD_ADD));
+                if (data == null)
+                {
+                    CCancelUploadSubData d = new CCancelUploadSubData(v.BARCD, v.IsAddEpc ? 0 : 1, v.BARCD_ADD, v.IsAddEpc ? 1 : 0);
+                    re.Add(d);
+                }
+                else
+                {
+                    if (v.IsAddEpc)
+                    {
+                        data.qtyAdd += 1;
+                    }
+                    else
+                    {
+                        data.qty += 1;
+                    }
+                }
+            }
             return re;
         }
         public override void StopInventory()
@@ -514,7 +524,91 @@ namespace HLACancelCheckChannelMachine
             GxForm form = new GxForm();
             form.ShowDialog();
         }
+        List<CCheckRe> piPei2(string hu)
+        {
+            List<CCheckRe> re = new List<CCheckRe>();
 
+            if (mCancelHuDetail2 == null || tagDetailList == null || string.IsNullOrEmpty(hu))
+                return re;
+
+            if (!mCancelHuDetail2.ContainsKey(hu))
+                return re;
+
+            foreach(var v in tagDetailList)
+            {
+                CCheckRe cr = re.FirstOrDefault(i => i.matr == v.MATNR);
+                if(cr == null)
+                {
+                    CCheckRe r = new CCheckRe();
+                    if (v.IsAddEpc)
+                    {
+                        r.barcdaddnum = 1;
+                        if (mCancelHuDetail2[hu].Exists(i=>i.barcdAdd == v.BARCD_ADD))
+                        {
+                            r.shouldSao = mCancelHuDetail2[hu].FirstOrDefault(i=>i.barcdAdd == v.BARCD_ADD).mQty;
+                        }
+                        else
+                        {
+                            r.shouldSao = 0;
+                        }
+                    }
+                    else
+                    {
+                        r.barcdnum = 1;
+                        if (mCancelHuDetail2[hu].Exists(i => i.barcd == v.BARCD))
+                        {
+                            r.shouldSao = mCancelHuDetail2[hu].FirstOrDefault(i => i.barcd == v.BARCD).mQty;
+                        }
+                        else
+                        {
+                            r.shouldSao = 0;
+                        }
+                    }
+                    r.matr = v.MATNR;
+                    r.barcd = v.BARCD;
+                    r.barcdadd = v.BARCD_ADD;
+                    r.pin = v.ZSATNR;
+                    r.se = v.ZCOLSN;
+                    r.gui = v.ZSIZTX;
+
+                    re.Add(r);
+                }
+                else
+                {
+                    if (v.IsAddEpc)
+                        cr.barcdaddnum++;
+                    else
+                        cr.barcdnum++;
+                }
+            }
+
+            List<CCancelBarcdData2> cd2 = mCancelHuDetail2[hu];
+            foreach(var v in cd2)
+            {
+                if(!re.Exists(i=>i.barcd == v.barcd && i.barcdadd == v.barcdAdd))
+                {
+                    CCheckRe r = new CCheckRe();
+
+                    r.barcd = v.barcd;
+                    r.barcdadd = v.barcdAdd;
+                    r.barcdnum = 0;
+                    r.barcdaddnum = 0;
+                    r.shouldSao = v.mQty;
+                    TagDetailInfo t = tagDetailList.FirstOrDefault(i => i.BARCD == v.barcd && i.BARCD_ADD == v.barcdAdd);
+                    if(t!=null)
+                    {
+                        r.matr = t.MATNR;
+                        r.pin = t.ZSATNR;
+                        r.se = t.ZCOLSN;
+                        r.gui = t.ZSIZTX;
+                    }
+
+                    re.Add(r);
+                }
+            }
+
+            return re;
+        }
         private CCancelCheckHu piPei(string hu, ref int notInHuNum)
         {
             if (mCancelHuDetail == null || tagDetailList == null)
@@ -661,9 +755,16 @@ namespace HLACancelCheckChannelMachine
         }
         public void addToSavingQueue(CCancelUpload uploadData)
         {
+            CUploadData ud = new CUploadData();
+            ud.Guid = Guid.NewGuid().ToString();
+            ud.Data = uploadData;
+            ud.IsUpload = 0;
+            ud.CreateTime = DateTime.Now;
+            SqliteDataService.saveToSqlite(ud);
+
             lock (savingDataLockObject)
             {
-                savingData.Enqueue(uploadData);
+                savingData.Enqueue(ud);
             }
         }
         private void savingDataThreadFunc()
@@ -674,27 +775,34 @@ namespace HLACancelCheckChannelMachine
                 {
                     if (savingData.Count > 0)
                     {
-                        CCancelUpload upData = null;
+                        CUploadData ud = null;
                         lock (savingDataLockObject)
                         {
-                            upData = savingData.Dequeue();
+                            ud = savingData.Dequeue();
                         }
-                        if (upData != null)
+                        if (ud != null)
                         {
-                            //upload
-                            string uploadRe = "";
-                            string sapMsg = "";
-                            SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
-                            //check and save upload result
-                            updateUploadFromSAP(upData.docno, upData.boxno, uploadRe, sapMsg);
-
-                            if (uploadRe == "E")
+                            CCancelUpload upData = ud.Data as CCancelUpload;
+                            if (upData != null)
                             {
-                                notifyException();
+                                //upload
+                                string uploadRe = "";
+                                string sapMsg = "";
+                                SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
+
+                                if (uploadRe == "E")
+                                {
+                                    SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
+                                    notifyException();
+                                }
+                                else
+                                {
+                                    SqliteDataService.delUploadFromSqlite(ud.Guid);
+                                }
                             }
                         }
                     }
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
 
                 }
                 catch (Exception ex)
@@ -727,27 +835,40 @@ namespace HLACancelCheckChannelMachine
         {
             try
             {
-                if (InvokeRequired)
-                {
-                    if (!IsHandleCreated)
-                        CreateHandle();
-
-                    Invoke(new Action(() =>
-                    {
-                        dmButton2_upload_query.DM_NormalColor = Color.Red;
-                    }));
-                }
-                else
+                Invoke(new Action(() =>
                 {
                     dmButton2_upload_query.DM_NormalColor = Color.Red;
-                }
+                }));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
             }
         }
     }
 
-
+    public class CCheckRe
+    {
+        public string matr;
+        public string barcd;
+        public string barcdadd;
+        public int shouldSao;
+        public int barcdnum;
+        public int barcdaddnum;
+        public string pin;
+        public string se;
+        public string gui;
+        public CCheckRe()
+        {
+            matr = "";
+            barcd = "";
+            barcdadd = "";
+            shouldSao = 0;
+            barcdnum = 0;
+            barcdaddnum = 0;
+            pin = "";
+            se = "";
+            gui = "";
+        }
+    }
 }
