@@ -134,7 +134,7 @@ namespace HLABoxCheckChannelMachine
             UploadServer.GetInstance().OnUploaded += UploadServer_OnUploaded;
             UploadServer.GetInstance().Start();
 
-            List<CUploadData> jhUpload = SqliteDataService.GetUnUploadFromSqlite<CJianHuoUpload>();
+            List<CUploadData> jhUpload = SqliteDataService.GetExpUploadFromSqlite<CJianHuoUpload>();
             if(jhUpload!=null && jhUpload.Count>0)
             {
                 foreach (var v in jhUpload)

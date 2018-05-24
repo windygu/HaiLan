@@ -87,7 +87,6 @@ namespace HLACommonView.Views
 
         public virtual void UpdateView()
         {
-            throw new NotImplementedException();
         }
 
         

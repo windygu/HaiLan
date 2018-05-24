@@ -28,7 +28,7 @@ namespace HLAJiaoJieCheckChannelMachine
         {
             grid.Rows.Clear();
 
-            List<CUploadData> list = SqliteDataService.GetUnUploadFromSqlite<CJJBox>();
+            List<CUploadData> list = SqliteDataService.GetExpUploadFromSqlite<CJJBox>();
             if (list != null && list.Count > 0)
             {
                 foreach (var item in list)

@@ -11,6 +11,8 @@ using HLACommonView.Model;
 using System.Threading;
 using HLACommonLib;
 using System.Configuration;
+using Stimulsoft.Report;
+using System.Drawing.Printing;
 
 namespace HLAZZZTest
 {
@@ -21,24 +23,10 @@ namespace HLAZZZTest
             InitializeComponent();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            ShowLoading("123");
-            Thread.Sleep(1000);
-            ShowLoading("456");
-            Thread.Sleep(1000);
-            ShowLoading("789");
-            Thread.Sleep(1000);
-
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoadConfig();
-            timer1.Enabled = false;
-            SAPDataService.Init();
-
-            string s = tabControl1.SelectedTab?.Text;
+            //LoadConfig();
+            //SAPDataService.Init();
         }
 
         public void LoadConfig()
@@ -98,23 +86,22 @@ namespace HLAZZZTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //timer1.Enabled = true;
+            try
+            {
+                string filepath = Application.StartupPath + "\\LabelMultiSku.mrt";
+                StiReport report = new StiReport();
+                report.Load(filepath);
+                report.Compile();
 
-            label1.Text = "123";
-            Thread.Sleep(3000);
-            //label1.Text = "456";
-            //Thread.Sleep(1000);
-            //label1.Text = "789";
-            //Thread.Sleep(1000);
-        }
+                report["HU"] = "999";
 
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar != 13)
-                return;
-            string s = textBox1.Text;
-            MessageBox.Show(s);
-
+                PrinterSettings printerSettings = new PrinterSettings();
+                report.Print(false, printerSettings);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
+            }
         }
     }
 }

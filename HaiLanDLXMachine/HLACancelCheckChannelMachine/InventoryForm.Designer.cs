@@ -149,7 +149,6 @@
             this.dmButton3.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
             this.dmButton3.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
             this.dmButton3.DM_Radius = 1;
-            this.dmButton3.Enabled = false;
             this.dmButton3.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton3.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
@@ -175,7 +174,6 @@
             this.dmButton1_exception_query.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
             this.dmButton1_exception_query.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
             this.dmButton1_exception_query.DM_Radius = 1;
-            this.dmButton1_exception_query.Enabled = false;
             this.dmButton1_exception_query.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton1_exception_query.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton1_exception_query.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
@@ -200,7 +198,6 @@
             this.dmButton2_upload_query.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
             this.dmButton2_upload_query.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
             this.dmButton2_upload_query.DM_Radius = 1;
-            this.dmButton2_upload_query.Enabled = false;
             this.dmButton2_upload_query.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
             this.dmButton2_upload_query.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.dmButton2_upload_query.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);

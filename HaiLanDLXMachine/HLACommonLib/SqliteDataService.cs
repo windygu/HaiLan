@@ -29,7 +29,7 @@ namespace HLACommonLib
         {
             try
             {
-                string sql = string.Format("SELECT count(*) FROM UploadData");
+                string sql = string.Format("SELECT count(*) FROM UploadData where IsUpload=0");
                 object re = SqliteDBHelp.GetValue(sql);
                 if (re != null)
                 {
@@ -45,7 +45,28 @@ namespace HLACommonLib
 
             return 0;
         }
-        public static List<CUploadData> GetUnUploadFromSqlite<T>()
+        public static List<CUploadData> GetExpUploadFromSqlite<T>()
+        {
+            string sql = string.Format("SELECT Guid,Data,IsUpload,CreateTime,MSG FROM UploadData where IsUpload = 1 order by CreateTime");
+            DataTable dt = SqliteDBHelp.GetTable(sql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                List<CUploadData> result = new List<CUploadData>();
+                foreach (DataRow row in dt.Rows)
+                {
+                    CUploadData ud = new CUploadData();
+                    ud.Guid = row["Guid"].ToString();
+                    ud.Data = JsonConvert.DeserializeObject<T>(row["Data"].ToString());
+                    ud.IsUpload = uint.Parse(row["IsUpload"].ToString());
+                    ud.CreateTime = DateTime.Parse(row["CreateTime"].ToString());
+                    ud.MSG = row["MSG"].ToString();
+                    result.Add(ud);
+                }
+                return result;
+            }
+            return null;
+        }
+        public static List<CUploadData> GetAllUploadFromSqlite<T>()
         {
             string sql = string.Format("SELECT Guid,Data,IsUpload,CreateTime,MSG FROM UploadData order by CreateTime");
             DataTable dt = SqliteDBHelp.GetTable(sql);

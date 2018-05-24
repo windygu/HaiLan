@@ -8,114 +8,68 @@ using ThingMagic;
 
 namespace HLACommonLib.Model
 {
-    public class CCancelBarcdData:ICloneable
+    public class CCancelBarQty
     {
-        public int mQty;
-        public bool mIsHz;
-        public bool mIsDd;
-        public bool mIsCp;
-        public bool mIsRFID;
-        public object Clone()
+        public string bar;
+        public int qty;
+        public CCancelBarQty(string b,int q)
         {
-            CCancelBarcdData re = new CCancelBarcdData();
-            re.mQty = mQty;
-            re.mIsHz = mIsHz;
-            re.mIsDd = mIsDd;
-            re.mIsCp = mIsCp;
-            re.mIsRFID = mIsRFID;
-
-            return re;
+            bar = b;
+            qty = q;
         }
     }
-    public class CCancelBarcdData2
-    {
-        public string barcd;
-        public string barcdAdd;
-        public int mQty;
-        public bool mIsHz;
-        public bool mIsDd;
-        public bool mIsCp;
-        public bool mIsRFID;
-    }
-    
-    public class CCancelCheckHu:ICloneable
+    public class CCancelCheckHu2
     {
         public string mHu;
-        public Dictionary<string, CCancelBarcdData> mBarcd = new Dictionary<string, CCancelBarcdData>();
-        public Dictionary<string, CCancelBarcdData> mBarcdAdd = new Dictionary<string, CCancelBarcdData>();
-        public void addBar(string bar, CCancelBarcdData qty)
+        public bool mIsHz;
+        public bool mIsDd;
+        public bool mIsCp;
+        public bool mIsRFID;
+        public List<CCancelBarQty> mBar = new List<CCancelBarQty>();
+        public List<CCancelBarQty> mBarAdd = new List<CCancelBarQty>();
+        public void addBar(string bar,int qty)
         {
-            if(mBarcd.ContainsKey(bar))
+            if(mBar.Exists(i=>i.bar == bar))
             {
-                mBarcd[bar].mQty += qty.mQty;
+                mBar.FirstOrDefault(i => i.bar == bar).qty += qty;
             }
             else
             {
-                mBarcd.Add(bar, qty);
+                mBar.Add(new CCancelBarQty(bar, qty));
             }
         }
-
-        public void addBarAdd(string bar, CCancelBarcdData qty)
+        public void addBarAdd(string bar,int qty)
         {
-            if (mBarcdAdd.ContainsKey(bar))
+            if (mBarAdd.Exists(i => i.bar == bar))
             {
-                mBarcdAdd[bar].mQty += qty.mQty;
+                mBarAdd.FirstOrDefault(i => i.bar == bar).qty += qty;
             }
             else
             {
-                mBarcdAdd.Add(bar, qty);
+                mBarAdd.Add(new CCancelBarQty(bar, qty));
             }
         }
-        public bool isEmpty()
+        public int getBarQty(string bar)
         {
-            foreach(var i in mBarcd)
+            if (mBar.Exists(i => i.bar == bar))
             {
-                if (i.Value.mQty != 0)
-                    return false;
+                return mBar.FirstOrDefault(i => i.bar == bar).qty;
             }
-            foreach(var i in mBarcdAdd)
+            else
             {
-                if (i.Value.mQty != 0)
-                    return false;
+                return 0;
             }
-            return true;
         }
-        public int getMainDif()
+        public int getBarAddQty(string bar)
         {
-            int re = 0;
-            foreach(var i in mBarcd)
+            if (mBarAdd.Exists(i => i.bar == bar))
             {
-                re += i.Value.mQty;
+                return mBarAdd.FirstOrDefault(i => i.bar == bar).qty;
             }
-            return re;
-        }
-        public int getAddDif()
-        {
-            int re = 0;
-            foreach(var i in mBarcdAdd)
+            else
             {
-                re += i.Value.mQty;
+                return 0;
             }
-            return re;
-        }
-        public object Clone()
-        {
-            CCancelCheckHu re = new CCancelCheckHu();
-
-            re.mHu = mHu;
-            re.mBarcd.Clear();
-            re.mBarcdAdd.Clear();
-
-            foreach(var i in mBarcd)
-            {
-                re.mBarcd.Add(i.Key, (CCancelBarcdData)(i.Value.Clone()));
-            }
-            foreach(var i in mBarcdAdd)
-            {
-                re.mBarcdAdd.Add(i.Key, (CCancelBarcdData)(i.Value.Clone()));
-            }
-
-            return re;
         }
     }
 

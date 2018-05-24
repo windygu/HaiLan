@@ -2,7 +2,6 @@
 using HLACommonLib;
 using HLACommonLib.Model;
 using HLACommonLib.Model.PK;
-using HLAPKChannelMachine.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,14 +11,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace HLABoxCheckChannelMachine
+namespace HLACancelCheckChannelMachine
 {
-    
+
     public partial class UploadMsgForm : MetroForm
     {
+        InventoryForm mParent = null;
         bool mSelAll = false;
-        public UploadMsgForm()
+        public UploadMsgForm(InventoryForm p)
         {
+            mParent = p;
             InitializeComponent();
         }
 
@@ -27,15 +28,15 @@ namespace HLABoxCheckChannelMachine
         {
             grid.Rows.Clear();
 
-            List<CUploadData> list = SqliteDataService.GetExpUploadFromSqlite<CJianHuoUpload>();
+            List<CUploadData> list = SqliteDataService.GetExpUploadFromSqlite<CCancelUpload>();
             if (list != null && list.Count > 0)
             {
                 foreach (var item in list)
                 {
-                    CJianHuoUpload ju = item.Data as CJianHuoUpload;
+                    CCancelUpload ju = item.Data as CCancelUpload;
                     if (ju != null)
                     {
-                        grid.Rows.Insert(0, false, ju.HU, item.MSG);
+                        grid.Rows.Insert(0, false, ju.boxno, item.MSG);
                         grid.Rows[0].Tag = item;
                     }
                 }
@@ -83,9 +84,12 @@ namespace HLABoxCheckChannelMachine
             {
                 foreach (DataGridViewRow row in rows)
                 {
-                    UploadServer.GetInstance().AddToQueue(row.Tag);
+                    CUploadData box = row.Tag as CUploadData;
+                    SqliteDataService.delUploadFromSqlite(box.Guid);
+                    mParent.addToSavingQueue(box.Data as CCancelUpload);
                 }
                 MetroMessageBox.Show(this, "成功加入上传队列", "提示");
+                initData();
             }
         }
 
