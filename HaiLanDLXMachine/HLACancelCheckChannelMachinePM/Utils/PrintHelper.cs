@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Configuration;
+using System.Data;
 
 namespace HLACancelCheckChannelMachine.Utils
 {
@@ -72,7 +73,7 @@ namespace HLACancelCheckChannelMachine.Utils
         {
             try
             {
-                string filepath = Application.StartupPath + "\\LabelMultiSku.mrt";
+                string filepath = Application.StartupPath + "\\LabelMultiSkuCancel.mrt";
                 StiReport report = new StiReport();
                 report.Load(filepath);
                 report.Compile();
@@ -82,17 +83,31 @@ namespace HLACancelCheckChannelMachine.Utils
                 report["Tag"] = contentData.beizhu;
                 report["HU"] = contentData.hu;
 
-                string con = "";
-                foreach(var i in contentData.content)
+                DataTable dt = new DataTable();
+                dt.Columns.Add(new DataColumn("pin", Type.GetType("System.String")));
+                dt.Columns.Add(new DataColumn("se", Type.GetType("System.String")));
+                dt.Columns.Add(new DataColumn("gui", Type.GetType("System.String")));
+                dt.Columns.Add(new DataColumn("diff", Type.GetType("System.String")));
+                dt.Columns.Add(new DataColumn("diffAdd", Type.GetType("System.String")));
+                dt.Columns.Add(new DataColumn("isRFID", Type.GetType("System.String")));
+
+                foreach (var v in contentData.content)
                 {
-                    con += string.Format("{0}|{1}|{2}|{3}|{4}|{5}\r\n", i.pin, i.se, extractGuiGe(i.gui), i.diff.ToString(), i.diffAdd.ToString(), i.isRFID ? "是" : "否");
+                    DataRow row = dt.NewRow();
+                    row["pin"] = v.pin;
+                    row["se"] = v.se;
+                    row["gui"] = v.gui;
+                    row["diff"] = v.diff.ToString();
+                    row["diffAdd"] = v.diffAdd.ToString();
+                    row["isRFID"] = v.isRFID ? "是" : "否";
+                    dt.Rows.Add(row);
                 }
-                report["CONTENT"] = con;
+                report.RegData("demo", dt);
 
                 PrinterSettings printerSettings = new PrinterSettings();
                 report.Print(false, printerSettings);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
             }

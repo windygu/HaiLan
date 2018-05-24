@@ -29,12 +29,12 @@ namespace HLACancelCheckChannelMachine
         Thread thread = null;
         public string mDocNo = "";
         string mTotalBoxNum = "";
-        Dictionary<string, CCancelCheckHu> mCancelHuDetail = null;
+        Dictionary<string, CCancelCheckHu2> mCancelHuDetail2 = new Dictionary<string, CCancelCheckHu2>();
 
         string mDianShuBoCi = "01";
         //upload
         private object savingDataLockObject = new object();
-        private Queue<CCancelUpload> savingData = new Queue<CCancelUpload>();
+        private Queue<CUploadData> savingData = new Queue<CUploadData>();
         private Thread savingDataThread = null;
 
         const string BU_ZAI_BEN_XIANG = "不在本箱";
@@ -124,7 +124,7 @@ namespace HLACancelCheckChannelMachine
 
 
                 ShowLoading("正在下载箱明细");
-                mCancelHuDetail = SAPDataService.GetCancelHuDetailList(SysConfig.LGNUM, mDocNo);
+                mCancelHuDetail2 = SAPDataService.GetCancelHuDetailList2(SysConfig.LGNUM, mDocNo);
 
                 bool closed = false;
 
@@ -195,10 +195,6 @@ namespace HLACancelCheckChannelMachine
                 Invoke(new Action(() =>
                 {
                     lblWorkStatus.Text = "开始扫描";
-                    if (btnStart.Enabled)
-                    {
-                        Start();
-                    }
                 }));
                 checkResult.Init();
                 errorEpcNumber = 0;
@@ -218,74 +214,58 @@ namespace HLACancelCheckChannelMachine
         }
         public override CheckResult CheckData()
         {
-            CheckResult result = new CheckResult();
-            if (errorEpcNumber > 0)
-            {
-                result.UpdateMessage(Consts.Default.EPC_WEI_ZHU_CE);
-                result.InventoryResult = false;
-            }
-            if (boxNoList.Count > 0)
-            {
-                boxNoList.Clear();
-                result.UpdateMessage(Consts.Default.XIANG_MA_BU_YI_ZHI);
-                result.InventoryResult = false;
-            }
-            if (epcList.Count == 0)
-            {
-                result.UpdateMessage(Consts.Default.WEI_SAO_DAO_EPC);
-                result.InventoryResult = false;
-            }
-            if(string.IsNullOrEmpty(getBoxNo()))
+            CheckResult result = base.CheckData();
+
+            if (string.IsNullOrEmpty(getBoxNo()))
             {
                 result.UpdateMessage(HU_IS_NULL);
                 result.InventoryResult = false;
             }
 
-            int mainDif = -1;
-            int addDif = -1;
-            int notInBoxNum = 0;
-            CCancelCheckHu re = piPei(getBoxNo(), ref notInBoxNum);
-            if(re!=null)
+            CCheckRe re = piPei2(getBoxNo());
+            bool fit = true;
+            foreach (var v in re.bar)
             {
-                mainDif = re.getMainDif();
-                addDif = re.getAddDif();
+                if (v.realQty != v.shouldQty)
+                {
+                    fit = false;
+                    break;
+                }
+            }
+            foreach (var v in re.barAdd)
+            {
+                if (v.realQty != v.shouldQty)
+                {
+                    fit = false;
+                    break;
+                }
             }
 
-            if (notInBoxNum > 0)
-            {
-                result.UpdateMessage(BU_ZAI_BEN_XIANG);
-                result.InventoryResult = false;
-            }
-            if(mainDif!=0 || addDif!=0)
+            if (!fit)
             {
                 result.UpdateMessage(BU_PIPEI);
                 result.InventoryResult = false;
             }
-
-            int shouldSao = 0;
-            if(mCancelHuDetail.ContainsKey(getBoxNo()))
-            {
-                shouldSao = mCancelHuDetail[getBoxNo()].getMainDif();
-            }
-
-            grid.Rows.Insert(0, getBoxNo(), tagDetailList.Count(i => i.IsAddEpc == false)
-                , tagDetailList.Count(i => i.IsAddEpc == true)
-                , shouldSao, -mainDif, -addDif);
-
-            if(!result.InventoryResult)
-            {
-                grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-            }
-
-           
             if (result.InventoryResult)
             {
                 result.UpdateMessage(Consts.Default.RIGHT);
             }
 
+            if (string.IsNullOrEmpty(getBoxNo()))
+            {
+                grid.Rows.Insert(0, "", "", "", "", "", "", result.Message);
+                if (!result.InventoryResult)
+                {
+                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                }
+            }
+
+            List<CChaYi> chayi = getChaYi(re, result.InventoryResult, result.Message);
+            addGrid(chayi);
+
             //print
             bool isHZ = false;
-            Utils.CPrintData printData = getPrintData(re, result,ref isHZ);
+            Utils.CPrintData printData = getPrintData(chayi, result, ref isHZ);
             if (result.InventoryResult && printData.beizhu == "")
             {
 
@@ -295,121 +275,201 @@ namespace HLACancelCheckChannelMachine
                 Utils.PrintHelper.PrintTag(printData);
             }
 
-            //save inventory re to sql
-            LocalDataService.InsertCancelReData(mDocNo, getBoxNo(), tagDetailList.Count(i => i.IsAddEpc == false)
-                , tagDetailList.Count(i => i.IsAddEpc == true)
-                , shouldSao, -mainDif, -addDif, errorEpcNumber, notInBoxNum
-                , result.Message
-                , result.InventoryResult ? 0 : 1);
+            //save to local
+            saveToLocal(mDocNo, getBoxNo(), result.InventoryResult ? "S" : "E", result.Message, chayi);
 
-            //upload
-            //if (result.InventoryResult)
-            {
-                CCancelUpload uploadData = new CCancelUpload();
-                uploadData.lgnum = SysConfig.LGNUM;
-                uploadData.boxno = getBoxNo();
-                uploadData.subuser = SysConfig.CurrentLoginUser.UserId;
-                uploadData.inventoryRe = result.InventoryResult;
-                uploadData.equipID = SysConfig.DeviceInfo.EQUIP_HLA;
-                uploadData.loucheng = SysConfig.DeviceInfo.LOUCENG;
-                uploadData.docno = mDocNo;
-                uploadData.dianshuBoCi = mDianShuBoCi.ToString();
-                uploadData.epcList.AddRange(epcList);
-                uploadData.barqty = getUploadSubData();
-                uploadData.isHZ = isHZ;
-                //save to sql
-                saveUploadToLocal(uploadData);
+            CCancelUpload uploadData = new CCancelUpload();
+            uploadData.lgnum = SysConfig.LGNUM;
+            uploadData.boxno = getBoxNo();
+            uploadData.subuser = SysConfig.CurrentLoginUser.UserId;
+            uploadData.inventoryRe = result.InventoryResult;
+            uploadData.equipID = SysConfig.DeviceInfo.EQUIP_HLA;
+            uploadData.loucheng = SysConfig.DeviceInfo.LOUCENG;
+            uploadData.docno = mDocNo;
+            uploadData.dianshuBoCi = mDianShuBoCi.ToString();
+            uploadData.epcList.AddRange(epcList);
+            uploadData.barqty = getUploadSubData();
+            uploadData.isHZ = isHZ;
 
-                addToSavingQueue(uploadData);
-            }
+            addToSavingQueue(uploadData);
 
             return result;
         }
-        private HLACancelCheckChannelMachine.Utils.CPrintData getPrintData(CCancelCheckHu checkRe,CheckResult cr,ref bool isHZ)
+        void saveToLocal(string doc, string hu, string re, string msg, List<CChaYi> data)
+        {
+            try
+            {
+                string sql = string.Format("insert into CancelInfo (docNo,boxNo,re,msg,inInfo,timeStamp) values ('{0}','{1}','{2}','{3}','{4}',GETDATE())", doc, hu, re, msg, JsonConvert.SerializeObject(data));
+                DBHelper.ExecuteNonQuery(sql);
+            }
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+        }
+        string getBarAdd(string bar, out string pin, out string se, out string gui)
+        {
+            pin = "";
+            se = "";
+            gui = "";
+            TagDetailInfo ti = tagDetailList.FirstOrDefault(i => i.BARCD == bar);
+            if (ti != null)
+            {
+                pin = ti.ZSATNR;
+                se = ti.ZCOLSN;
+                gui = ti.ZSIZTX;
+                return ti.BARCD_ADD;
+            }
+            HLATagInfo t = hlaTagList.FirstOrDefault(i => i.BARCD == bar);
+            if (t != null)
+            {
+                MaterialInfo mi = materialList.FirstOrDefault(i => i.MATNR == t.MATNR);
+                if (mi != null)
+                {
+                    pin = mi.ZSATNR;
+                    se = mi.ZCOLSN;
+                    gui = mi.ZSIZTX;
+                }
+                return t.BARCD_ADD;
+            }
+            return "";
+        }
+        string getBar(string barAdd, out string pin, out string se, out string gui)
+        {
+            pin = "";
+            se = "";
+            gui = "";
+
+            TagDetailInfo ti = tagDetailList.FirstOrDefault(i => i.BARCD_ADD == barAdd);
+            if (ti != null)
+            {
+                pin = ti.ZSATNR;
+                se = ti.ZCOLSN;
+                gui = ti.ZSIZTX;
+                return ti.BARCD;
+            }
+            HLATagInfo t = hlaTagList.FirstOrDefault(i => i.BARCD_ADD == barAdd);
+            if (t != null)
+            {
+                MaterialInfo mi = materialList.FirstOrDefault(i => i.MATNR == t.MATNR);
+                if (mi != null)
+                {
+                    pin = mi.ZSATNR;
+                    se = mi.ZCOLSN;
+                    gui = mi.ZSIZTX;
+                }
+                return t.BARCD;
+            }
+            return "";
+        }
+
+        List<CChaYi> getChaYi(CCheckRe checkRe, bool inventoryRe, string msg)
+        {
+            List<CChaYi> re = new List<CChaYi>();
+
+            try
+            {
+                string pin = "";
+                string se = "";
+                string gui = "";
+                foreach (var v in checkRe.bar)
+                {
+                    string baradd = getBarAdd(v.bar, out pin, out se, out gui);
+                    CChaYi chayi = new CChaYi();
+                    chayi.pin = pin;
+                    chayi.se = se;
+                    chayi.gui = gui;
+
+                    chayi.inventoryRe = inventoryRe;
+                    chayi.msg = msg;
+                    chayi.hu = getBoxNo();
+                    chayi.bar = v.bar;
+                    chayi.barAdd = baradd;
+                    chayi.shouldQty = v.shouldQty;
+                    chayi.barChaYiQty = v.realQty - v.shouldQty;
+                    chayi.barAddChaYiQty = checkRe.getRealQty(baradd, true) - checkRe.getShouldQty(baradd, true);
+                    re.Add(chayi);
+                }
+                foreach (var v in checkRe.barAdd)
+                {
+                    string bar = getBar(v.bar, out pin, out se, out gui);
+
+                    if (!checkRe.bar.Exists(i => i.bar == bar))
+                    {
+                        CChaYi chayi = new CChaYi();
+                        chayi.pin = pin;
+                        chayi.se = se;
+                        chayi.gui = gui;
+
+                        chayi.inventoryRe = inventoryRe;
+                        chayi.msg = msg;
+                        chayi.hu = getBoxNo();
+                        chayi.bar = bar;
+                        chayi.barAdd = v.bar;
+                        chayi.shouldQty = v.shouldQty;
+                        chayi.barChaYiQty = checkRe.getRealQty(bar, false) - checkRe.getShouldQty(bar, false);
+                        chayi.barAddChaYiQty = v.realQty - v.shouldQty;
+                        re.Add(chayi);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+
+            return re;
+        }
+
+        private HLACancelCheckChannelMachine.Utils.CPrintData getPrintData(List<CChaYi> chayi, CheckResult cr, ref bool isHZ)
         {
             HLACancelCheckChannelMachine.Utils.CPrintData re = new Utils.CPrintData();
             try
             {
-                if (checkRe == null)
-                    return re;
-
-                re.hu = getBoxNo();
+                string curBoxNo = getBoxNo();
+                re.hu = curBoxNo;
                 re.inventoryRe = cr.InventoryResult;
                 re.totalNum = 0;
                 re.beizhu = "";
-                if (mCancelHuDetail.ContainsKey(getBoxNo()))
+                if (!mCancelHuDetail2.ContainsKey(curBoxNo))
                 {
-                    re.totalNum = mCancelHuDetail[getBoxNo()].getMainDif() + mCancelHuDetail[getBoxNo()].getAddDif();
+                    return re;
                 }
-                foreach (var v in checkRe.mBarcd)
+
+                re.totalNum = mCancelHuDetail2[curBoxNo].mBar.Sum(i => i.qty);
+
+                if (mCancelHuDetail2[curBoxNo].mIsCp)
                 {
-                    string pin = "";
-                    string se = "";
-                    string gui = "";
-                    TagDetailInfo tInfo = tagDetailList.Find(r => r.BARCD == v.Key);
-                    if (tInfo != null)
-                    {
-                        pin = tInfo.ZSATNR;
-                        se = tInfo.ZCOLSN;
-                        gui = tInfo.ZSIZTX;
-                    }
-
-                    Utils.CPrintContent pCon = re.content.Find(r => (r.pin == pin && r.se == se && r.gui == gui));
-                    if (pCon == null)
-                    {
-                        pCon = new Utils.CPrintContent();
-                        re.content.Add(pCon);
-                    }
-
-                    pCon.pin = pin;
-                    pCon.se = se;
-                    pCon.gui = gui;
-                    pCon.diff += (-v.Value.mQty);
-                    pCon.isRFID = v.Value.mIsRFID;
-
-                    if (v.Value.mIsCp)
-                    {
-                        re.beizhu += "客诉次品/";
-                    }
-                    if (v.Value.mIsHz)
-                    {
-                        re.beizhu += "混规则/";
-                        isHZ = true;
-                    }
-                    if (v.Value.mIsDd)
-                    {
-                        re.beizhu += "一箱多单/";
-                    }
+                    re.beizhu += "客诉次品/";
                 }
-                foreach (var v in checkRe.mBarcdAdd)
+                if (mCancelHuDetail2[curBoxNo].mIsHz)
                 {
-                    string pin = "";
-                    string se = "";
-                    string gui = "";
-                    TagDetailInfo tInfo = tagDetailList.Find(r => r.BARCD_ADD == v.Key);
-                    if (tInfo != null)
-                    {
-                        pin = tInfo.ZSATNR;
-                        se = tInfo.ZCOLSN;
-                        gui = tInfo.ZSIZTX;
-                    }
+                    re.beizhu += "混规则/";
+                    isHZ = true;
+                }
+                if (mCancelHuDetail2[curBoxNo].mIsDd)
+                {
+                    re.beizhu += "一箱多单/";
+                }
 
-                    Utils.CPrintContent pCon = re.content.Find(r => (r.pin == pin && r.se == se && r.gui == gui));
-                    if (pCon == null)
-                    {
-                        pCon = new Utils.CPrintContent();
-                        re.content.Add(pCon);
-                    }
+                foreach (var v in chayi)
+                {
+                    Utils.CPrintContent con = new Utils.CPrintContent();
 
-                    pCon.pin = pin;
-                    pCon.se = se;
-                    pCon.gui = gui;
-                    pCon.diffAdd += (-v.Value.mQty);
-                    pCon.isRFID = v.Value.mIsRFID;
+                    con.pin = v.pin;
+                    con.se = v.se;
+                    con.gui = v.gui;
+
+                    con.diff = v.barChaYiQty;
+                    con.diffAdd = v.barAddChaYiQty;
+                    con.isRFID = mCancelHuDetail2[curBoxNo].mIsRFID;
+
+                    re.content.Add(con);
                 }
 
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
             }
@@ -474,9 +534,27 @@ namespace HLACancelCheckChannelMachine
                 isInventory = false;
                 base.StopInventory();
                 CheckResult cre = CheckData();
+
+                playSound(cre.InventoryResult);
+
             }
         }
-
+        void playSound(bool re)
+        {
+            try
+            {
+                if (re)
+                {
+                    AudioHelper.Play(".\\Res\\success.wav");
+                }
+                else
+                {
+                    AudioHelper.Play(".\\Res\\fail.wav");
+                }
+            }
+            catch (Exception)
+            { }
+        }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -486,6 +564,35 @@ namespace HLACancelCheckChannelMachine
         private void btnStart_Click(object sender, EventArgs e)
         {
             Start();
+
+#if DEBUG
+            StartInventory();
+
+
+            reportEpc("50000E7C2500010000001");
+            reportEpc("50000E7C2500010000002");
+            reportEpc("50000E7C2500010000003");
+
+            reportEpc("500011035500010000002");
+
+            reportEpc("500011036500010000001");
+
+            reportEpc("500011036500010000002");
+
+            reportEpc("500011036500010000003");
+
+            reportEpc("500011037500010000001");
+
+            reportEpc("500011038500010000001");
+
+
+            StopInventory();
+
+            return;
+#endif
+
+
+
             StartInventory();
         }
 
@@ -501,69 +608,110 @@ namespace HLACancelCheckChannelMachine
             form.ShowDialog();
         }
 
-        private CCancelCheckHu piPei(string hu, ref int notInHuNum)
+        CCheckRe piPei2(string hu,TagDetailInfo tag=null)
         {
-            if (mCancelHuDetail == null || tagDetailList == null)
-                return null;
+            CCheckRe re = new CCheckRe();
 
-            if (!mCancelHuDetail.ContainsKey(hu))
-                return null;
+            if (mCancelHuDetail2 == null || tagDetailList == null || string.IsNullOrEmpty(hu))
+                return re;
 
-            CCancelCheckHu cck = (CCancelCheckHu)mCancelHuDetail[hu].Clone();
-            List<TagDetailInfo> tags = new List<TagDetailInfo>();
-            foreach(var t in tagDetailList)
+            if (!mCancelHuDetail2.ContainsKey(hu))
+                return re;
+
+            foreach (var v in tagDetailList)
             {
-                tags.Add((TagDetailInfo)t.Clone());
-            }
-
-            while(tags.Count > 0)
-            {
-                TagDetailInfo td = tags[0];
-                tags.RemoveAt(0);
-
-                if(td.IsAddEpc)
+                if (v.IsAddEpc)
                 {
-                    if(cck.mBarcdAdd.ContainsKey(td.BARCD_ADD))
+                    if (re.barAdd.Exists(i => i.bar == v.BARCD_ADD))
                     {
-                        cck.mBarcdAdd[td.BARCD_ADD].mQty -= 1;
+                        re.barAdd.FirstOrDefault(i => i.bar == v.BARCD_ADD).realQty += 1;
                     }
                     else
                     {
-                        notInHuNum++;
+                        CCheckReData cd = new CCheckReData();
+                        cd.realQty = 1;
+                        cd.shouldQty = mCancelHuDetail2[hu].getBarAddQty(v.BARCD_ADD);
+                        cd.bar = v.BARCD_ADD;
+                        re.barAdd.Add(cd);
                     }
                 }
                 else
                 {
-                    if (cck.mBarcd.ContainsKey(td.BARCD))
+                    if (re.bar.Exists(i => i.bar == v.BARCD))
                     {
-                        cck.mBarcd[td.BARCD].mQty -= 1;
+                        re.bar.FirstOrDefault(i => i.bar == v.BARCD).realQty += 1;
                     }
                     else
                     {
-                        notInHuNum++;
+                        CCheckReData cd = new CCheckReData();
+                        cd.realQty = 1;
+                        cd.shouldQty = mCancelHuDetail2[hu].getBarQty(v.BARCD);
+                        cd.bar = v.BARCD;
+                        re.bar.Add(cd);
+                    }
+                }
+            }
+            if (tag != null)
+            {
+                if (tag.IsAddEpc)
+                {
+                    if (re.barAdd.Exists(i => i.bar == tag.BARCD_ADD))
+                    {
+                        re.barAdd.FirstOrDefault(i => i.bar == tag.BARCD_ADD).realQty += 1;
+                    }
+                    else
+                    {
+                        CCheckReData cd = new CCheckReData();
+                        cd.realQty = 1;
+                        cd.shouldQty = mCancelHuDetail2[hu].getBarAddQty(tag.BARCD_ADD);
+                        cd.bar = tag.BARCD_ADD;
+                        re.barAdd.Add(cd);
+                    }
+                }
+                else
+                {
+                    if (re.bar.Exists(i => i.bar == tag.BARCD))
+                    {
+                        re.bar.FirstOrDefault(i => i.bar == tag.BARCD).realQty += 1;
+                    }
+                    else
+                    {
+                        CCheckReData cd = new CCheckReData();
+                        cd.realQty = 1;
+                        cd.shouldQty = mCancelHuDetail2[hu].getBarQty(tag.BARCD);
+                        cd.bar = tag.BARCD;
+                        re.bar.Add(cd);
                     }
                 }
             }
 
-            return cck;
-        }
-        private int getShouldRev(string hu)
-        {
-            if (mCancelHuDetail == null)
-                return 0;
-
-            if (!mCancelHuDetail.ContainsKey(hu))
-                return 0;
-
-            int re = 0;
-            CCancelCheckHu cck = mCancelHuDetail[hu];
-            foreach(var i in cck.mBarcd)
+            CCancelCheckHu2 cd2 = mCancelHuDetail2[hu];
+            foreach (var v in cd2.mBar)
             {
-                re += i.Value.mQty;
+                if (!re.bar.Exists(i => i.bar == v.bar))
+                {
+                    CCheckReData r = new CCheckReData();
+                    r.realQty = 0;
+                    r.shouldQty = v.qty;
+                    r.bar = v.bar;
+                    re.bar.Add(r);
+                }
+            }
+            foreach (var v in cd2.mBarAdd)
+            {
+                if (!re.barAdd.Exists(i => i.bar == v.bar))
+                {
+                    CCheckReData r = new CCheckReData();
+                    r.realQty = 0;
+                    r.shouldQty = v.qty;
+                    r.bar = v.bar;
+                    re.barAdd.Add(r);
+                }
             }
 
             return re;
         }
+        
 
         private void InventoryForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -583,47 +731,19 @@ namespace HLACancelCheckChannelMachine
 
             CloseWindow();
         }
-        public void saveUploadToLocal(CCancelUpload data)
-        {
-            try
-            {
-                string sql = string.Format("select count(*) from CancelUpload where docNo='{0}' and hu='{1}'", data.docno, data.boxno);
-                if (DBHelper.GetValue(sql, false).CastTo<int>(0) > 0)
-                {
-                    sql = "update CancelUpload set data=@data,isUpload=0,uploadRe='',uploadMsg='',doTime=GETDATE() where docNo=@docNo and hu=@hu";
-                    SqlParameter p1 = DBHelper.CreateParameter("@data", JsonConvert.SerializeObject(data));
-                    SqlParameter p2 = DBHelper.CreateParameter("@docNo", data.docno);
-                    SqlParameter p3 = DBHelper.CreateParameter("@hu", data.boxno);
-
-                    DBHelper.ExecuteSql(sql, false, p1,p2,p3);
-                }
-                else
-                {
-                    sql = string.Format("insert into CancelUpload values('{0}','{1}','{2}',0,'','',GETDATE())"
-                        , data.docno, data.boxno, JsonConvert.SerializeObject(data));
-                    DBHelper.ExecuteSql(sql, false);
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-            }
-        }
 
         //restore from sql
         private void restoreSavingQueue(string docno)
         {
             try
             {
-                string sql = string.Format("select * from CancelUpload where docNo='{0}' and isUpload=0", docno);
-                DataTable dt = DBHelper.GetTable(sql, false);
-                if (dt != null && dt.Rows.Count > 0)
+                List<CUploadData> data = SqliteDataService.GetAllUploadFromSqlite<CCancelUpload>();
+                if (data != null)
                 {
-                    foreach (DataRow row in dt.Rows)
+                    foreach (var v in data)
                     {
-                        CCancelUpload cu = JsonConvert.DeserializeObject<CCancelUpload>(row["data"].ToString());
-
-                        addToSavingQueue(cu);
+                        SqliteDataService.delUploadFromSqlite(v.Guid);
+                        addToSavingQueue(v.Data as CCancelUpload);
                     }
                 }
             }
@@ -633,25 +753,32 @@ namespace HLACancelCheckChannelMachine
             }
         }
         //update from sap
-        private void updateUploadFromSAP(string docno,string hu,string uploadRe,string sapMsg)
-        {
-            try
-            {
-                string sql = string.Format("update CancelUpload set isUpload=1,uploadRe='{0}',uploadMsg='{1}',doTime=GETDATE() where docNo='{2}' and hu='{3}'", uploadRe, sapMsg, docno, hu);
-                DBHelper.ExecuteSql(sql, false);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-            }
-        }
         public void addToSavingQueue(CCancelUpload uploadData)
         {
+            CUploadData ud = new CUploadData();
+            ud.Guid = Guid.NewGuid().ToString();
+            ud.Data = uploadData;
+            ud.IsUpload = 0;
+            ud.CreateTime = DateTime.Now;
+            SqliteDataService.saveToSqlite(ud);
+
             lock (savingDataLockObject)
             {
-                savingData.Enqueue(uploadData);
+                savingData.Enqueue(ud);
             }
+
+            updateUploadCount();
         }
+        void updateUploadCount()
+        {
+            int count = SqliteDataService.GetUnUploadCountFromSqlite();
+            Invoke(new Action(() =>
+            {
+                dmButton2_upload_query.Text = string.Format("上传列表({0})", count);
+            }));
+
+        }
+
         private void savingDataThreadFunc()
         {
             while (true)
@@ -660,48 +787,64 @@ namespace HLACancelCheckChannelMachine
                 {
                     if (savingData.Count > 0)
                     {
-                        CCancelUpload upData = null;
+                        CUploadData ud = null;
                         lock (savingDataLockObject)
                         {
-                            upData = savingData.Dequeue();
+                            ud = savingData.Dequeue();
                         }
-                        if (upData != null)
+                        if (ud != null)
                         {
-                            //upload
-                            string uploadRe = "";
-                            string sapMsg = "";
-                            SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
-                            //check and save upload result
-                            updateUploadFromSAP(upData.docno, upData.boxno, uploadRe, sapMsg);
-
-                            if (uploadRe == "E")
+                            CCancelUpload upData = ud.Data as CCancelUpload;
+                            if (upData != null)
                             {
-                                notifyException();
+                                //upload
+                                string uploadRe = "";
+                                string sapMsg = "";
+                                SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
+
+                                if (uploadRe == "E")
+                                {
+                                    SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
+                                    notifyException();
+                                }
+                                else
+                                {
+                                    SqliteDataService.delUploadFromSqlite(ud.Guid);
+                                }
+
+                                updateUploadCount();
                             }
                         }
                     }
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
+                    //LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
                 }
             }
         }
 
         private void dmButton1_exception_query_Click(object sender, EventArgs e)
         {
-            ExceptionForm ef = new ExceptionForm(mDocNo);
+            UploadMsgForm ef = new UploadMsgForm(this);
             ef.ShowDialog();
+        }
+        void addGrid(List<CChaYi> chayi)
+        {
+            foreach (var v in chayi)
+            {
+                grid.Rows.Insert(0, v.hu, v.bar, v.barAdd, v.shouldQty, v.barChaYiQty, v.barAddChaYiQty, v.msg);
+                if (!v.inventoryRe)
+                {
+                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                }
+            }
         }
 
         private void dmButton2_upload_query_Click(object sender, EventArgs e)
         {
-            dmButton2_upload_query.DM_NormalColor = Color.WhiteSmoke;
-
-            UploadForm uf = new UploadForm(this);
-            uf.ShowDialog();
         }
 
         private void ComboBox_Boci_SelectionChangeCommitted(object sender, EventArgs e)
@@ -715,7 +858,7 @@ namespace HLACancelCheckChannelMachine
             {
                 Invoke(new Action(() =>
                 {
-                    dmButton2_upload_query.DM_NormalColor = Color.Red;
+                    dmButton1_exception_query.DM_NormalColor = Color.Red;
                 }));
             }
             catch (Exception ex)
@@ -738,6 +881,33 @@ namespace HLACancelCheckChannelMachine
             reportBar(bar);
         }
 
+        public override bool checkTagOK(TagDetailInfo tg, out string msg)
+        {
+            msg = "";
+            if(tg == null)
+            {
+                msg = "商品未注册";
+                return false;
+            }
+
+            List<CChaYi> chayi = getChaYi(piPei2(getBoxNo(),tg), true, "");
+            foreach(var v in chayi)
+            {
+                if(tg.IsAddEpc && tg.BARCD_ADD == v.barAdd && v.barAddChaYiQty > 0)
+                {
+                    msg = string.Format("辐条码{0}已达到复核数量", tg.BARCD_ADD);
+                    return false;
+                }
+                if(!tg.IsAddEpc && tg.BARCD == v.bar && v.barChaYiQty > 0)
+                {
+                    msg = string.Format("主条码{0}已达到复核数量", tg.BARCD);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private void textBox1_boxno_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar != 13)
@@ -747,5 +917,68 @@ namespace HLACancelCheckChannelMachine
         }
     }
 
+    public class CCheckReData
+    {
+        public int shouldQty;
+        public int realQty;
+        public string bar;
+    }
+    public class CCheckRe
+    {
+        public List<CCheckReData> bar = new List<CCheckReData>();
+        public List<CCheckReData> barAdd = new List<CCheckReData>();
+        public CCheckRe()
+        {
 
+        }
+        public int getShouldQty(string barStr, bool add)
+        {
+            if (add)
+            {
+                CCheckReData d = barAdd.FirstOrDefault(i => i.bar == barStr);
+                if (d != null)
+                    return d.shouldQty;
+            }
+            else
+            {
+                CCheckReData d = bar.FirstOrDefault(i => i.bar == barStr);
+                if (d != null)
+                    return d.shouldQty;
+            }
+
+            return 0;
+        }
+        public int getRealQty(string barStr, bool add)
+        {
+            if (add)
+            {
+                CCheckReData d = barAdd.FirstOrDefault(i => i.bar == barStr);
+                if (d != null)
+                    return d.realQty;
+            }
+            else
+            {
+                CCheckReData d = bar.FirstOrDefault(i => i.bar == barStr);
+                if (d != null)
+                    return d.realQty;
+            }
+
+            return 0;
+        }
+    }
+    public class CChaYi
+    {
+        public string hu;
+        public string bar;
+        public string barAdd;
+        public int shouldQty;
+        public int barChaYiQty;
+        public int barAddChaYiQty;
+        public bool inventoryRe;
+        public string msg;
+
+        public string pin;
+        public string se;
+        public string gui;
+    }
 }
