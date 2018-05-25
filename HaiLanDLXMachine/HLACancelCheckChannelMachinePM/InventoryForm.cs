@@ -70,38 +70,7 @@ namespace HLACancelCheckChannelMachine
         {
             mDianShuBoCi = this.ComboBox_Boci.SelectedItem.ToString();
 
-            grid.Rows.Clear();
-
-            if(SysConfig.IsTest)
-            {
-            }
-
-            DataTable dt = LocalDataService.GetCancelReData(mDocNo);
-
-            if(dt!=null && dt.Rows.Count>0)
-            {
-                foreach (DataRow row in dt.Rows)
-                {
-                    string hu = row["hu"].ToString();
-                    int main = int.Parse(row["mainNum"].ToString());
-                    int add = int.Parse(row["addNum"].ToString());
-                    int real = int.Parse(row["realNum"].ToString());
-                    int maindif = int.Parse(row["mainDifNum"].ToString());
-                    int adddif = int.Parse(row["addDifNum"].ToString());
-                    int notreg = int.Parse(row["notReg"].ToString());
-                    int notinbox = int.Parse(row["notInBox"].ToString());
-                    string msg = row["msg"].ToString();
-                    int re = int.Parse(row["re"].ToString());
-
-                    grid.Rows.Insert(0, hu, main, add, real, maindif, adddif, msg);
-
-                    if (re != 0)
-                    {
-                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-                    }
-                }
-            }
-
+            restoreGrid(mDocNo);
             restoreSavingQueue(mDocNo);
 
             this.savingDataThread = new Thread(new ThreadStart(savingDataThreadFunc));
@@ -178,6 +147,15 @@ namespace HLACancelCheckChannelMachine
             thread.IsBackground = true;
             thread.Start();
         }
+
+        public override void UpdateView()
+        {
+            Invoke(new Action(() =>
+            {
+                lblMainNumber.Text = mainEpcNumber.ToString();
+            }));
+        }
+
         private void Start()
         {
             btnStart.Enabled = false;
@@ -208,6 +186,36 @@ namespace HLACancelCheckChannelMachine
                 lastReadTime = DateTime.Now;
             }
         }
+
+        List<CCheckRe> restoreGrid(string doc)
+        {
+            List<CCheckRe> re = new List<CCheckRe>();
+
+            try
+            {
+                string sql = string.Format("select * from CancelInfo where docNo='{0}' and deviceNo = '{1}' order by timeStamp", doc, SysConfig.DeviceNO);
+                DataTable dt = DBHelper.GetTable(sql, false);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    grid.Rows.Clear();
+                    foreach (DataRow rw in dt.Rows)
+                    {
+                        List<CChaYi> r = JsonConvert.DeserializeObject<IEnumerable<CChaYi>>(rw["inInfo"].ToString()) as List<CChaYi>;
+                        if (r != null)
+                        {
+                            addGrid(r);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+
+            return re;
+        }
+
         string getBoxNo()
         {
             return textBox1_boxno.Text.Trim();
@@ -299,7 +307,7 @@ namespace HLACancelCheckChannelMachine
         {
             try
             {
-                string sql = string.Format("insert into CancelInfo (docNo,boxNo,re,msg,inInfo,timeStamp) values ('{0}','{1}','{2}','{3}','{4}',GETDATE())", doc, hu, re, msg, JsonConvert.SerializeObject(data));
+                string sql = string.Format("insert into CancelInfo (docNo,boxNo,re,msg,inInfo,timeStamp,deviceNo) values ('{0}','{1}','{2}','{3}','{4}',GETDATE(),'{5}')", doc, hu, re, msg, JsonConvert.SerializeObject(data), SysConfig.DeviceNO);
                 DBHelper.ExecuteNonQuery(sql);
             }
             catch (Exception ex)

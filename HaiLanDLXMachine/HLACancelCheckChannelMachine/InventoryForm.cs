@@ -73,7 +73,6 @@ namespace HLACancelCheckChannelMachine
             mDianShuBoCi = this.ComboBox_Boci.SelectedItem.ToString();
 
             restoreGrid(mDocNo);
-
             restoreSavingQueue(mDocNo);
 
             this.savingDataThread = new Thread(new ThreadStart(savingDataThreadFunc));
@@ -495,7 +494,7 @@ namespace HLACancelCheckChannelMachine
         {
             try
             {
-                string sql = string.Format("insert into CancelInfo (docNo,boxNo,re,msg,inInfo,timeStamp) values ('{0}','{1}','{2}','{3}','{4}',GETDATE())", doc, hu, re, msg, JsonConvert.SerializeObject(data));
+                string sql = string.Format("insert into CancelInfo (docNo,boxNo,re,msg,inInfo,timeStamp,deviceNo) values ('{0}','{1}','{2}','{3}','{4}',GETDATE(),'{5}')", doc, hu, re, msg, JsonConvert.SerializeObject(data), SysConfig.DeviceNO);
                 DBHelper.ExecuteNonQuery(sql);
             }
             catch(Exception ex)
@@ -765,22 +764,22 @@ namespace HLACancelCheckChannelMachine
 
             try
             {
-                string sql = string.Format("select * from CancelInfo where docNo='{0}' order by timeStamp", doc);
+                string sql = string.Format("select * from CancelInfo where docNo='{0}' and deviceNo = '{1}' order by timeStamp", doc, SysConfig.DeviceNO);
                 DataTable dt = DBHelper.GetTable(sql, false);
-                if(dt!=null && dt.Rows.Count>0)
+                if (dt != null && dt.Rows.Count > 0)
                 {
                     grid.Rows.Clear();
                     foreach (DataRow rw in dt.Rows)
                     {
                         List<CChaYi> r = JsonConvert.DeserializeObject<IEnumerable<CChaYi>>(rw["inInfo"].ToString()) as List<CChaYi>;
-                        if(r!=null)
+                        if (r != null)
                         {
                             addGrid(r);
                         }
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4netHelper.LogError(ex);
             }

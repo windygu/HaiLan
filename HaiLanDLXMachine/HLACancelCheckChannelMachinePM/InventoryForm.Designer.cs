@@ -67,6 +67,7 @@
             this.MAINDIF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ADDDIF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblMainNumber = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -112,6 +113,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lblMainNumber);
             this.splitContainer1.Panel2.Controls.Add(this.grid);
             this.splitContainer1.Size = new System.Drawing.Size(1221, 712);
             this.splitContainer1.SplitterDistance = 226;
@@ -652,6 +654,20 @@
             this.MSG.ReadOnly = true;
             this.MSG.Width = 70;
             // 
+            // lblMainNumber
+            // 
+            this.lblMainNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMainNumber.AutoSize = true;
+            this.lblMainNumber.Font = new System.Drawing.Font("微软雅黑", 100F);
+            this.lblMainNumber.ForeColor = System.Drawing.Color.Teal;
+            this.lblMainNumber.Location = new System.Drawing.Point(559, 283);
+            this.lblMainNumber.Name = "lblMainNumber";
+            this.lblMainNumber.Size = new System.Drawing.Size(125, 196);
+            this.lblMainNumber.TabIndex = 20;
+            this.lblMainNumber.Text = "0";
+            this.lblMainNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMainNumber.UseCompatibleTextRendering = true;
+            // 
             // InventoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -668,6 +684,7 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
@@ -711,5 +728,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label9_docno;
+        private System.Windows.Forms.Label lblMainNumber;
     }
 }
