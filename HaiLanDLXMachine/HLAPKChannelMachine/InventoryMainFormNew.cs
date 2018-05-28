@@ -1172,7 +1172,7 @@ namespace HLAPKChannelMachine
                 catch (Exception ex)
                 {
                     LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-                    SetInventoryResult(3);
+                    SetInventoryResult(1);
                 }
             }
         }
@@ -1433,7 +1433,7 @@ namespace HLAPKChannelMachine
                         if (checkResult.InventoryResult)
                             SetInventoryResult(1);
                         else
-                            SetInventoryResult(3);
+                            SetInventoryResult(1);
 
                         HideLoading();
 
@@ -1441,7 +1441,7 @@ namespace HLAPKChannelMachine
                     catch (Exception ex)
                     {
                         LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-                        SetInventoryResult(3);
+                        SetInventoryResult(1);
                         HideLoading();
                     }
                 }

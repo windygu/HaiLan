@@ -164,14 +164,14 @@ namespace HLAYKChannelMachine
                     }
                     else
                     {
-                        SetInventoryResult(3);
+                        SetInventoryResult(1);
                     }
                 }
             }
             catch (Exception ex)
             {
                 Log4netHelper.LogError(ex);
-                SetInventoryResult(3);
+                SetInventoryResult(1);
             }
         }
 

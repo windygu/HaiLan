@@ -322,7 +322,7 @@ namespace HLABoxCheckChannelMachine
                 }
                 else
                 {
-                    SetInventoryResult(3);
+                    SetInventoryResult(1);
                 }
 
             }

@@ -653,7 +653,7 @@ namespace HLACancelCheckChannelMachine
                 }
                 else
                 {
-                    SetInventoryResult(3);
+                    SetInventoryResult(1);
                 }
 
 
