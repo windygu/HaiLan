@@ -81,7 +81,6 @@ namespace HLAYKChannelMachine
             this.label11 = new System.Windows.Forms.Label();
             this.txtPrinter = new DMSkin.Metro.Controls.MetroTextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.btnStart = new DMSkin.Controls.DMButton();
             this.lblTotalBoxNum = new System.Windows.Forms.Label();
             this.lblTotalNum = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -169,7 +168,6 @@ namespace HLAYKChannelMachine
             this.splitContainer1.Panel1.Controls.Add(this.label11);
             this.splitContainer1.Panel1.Controls.Add(this.txtPrinter);
             this.splitContainer1.Panel1.Controls.Add(this.label12);
-            this.splitContainer1.Panel1.Controls.Add(this.btnStart);
             // 
             // splitContainer1.Panel2
             // 
@@ -930,32 +928,6 @@ namespace HLAYKChannelMachine
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label12.Visible = false;
             // 
-            // btnStart
-            // 
-            this.btnStart.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnStart.AutoEllipsis = true;
-            this.btnStart.BackColor = System.Drawing.Color.Transparent;
-            this.btnStart.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnStart.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
-            this.btnStart.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(93)))), ((int)(((byte)(203)))));
-            this.btnStart.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
-            this.btnStart.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.btnStart.DM_Radius = 1;
-            this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnStart.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
-            this.btnStart.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.btnStart.Image = null;
-            this.btnStart.Location = new System.Drawing.Point(10, 571);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(0);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(155, 40);
-            this.btnStart.TabIndex = 14;
-            this.btnStart.Text = "_开始_";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Visible = false;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
             // lblTotalBoxNum
             // 
             this.lblTotalBoxNum.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1382,7 +1354,6 @@ namespace HLAYKChannelMachine
         private DMSkin.Controls.DMLabel lblUsePs;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblQty;
-        private DMSkin.Controls.DMButton btnStart;
         private DMSkin.Controls.DMButton btnGenerateDoc;
         private DMSkin.Controls.DMButton btnGx;
         private DMSkin.Controls.DMButton btnUsePs;

@@ -399,7 +399,14 @@ namespace HLACancelCheckChannelMachine
                     chayi.hu = mCurBoxNo;
                     chayi.bar = v.bar;
                     chayi.barAdd = baradd;
-                    chayi.shouldQty = v.shouldQty;
+                    if (v.shouldQty == checkRe.getShouldQty(baradd, true))
+                    {
+                        chayi.shouldQty = v.shouldQty.ToString();
+                    }
+                    else
+                    {
+                        chayi.shouldQty = string.Format("{0}-{1}", v.shouldQty, checkRe.getShouldQty(baradd, true));
+                    }
                     chayi.barChaYiQty = v.realQty - v.shouldQty;
                     chayi.barAddChaYiQty = checkRe.getRealQty(baradd, true) - checkRe.getShouldQty(baradd, true);
                     re.Add(chayi);
@@ -420,7 +427,14 @@ namespace HLACancelCheckChannelMachine
                         chayi.hu = mCurBoxNo;
                         chayi.bar = bar;
                         chayi.barAdd = v.bar;
-                        chayi.shouldQty = v.shouldQty;
+                        if (v.shouldQty == checkRe.getShouldQty(bar, false))
+                        {
+                            chayi.shouldQty = v.shouldQty.ToString();
+                        }
+                        else
+                        {
+                            chayi.shouldQty = string.Format("{0}-{1}", checkRe.getShouldQty(bar, false), v.shouldQty);
+                        }
                         chayi.barChaYiQty = checkRe.getRealQty(bar, false) - checkRe.getShouldQty(bar, false);
                         chayi.barAddChaYiQty = v.realQty - v.shouldQty;
                         re.Add(chayi);
@@ -968,7 +982,7 @@ namespace HLACancelCheckChannelMachine
         public string hu;
         public string bar;
         public string barAdd;
-        public int shouldQty;
+        public string shouldQty;
         public int barChaYiQty;
         public int barAddChaYiQty;
         public bool inventoryRe;

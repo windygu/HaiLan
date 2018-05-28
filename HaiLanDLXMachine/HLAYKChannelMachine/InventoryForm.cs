@@ -75,10 +75,6 @@ namespace HLAYKChannelMachine
                     lblQty.Text = "0";
                     lblResult.Text = "";
                     lblHu.Text = "";
-                    if (btnStart.Text == "开始")
-                    {
-                        Start();
-                    }
                 }));
                 SetInventoryResult(0);
                 isFull = false;
@@ -104,6 +100,14 @@ namespace HLAYKChannelMachine
             }
         }
 
+        void stopReader()
+        {
+            if(isInventory)
+            {
+                isInventory = false;
+                reader.StopInventory();
+            }
+        }
         public override void StopInventory()
         {
             try
@@ -574,7 +578,6 @@ namespace HLAYKChannelMachine
             panelDebug.Show();
 #endif
             InitView();
-            btnStart.Enabled = false;
             dmButtonStart.Enabled = false;
             dmButtonStop.Enabled = false;
             thread = new Thread(new ThreadStart(() => {
@@ -634,8 +637,8 @@ namespace HLAYKChannelMachine
                 if (closed) return;
 
                 ShowLoading("正在更新SAP最新物料数据...");
-                //materialList = SAPDataService.GetMaterialInfoListAll(SysConfig.LGNUM);
-                materialList = LocalDataService.GetMaterialInfoList();
+                materialList = SAPDataService.GetMaterialInfoList(SysConfig.LGNUM);
+                //materialList = LocalDataService.GetMaterialInfoList();
 
                 if (materialList == null || materialList.Count<=0)
                 {
@@ -688,7 +691,6 @@ namespace HLAYKChannelMachine
                 UploadServer.GetInstance().OnUploaded += UploadServer_OnUploaded;
                 UploadServer.GetInstance().Start();
                 Invoke(new Action(() => {
-                    btnStart.Enabled = true;
                     dmButtonStart.Enabled = true;
                     UpdateTotalInfo();
                     UpdateErrorBoxButton();
@@ -803,14 +805,6 @@ namespace HLAYKChannelMachine
             }));
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
-        {
-            if (btnStart.Text == "开始")
-                Start();
-            else
-                Stop();
-        }
-
         private void Start()
         {
             if (string.IsNullOrEmpty(cboSource.Text) || string.IsNullOrEmpty(cboTarget.Text))
@@ -832,7 +826,6 @@ namespace HLAYKChannelMachine
             dmButtonStart.Enabled = false;
             dmButtonStop.Enabled = true;
 
-            btnStart.Text = "停止";
             cboSource.Enabled = false;
             cboTarget.Enabled = false;
         }
@@ -842,7 +835,6 @@ namespace HLAYKChannelMachine
             dmButtonStart.Enabled = true;
             dmButtonStop.Enabled = false;
 
-            btnStart.Text = "开始";
             cboSource.Enabled = true;
             cboTarget.Enabled = true;
         }
@@ -1090,7 +1082,7 @@ namespace HLAYKChannelMachine
         private void dmButtonStop_Click(object sender, EventArgs e)
         {
             Stop();
-            StopInventory();
+            stopReader();
             closeMachine();
         }
 
