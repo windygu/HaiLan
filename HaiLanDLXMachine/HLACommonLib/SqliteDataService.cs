@@ -45,13 +45,21 @@ namespace HLACommonLib
 
             return 0;
         }
+        public static int GetExpUploadCount()
+        {
+            int re = 0;
+            string sql = string.Format("SELECT count(*) FROM UploadData where IsUpload = 1 order by CreateTime");
+            int.TryParse(SqliteDBHelp.GetValue(sql).ToString(), out re);
+            return re;
+        }
         public static List<CUploadData> GetExpUploadFromSqlite<T>()
         {
+            List<CUploadData> result = new List<CUploadData>();
+
             string sql = string.Format("SELECT Guid,Data,IsUpload,CreateTime,MSG FROM UploadData where IsUpload = 1 order by CreateTime");
             DataTable dt = SqliteDBHelp.GetTable(sql);
             if (dt != null && dt.Rows.Count > 0)
             {
-                List<CUploadData> result = new List<CUploadData>();
                 foreach (DataRow row in dt.Rows)
                 {
                     CUploadData ud = new CUploadData();
@@ -64,15 +72,16 @@ namespace HLACommonLib
                 }
                 return result;
             }
-            return null;
+            return result;
         }
         public static List<CUploadData> GetAllUploadFromSqlite<T>()
         {
+            List<CUploadData> result = new List<CUploadData>();
+
             string sql = string.Format("SELECT Guid,Data,IsUpload,CreateTime,MSG FROM UploadData order by CreateTime");
             DataTable dt = SqliteDBHelp.GetTable(sql);
             if (dt != null && dt.Rows.Count > 0)
             {
-                List<CUploadData> result = new List<CUploadData>();
                 foreach (DataRow row in dt.Rows)
                 {
                     CUploadData ud = new CUploadData();
@@ -85,7 +94,7 @@ namespace HLACommonLib
                 }
                 return result;
             }
-            return null;
+            return result;
         }
         public static bool delUploadFromSqlite(string guid)
         {
@@ -97,6 +106,17 @@ namespace HLACommonLib
                 return false;
 
         }
+
+
+
+
+
+
+
+
+
+
+
         #region 大通道机交货单
         public static void InsertUploadData(UploadData ud)
         {

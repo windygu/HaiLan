@@ -737,9 +737,11 @@ namespace HLACancelCheckChannelMachine
 
         private void InventoryForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(savingData.Count>0)
+            int sc = SqliteDataService.GetUnUploadCountFromSqlite();
+
+            if (sc > 0)
             {
-                DialogResult re = MessageBox.Show(this, string.Format("还有{0}条未上传的数据，确定关闭吗", savingData.Count), "", MessageBoxButtons.YesNo);
+                DialogResult re = MessageBox.Show(this, string.Format("还有{0}条未上传的数据，确定关闭吗", sc), "", MessageBoxButtons.YesNo);
                 if(re == DialogResult.No)
                 {
                     e.Cancel = true;
@@ -824,7 +826,7 @@ namespace HLACancelCheckChannelMachine
                                 string sapMsg = "";
                                 SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
 
-                                if (uploadRe == "E")
+                                if (upData.inventoryRe == true && uploadRe == "E")
                                 {
                                     SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
                                     notifyException();

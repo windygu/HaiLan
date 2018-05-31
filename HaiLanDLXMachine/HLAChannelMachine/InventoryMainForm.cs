@@ -355,7 +355,7 @@ namespace HLAChannelMachine
                 int.TryParse(lblActualTotalNum.Text, out actualTotalNum);
                 actualTotalNum = actualTotalNum + qty;
                 this.lblActualTotalNum.Text = actualTotalNum.ToString();
-                this.lblTotalBoxNum.Text = (mDocDetailInfoList.Sum(i => i.BOXCOUNT)+1).ToString();
+                this.lblTotalBoxNum.Text = (mDocDetailInfoList.Sum(i => i.BOXCOUNT) + 1).ToString();
 
                 bool isExists = false;
                 foreach (ListViewItem docDetailItem in lvDocDetail.Items)
@@ -1048,13 +1048,13 @@ namespace HLAChannelMachine
 
             try
             {
-                if(tagDetailList!=null &&tagDetailList.Count>0)
+                if (tagDetailList != null && tagDetailList.Count > 0)
                 {
-                    foreach(var v in tagDetailList)
+                    foreach (var v in tagDetailList)
                     {
-                        if(!v.IsAddEpc)
+                        if (!v.IsAddEpc)
                         {
-                            if(!re.Exists(i=>i.proNo == v.MATNR))
+                            if (!re.Exists(i => i.proNo == v.MATNR))
                             {
                                 CTagDetail t = new CTagDetail();
                                 t.proNo = v.MATNR;
@@ -1074,7 +1074,7 @@ namespace HLAChannelMachine
                     }
                 }
             }
-            catch(Exception)
+            catch (Exception)
             { }
 
             return re;
@@ -1082,10 +1082,10 @@ namespace HLAChannelMachine
 
         bool checkPiCiNotSame()
         {
-            foreach(var v in tagDetailList)
+            foreach (var v in tagDetailList)
             {
                 DocDetailInfo di = mDocDetailInfoList.FirstOrDefault(i => i.PRODUCTNO == v.MATNR);
-                if(di!=null && di.ZCHARG == v.CHARG)
+                if (di != null && di.ZCHARG == v.CHARG)
                 {
 
                 }
@@ -1104,7 +1104,7 @@ namespace HLAChannelMachine
                 result.UpdateMessage(WEI_KAI_SHI_JIAN_HUO);
                 result.InventoryResult = false;
             }
-            if (errorEpcNumber>0)
+            if (errorEpcNumber > 0)
             {
                 result.UpdateMessage("不在本单");
                 result.InventoryResult = false;
@@ -1151,12 +1151,10 @@ namespace HLAChannelMachine
                 {
                     pxqty = tdiExtend.PXQTY;
                 }
-                int normalNum = this.tagDetailList.Count;//统计合法数量
-                int tempNum = this.tagDetailList.Count(o => o.MATNR == matnr);
-                int rfidEpcNum = this.tagDetailList.Count(o => o.IsAddEpc == false);//统计主条码epc数
-                int rfidAddEpcNum = this.tagDetailList.Count(o => o.IsAddEpc == true);//统计辅条码epc数
 
-                if (normalNum != tempNum)
+                int oneMatNum = this.tagDetailList.Count(o => o.MATNR == matnr && o.IsAddEpc == false);
+
+                if (mainEpcNumber != oneMatNum)
                 {
                     //不是预拼箱，或者是预拼箱尾箱，则需要判断是否串规格
                     if (!IsYupinxiang() || IsYpxWx())
@@ -1168,7 +1166,7 @@ namespace HLAChannelMachine
 
                 if (IsYupinxiang() && IsYpxWx())
                 {
-                    if (epcList.Count > pxqty)
+                    if (mainEpcNumber > pxqty)
                     {
                         result.UpdateMessage(SHU_LIANG_DA_YU_XIANG_GUI);
                         result.InventoryResult = false;
@@ -1180,7 +1178,7 @@ namespace HLAChannelMachine
                 {
                     if (!IsYupinxiang())
                     {
-                        if (epcList.Count <= 0 || epcList.Count != pxqty)
+                        if (mainEpcNumber <= 0 || mainEpcNumber != pxqty)
                         {
                             result.UpdateMessage(BU_FU_HE_XIANG_GUI);
                             result.InventoryResult = false;
@@ -1189,14 +1187,14 @@ namespace HLAChannelMachine
                 }
                 else
                 {
-                        if (epcList.Count > pxqty)
-                        {
-                            result.UpdateMessage(SHU_LIANG_DA_YU_XIANG_GUI);
-                            result.InventoryResult = false;
-                        }
+                    if (mainEpcNumber > pxqty)
+                    {
+                        result.UpdateMessage(SHU_LIANG_DA_YU_XIANG_GUI);
+                        result.InventoryResult = false;
+                    }
                 }
                 //如果存在辅条码，检查主条码和辅条码数量是否一致
-                if (rfidAddEpcNum > 0 && rfidEpcNum != rfidAddEpcNum)
+                if (addEpcNumber > 0 && mainEpcNumber != addEpcNumber)
                 {
                     result.UpdateMessage(TWO_NUMBER_ERROR);
                     result.InventoryResult = false;
@@ -1206,7 +1204,7 @@ namespace HLAChannelMachine
                 {
                     //只有交接单收货才需要判断是否超收
                     string msg;
-                    if (IsOvercharge(tdiExtend.ZSATNR, tdiExtend.ZCOLSN, tdiExtend.ZSIZTX, rfidEpcNum, out msg))
+                    if (IsOvercharge(tdiExtend.ZSATNR, tdiExtend.ZCOLSN, tdiExtend.ZSIZTX, mainEpcNumber, out msg))
                     {
                         result.UpdateMessage(msg);
                         result.InventoryResult = false;
@@ -1531,7 +1529,7 @@ namespace HLAChannelMachine
                         record.HU = this.lblBoxNo.Text.Trim();
                         record.QTY = item.quan;
                         record.REMARK = cr.Message;
-                        record.RESULT = (cr.InventoryResult||cr.IsRecheck) ? "S" : "E";
+                        record.RESULT = (cr.InventoryResult || cr.IsRecheck) ? "S" : "E";
                         record.ZCOLSN = item.zcolsn;
                         record.ZSATNR = item.zsatnr;
                         record.ZSIZTX = item.zsiztx;
@@ -1540,7 +1538,7 @@ namespace HLAChannelMachine
                     }
                 }
             }
-            if (errorEpcNumber> 0)
+            if (errorEpcNumber > 0)
             {
                 ErrorRecord record = new ErrorRecord();
                 if (IsYupinxiang())
@@ -1747,7 +1745,7 @@ namespace HLAChannelMachine
         {
             try
             {
-                if (plc!=null)
+                if (plc != null)
                 {
                     plc.SendCommand((PLCResponse)5);
                 }
@@ -1761,7 +1759,7 @@ namespace HLAChannelMachine
         {
             try
             {
-                if (plc!=null)
+                if (plc != null)
                 {
                     plc.SendCommand((PLCResponse)6);
                 }

@@ -861,7 +861,7 @@ namespace HLACancelCheckChannelMachine
                                 string sapMsg = "";
                                 SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
 
-                                if (uploadRe == "E")
+                                if (upData.inventoryRe == true && uploadRe == "E")
                                 {
                                     SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
                                     notifyException();
