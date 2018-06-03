@@ -35,6 +35,7 @@ namespace HLAYKChannelMachine
         private Thread savingDataThread = null;
         string mPackmat = "";
         bool mIsFull = false;
+        bool mCancel = false;
         public InventoryFormNew()
         {
             InitializeComponent();
@@ -854,6 +855,7 @@ namespace HLAYKChannelMachine
 
         private void InventoryForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            mCancel = true;
             CloseWindow();
         }
         private void btnCheckSku_Click(object sender, EventArgs e)
@@ -992,57 +994,71 @@ namespace HLAYKChannelMachine
                 mBoxList.Add(box);
             }));
         }
+        CUploadData getQueueData()
+        {
+            CUploadData re = null;
+            try
+            {
+                lock (savingDataLockObject)
+                {
+                    if (savingData.Count > 0)
+                        return savingData.Dequeue();
+                }
+            }
+            catch (Exception) { }
+            return re;
+        }
         private void savingDataThreadFunc()
         {
             while (true)
             {
                 try
                 {
-                    if (savingData.Count > 0)
+                    if (mCancel)
+                        return;
+
+                    CUploadData ud = getQueueData();
+
+                    if (ud != null)
                     {
-                        CUploadData ud = null;
-                        lock (savingDataLockObject)
+                        YKBoxInfo upData = ud.Data as YKBoxInfo;
+                        if (upData != null)
                         {
-                            ud = savingData.Dequeue();
-                        }
-                        if (ud != null)
-                        {
-                            YKBoxInfo upData = ud.Data as YKBoxInfo;
-                            if (upData != null)
+                            //upload
+                            string uploadRe = "";
+                            string sapMsg = "";
+
+                            SapResult result = SAPDataService.UploadYKBoxInfo(SysConfig.LGNUM, upData);
+                            uploadRe = result.STATUS;
+                            sapMsg = result.MSG;
+
+                            if (uploadRe == "E")
                             {
-                                //save
-                                YKBoxService.SaveBox(upData);
-
-                                //upload
-                                string uploadRe = "";
-                                string sapMsg = "";
-
-                                SapResult result = SAPDataService.UploadYKBoxInfo(SysConfig.LGNUM, upData);
-                                uploadRe = result.STATUS;
-                                sapMsg = result.MSG;
-
-                                if (upData.Status == "S" && uploadRe == "E")
-                                {
-                                    SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
-                                    playSoundWarn();
-                                }
-                                else
-                                {
-                                    SqliteDataService.delUploadFromSqlite(ud.Guid);
-                                }
-
-                                upData.SapRemark = result.MSG;
-                                upData.SapStatus = result.STATUS;
-                                updateBoxList(upData);
-
-                                UpdateTotalInfo();
-                                updateUploadCount();
-                                updateExpButton();
+                                SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
+                                playSoundWarn();
                             }
+                            else
+                            {
+                                SqliteDataService.delUploadFromSqlite(ud.Guid);
+                            }
+
+                            upData.SapRemark = result.MSG;
+                            upData.SapStatus = result.STATUS;
+
+                            //save
+                            YKBoxService.SaveBox(upData);
+
+                            if (upData.Status == "S" && uploadRe == "S")
+                            {
+                                updateBoxList(upData);
+                                UpdateTotalInfo();
+                            }
+
+                            updateUploadCount();
+                            updateExpButton();
                         }
                     }
                     Thread.Sleep(500);
-
                 }
                 catch (Exception)
                 {

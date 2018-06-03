@@ -77,6 +77,35 @@ namespace HLACancelCheckChannelMachine
             this.savingDataThread.IsBackground = true;
             this.savingDataThread.Start();
         }
+        void playSoundWarn()
+        {
+            try
+            {
+                AudioHelper.Play(".\\Res\\warningwav.wav");
+            }
+            catch (Exception)
+            { }
+        }
+
+        void updateExpButton()
+        {
+            int expCount = SqliteDataService.GetExpUploadCount();
+            Invoke(new Action(() =>
+            {
+                string str = string.Format("异常箱明细({0})", expCount);
+                dmButton1_exception_query.Text = str;
+
+                if (expCount > 0)
+                {
+                    dmButton1_exception_query.DM_NormalColor = Color.Red;
+                }
+                else
+                {
+                    dmButton1_exception_query.DM_NormalColor = Color.WhiteSmoke;
+                }
+            }));
+
+        }
 
         private void InventoryForm_Load(object sender, EventArgs e)
         {
@@ -498,6 +527,19 @@ namespace HLACancelCheckChannelMachine
 
             return re;
         }
+        void stopReader()
+        {
+            if (isInventory)
+            {
+                Invoke(new Action(() =>
+                {
+                    lblWorkStatus.Text = "停止扫描";
+                }));
+                isInventory = false;
+                base.StopInventory();
+
+            }
+        }
         public List<CCancelUploadSubData> getUploadSubData()
         {
             List<CCancelUploadSubData> re = new List<CCancelUploadSubData>();
@@ -802,43 +844,51 @@ namespace HLACancelCheckChannelMachine
             }));
 
         }
-
+        CUploadData getQueueData()
+        {
+            CUploadData re = null;
+            try
+            {
+                lock (savingDataLockObject)
+                {
+                    if (savingData.Count > 0)
+                        return savingData.Dequeue();
+                }
+            }
+            catch (Exception) { }
+            return re;
+        }
         private void savingDataThreadFunc()
         {
             while (true)
             {
                 try
                 {
-                    if (savingData.Count > 0)
+                    CUploadData ud = getQueueData();
+                    if (ud != null)
                     {
-                        CUploadData ud = null;
-                        lock (savingDataLockObject)
+                        CCancelUpload upData = ud.Data as CCancelUpload;
+                        if (upData != null)
                         {
-                            ud = savingData.Dequeue();
-                        }
-                        if (ud != null)
-                        {
-                            CCancelUpload upData = ud.Data as CCancelUpload;
-                            if (upData != null)
+                            //upload
+                            string uploadRe = "";
+                            string sapMsg = "";
+                            SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
+
+                            if (uploadRe == "E")
                             {
-                                //upload
-                                string uploadRe = "";
-                                string sapMsg = "";
-                                SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
-
-                                if (upData.inventoryRe == true && uploadRe == "E")
-                                {
-                                    SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
-                                    notifyException();
-                                }
-                                else
-                                {
-                                    SqliteDataService.delUploadFromSqlite(ud.Guid);
-                                }
-
-                                updateUploadCount();
+                                SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
+                                playSoundWarn();
                             }
+                            else
+                            {
+                                SqliteDataService.delUploadFromSqlite(ud.Guid);
+                            }
+
+                            updateUploadCount();
+                            updateExpButton();
                         }
+
                     }
                     Thread.Sleep(1000);
 
@@ -876,20 +926,6 @@ namespace HLACancelCheckChannelMachine
             mDianShuBoCi = ComboBox_Boci.SelectedItem.ToString();
         }
 
-        private void notifyException()
-        {
-            try
-            {
-                Invoke(new Action(() =>
-                {
-                    dmButton1_exception_query.DM_NormalColor = Color.Red;
-                }));
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
-            }
-        }
 
         private void textBox1_bar_KeyPress(object sender, KeyPressEventArgs e)
         {

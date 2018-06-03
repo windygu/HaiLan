@@ -208,8 +208,20 @@ namespace HLACancelCheckChannelMachine
             btnStart.Enabled = true;
             btnPause.Enabled = false;
 
-            StopInventory();
+            stopReader();
             closeMachine();
+        }
+        void stopReader()
+        {
+            if (isInventory)
+            {
+                Invoke(new Action(() =>
+                {
+                    lblWorkStatus.Text = "停止扫描";
+                }));
+                isInventory = false;
+                reader.StopInventory();
+            }
         }
         public override void StartInventory()
         {
@@ -376,7 +388,25 @@ namespace HLACancelCheckChannelMachine
                 }
             }
         }
+        void updateExpButton()
+        {
+            int expCount = SqliteDataService.GetExpUploadCount();
+            Invoke(new Action(() =>
+            {
+                string str = string.Format("异常箱明细({0})", expCount);
+                dmButton1_exception_query.Text = str;
 
+                if (expCount > 0)
+                {
+                    dmButton1_exception_query.DM_NormalColor = Color.Red;
+                }
+                else
+                {
+                    dmButton1_exception_query.DM_NormalColor = Color.WhiteSmoke;
+                }
+            }));
+
+        }
         List<CChaYi> getChaYi(CCheckRe checkRe,bool inventoryRe,string msg)
         {
             List<CChaYi> re = new List<CChaYi>();
@@ -837,6 +867,29 @@ namespace HLACancelCheckChannelMachine
 
             updateUploadCount();
         }
+        CUploadData getQueueData()
+        {
+            CUploadData re = null;
+            try
+            {
+                lock (savingDataLockObject)
+                {
+                    if (savingData.Count > 0)
+                        return savingData.Dequeue();
+                }
+            }
+            catch (Exception) { }
+            return re;
+        }
+        void playSoundWarn()
+        {
+            try
+            {
+                AudioHelper.Play(".\\Res\\warningwav.wav");
+            }
+            catch (Exception)
+            { }
+        }
 
         private void savingDataThreadFunc()
         {
@@ -844,39 +897,33 @@ namespace HLACancelCheckChannelMachine
             {
                 try
                 {
-                    if (savingData.Count > 0)
+                    CUploadData ud = getQueueData();
+                    if (ud != null)
                     {
-                        CUploadData ud = null;
-                        lock (savingDataLockObject)
+                        CCancelUpload upData = ud.Data as CCancelUpload;
+                        if (upData != null)
                         {
-                            ud = savingData.Dequeue();
-                        }
-                        if (ud != null)
-                        {
-                            CCancelUpload upData = ud.Data as CCancelUpload;
-                            if (upData != null)
+                            //upload
+                            string uploadRe = "";
+                            string sapMsg = "";
+                            SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
+
+                            if (uploadRe == "E")
                             {
-                                //upload
-                                string uploadRe = "";
-                                string sapMsg = "";
-                                SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
-
-                                if (upData.inventoryRe == true && uploadRe == "E")
-                                {
-                                    SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
-                                    notifyException();
-                                }
-                                else
-                                {
-                                    SqliteDataService.delUploadFromSqlite(ud.Guid);
-                                }
-
-                                updateUploadCount();
+                                SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
+                                playSoundWarn();
                             }
+                            else
+                            {
+                                SqliteDataService.delUploadFromSqlite(ud.Guid);
+                            }
+
+                            updateUploadCount();
+                            updateExpButton();
                         }
                     }
-                    Thread.Sleep(1000);
 
+                    Thread.Sleep(1000);
                 }
                 catch (Exception)
                 {
@@ -912,20 +959,6 @@ namespace HLACancelCheckChannelMachine
             mDianShuBoCi = ComboBox_Boci.SelectedItem.ToString();
         }
 
-        private void notifyException()
-        {
-            try
-            {
-                Invoke(new Action(() =>
-                {
-                    dmButton1_exception_query.DM_NormalColor = Color.Red;
-                }));
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
-            }
-        }
     }
 
     public class CCheckReData
