@@ -42,7 +42,6 @@
             this.ComboBox_Boci = new System.Windows.Forms.ComboBox();
             this.dmButton3 = new DMSkin.Controls.DMButton();
             this.dmButton1_exception_query = new DMSkin.Controls.DMButton();
-            this.dmButton2_upload_query = new DMSkin.Controls.DMButton();
             this.label12 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11_deviceNo = new System.Windows.Forms.Label();
@@ -59,6 +58,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblReader = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblMainNumber = new System.Windows.Forms.Label();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MAINBAR = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,7 +67,6 @@
             this.MAINDIF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ADDDIF = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblMainNumber = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -93,7 +92,6 @@
             this.splitContainer1.Panel1.Controls.Add(this.ComboBox_Boci);
             this.splitContainer1.Panel1.Controls.Add(this.dmButton3);
             this.splitContainer1.Panel1.Controls.Add(this.dmButton1_exception_query);
-            this.splitContainer1.Panel1.Controls.Add(this.dmButton2_upload_query);
             this.splitContainer1.Panel1.Controls.Add(this.label12);
             this.splitContainer1.Panel1.Controls.Add(this.label10);
             this.splitContainer1.Panel1.Controls.Add(this.label11_deviceNo);
@@ -252,30 +250,6 @@
             this.dmButton1_exception_query.Text = "异常查询";
             this.dmButton1_exception_query.UseVisualStyleBackColor = false;
             this.dmButton1_exception_query.Click += new System.EventHandler(this.dmButton1_exception_query_Click);
-            // 
-            // dmButton2_upload_query
-            // 
-            this.dmButton2_upload_query.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.dmButton2_upload_query.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.dmButton2_upload_query.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.dmButton2_upload_query.DM_DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(98)))), ((int)(((byte)(115)))));
-            this.dmButton2_upload_query.DM_DownColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(93)))), ((int)(((byte)(203)))));
-            this.dmButton2_upload_query.DM_MoveColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(123)))), ((int)(((byte)(203)))));
-            this.dmButton2_upload_query.DM_NormalColor = System.Drawing.Color.WhiteSmoke;
-            this.dmButton2_upload_query.DM_Radius = 1;
-            this.dmButton2_upload_query.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.dmButton2_upload_query.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.dmButton2_upload_query.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.dmButton2_upload_query.ForeColor = System.Drawing.Color.Teal;
-            this.dmButton2_upload_query.Image = null;
-            this.dmButton2_upload_query.Location = new System.Drawing.Point(774, 103);
-            this.dmButton2_upload_query.Margin = new System.Windows.Forms.Padding(0);
-            this.dmButton2_upload_query.Name = "dmButton2_upload_query";
-            this.dmButton2_upload_query.Size = new System.Drawing.Size(150, 40);
-            this.dmButton2_upload_query.TabIndex = 30;
-            this.dmButton2_upload_query.Text = "上传列表";
-            this.dmButton2_upload_query.UseVisualStyleBackColor = false;
-            this.dmButton2_upload_query.Click += new System.EventHandler(this.dmButton2_upload_query_Click);
             // 
             // label12
             // 
@@ -527,6 +501,20 @@
             this.label1.Text = "状态监控";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lblMainNumber
+            // 
+            this.lblMainNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblMainNumber.AutoSize = true;
+            this.lblMainNumber.Font = new System.Drawing.Font("微软雅黑", 100F);
+            this.lblMainNumber.ForeColor = System.Drawing.Color.Teal;
+            this.lblMainNumber.Location = new System.Drawing.Point(559, 283);
+            this.lblMainNumber.Name = "lblMainNumber";
+            this.lblMainNumber.Size = new System.Drawing.Size(125, 196);
+            this.lblMainNumber.TabIndex = 20;
+            this.lblMainNumber.Text = "0";
+            this.lblMainNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblMainNumber.UseCompatibleTextRendering = true;
+            // 
             // grid
             // 
             this.grid.AllowUserToAddRows = false;
@@ -654,20 +642,6 @@
             this.MSG.ReadOnly = true;
             this.MSG.Width = 70;
             // 
-            // lblMainNumber
-            // 
-            this.lblMainNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblMainNumber.AutoSize = true;
-            this.lblMainNumber.Font = new System.Drawing.Font("微软雅黑", 100F);
-            this.lblMainNumber.ForeColor = System.Drawing.Color.Teal;
-            this.lblMainNumber.Location = new System.Drawing.Point(559, 283);
-            this.lblMainNumber.Name = "lblMainNumber";
-            this.lblMainNumber.Size = new System.Drawing.Size(125, 196);
-            this.lblMainNumber.TabIndex = 20;
-            this.lblMainNumber.Text = "0";
-            this.lblMainNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblMainNumber.UseCompatibleTextRendering = true;
-            // 
             // InventoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -710,7 +684,6 @@
         private DMSkin.Metro.Controls.MetroGrid grid;
         private DMSkin.Controls.DMButton dmButton3;
         private DMSkin.Controls.DMButton dmButton1_exception_query;
-        private DMSkin.Controls.DMButton dmButton2_upload_query;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11_deviceNo;

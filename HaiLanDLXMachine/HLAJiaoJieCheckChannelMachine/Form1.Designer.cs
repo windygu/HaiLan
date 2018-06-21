@@ -148,7 +148,7 @@
             this.button3_clearData.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button3_clearData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3_clearData.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.button3_clearData.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button3_clearData.ForeColor = System.Drawing.Color.Teal;
             this.button3_clearData.Location = new System.Drawing.Point(146, 621);
             this.button3_clearData.Name = "button3_clearData";
             this.button3_clearData.Size = new System.Drawing.Size(121, 40);
@@ -195,7 +195,7 @@
             this.button4_cancel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button4_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4_cancel.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.button4_cancel.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button4_cancel.ForeColor = System.Drawing.Color.Teal;
             this.button4_cancel.Location = new System.Drawing.Point(146, 569);
             this.button4_cancel.Name = "button4_cancel";
             this.button4_cancel.Size = new System.Drawing.Size(121, 40);
@@ -227,7 +227,7 @@
             this.button5_upload.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button5_upload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5_upload.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.button5_upload.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button5_upload.ForeColor = System.Drawing.Color.Teal;
             this.button5_upload.Location = new System.Drawing.Point(8, 569);
             this.button5_upload.Name = "button5_upload";
             this.button5_upload.Size = new System.Drawing.Size(121, 40);
@@ -260,7 +260,7 @@
             this.button2_stop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button2_stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2_stop.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.button2_stop.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button2_stop.ForeColor = System.Drawing.Color.Teal;
             this.button2_stop.Location = new System.Drawing.Point(145, 514);
             this.button2_stop.Name = "button2_stop";
             this.button2_stop.Size = new System.Drawing.Size(121, 40);
@@ -279,7 +279,7 @@
             this.button3_start.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button3_start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3_start.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.button3_start.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button3_start.ForeColor = System.Drawing.Color.Teal;
             this.button3_start.Location = new System.Drawing.Point(7, 514);
             this.button3_start.Name = "button3_start";
             this.button3_start.Size = new System.Drawing.Size(121, 40);
@@ -298,7 +298,7 @@
             this.button1_group.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.button1_group.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1_group.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.button1_group.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.button1_group.ForeColor = System.Drawing.Color.Teal;
             this.button1_group.Location = new System.Drawing.Point(146, 463);
             this.button1_group.Name = "button1_group";
             this.button1_group.Size = new System.Drawing.Size(121, 40);
@@ -317,7 +317,7 @@
             this.btnInputDoc.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(189)))), ((int)(((byte)(239)))));
             this.btnInputDoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInputDoc.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
-            this.btnInputDoc.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.btnInputDoc.ForeColor = System.Drawing.Color.Teal;
             this.btnInputDoc.Location = new System.Drawing.Point(8, 463);
             this.btnInputDoc.Name = "btnInputDoc";
             this.btnInputDoc.Size = new System.Drawing.Size(121, 40);
@@ -594,7 +594,7 @@
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label1.ForeColor = System.Drawing.Color.Teal;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(274, 40);
@@ -764,7 +764,7 @@
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.ForeColor = System.Drawing.Color.RoyalBlue;
+            this.label2.ForeColor = System.Drawing.Color.Teal;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(717, 40);
@@ -782,6 +782,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.Controls.SetChildIndex(this.splitContainer1, 0);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

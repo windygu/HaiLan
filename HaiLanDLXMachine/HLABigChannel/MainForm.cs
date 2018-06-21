@@ -17,6 +17,7 @@ using System.Windows.Forms;
 using Xindeco.Device;
 using Xindeco.Device.Model;
 using HLACommonLib;
+using System.Net.NetworkInformation;
 
 namespace HLABigChannel
 {
@@ -39,7 +40,55 @@ namespace HLABigChannel
             this.WindowState = FormWindowState.Maximized;
 
         }
+        void saveIpMac()
+        {
+            try
+            {
+                List<string> macs = getMacs();
+                string deviceNo = SysConfig.DeviceNO;
+                string deviceNoHai = "";
+                if (SysConfig.DeviceInfo != null)
+                {
+                    deviceNoHai = SysConfig.DeviceInfo.EQUIP_HLA;
+                }
+                foreach (var v in macs)
+                {
+                    string sql = string.Format("select count(*) from ipMac where deviceNo='{0}' and mac = '{1}'", deviceNo, v);
+                    int ipCount = 0;
+                    int.TryParse(DBHelper.GetValue(sql, false).ToString(), out ipCount);
+                    if (ipCount == 0)
+                    {
+                        sql = string.Format("insert into ipMac (deviceNo,mac,deviceNoHai,opTime) values ('{0}','{1}','{2}',GETDATE())", deviceNo, v, deviceNoHai);
+                        DBHelper.ExecuteNonQuery(sql);
+                    }
+                }
 
+            }
+            catch (Exception) { }
+        }
+
+        public static List<string> getMacs()
+        {
+            List<string> re = new List<string>();
+            try
+            {
+                foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    if (nic.OperationalStatus == OperationalStatus.Up)
+                    {
+                        string mac = nic.GetPhysicalAddress().ToString();
+                        if (!string.IsNullOrEmpty(mac))
+                            re.Add(mac);
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return re;
+        }
         private void StartProgram(object sender, string exeName, string dirName)
         {
             string dir = Application.StartupPath + string.Format("\\{0}", dirName);
@@ -115,6 +164,8 @@ namespace HLABigChannel
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            saveIpMac();
+
             string title = ConfigurationManager.AppSettings["Title"];
             if(string.IsNullOrEmpty(title))
             {

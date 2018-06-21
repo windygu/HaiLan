@@ -265,6 +265,22 @@ namespace HLABoxCheckChannelMachine
 
             return result;
         }
+        void playSound(bool re)
+        {
+            try
+            {
+                if (re)
+                {
+                    AudioHelper.Play(".\\Res\\success.wav");
+                }
+                else
+                {
+                    AudioHelper.Play(".\\Res\\fail.wav");
+                }
+            }
+            catch (Exception)
+            { }
+        }
         public override void StopInventory()
         {
             if (!boxCheckCheckBox.Checked)
@@ -281,6 +297,8 @@ namespace HLABoxCheckChannelMachine
                 isInventory = false;
                 reader.StopInventory();
                 CheckResult cre = CheckData();
+
+                playSound(cre.InventoryResult);
 
                 List<CTagDetail> tags = getTags();
 

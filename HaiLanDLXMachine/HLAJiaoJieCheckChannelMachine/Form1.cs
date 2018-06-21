@@ -181,8 +181,52 @@ namespace HLAJiaoJieCheckChannelMachine
                 }
             }
         }
+        /*
+        string getBarAddcd(string barcd)
+        {
+            string re = "";
+            try
+            {
+                if(!string.IsNullOrEmpty(barcd))
+                {
+                    HLATagInfo tg = hlaTagList.FirstOrDefault(i => i.BARCD == barcd);
+                    if(tg!=null && !string.IsNullOrEmpty(tg.BARCD_ADD))
+                    {
+                        return tg.BARCD_ADD;
+                    }
+                }
+            }
+            catch(Exception)
+            {
+
+            }
+            return re;
+        }
+        void checkAddBarcd(CJiaoJieDan dan)
+        {
+            try
+            {
+                if (dan == null)
+                    return;
+
+                foreach (var v in dan.huData)
+                {
+                    foreach (var item in v.Value)
+                    {
+                        string barcd = item.barcd;
+                        item.barcd_add = getBarAddcd(barcd);
+                    }
+                }
+            }
+            catch(Exception)
+            {
+
+            }
+        }*/
         public void loadDoc(CJiaoJieDan jjd)
         {
+            //checkAddBarcd(jjd);
+
             label13_jiaojiedocNO.Text = jjd.doc;
             label9_totalHu.Text = jjd.huData.Count.ToString();
 
@@ -217,22 +261,13 @@ namespace HLAJiaoJieCheckChannelMachine
         {
             if (!isInventory)
             {
-                bool start = false;
                 Invoke(new Action(() => {
                     label11_status.Text = "开始扫描";
                     lblInventoryRe.Text = "";
                     label17_currentHu.Text = "";
-                    start = button3_start.Enabled;
                 }));
 
-                if(start)
-                {
-                    MessageBox.Show("请点击开始按钮");
-                    return;
-                }
-
                 SetInventoryResult(0);
-                checkResult.Init();
                 errorEpcNumber = 0;
                 mainEpcNumber = 0;
                 addEpcNumber = 0;
@@ -250,36 +285,53 @@ namespace HLAJiaoJieCheckChannelMachine
             }
         }
 
-        void addgrid(CJJBox box)
+        public void addgrid(CJJBox box)
         {
-            List<string> mats = box.tags.Select(i => i.MATNR).Distinct().ToList();
-            Invoke(new Action(() =>
+            try
             {
-                foreach (var item in mats)
+                List<string> mats = box.tags.Select(i => i.MATNR).Distinct().ToList();
+                Invoke(new Action(() =>
                 {
-                    int c = box.tags.Count(i => i.MATNR == item && !i.IsAddEpc);
-                    TagDetailInfo ti = box.tags.First(i => i.MATNR == item && !i.IsAddEpc);
-                    grid.Rows.Insert(0, box.hu, ti.ZSATNR, ti.ZCOLSN, ti.ZSIZTX, c, box.inventoryMsg + " " + "SAP:" + box.sapMsg);
-                    if (box.inventoryRe == "E" || box.sapRe == "E")
+                    foreach (var item in mats)
                     {
-                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                        int c = box.tags.Count(i => i.MATNR == item && !i.IsAddEpc);
+                        TagDetailInfo ti = box.tags.First(i => i.MATNR == item && !i.IsAddEpc);
+                        grid.Rows.Insert(0, box.hu, ti.ZSATNR, ti.ZCOLSN, ti.ZSIZTX, c, box.inventoryMsg + " " + "SAP:" + box.sapMsg);
+                        if (box.inventoryRe == "E" || box.sapRe == "E")
+                        {
+                            grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                        }
                     }
-                }
-            }));
+                }));
+            }
+            catch(Exception)
+            {
+
+            }
+        }
+        void stopReader()
+        {
+            if (isInventory)
+            {
+                Invoke(new Action(() =>
+                {
+                    label11_status.Text = "停止扫描";
+                }));
+                isInventory = false;
+                reader.StopInventory();
+            }
         }
         public override void StopInventory()
         {
             if (isInventory)
             {
-                string curHu = "";
                 Invoke(new Action(() => {
                     label11_status.Text = "停止扫描";
-                    curHu = label17_currentHu.Text;
                 }));
                 isInventory = false;
                 reader.StopInventory();
 
-                checkResult = check(curHu);
+                CheckResult checkResult = check(label17_currentHu.Text);
 
                 if (checkResult.InventoryResult)
                 {
@@ -290,25 +342,24 @@ namespace HLAJiaoJieCheckChannelMachine
                     lblInventoryRe.Text = checkResult.InventoryResult ? "正常" : "异常";
                 }));
                 
-                CJJBox curBox = getCurBox();
+                CJJBox curBox = getCurBox(checkResult);
 
                 if(checkResult.Message.Contains(HAS_SAOMIAO_CHONGTOU)
-                    || checkResult.Message.Contains(HAS_SAOMIAO_YICHANG)
+                    || checkResult.Message.Contains(WEI_SAO_DAO_XIANGHU)
                     || checkResult.Message.Contains(Consts.Default.XIANG_MA_BU_YI_ZHI)
-                    || checkResult.Message.Contains(WEI_SAO_DAO_XIANGHU))
+                    || checkResult.Message.Contains(HAS_SAOMIAO_YICHANG))
                 {
-                    //不上传
                 }
                 else
                 {
                     //上传
-                    saveData(curBox);
-                    updateBoxList(curBox);
+                    saveAndUpdate(curBox);
                 }
 
                 //add grid
                 addgrid(curBox);
-                updateHuCount();
+
+                playSound(checkResult.InventoryResult);
 
                 if (checkResult.InventoryResult)
                 {
@@ -316,15 +367,34 @@ namespace HLAJiaoJieCheckChannelMachine
                 }
                 else
                 {
-                    SetInventoryResult(3);
+                    SetInventoryResult(1);
                 }
             }
         }
+
+        void playSound(bool re)
+        {
+            try
+            {
+                if (re)
+                {
+                    AudioHelper.Play(".\\Res\\success.wav");
+                }
+                else
+                {
+                    AudioHelper.Play(".\\Res\\fail.wav");
+                }
+            }
+            catch (Exception)
+            { }
+        }
+
         bool duibi(string hu)
         {
             bool re = true;
             try
             {
+                /*
                 if (mJiaoJieDan.huData.ContainsKey(hu))
                 {
                     List<TagDetailInfo> tags = tagDetailList.ToList();
@@ -357,10 +427,32 @@ namespace HLAJiaoJieCheckChannelMachine
                     {
                         re = false;
                     }
+
                 }
                 else
                 {
                     re = false;
+                }*/
+
+                if (!mJiaoJieDan.huData.ContainsKey(hu))
+                    re = false;
+                else
+                {
+                    List<TagDetailInfo> tags = tagDetailList.ToList();
+                    List<CJiaoJieDanData> huData = mJiaoJieDan.huData[hu].ToList();
+                    foreach (var v in huData)
+                    {
+                        if (v.quan != tags.Count(i => i.BARCD == v.barcd && !i.IsAddEpc))
+                        {
+                            re = false;
+                            break;
+                        }
+                        tags.RemoveAll(i => i.BARCD == v.barcd);
+                    }
+                    if (tags.Count > 0)
+                    {
+                        re = false;
+                    }
                 }
             }
             catch(Exception ex)
@@ -374,15 +466,16 @@ namespace HLAJiaoJieCheckChannelMachine
         {
             CheckResult re = CheckData();
 
-            if(string.IsNullOrEmpty(hu))
+            if (button3_start.Enabled)
+            {
+                re.UpdateMessage("请点击开始按钮");
+                re.InventoryResult = false;
+            }
+
+            if (string.IsNullOrEmpty(hu))
             {
                 re.UpdateMessage(WEI_SAO_DAO_XIANGHU);
                 re.InventoryResult = false;
-                return re;
-            }
-            if(re.Message.Contains(Consts.Default.XIANG_MA_BU_YI_ZHI))
-            {
-                return re;
             }
 
             //是否已经扫描过了
@@ -398,7 +491,6 @@ namespace HLAJiaoJieCheckChannelMachine
                     re.UpdateMessage(HAS_SAOMIAO_YICHANG);
                     re.InventoryResult = false;
                 }
-                return re;
             }
 
              //不在本单，直接返回
@@ -406,7 +498,6 @@ namespace HLAJiaoJieCheckChannelMachine
             {
                 re.UpdateMessage(XIANGHAO_BUZAI_BENDAN);
                 re.InventoryResult = false;
-                return re;
             }
 
             if(!duibi(hu))
@@ -433,7 +524,7 @@ namespace HLAJiaoJieCheckChannelMachine
 
             return true;
         }
-        CJJBox getCurBox()
+        CJJBox getCurBox(CheckResult cr)
         {
             CJJBox re = new CJJBox();
 
@@ -444,8 +535,8 @@ namespace HLAJiaoJieCheckChannelMachine
                 re.devno = SysConfig.DeviceInfo.EQUIP_HLA;
                 re.loucheng = SysConfig.DeviceInfo.LOUCENG;
                 re.hu = label17_currentHu.Text;
-                re.inventoryRe = checkResult.InventoryResult ? "S" : "E";
-                re.inventoryMsg = checkResult.Message;
+                re.inventoryRe = cr.InventoryResult ? "S" : "E";
+                re.inventoryMsg = cr.Message;
                 re.epc = epcList.ToList();
                 re.tags = tagDetailList.ToList();
             }
@@ -479,42 +570,27 @@ namespace HLAJiaoJieCheckChannelMachine
         }
         */
 
-        public void saveDataFromUploadList(CUploadData data)
-        {
-            try
-            {
-                CJJBox box = data.Data as CJJBox;
-                //uplad to sap
-                string sapRe = "";
-                string sapMsg = "";
-                SAPDataService.uploadJiaoJieDan(box, ref sapRe, ref sapMsg);
-                box.sapRe = sapRe;
-                box.sapMsg = sapMsg;
-                //save to local
-                LocalDataService.saveJiaoJieDan(box);
-
-                if (sapRe == "S")
-                {
-                    SqliteDataService.delUploadFromSqlite(data.Guid);
-                }
-                else
-                {
-                    SqliteDataService.updateMsgToSqlite(data.Guid, sapMsg);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Log4netHelper.LogError(ex);
-            }
-        }
         public void updateBoxList(CJJBox curBox)
         {
-            mCurDanBoxList.RemoveAll(i => i.doc == mJiaoJieDan.doc && i.hu == curBox.hu);
-            mCurDanBoxList.Add(curBox);
+            if (curBox != null && !string.IsNullOrEmpty(curBox.hu))
+            {
+                mCurDanBoxList.RemoveAll(i => i.doc == mJiaoJieDan.doc && i.hu == curBox.hu);
+                mCurDanBoxList.Add(curBox);
+            }
         }
-        void saveData(CJJBox box)
+        public void saveAndUpdate(CJJBox box)
         {
+            if (box == null)
+                return;
+
+            saveData(box);
+            updateBoxList(box);
+            updateHuCount();
+        }
+        public void saveData(CJJBox box)
+        {
+            if (box == null)
+                return;
             try
             {
                 CUploadData data = saveToSqlite(box);
@@ -551,7 +627,35 @@ namespace HLAJiaoJieCheckChannelMachine
             SqliteDataService.saveToSqlite(cu);
             return cu;
         }
+        void openMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)5);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+        void closeMachine()
+        {
+            try
+            {
+                if (plc != null)
+                {
+                    plc.SendCommand((PLCResponse)6);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         private void button1_group_Click(object sender, EventArgs e)
         {
             HLACommonView.Views.GxForm form = new GxForm();
@@ -562,12 +666,17 @@ namespace HLAJiaoJieCheckChannelMachine
         {
             button3_start.Enabled = false;
             button2_stop.Enabled = true;
+
+            openMachine();
         }
 
         private void button2_stop_Click(object sender, EventArgs e)
         {
             button3_start.Enabled = true;
             button2_stop.Enabled = false;
+
+            stopReader();
+            closeMachine();
         }
 
         private void button4_cancel_Click(object sender, EventArgs e)
@@ -621,6 +730,11 @@ namespace HLAJiaoJieCheckChannelMachine
         {
             ClearDataForm cdf = new ClearDataForm(this);
             cdf.ShowDialog();
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            SqliteDataService.delOldData();
         }
     }
 

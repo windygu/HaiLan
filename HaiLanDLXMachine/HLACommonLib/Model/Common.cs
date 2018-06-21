@@ -8,91 +8,44 @@ using ThingMagic;
 
 namespace HLACommonLib.Model
 {
-    public class CCancelBarQty
+    public class CBarQty
     {
-        public string bar;
+        public string barcd;
         public int qty;
-        public CCancelBarQty(string b,int q)
+        public CBarQty(string bar,int q)
         {
-            bar = b;
+            barcd = bar;
             qty = q;
         }
     }
-    public class CCancelCheckHu2
+    public class CCancelDocData
     {
-        public string mHu;
+        public string hu;
         public bool mIsHz;
         public bool mIsDd;
         public bool mIsCp;
         public bool mIsRFID;
-        public List<CCancelBarQty> mBar = new List<CCancelBarQty>();
-        public List<CCancelBarQty> mBarAdd = new List<CCancelBarQty>();
-        public void addBar(string bar,int qty)
+        public List<CBarQty> barQty = new List<CBarQty>();
+
+        public void addBarQty(string bar,int qty)
         {
-            if(mBar.Exists(i=>i.bar == bar))
+            if (string.IsNullOrEmpty(bar))
+                return;
+
+            if(barQty.Exists(i=>i.barcd == bar))
             {
-                mBar.FirstOrDefault(i => i.bar == bar).qty += qty;
+                barQty.FirstOrDefault(j => j.barcd == bar).qty += qty;
             }
             else
             {
-                mBar.Add(new CCancelBarQty(bar, qty));
-            }
-        }
-        public void addBarAdd(string bar,int qty)
-        {
-            if (mBarAdd.Exists(i => i.bar == bar))
-            {
-                mBarAdd.FirstOrDefault(i => i.bar == bar).qty += qty;
-            }
-            else
-            {
-                mBarAdd.Add(new CCancelBarQty(bar, qty));
-            }
-        }
-        public int getBarQty(string bar)
-        {
-            if (mBar.Exists(i => i.bar == bar))
-            {
-                return mBar.FirstOrDefault(i => i.bar == bar).qty;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        public int getBarAddQty(string bar)
-        {
-            if (mBarAdd.Exists(i => i.bar == bar))
-            {
-                return mBarAdd.FirstOrDefault(i => i.bar == bar).qty;
-            }
-            else
-            {
-                return 0;
+                barQty.Add(new CBarQty(bar, qty));
             }
         }
     }
-
-    public class CCancelUploadSubData
+    public class CCancelDoc
     {
-        public CCancelUploadSubData()
-        {
-            barcd = "";
-            qty = 0;
-            barcdAdd = "";
-            qtyAdd = 0;
-        }
-        public CCancelUploadSubData(string barcd, int qty, string barcdAdd, int qtyAdd)
-        {
-            this.barcd = barcd;
-            this.qty = qty;
-            this.barcdAdd = barcdAdd;
-            this.qtyAdd = qtyAdd;
-        }
-        public string barcd;
-        public int qty;
-        public string barcdAdd;
-        public int qtyAdd;
+        public string doc;
+        public List<CCancelDocData> docData = new List<CCancelDocData>();
     }
     public class CCancelUpload
     {
@@ -107,8 +60,7 @@ namespace HLACommonLib.Model
 
         public bool isHZ;
 
-        public List<CCancelUploadSubData> barqty = new List<CCancelUploadSubData>();
-
+        public List<TagDetailInfo> tagDetailList = new List<TagDetailInfo>();
         public List<string> epcList = new List<string>();
     }
 
@@ -373,5 +325,41 @@ namespace HLACommonLib.Model
         public List<string> epc = new List<string>();
         public List<TagDetailInfo> tags = new List<TagDetailInfo>();
     }
+    //电商接口参数
+    public class CPPInfo
+    {
+        public string Inerfae_key;
+        public string Secret;
+        public string Interface_url;
+        public CPPInfo(string key,string url,string sec)
+        {
+            Interface_url = url;
+            Inerfae_key = key;
+            Secret = sec;
+        }
+    }
 
+    public class CDianShangData
+    {
+        public string barcd;
+        public int qty;
+    }
+    public class CDianShangDoc
+    {
+        public string doc = "";
+        public List<CDianShangData> dsData = new List<CDianShangData>();
+    }
+    public class CDianShangBox
+    {
+        public string doc = "";
+        public string hu = "";
+        public List<TagDetailInfo> tags = new List<TagDetailInfo>();
+        public List<string> epc = new List<string>();
+
+        public string inventoryRe = "";
+        public string inventoryMsg = "";
+        //SUCCESS FAILURE
+        public string sapRe = "";
+        public string sapMsg = "";
+    }
 }

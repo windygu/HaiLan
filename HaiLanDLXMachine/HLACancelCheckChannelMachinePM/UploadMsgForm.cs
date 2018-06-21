@@ -86,7 +86,9 @@ namespace HLACancelCheckChannelMachine
                 {
                     CUploadData box = row.Tag as CUploadData;
                     SqliteDataService.delUploadFromSqlite(box.Guid);
-                    mParent.addToSavingQueue(box.Data as CCancelUpload);
+                    string sapRe = "";
+                    string sapMsg = "";
+                    mParent.uploadSAP(box.Data as CCancelUpload,out sapRe,out sapMsg);
                 }
                 MetroMessageBox.Show(this, "成功加入上传队列", "提示");
                 initData();

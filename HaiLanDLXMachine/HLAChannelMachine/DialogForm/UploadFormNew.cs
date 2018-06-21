@@ -141,7 +141,8 @@ namespace HLAChannelMachine
 
         private void button3_shezhi_Click(object sender, EventArgs e)
         {
-
+            CCheckHuForm cf = new CCheckHuForm();
+            cf.ShowDialog();
         }
     }
 }

@@ -537,7 +537,7 @@ namespace HLAAutoDownload
 
                 if ((DateTime.Now - this.lastDownloadEbBoxTime).TotalMilliseconds > 5000)
                 {
-                    DownloadEbBox();
+                    //DownloadEbBox();
                 }
                 
                 Thread.Sleep(100);

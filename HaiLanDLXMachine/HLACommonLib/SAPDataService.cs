@@ -17,6 +17,8 @@ using HLACommonLib.Model.SAP;
 using Newtonsoft.Json;
 using HLACommonLib.DAO;
 using System.Configuration;
+using System.Security.Cryptography;
+using System.Net;
 
 namespace HLACommonLib
 {
@@ -4086,9 +4088,10 @@ namespace HLACommonLib
             return null;
         }
 
-        public static Dictionary<string, CCancelCheckHu2> GetCancelHuDetailList2(string lgnum, string danhao)
+        public static CCancelDoc GetCancelHuDocData(string lgnum, string danhao)
         {
-            Dictionary<string, CCancelCheckHu2> re = new Dictionary<string, CCancelCheckHu2>();
+            CCancelDoc re = new CCancelDoc();
+            re.doc = danhao;
             try
             {
                 RfcDestination dest = RfcDestinationManager.GetDestination(rfcParams);
@@ -4123,39 +4126,25 @@ namespace HLACommonLib
                         bool isCp = IrfTable.GetString("IS_KSCP") == "X";
                         bool isRFID = IrfTable.GetString("IS_RFID") == "X";
 
-                        if (!re.ContainsKey(hu))
+                        CCancelDocData ch = null;
+
+                        if (!re.docData.Exists(k=>k.hu == hu))
                         {
-                            CCancelCheckHu2 ch = new CCancelCheckHu2();
-                            ch.mHu = hu;
+                            ch = new CCancelDocData();
+                            ch.hu = hu;
                             ch.mIsCp = isCp;
                             ch.mIsDd = isDd;
                             ch.mIsHz = isHz;
                             ch.mIsRFID = isRFID;
-                            if (!string.IsNullOrEmpty(barcd))
-                            {
-                                ch.addBar(barcd, qty);
-                            }
-                            if (!string.IsNullOrEmpty(barcdAdd))
-                            {
-                                ch.addBarAdd(barcdAdd, qty);
-                            }
-
-                            re[hu] = ch;
+                            ch.addBarQty(barcd, qty);
                         }
                         else
                         {
-                            CCancelCheckHu2 ch = re[hu];
-
-                            if (!string.IsNullOrEmpty(barcd))
-                            {
-                                ch.addBar(barcd, qty);
-                            }
-                            if (!string.IsNullOrEmpty(barcdAdd))
-                            {
-                                ch.addBarAdd(barcdAdd, qty);
-                            }
-
+                            ch = re.docData.FirstOrDefault(k => k.hu == hu);
+                            ch.addBarQty(barcd, qty);
                         }
+
+                        re.docData.Add(ch);
                     }
 
                     RfcSessionManager.EndContext(dest);
@@ -4172,6 +4161,7 @@ namespace HLACommonLib
 
             return re;
         }
+
         public static void UploadCancelData(CCancelUpload udata,ref string result,ref string sapMsg)
         {
             try
@@ -4207,13 +4197,21 @@ namespace HLACommonLib
                 IRfcTable IrfTable = null;
                 
                 IrfTable = myfun.GetTable("IN_DATA");
-                foreach (var item in udata.barqty)
+
+                List<string> barcd = udata.tagDetailList.Select(i => i.BARCD).Distinct().ToList();
+                foreach (var item in barcd)
                 {
                     import = rfcrep.GetStructureMetadata("ZSEWRFID063").CreateStructure();
-                    import.SetValue("BARCD", item.barcd);
-                    import.SetValue("DSMENGE", item.qty);
-                    import.SetValue("BARCD_ADD", item.barcdAdd);
-                    import.SetValue("FSMENGE", item.qtyAdd);
+                    import.SetValue("BARCD", item);
+                    import.SetValue("DSMENGE", udata.tagDetailList.Count(i => i.BARCD == item && !i.IsAddEpc));
+
+                    int add = udata.tagDetailList.Count(i => i.BARCD == item && i.IsAddEpc);
+                    if (add != 0)
+                    {
+                        import.SetValue("BARCD_ADD", udata.tagDetailList.First(i => i.BARCD == item && i.IsAddEpc).BARCD_ADD);
+                        import.SetValue("FSMENGE", add);
+                    }
+
                     IrfTable.Insert(import);
                 }
 
@@ -4450,7 +4448,7 @@ namespace HLACommonLib
                 IRfcTable IrfTable = null;
 
                 IrfTable = myfun.GetTable("IN_DATA");
-
+                /*
                 List<string> mats = box.tags.Select(i => i.MATNR).Distinct().ToList();
                 foreach (var item in mats)
                 {
@@ -4462,6 +4460,20 @@ namespace HLACommonLib
                     {
                         import.SetValue("BARCD_ADD", box.tags.First(i => i.MATNR == item && i.IsAddEpc).BARCD_ADD);
                         import.SetValue("FSMENGE", box.tags.Count(i => i.MATNR == item && i.IsAddEpc));
+                    }
+                    IrfTable.Insert(import);
+                }*/
+                List<string> barcdList = box.tags.Select(i => i.BARCD).Distinct().ToList();
+                foreach(var item in barcdList)
+                {
+                    import = rfcrep.GetStructureMetadata("ZSEWRFID078A").CreateStructure();
+                    import.SetValue("BARCD", item);
+                    import.SetValue("DSMENGE", box.tags.Count(i => i.BARCD == item && !i.IsAddEpc));
+                    int add = box.tags.Count(i => i.BARCD == item && i.IsAddEpc);
+                    if (add != 0)
+                    {
+                        import.SetValue("BARCD_ADD", box.tags.First(i => i.BARCD == item && i.IsAddEpc).BARCD_ADD);
+                        import.SetValue("FSMENGE", add);
                     }
                     IrfTable.Insert(import);
                 }
@@ -4550,6 +4562,94 @@ namespace HLACommonLib
             return re;
         }
 
-    }
 
+        //电商采购退
+        public static CDianShangDoc getDianShangDocData(string doc,out string errorMsg)
+        {
+            errorMsg = "";
+            CDianShangDoc re = new CDianShangDoc();
+            try
+            {
+
+            }
+            catch(Exception)
+            {
+
+            }
+            return re;
+        }
+        public static void uploadDianShangBox(CDianShangBox box,ref string sapRe,ref string sapMsg)
+        {
+
+        }
+    }
+    public class HttpWebResponseUtility
+    {
+        public static int connectTimeout = 30000;
+
+        public static string StrToUrlEncode(string sdata)
+        {
+            StringBuilder sb = new StringBuilder();
+            byte[] byStr = System.Text.Encoding.UTF8.GetBytes(sdata);
+            for (int i = 0; i < byStr.Length; i++)
+            {
+                sb.Append(@"%" + Convert.ToString(byStr[i], 16));
+            }
+            return sb.ToString();
+        }
+
+
+        public static string USerMd5(string str)
+        {
+            string cl = str;
+            string pwd = "";
+            MD5 md5 = MD5.Create();
+            byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(cl));
+            for (int i = 0; i < s.Length; i++)
+            {
+                pwd = pwd + s[i].ToString("x2");
+            }
+            return pwd;
+
+        }
+        public string Submit(string postData, string serviceType, CPPInfo ppinfo)
+        {
+            string requestTime = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            string str = "bizData=" + postData + "&msgId=424&msgType=sync&notifyUrl=&partnerId=" + ppinfo.Inerfae_key + "&partnerKey=" + ppinfo.Secret + "&serviceType=" + serviceType + "&serviceVersion=1.0";
+            string qm = USerMd5(str);
+            string binzdata = StrToUrlEncode(postData);
+            string str2 = "bizData=" + binzdata + "&serviceType=" + serviceType + "&msgId=424&msgType=sync&partnerId=" + ppinfo.Inerfae_key + "&partnerKey=" + ppinfo.Secret + "&serviceVersion=1.0&notifyUrl=&sign=" + qm + "&";
+
+
+            byte[] bytePostData = Encoding.UTF8.GetBytes(str2);
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(ppinfo.Interface_url);
+            req.Method = "POST";
+
+            req.Timeout = connectTimeout;
+            req.ContentType = "application/x-www-form-urlencoded"; ;
+            req.ContentLength = bytePostData.Length;
+            try
+            {
+                using (System.IO.Stream reqStream = req.GetRequestStream())
+                {
+                    reqStream.Write(bytePostData, 0, bytePostData.Length);
+                }
+                using (WebResponse wr = req.GetResponse())
+                {
+                    System.IO.StreamReader reader = new System.IO.StreamReader(wr.GetResponseStream(), System.Text.Encoding.UTF8);
+
+                    string responseFromServer = reader.ReadToEnd();
+                    return responseFromServer;  
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex.ToString());
+            }
+
+            return "";
+        }
+
+    }
 }

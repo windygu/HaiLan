@@ -108,8 +108,8 @@ namespace HLACommonLib
         单检机收货 = 29,
         单检机发货 = 30,
         BigChannelPM = 31,
-        退货复核PM = 32
-
+        退货复核PM = 32,
+        电商采购退复核 = 33
 
     }
 }

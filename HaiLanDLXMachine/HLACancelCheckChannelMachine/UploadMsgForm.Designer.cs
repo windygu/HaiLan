@@ -34,14 +34,15 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
-            this.CHECK = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnReturn = new DMSkin.Metro.Controls.MetroButton();
             this.btnReupload = new DMSkin.Metro.Controls.MetroButton();
             this.metroButton1 = new DMSkin.Metro.Controls.MetroButton();
             this.metroButton2 = new DMSkin.Metro.Controls.MetroButton();
             this.metroButton3_cancel = new DMSkin.Metro.Controls.MetroButton();
+            this.CHECK = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.日期 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,7 +73,8 @@
             this.grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CHECK,
             this.HU,
-            this.Column1});
+            this.Column1,
+            this.日期});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -108,26 +110,6 @@
             this.grid.Size = new System.Drawing.Size(874, 378);
             this.grid.TabIndex = 2;
             this.grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
-            // 
-            // CHECK
-            // 
-            this.CHECK.FillWeight = 20F;
-            this.CHECK.HeaderText = "";
-            this.CHECK.Name = "CHECK";
-            this.CHECK.ReadOnly = true;
-            // 
-            // HU
-            // 
-            this.HU.HeaderText = "箱号";
-            this.HU.Name = "HU";
-            this.HU.ReadOnly = true;
-            // 
-            // Column1
-            // 
-            this.Column1.FillWeight = 150F;
-            this.Column1.HeaderText = "状态";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
             // 
             // btnReturn
             // 
@@ -224,6 +206,34 @@
             this.metroButton3_cancel.Theme = DMSkin.Metro.MetroThemeStyle.Light;
             this.metroButton3_cancel.Click += new System.EventHandler(this.metroButton3_cancel_Click);
             // 
+            // CHECK
+            // 
+            this.CHECK.FillWeight = 20F;
+            this.CHECK.HeaderText = "";
+            this.CHECK.Name = "CHECK";
+            this.CHECK.ReadOnly = true;
+            // 
+            // HU
+            // 
+            this.HU.HeaderText = "箱号";
+            this.HU.Name = "HU";
+            this.HU.ReadOnly = true;
+            // 
+            // Column1
+            // 
+            this.Column1.FillWeight = 150F;
+            this.Column1.HeaderText = "状态";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            // 
+            // 日期
+            // 
+            this.日期.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.日期.HeaderText = "日期";
+            this.日期.Name = "日期";
+            this.日期.ReadOnly = true;
+            this.日期.Width = 76;
+            // 
             // UploadMsgForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -250,11 +260,12 @@
         private DMSkin.Metro.Controls.MetroGrid grid;
         private DMSkin.Metro.Controls.MetroButton btnReturn;
         private DMSkin.Metro.Controls.MetroButton btnReupload;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn CHECK;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HU;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private DMSkin.Metro.Controls.MetroButton metroButton1;
         private DMSkin.Metro.Controls.MetroButton metroButton2;
         private DMSkin.Metro.Controls.MetroButton metroButton3_cancel;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn CHECK;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HU;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 日期;
     }
 }

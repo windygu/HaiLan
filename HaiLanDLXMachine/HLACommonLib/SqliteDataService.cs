@@ -109,6 +109,18 @@ namespace HLACommonLib
 
 
 
+        public static void delOldData(int day = 3)
+        {
+            try
+            {
+                string sql = string.Format("delete from UploadData where CreateTime < date('now', '-{0} day')", day);
+                SqliteDBHelp.ExecuteSql(sql);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
 
 

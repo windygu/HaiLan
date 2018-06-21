@@ -93,9 +93,8 @@
             this.button3_shezhi.Name = "button3_shezhi";
             this.button3_shezhi.Size = new System.Drawing.Size(144, 51);
             this.button3_shezhi.TabIndex = 27;
-            this.button3_shezhi.Text = "设置";
+            this.button3_shezhi.Text = "错误查询";
             this.button3_shezhi.UseVisualStyleBackColor = false;
-            this.button3_shezhi.Visible = false;
             this.button3_shezhi.Click += new System.EventHandler(this.button3_shezhi_Click);
             // 
             // button2

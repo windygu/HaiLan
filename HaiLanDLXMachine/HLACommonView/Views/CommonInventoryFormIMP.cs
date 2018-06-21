@@ -29,7 +29,6 @@ namespace HLACommonView.Views
         public BarcodeDevice barcode1 = null;
         public BarcodeDevice barcode2 = null;
         public Queue<string> boxNoList = new Queue<string>();
-        public CheckResult checkResult = new CheckResult();
         private string readerIp = SysConfig.ReaderIp;
         public bool isInventory = false;
         public DateTime lastReadTime = DateTime.Now;
@@ -69,6 +68,16 @@ namespace HLACommonView.Views
                 result.UpdateMessage(Consts.Default.TWO_NUMBER_ERROR);
                 result.InventoryResult = false;
             }
+
+            if(addEpcNumber == 0)
+            {
+                if(tagDetailList.Exists(i => !string.IsNullOrEmpty(i.BARCD_ADD)))
+                {
+                    result.UpdateMessage(Consts.Default.TWO_NUMBER_ERROR);
+                    result.InventoryResult = false;
+                }
+            }
+
             if (boxNoList.Count > 0)
             {
                 boxNoList.Clear();
@@ -153,7 +162,7 @@ namespace HLACommonView.Views
         public virtual void ShowLoading(string message)
         {
             Invoke(new Action(() => {
-                //pd.Show();
+                pd.Show();
                 metroPanel1.Show();
                 lblText.Text = message;
             }));
@@ -164,8 +173,7 @@ namespace HLACommonView.Views
         {
 
             Invoke(new Action(() => {
-                //oc.HideOpaqueLayer();
-                //pd.Hide();
+                pd.Hide();
                 metroPanel1.Hide();
                 lblText.Text = "";
             }));

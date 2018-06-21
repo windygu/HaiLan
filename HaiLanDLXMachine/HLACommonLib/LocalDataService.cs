@@ -4326,7 +4326,7 @@ SELECT Id ,
             msg = "";
             try
             {
-                string sql = string.Format("delete from JiaoJieDan where doc='{0}'", doc);
+                string sql = string.Format("delete from JiaoJieDan where doc='{0}' and device='{1}'", doc, SysConfig.DeviceNO);
                 DBHelper.ExecuteNonQuery(sql);
                 re = true;
             }
@@ -4343,7 +4343,7 @@ SELECT Id ,
             msg = "";
             try
             {
-                string sql = string.Format("delete from JiaoJieDan where doc='{0}' and hu='{1}'", doc, hu);
+                string sql = string.Format("delete from JiaoJieDan where doc='{0}' and hu='{1}' and device='{2}'", doc, hu, SysConfig.DeviceNO);
                 DBHelper.ExecuteNonQuery(sql);
                 re = true;
             }
@@ -4359,7 +4359,7 @@ SELECT Id ,
             List<CJJBox> re = new List<CJJBox>();
             try
             {
-                string sql = string.Format("select detail from JiaoJieDan where doc='{0}' order by timestamp", doc);
+                string sql = string.Format("select detail from JiaoJieDan where doc='{0}' and device='{1}' order by timestamp", doc, SysConfig.DeviceNO);
                 DataTable dt = DBHelper.GetTable(sql, false);
                 if(dt!=null && dt.Rows.Count>0)
                 {
@@ -4377,44 +4377,42 @@ SELECT Id ,
             }
             return re;
         }
-        public static void updateJiaoJieDanSAP(string doc,string hu,string sapRe,string sapMsg)
-        {
-            try
-            {
-                string sql = string.Format("select hu from JiaoJieDan where doc='{0}' and hu='{1}'", doc, hu);
-                string tarHu = nullStr(DBHelper.GetValue(sql, false));
-                if (!string.IsNullOrEmpty(tarHu))
-                {
-                    sql = string.Format("update JiaoJieDan set sapRe='{0}',sapMsg='{1}' where  doc='{2}' and hu='{3}'", sapRe, sapMsg, doc, hu);
-                    DBHelper.ExecuteNonQuery(sql);
-                }
-            }
-            catch(Exception ex)
-            {
-                Log4netHelper.LogError(ex);
-            }
-        }
+
         public static void saveJiaoJieDan(CJJBox box)
         {
             try
             {
-                string sql = string.Format("select hu from JiaoJieDan where doc='{0}' and hu='{1}'", box.doc, box.hu);
-                string hu = nullStr(DBHelper.GetValue(sql, false));
-                if (!string.IsNullOrEmpty(hu))
-                {
-                    sql = string.Format("delete from JiaoJieDan where doc='{0}' and hu='{1}'", box.doc, box.hu);
-                    DBHelper.ExecuteNonQuery(sql);
-                }
+                string sql = "";
 
-                sql = string.Format("insert into JiaoJieDan (doc,hu,detail,re,msg,sapRe,sapMsg,timestamp) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}', GETDATE())"
-                    , box.doc, box.hu, JsonConvert.SerializeObject(box), box.inventoryRe, box.inventoryMsg, box.sapRe, box.sapMsg);
+                sql = string.Format("delete from JiaoJieDan where doc='{0}' and hu='{1}' and device='{2}'", box.doc, box.hu, SysConfig.DeviceNO);
+                DBHelper.ExecuteNonQuery(sql);
 
+                sql = string.Format("insert into JiaoJieDan (doc,hu,detail,re,msg,sapRe,sapMsg,timestamp,device) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}', GETDATE(),'{7}')"
+                    , box.doc, box.hu, JsonConvert.SerializeObject(box), box.inventoryRe, box.inventoryMsg, box.sapRe, box.sapMsg, SysConfig.DeviceNO);
                 DBHelper.ExecuteNonQuery(sql);
             }
             catch (Exception ex)
             {
                 Log4netHelper.LogError(ex);
             }
+        }
+
+        public static List<CDianShangBox> getDianShangBox(string doc)
+        {
+            List<CDianShangBox> box = new List<CDianShangBox>();
+            try
+            {
+
+            }
+            catch(Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+            return box;
+        }
+        public static void saveDianShangBox(CDianShangBox box)
+        {
+
         }
     }
 

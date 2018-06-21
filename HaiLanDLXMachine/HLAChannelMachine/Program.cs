@@ -50,8 +50,8 @@ namespace HLAChannelMachine
 
 #if DEBUG
             SysConfig.LGNUM = "HL01";
-            SysConfig.DeviceNO = "08F041";
-            SysConfig.DBUrl = @"Data Source=172.18.10.98;Initial Catalog=heilandb;User ID=sa;password=xindeco.123456";
+            SysConfig.DeviceNO = "GQ-4015";
+            SysConfig.DBUrl = @"Data Source=172.18.207.92;Initial Catalog=heilandb;User ID=sa;password=myk_123456";
 
 #else
 

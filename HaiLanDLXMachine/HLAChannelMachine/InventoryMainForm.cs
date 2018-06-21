@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using HLACommonLib.DAO;
 using HLAChannelMachine.Utils;
 using Xindeco.Device.Model;
+using System.Configuration;
 
 namespace HLAChannelMachine
 {
@@ -41,6 +42,8 @@ namespace HLAChannelMachine
         private List<ErrorRecord> currentErrorRecordList = new List<ErrorRecord>();
 
         Queue<string> boxNoQueue = new Queue<string>();
+
+        List<string> mOkHu = new List<string>();
 
         #region 检测结果
         /// <summary>
@@ -156,9 +159,21 @@ namespace HLAChannelMachine
             GxForm f = new GxForm();
             f.ShowDialog();
         }
-
+        private void initSavingData()
+        {
+            List<UploadData> datalist = SqliteDataService.GetUnUploadDataList();
+            if (datalist != null && datalist.Count > 0)
+            {
+                foreach (UploadData item in datalist)
+                {
+                    savingData.Enqueue(item);
+                }
+            }
+        }
         private void InventoryMainForm_Load(object sender, EventArgs e)
         {
+            mOkHu = getOkHu();
+
             InitView();
             Thread thread = new Thread(new ThreadStart(() =>
             {
@@ -181,6 +196,9 @@ namespace HLAChannelMachine
                     Invoke(new Action(() => { lblReaderStatus.Text = "异常"; lblReaderStatus.ForeColor = Color.OrangeRed; }));
 
                 HideLoading();
+
+                SqliteDataService.delOldData();
+                initSavingData();
 
                 this.savingDataThread = new Thread(new ThreadStart(savingDataThreadFunc));
                 this.savingDataThread.IsBackground = true;
@@ -225,14 +243,14 @@ namespace HLAChannelMachine
                 LogHelper.WriteLine(string.Format("更新uploaddata出错:GUID[{0}]", guid));
             }
         }
-
+        /*
         private void SaveData(UploadData data)
         {
             try
             {
                 ResultDataInfo result = data.Data as ResultDataInfo;
 
-                if (!result.InventoryResult || result.IsRecheck)
+                if (result.IsRecheck)
                 {
                     //所有检测结果为异常的，若有历史同一箱码检测结果为S的，则不做任何处理，且不修改原箱码的检测结果。
                     UploadedHandler(data.Guid);
@@ -346,6 +364,129 @@ namespace HLAChannelMachine
             }
 
         }
+        */
+
+        void notifyExp()
+        {
+            Invoke(new Action(() =>
+            {
+                btnUpload.BackColor = Color.OrangeRed;
+            }));
+        }
+        private void SaveData(UploadData data)
+        {
+            try
+            {
+                ResultDataInfo result = data.Data as ResultDataInfo;
+
+                if (result.IsRecheck)
+                {
+                    //所有检测结果为异常的，若有历史同一箱码检测结果为S的，则不做任何处理，且不修改原箱码的检测结果。
+                    UploadedHandler(data.Guid);
+                    return;
+                }
+
+                //有添加设备终端号
+                SapResult uploadResult;
+                if (result.ReceiveType == 1)
+                    uploadResult = SAPDataService.UploadTransferBoxInfo(result.LGNUM,
+                        result.Doc == null ? "" : result.Doc.DOCNO, result.BoxNO,
+                        result.InventoryResult, result.ErrorMsg, result.TdiExtendList,
+                        result.RunningMode, result.CurrentUserId, result.Floor, result.sEQUIP_HLA);
+                else
+                {
+                    uploadResult = SAPDataService.UploadBoxInfo(result.LGNUM,
+                            result.Doc == null ? "" : result.Doc.DOCNO, result.BoxNO,
+                            result.InventoryResult, result.ErrorMsg, result.TdiExtendList,
+                            result.RunningMode, result.CurrentUserId, result.Floor, result.sEQUIP_HLA, result.ZPBNO != null ? result.ZPBNO : "");
+                }
+
+                if ((result.InventoryResult && uploadResult.SUCCESS) || result.ErrorMsg.Contains(EPC_YI_SAO_MIAO))
+                {
+                    //保存epc流水号明细
+                    LocalDataService.SaveEpcDetail(result.InventoryResult, result.LGNUM,
+                        (result.Doc == null || result.Doc.DOCNO == null) ? "" : result.Doc.DOCNO,
+                        (result.Doc == null || result.Doc.DOCTYPE == null) ? "" : result.Doc.DOCTYPE,
+                        result.BoxNO, result.EpcList,
+                        result.ReceiveType == 1 ? ReceiveType.交接单收货 : ReceiveType.交货单收货);
+                }
+
+                if ((result.InventoryResult && uploadResult.SUCCESS))
+                {
+                    LocalDataService.SaveInventoryResult(result.LGNUM, result.BoxNO,
+                                                        result.InventoryResult, result.CurrentNum,
+                                                        result.ReceiveType == 1 ? ReceiveType.交接单收货 : ReceiveType.交货单收货);
+                }
+
+                if (!uploadResult.SUCCESS)
+                {
+                    notifyExp();
+
+                    //上传数据失败，上传到本地服务器
+                    ReceiveUploadData xddata = new ReceiveUploadData()
+                    {
+                        Guid = data.Guid,
+                        CreateTime = data.CreateTime,
+                        Data = JsonConvert.SerializeObject(data.Data),
+                        Device = SysConfig.DeviceNO,
+                        Hu = data.Data.BoxNO,
+                        IsUpload = 0,
+                        SapResult = uploadResult.MSG,
+                        SapStatus = uploadResult.STATUS
+                    };
+                    if (ReceiveService.SaveUploadData(xddata))
+                    {
+                    }
+
+                    return;
+                }
+                else
+                {
+                    UploadedHandler(data.Guid);
+                }
+
+                //将EPC明细加入缓存中
+                if (result.InventoryResult && uploadResult.SUCCESS)
+                {
+                    foreach (string epc in result.EpcList)
+                    {
+                        EpcDetail epcDetail = new EpcDetail();
+                        epcDetail.DOCCAT = result.Doc.DOCTYPE;
+                        epcDetail.DOCNO = result.Doc.DOCNO;
+                        epcDetail.EPC_SER = epc;
+                        epcDetail.Floor = result.Floor;
+                        epcDetail.Handled = 0;
+                        epcDetail.HU = result.BoxNO;
+                        epcDetail.LGNUM = result.LGNUM;
+                        epcDetail.Result = result.InventoryResult ? "S" : "E";
+                        epcDetail.Timestamp = DateTime.Now;
+                        mDocEpcDetailList.Add(epcDetail);
+                    }
+                    //将数据附加到交货明细表中
+                    foreach (ListViewTagInfo tagDetailItem in result.LvTagInfo)
+                    {
+                        string zsatnr = tagDetailItem.ZSATNR;
+                        string zcolsn = tagDetailItem.ZCOLSN;
+                        string zsiztx = tagDetailItem.ZSIZTX;
+                        string charg = tagDetailItem.CHARG;
+                        int qty = tagDetailItem.QTY;
+
+                        //当盘点结果正常时累加数量
+                        Invoke(new Action(() =>
+                        {
+                            UpdateDocDetailInfo(zsatnr, zcolsn, zsiztx, charg, qty, result.ZPBNO, result.Doc);
+                        }));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex.Message + "\r\n" + ex.Source + "\r\n" + ex.StackTrace);
+                LogHelper.WriteLine(JsonConvert.SerializeObject(data));
+            }
+
+        }
+
         private void UpdateDocDetailInfo(string zsatnr, string zcolsn, string zsiztx, string charg, int qty, string zpbno, DocInfo doc)
         {
             if (mCurDocInfo != null && mCurDocInfo.DOCNO == doc.DOCNO)
@@ -635,6 +776,8 @@ namespace HLAChannelMachine
 
         private void btnUpload_Click(object sender, EventArgs e)
         {
+            btnUpload.BackColor = Color.WhiteSmoke;
+
             UploadFormNew form = new UploadFormNew(mReceiveType, this);
             form.ShowDialog();
         }
@@ -1315,6 +1458,11 @@ namespace HLAChannelMachine
                     this.lblBoxNo.Text = hu;
                 }));
             }
+            if(!isHuOk(this.lblBoxNo.Text.Trim()))
+            {
+                result.UpdateMessage("箱号不符合规则");
+                result.InventoryResult = false;
+            }
             //高位库 需要检测的箱子与所选行项目对应
             if (this.cbUseBoxStandard.Checked && mReceiveType == ReceiveType.交货单收货)
             {
@@ -1770,6 +1918,19 @@ namespace HLAChannelMachine
                 MessageBox.Show(ex.ToString());
             }
         }
+        void stopReader()
+        {
+            if (!isInventory)
+                return;
+
+            this.isInventory = false;
+            reader.StopInventory();
+
+            this.Invoke(new Action(() =>
+            {
+                this.lblWorkStatus.Text = "停止";
+            }));
+        }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
@@ -1782,9 +1943,8 @@ namespace HLAChannelMachine
             {
                 this.btnSetBoxQty.Enabled = true;
             }
-            StopInventory();
             this.btnStart.Enabled = true;
-
+            stopReader();
             closeMachine();
         }
 
@@ -1792,6 +1952,49 @@ namespace HLAChannelMachine
         {
             PBForm pb = new PBForm(mMixRatioList);
             pb.ShowDialog();
+        }
+
+        bool isHuOk(string hu)
+        {
+            if (mOkHu == null || mOkHu.Count <= 0)
+                return true;
+
+            if (string.IsNullOrEmpty(hu))
+                return false;
+
+            foreach(var v in mOkHu)
+            {
+                if (hu.StartsWith(v))
+                    return true;
+            }
+
+            return false;
+        }
+        List<string> getOkHu()
+        {
+            List<string> re = new List<string>();
+
+            try
+            {
+                string huList = ConfigurationManager.AppSettings["OkHu"] != null ? ConfigurationManager.AppSettings["OkHu"].ToString() : "";
+                if (string.IsNullOrEmpty(huList))
+                    return re;
+
+                List<string> huRe = huList.Split('-').ToList();
+                if(huRe!=null && huRe.Count>0)
+                {
+                    foreach(var v in huRe)
+                    {
+                        if (!string.IsNullOrEmpty(v))
+                            re.Add(v);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+            return re;
         }
     }
 

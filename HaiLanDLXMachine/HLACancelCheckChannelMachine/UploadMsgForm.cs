@@ -36,12 +36,11 @@ namespace HLACancelCheckChannelMachine
                     CCancelUpload ju = item.Data as CCancelUpload;
                     if (ju != null)
                     {
-                        grid.Rows.Insert(0, false, ju.boxno, item.MSG);
+                        grid.Rows.Insert(0, false, ju.boxno, item.MSG, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
                         grid.Rows[0].Tag = item;
                     }
                 }
             }
-            
         }
         private void UploadMgForm_Load(object sender, EventArgs e)
         {
@@ -86,9 +85,11 @@ namespace HLACancelCheckChannelMachine
                 {
                     CUploadData box = row.Tag as CUploadData;
                     SqliteDataService.delUploadFromSqlite(box.Guid);
-                    mParent.addToSavingQueue(box.Data as CCancelUpload);
+                    string sapRe;
+                    string sapMsg;
+                    mParent.uploadSAP(box.Data as CCancelUpload, out sapRe, out sapMsg);
                 }
-                MetroMessageBox.Show(this, "成功加入上传队列", "提示");
+                MetroMessageBox.Show(this, "上传完毕", "提示");
                 initData();
             }
         }

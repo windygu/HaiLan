@@ -373,7 +373,7 @@ namespace HLAChannelMachine
             {
                 ResultDataInfo result = data.Data as ResultDataInfo;
 
-                if (!result.InventoryResult || result.IsRecheck)
+                if (result.IsRecheck)
                 {
                     //所有检测结果为异常的，若有历史同一箱码检测结果为S的，则不做任何处理，且不修改原箱码的检测结果。
                     UploadedHandler(data.Guid);

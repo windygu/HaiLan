@@ -35,7 +35,6 @@ namespace HLACommonView.Views
         public List<HLATagInfo> hlaTagList = null;
         public List<MaterialInfo> materialList = null;
         public Queue<string> boxNoList = new Queue<string>();
-        public CheckResult checkResult = new CheckResult();
         private ErrorWarnForm mErrorForm = new ErrorWarnForm();
 
         public CommonPMInventoryForm()
