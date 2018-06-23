@@ -339,15 +339,10 @@ namespace HLACommonLib.Model
         }
     }
 
-    public class CDianShangData
-    {
-        public string barcd;
-        public int qty;
-    }
     public class CDianShangDoc
     {
         public string doc = "";
-        public List<CDianShangData> dsData = new List<CDianShangData>();
+        public List<CBarQty> dsData = new List<CBarQty>();
     }
     public class CDianShangBox
     {

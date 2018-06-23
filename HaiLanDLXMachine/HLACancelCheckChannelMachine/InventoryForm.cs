@@ -40,7 +40,7 @@ namespace HLACancelCheckChannelMachine
         private Queue<CUploadData> savingData = new Queue<CUploadData>();
         private Thread savingDataThread = null;*/
 
-        const string BU_ZAI_BEN_XIANG = "不在本箱";
+        const string BU_ZAI_BEN_XIANG = "不在本单";
         const string HU_IS_NULL = "箱号为空";
         const string BU_PIPEI = "数量不匹配";
         public InventoryForm()
@@ -370,6 +370,12 @@ namespace HLACancelCheckChannelMachine
             if (mCurBoxNo == "")
             {
                 result.UpdateMessage(HU_IS_NULL);
+                result.InventoryResult = false;
+            }
+
+            if(!mDocData.docData.Exists(i=>i.hu == mCurBoxNo))
+            {
+                result.UpdateMessage(BU_ZAI_BEN_XIANG);
                 result.InventoryResult = false;
             }
 

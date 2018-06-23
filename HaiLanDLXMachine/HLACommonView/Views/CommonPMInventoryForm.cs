@@ -190,6 +190,15 @@ namespace HLACommonView.Views
                 result.UpdateMessage(Consts.Default.TWO_NUMBER_ERROR);
                 result.InventoryResult = false;
             }
+            if (addEpcNumber == 0)
+            {
+                if (tagDetailList.Exists(i => !string.IsNullOrEmpty(i.BARCD_ADD)))
+                {
+                    result.UpdateMessage(Consts.Default.TWO_NUMBER_ERROR);
+                    result.InventoryResult = false;
+                }
+            }
+
             if (epcList.Count == 0)
             {
                 result.UpdateMessage(Consts.Default.WEI_SAO_DAO_EPC);
@@ -324,10 +333,17 @@ namespace HLACommonView.Views
                 }
             }
         }
+        ProcessDialog pd = new ProcessDialog();
 
         public virtual void ShowLoading(string message)
         {
             Invoke(new Action(() => {
+
+#if DEBUG
+#else
+                        
+                pd.Show();
+#endif
                 metroPanel1.Show();
                 lblText.Text = message;
             }));
@@ -337,6 +353,7 @@ namespace HLACommonView.Views
         public virtual void HideLoading()
         {
             Invoke(new Action(() => {
+                pd.Hide();
                 metroPanel1.Hide();
                 lblText.Text = "";
             }));

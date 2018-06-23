@@ -4399,20 +4399,69 @@ SELECT Id ,
 
         public static List<CDianShangBox> getDianShangBox(string doc)
         {
-            List<CDianShangBox> box = new List<CDianShangBox>();
+            List<CDianShangBox> re = new List<CDianShangBox>();
             try
             {
+                string sql = string.Format("select inInfo from DianShangInfo where docNo='{0}' and deviceNo='{1}' order by timestamp", doc, SysConfig.DeviceNO);
+                DataTable dt = DBHelper.GetTable(sql, false);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        CDianShangBox box = JsonConvert.DeserializeObject<CDianShangBox>(r["inInfo"].ToString());
+                        if (box != null)
+                            re.Add(box);
+                    }
+                }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4netHelper.LogError(ex);
             }
-            return box;
+            return re;
         }
         public static void saveDianShangBox(CDianShangBox box)
         {
+            try
+            {
+                string sql = "";
 
+                sql = string.Format("delete from DianShangInfo where docNo='{0}' and boxNo='{1}' and deviceNo='{2}'", box.doc, box.hu, SysConfig.DeviceNO);
+                DBHelper.ExecuteNonQuery(sql);
+
+                sql = string.Format("insert into DianShangInfo (docNo,boxNo,re,msg,sapRe,sapMsg,inInfo,timestamp,deviceNo) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}', GETDATE(),'{7}')"
+                    , box.doc, box.hu, box.inventoryRe, box.inventoryMsg, box.sapRe, box.sapMsg, JsonConvert.SerializeObject(box),SysConfig.DeviceNO);
+                DBHelper.ExecuteNonQuery(sql);
+            }
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+        }
+        public static void clearDianShangBox(string doc,string hu)
+        {
+            try
+            {
+                string sql = string.Format("delete from DianShangInfo where docNo='{0}' and boxNo='{1}' and deviceNo='{2}'", doc, hu, SysConfig.DeviceNO);
+                DBHelper.ExecuteNonQuery(sql);
+            }
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+        }
+        public static void clearDianShangDoc(string doc)
+        {
+            try
+            {
+                string sql = string.Format("delete from DianShangInfo where docNo='{0}' and deviceNo='{1}'", doc, SysConfig.DeviceNO);
+                DBHelper.ExecuteNonQuery(sql);
+            }
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
         }
     }
 

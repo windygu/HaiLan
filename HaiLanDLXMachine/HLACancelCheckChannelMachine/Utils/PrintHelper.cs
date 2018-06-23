@@ -110,6 +110,16 @@ namespace HLACancelCheckChannelMachine.Utils
                 dt.Columns.Add(new DataColumn("diffAdd", Type.GetType("System.String")));
                 dt.Columns.Add(new DataColumn("isRFID", Type.GetType("System.String")));
 
+#if DEBUG
+                CPrintContent pc = new CPrintContent();
+                pc.pin = "z";
+                pc.se = "s";
+                pc.gui = "g";
+                pc.diff = 2;
+                pc.diffAdd = 2;
+                pc.isRFID = true;
+                contentData.content.Add(pc);
+#endif
                 foreach(var v in contentData.content)
                 {
                     DataRow row = dt.NewRow();

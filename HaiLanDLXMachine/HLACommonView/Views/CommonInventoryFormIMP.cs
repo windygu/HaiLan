@@ -159,10 +159,15 @@ namespace HLACommonView.Views
         }
 
         ProcessDialog pd = new ProcessDialog();
+
         public virtual void ShowLoading(string message)
         {
             Invoke(new Action(() => {
+#if DEBUG
+
+#else
                 pd.Show();
+#endif
                 metroPanel1.Show();
                 lblText.Text = message;
             }));
@@ -171,7 +176,6 @@ namespace HLACommonView.Views
 
         public virtual void HideLoading()
         {
-
             Invoke(new Action(() => {
                 pd.Hide();
                 metroPanel1.Hide();

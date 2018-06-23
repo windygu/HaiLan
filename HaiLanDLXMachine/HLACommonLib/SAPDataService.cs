@@ -19,6 +19,7 @@ using HLACommonLib.DAO;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Net;
+using System.Xml;
 
 namespace HLACommonLib
 {
@@ -4562,6 +4563,9 @@ namespace HLACommonLib
             return re;
         }
 
+        public static string SUCCESS = "SUCCESS";
+        public static string FAILURE = "FAILURE";
+        public static string xmlhead = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 
         //电商采购退
         public static CDianShangDoc getDianShangDocData(string doc,out string errorMsg)
@@ -4570,6 +4574,32 @@ namespace HLACommonLib
             CDianShangDoc re = new CDianShangDoc();
             try
             {
+                CPPInfo pi = new CPPInfo(@"test", @"http://172.16.202.33/iWMSPubSyncAPI_test/Router/XmlPost.ashx", @"1a2b3c4d5e6f7g8h9i10j11k12l");
+                string postData = "";
+                postData = string.Format("<?xml version=\"1.0\" encoding=\"utf-8\"?><root><purchaseId>{0}</purchaseId></root>", doc.Trim());
+                string reData = HttpWebResponseUtility.Submit(postData, "SyncPurchaseInfoSearch", pi);
+
+                
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.LoadXml(reData.Replace(xmlhead,""));
+
+                XmlNode nodeRep = xmldoc.SelectSingleNode("/ewmsResponseRoot/response/bizData");
+                if(nodeRep!=null)
+                {
+                    string flag = nodeRep.SelectSingleNode("flag").InnerText;
+                    if(flag == SUCCESS)
+                    {
+                        XmlNode data = nodeRep.SelectSingleNode("data");
+                        XmlNodeList productList = data.SelectNodes("Inner_SyncPurchaseSearchInfoData/products/product");
+                        if(productList!=null)
+                        {
+                            foreach(var v in productList)
+                            {
+
+                            }
+                        }
+                    }
+                }
 
             }
             catch(Exception)
@@ -4582,6 +4612,7 @@ namespace HLACommonLib
         {
 
         }
+
     }
     public class HttpWebResponseUtility
     {
@@ -4612,7 +4643,7 @@ namespace HLACommonLib
             return pwd;
 
         }
-        public string Submit(string postData, string serviceType, CPPInfo ppinfo)
+        public static string Submit(string postData, string serviceType, CPPInfo ppinfo)
         {
             string requestTime = DateTime.Now.ToString("yyyyMMddHHmmss");
 

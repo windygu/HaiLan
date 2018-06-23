@@ -26,7 +26,7 @@ namespace HLAJiaoJieCheckChannelMachine
 
         public const string HAS_SAOMIAO_CHONGTOU = "重投";
         public const string WEI_SAO_DAO_XIANGHU = "未扫到箱号";
-        public const string HAS_SAOMIAO_YICHANG = "复核异常";
+        public const string HAS_SAOMIAO_YICHANG = "收货记录异常";
 
         public CDianShangDoc mJiaoJieDan = new CDianShangDoc();
         public List<CDianShangBox> mCurDanBoxList = new List<CDianShangBox>();
@@ -134,17 +134,10 @@ namespace HLAJiaoJieCheckChannelMachine
 
             if (MessageBox.Show("确认删除该箱数据吗？", "询问", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                string msg = "";
-                if (LocalDataService.clearJiaoJieDanHu(mJiaoJieDan.doc, hu, ref msg))
-                {
-                    mCurDanBoxList.RemoveAll(i => i.hu == hu);
-                    updateHuCount();
-                    MessageBox.Show("删除成功");
-                }
-                else
-                {
-                    MessageBox.Show(msg, "删除失败");
-                }
+                LocalDataService.clearDianShangBox(mJiaoJieDan.doc, hu);
+                mCurDanBoxList.RemoveAll(i => i.hu == hu);
+                updateHuCount();
+                MessageBox.Show("删除成功");
             }
         }
 
@@ -164,18 +157,11 @@ namespace HLAJiaoJieCheckChannelMachine
 
             if(MessageBox.Show("确认删除该单号所有数据吗？","询问",MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                string msg = "";
-                if(LocalDataService.clearJiaoJieDan(doc,ref msg))
-                {
-                    mCurDanBoxList.Clear();
-                    updateHuCount();
-                    grid.Rows.Clear();
-                    MessageBox.Show("删除成功");
-                }
-                else
-                {
-                    MessageBox.Show(msg, "删除失败");
-                }
+                LocalDataService.clearDianShangDoc(doc);
+                mCurDanBoxList.Clear();
+                updateHuCount();
+                grid.Rows.Clear();
+                MessageBox.Show("删除成功");
             }
         }
         string getBarAddcd(string barcd)
@@ -214,6 +200,45 @@ namespace HLAJiaoJieCheckChannelMachine
             updateHuCount();
         }
 
+        List<string> checkTag()
+        {
+            List<string> re = new List<string>();
+            try
+            {
+                List<string> barList = tagDetailList.Select(i => i.BARCD).Distinct().ToList();
+
+                foreach(var v in barList)
+                {
+                    if(!mJiaoJieDan.dsData.Exists(i=>i.barcd == v))
+                    {
+                        re.Add(v);
+                    }
+                    else
+                    {
+                        int curQty = 0;
+                        foreach(var box in mCurDanBoxList)
+                        {
+                            if (box.inventoryRe == "S" && box.sapRe == SUCCESS)
+                            {
+                                curQty += box.tags.Count(j => j.BARCD == v && !j.IsAddEpc);
+                            }
+                        }
+                        int shouldQty = mJiaoJieDan.dsData.FirstOrDefault(i => i.barcd == v).qty;
+                        if (curQty + tagDetailList.Count(j => j.BARCD == v && !j.IsAddEpc) > shouldQty)
+                        {
+                            re.Add(v);
+                        }
+                    }
+                }
+            }
+            catch(Exception)
+            {
+                
+            }
+
+            return re;
+        }
+
         public void updateHuCount()
         {
             Invoke(new Action(() =>
@@ -239,7 +264,6 @@ namespace HLAJiaoJieCheckChannelMachine
                 }));
 
                 SetInventoryResult(0);
-                checkResult.Init();
                 errorEpcNumber = 0;
                 mainEpcNumber = 0;
                 addEpcNumber = 0;
@@ -303,7 +327,7 @@ namespace HLAJiaoJieCheckChannelMachine
                 isInventory = false;
                 reader.StopInventory();
 
-                checkResult = check(label17_currentHu.Text);
+                CheckResult checkResult = check(label17_currentHu.Text);
 
                 if (checkResult.InventoryResult)
                 {
@@ -313,8 +337,8 @@ namespace HLAJiaoJieCheckChannelMachine
                 Invoke(new Action(() => {
                     lblInventoryRe.Text = checkResult.InventoryResult ? "正常" : "异常";
                 }));
-                
-                CDianShangBox curBox = getCurBox();
+
+                CDianShangBox curBox = getCurBox(checkResult);
 
                 if(checkResult.InventoryResult)
                 {
@@ -390,7 +414,20 @@ namespace HLAJiaoJieCheckChannelMachine
             string sameEpcHu = "";
             if(sameEpc(out sameEpcHu))
             {
-                re.UpdateMessage(string.Format("箱号{0}存在相同epc", hu));
+                re.UpdateMessage(string.Format("商品已扫描", hu));
+                re.InventoryResult = false;
+            }
+
+            List<string> moreBar = checkTag();
+            if(moreBar.Count>0)
+            {
+                string msg = "";
+                foreach(var v in moreBar)
+                {
+                    msg += v;
+                    msg += " ";
+                }
+                re.UpdateMessage(msg + " 超量");
                 re.InventoryResult = false;
             }
 
@@ -431,9 +468,9 @@ namespace HLAJiaoJieCheckChannelMachine
 
             return true;
         }
-        List<CDianShangData> getDianShangData()
+        List<CBarQty> getDianShangData()
         {
-            List<CDianShangData> re = new List<CDianShangData>();
+            List<CBarQty> re = new List<CBarQty>();
             try
             {
 
@@ -444,7 +481,7 @@ namespace HLAJiaoJieCheckChannelMachine
             }
             return re;
         }
-        CDianShangBox getCurBox()
+        CDianShangBox getCurBox(CheckResult cr)
         {
             CDianShangBox re = new CDianShangBox();
 
@@ -455,8 +492,8 @@ namespace HLAJiaoJieCheckChannelMachine
                 re.tags = tagDetailList.ToList();
                 re.epc = epcList.ToList();
 
-                re.inventoryRe = checkResult.InventoryResult ? "S" : "E";
-                re.inventoryMsg = checkResult.Message;
+                re.inventoryRe = cr.InventoryResult ? "S" : "E";
+                re.inventoryMsg = cr.Message;
             }
             catch(Exception e)
             {
@@ -522,11 +559,12 @@ namespace HLAJiaoJieCheckChannelMachine
                 SAPDataService.uploadDianShangBox(box, ref sapRe, ref sapMsg);
                 box.sapRe = sapRe;
                 box.sapMsg = sapMsg;
-                //save to local
-                LocalDataService.saveDianShangBox(box);
 
                 if (sapRe == SUCCESS)
-                {
+                {               
+                    //save to local
+                    LocalDataService.saveDianShangBox(box);
+
                     SqliteDataService.delUploadFromSqlite(data.Guid);
                 }
                 else

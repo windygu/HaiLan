@@ -86,7 +86,7 @@ namespace HLAJiaoJieCheckChannelMachine
                 {
                     CUploadData data = row.Tag as CUploadData;
                     SqliteDataService.delUploadFromSqlite(data.Guid);
-                    CJJBox box = data.Data as CJJBox;
+                    CDianShangBox box = data.Data as CDianShangBox;
                     mParent.saveAndUpdate(box);
                     mParent.addgrid(box);
                 }

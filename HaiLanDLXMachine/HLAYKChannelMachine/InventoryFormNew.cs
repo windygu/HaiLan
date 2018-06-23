@@ -61,7 +61,6 @@ namespace HLAYKChannelMachine
                 SetInventoryResult(0);
                 mIsFull = false;
                 mPackmat = "";
-                checkResult.Init();
                 errorEpcNumber = 0;
                 mainEpcNumber = 0;
                 addEpcNumber = 0;
@@ -105,11 +104,11 @@ namespace HLAYKChannelMachine
                 isInventory = false;
                 reader.StopInventory();
 
-                checkResult = CheckData();
+                CheckResult checkResult = CheckData();
 
                 playSound(checkResult);
 
-                YKBoxInfo box = GetCurrentYKBox();
+                YKBoxInfo box = GetCurrentYKBox(checkResult);
 
                 if (lblUsePrint.DM_Key == DMSkin.Controls.DMLabelKey.正确)
                 {
@@ -153,7 +152,7 @@ namespace HLAYKChannelMachine
             }
             return "";
         }
-        private YKBoxInfo GetCurrentYKBox()
+        private YKBoxInfo GetCurrentYKBox(CheckResult cr)
         {
             YKBoxInfo result = new YKBoxInfo()
             {
@@ -162,9 +161,9 @@ namespace HLAYKChannelMachine
                 Hu = lblHu.Text,
                 IsFull = (byte)(mIsFull ? 1 : 0),
                 LouCeng = SysConfig.DeviceInfo.LOUCENG,
-                Remark = checkResult.Message,
+                Remark = cr.Message,
                 IsHandover = 0,
-                Status = checkResult.InventoryResult ? "S" : "E",
+                Status = cr.InventoryResult ? "S" : "E",
                 Source = cboSource.Text,
                 Target = cboTarget.Text,
                 SubUser = SysConfig.CurrentLoginUser.UserId,
