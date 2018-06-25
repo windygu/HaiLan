@@ -199,7 +199,29 @@ namespace HLAJiaoJieCheckChannelMachine
 
             updateHuCount();
         }
+        List<string> checkInDoc()
+        {
+            List<string> re = new List<string>();
+            try
+            {
+                List<string> barList = tagDetailList.Select(i => i.BARCD).Distinct().ToList();
 
+                foreach (var v in barList)
+                {
+                    if (!mJiaoJieDan.dsData.Exists(i => i.barcd == v))
+                    {
+                        re.Add(v);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return re;
+
+        }
         List<string> checkTag()
         {
             List<string> re = new List<string>();
@@ -244,6 +266,7 @@ namespace HLAJiaoJieCheckChannelMachine
             Invoke(new Action(() =>
             {
                 label20_okHu.Text = mCurDanBoxList.Count(i => i.inventoryRe == "S" && i.sapRe == SUCCESS).ToString();
+                label9_num.Text = mCurDanBoxList.FindAll(i => i.inventoryRe == "S" && i.sapRe == SUCCESS).Sum(j => j.tags.Count(k=>!k.IsAddEpc)).ToString();
             }));
         }
 
@@ -269,6 +292,13 @@ namespace HLAJiaoJieCheckChannelMachine
                 addEpcNumber = 0;
                 epcList.Clear();
                 tagDetailList.Clear();
+
+
+#if DEBUG
+                
+                boxNoList.Enqueue("2001994688");
+#endif
+
                 if (boxNoList.Count > 0)
                 {
                     Invoke(new Action(() => {
@@ -293,7 +323,7 @@ namespace HLAJiaoJieCheckChannelMachine
                         int c = box.tags.Count(i => i.MATNR == item && !i.IsAddEpc);
                         TagDetailInfo ti = box.tags.First(i => i.MATNR == item && !i.IsAddEpc);
                         grid.Rows.Insert(0, box.hu, ti.ZSATNR, ti.ZCOLSN, ti.ZSIZTX, c, box.inventoryMsg + " " + "SAP:" + box.sapMsg);
-                        if (box.inventoryRe == "E" || box.sapRe == SUCCESS)
+                        if (box.inventoryRe == "E" || box.sapRe == FAILURE)
                         {
                             grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
                         }
@@ -349,7 +379,7 @@ namespace HLAJiaoJieCheckChannelMachine
                 //add grid
                 addgrid(curBox);
 
-                playSound(checkResult.InventoryResult);
+                playSound(curBox.inventoryRe=="S" && curBox.sapRe == SUCCESS);
 
                 if (checkResult.InventoryResult)
                 {
@@ -414,7 +444,20 @@ namespace HLAJiaoJieCheckChannelMachine
             string sameEpcHu = "";
             if(sameEpc(out sameEpcHu))
             {
-                re.UpdateMessage(string.Format("商品已扫描", hu));
+                re.UpdateMessage(string.Format("商品已扫描 {0}", sameEpcHu));
+                re.InventoryResult = false;
+            }
+
+            List<string> notInDoc = checkInDoc();
+            if(notInDoc.Count>0)
+            {
+                string msg = "";
+                foreach (var v in notInDoc)
+                {
+                    msg += v;
+                    msg += " ";
+                }
+                re.UpdateMessage(msg + " 不在本单");
                 re.InventoryResult = false;
             }
 
@@ -436,14 +479,15 @@ namespace HLAJiaoJieCheckChannelMachine
         bool sameEpc(out string hu)
         {
             hu = "";
-            foreach (var v in epcList)
+            foreach (var i in mCurDanBoxList)
             {
-                foreach (var i in mCurDanBoxList)
+                if (i.inventoryRe == "S" && i.sapRe == SUCCESS)
                 {
-                    if (i.inventoryMsg == "S" && i.sapRe == SUCCESS)
+                    foreach (var v in epcList)
                     {
                         if (i.epc.Exists(j => j == v))
                         {
+                            hu = i.hu;
                             return true;
                         }
                     }
@@ -455,18 +499,7 @@ namespace HLAJiaoJieCheckChannelMachine
         bool boxSame(string hu)
         {
             CDianShangBox box = mCurDanBoxList.First(i => i.hu == hu);
-            if (epcList.Count != box.epc.Count)
-                return false;
-
-            List<string> epcs = box.epc.ToList();
-            foreach(string ep in epcList)
-            {
-                epcs.Remove(ep);
-            }
-            if (epcs.Count > 0)
-                return false;
-
-            return true;
+            return LocalDataService.compareListStr(box.epc, epcList);
         }
         List<CBarQty> getDianShangData()
         {
@@ -628,6 +661,45 @@ namespace HLAJiaoJieCheckChannelMachine
             button2_stop.Enabled = true;
 
             openMachine();
+
+#if DEBUG
+            StartInventory();
+
+            List<Xindeco.Device.Model.TagInfo> ti = new List<Xindeco.Device.Model.TagInfo>();
+
+            Xindeco.Device.Model.TagInfo t = new Xindeco.Device.Model.TagInfo();
+            t.Epc = "50002A8D8508C00000001";
+            ti.Add(t);
+
+            t = new Xindeco.Device.Model.TagInfo();
+            t.Epc = "50002A8D8508C00000002";
+            ti.Add(t);
+            
+            t = new Xindeco.Device.Model.TagInfo();
+            t.Epc = "50002A8D9508C00000001";
+            ti.Add(t);
+
+            t = new Xindeco.Device.Model.TagInfo();
+            t.Epc = "50002A8D9508C00000002";
+            ti.Add(t);
+
+            t = new Xindeco.Device.Model.TagInfo();
+            t.Epc = "50002A8D9508C00000003";
+            ti.Add(t);
+
+            t = new Xindeco.Device.Model.TagInfo();
+            t.Epc = "50002A8D9508C00000004";
+            ti.Add(t);
+
+            t = new Xindeco.Device.Model.TagInfo();
+            t.Epc = "50002A8D9508C00000005";
+            ti.Add(t);
+
+            foreach (var v in ti)
+                Reader_OnTagReported(v);
+
+            StopInventory();
+#endif
         }
 
         private void button2_stop_Click(object sender, EventArgs e)

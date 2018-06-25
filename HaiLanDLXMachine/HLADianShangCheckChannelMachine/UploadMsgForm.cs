@@ -28,12 +28,12 @@ namespace HLAJiaoJieCheckChannelMachine
         {
             grid.Rows.Clear();
 
-            List<CUploadData> list = SqliteDataService.GetExpUploadFromSqlite<CJJBox>();
+            List<CUploadData> list = SqliteDataService.GetExpUploadFromSqlite<CDianShangBox>();
             if (list != null && list.Count > 0)
             {
                 foreach (var item in list)
                 {
-                    CJJBox ju = item.Data as CJJBox;
+                    CDianShangBox ju = item.Data as CDianShangBox;
                     if (ju != null)
                     {
                         grid.Rows.Insert(0, false, ju.hu, item.MSG);

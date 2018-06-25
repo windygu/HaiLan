@@ -74,6 +74,8 @@
             this.QTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9_num = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -92,6 +94,8 @@
             // 
             this.splitContainer1.Panel1.AutoScroll = true;
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.Teal;
+            this.splitContainer1.Panel1.Controls.Add(this.label8);
+            this.splitContainer1.Panel1.Controls.Add(this.label9_num);
             this.splitContainer1.Panel1.Controls.Add(this.button3_clearData);
             this.splitContainer1.Panel1.Controls.Add(this.label18);
             this.splitContainer1.Panel1.Controls.Add(this.label20_okHu);
@@ -141,7 +145,7 @@
             this.button3_clearData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3_clearData.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.button3_clearData.ForeColor = System.Drawing.Color.Teal;
-            this.button3_clearData.Location = new System.Drawing.Point(146, 621);
+            this.button3_clearData.Location = new System.Drawing.Point(146, 580);
             this.button3_clearData.Name = "button3_clearData";
             this.button3_clearData.Size = new System.Drawing.Size(121, 40);
             this.button3_clearData.TabIndex = 46;
@@ -157,7 +161,7 @@
             this.label18.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label18.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
             this.label18.ForeColor = System.Drawing.Color.Red;
-            this.label18.Location = new System.Drawing.Point(7, 691);
+            this.label18.Location = new System.Drawing.Point(7, 644);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(104, 27);
             this.label18.TabIndex = 43;
@@ -170,7 +174,7 @@
             this.label20_okHu.BackColor = System.Drawing.Color.WhiteSmoke;
             this.label20_okHu.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
             this.label20_okHu.ForeColor = System.Drawing.Color.Red;
-            this.label20_okHu.Location = new System.Drawing.Point(119, 692);
+            this.label20_okHu.Location = new System.Drawing.Point(119, 645);
             this.label20_okHu.Name = "label20_okHu";
             this.label20_okHu.Size = new System.Drawing.Size(23, 25);
             this.label20_okHu.TabIndex = 42;
@@ -188,7 +192,7 @@
             this.button4_cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button4_cancel.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.button4_cancel.ForeColor = System.Drawing.Color.Teal;
-            this.button4_cancel.Location = new System.Drawing.Point(146, 569);
+            this.button4_cancel.Location = new System.Drawing.Point(146, 528);
             this.button4_cancel.Name = "button4_cancel";
             this.button4_cancel.Size = new System.Drawing.Size(121, 40);
             this.button4_cancel.TabIndex = 32;
@@ -207,7 +211,7 @@
             this.button5_upload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5_upload.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.button5_upload.ForeColor = System.Drawing.Color.Teal;
-            this.button5_upload.Location = new System.Drawing.Point(8, 569);
+            this.button5_upload.Location = new System.Drawing.Point(8, 528);
             this.button5_upload.Name = "button5_upload";
             this.button5_upload.Size = new System.Drawing.Size(121, 40);
             this.button5_upload.TabIndex = 31;
@@ -226,7 +230,7 @@
             this.button2_stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2_stop.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.button2_stop.ForeColor = System.Drawing.Color.Teal;
-            this.button2_stop.Location = new System.Drawing.Point(145, 514);
+            this.button2_stop.Location = new System.Drawing.Point(145, 473);
             this.button2_stop.Name = "button2_stop";
             this.button2_stop.Size = new System.Drawing.Size(121, 40);
             this.button2_stop.TabIndex = 30;
@@ -245,7 +249,7 @@
             this.button3_start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3_start.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.button3_start.ForeColor = System.Drawing.Color.Teal;
-            this.button3_start.Location = new System.Drawing.Point(7, 514);
+            this.button3_start.Location = new System.Drawing.Point(7, 473);
             this.button3_start.Name = "button3_start";
             this.button3_start.Size = new System.Drawing.Size(121, 40);
             this.button3_start.TabIndex = 29;
@@ -264,7 +268,7 @@
             this.button1_group.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1_group.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.button1_group.ForeColor = System.Drawing.Color.Teal;
-            this.button1_group.Location = new System.Drawing.Point(146, 463);
+            this.button1_group.Location = new System.Drawing.Point(146, 422);
             this.button1_group.Name = "button1_group";
             this.button1_group.Size = new System.Drawing.Size(121, 40);
             this.button1_group.TabIndex = 28;
@@ -283,7 +287,7 @@
             this.btnInputDoc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnInputDoc.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Bold);
             this.btnInputDoc.ForeColor = System.Drawing.Color.Teal;
-            this.btnInputDoc.Location = new System.Drawing.Point(8, 463);
+            this.btnInputDoc.Location = new System.Drawing.Point(8, 422);
             this.btnInputDoc.Name = "btnInputDoc";
             this.btnInputDoc.Size = new System.Drawing.Size(121, 40);
             this.btnInputDoc.TabIndex = 27;
@@ -298,7 +302,7 @@
             this.label16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label16.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label16.ForeColor = System.Drawing.Color.Black;
-            this.label16.Location = new System.Drawing.Point(3, 337);
+            this.label16.Location = new System.Drawing.Point(3, 296);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(100, 32);
             this.label16.TabIndex = 25;
@@ -311,7 +315,7 @@
             this.label17_currentHu.BackColor = System.Drawing.Color.White;
             this.label17_currentHu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label17_currentHu.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label17_currentHu.Location = new System.Drawing.Point(106, 337);
+            this.label17_currentHu.Location = new System.Drawing.Point(106, 296);
             this.label17_currentHu.Name = "label17_currentHu";
             this.label17_currentHu.Size = new System.Drawing.Size(160, 32);
             this.label17_currentHu.TabIndex = 26;
@@ -354,7 +358,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(100, 32);
             this.label12.TabIndex = 21;
-            this.label12.Text = "交接单号：";
+            this.label12.Text = "当前单号：";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label13_jiaojiedocNO
@@ -376,7 +380,7 @@
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label10.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(3, 376);
+            this.label10.Location = new System.Drawing.Point(3, 335);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(100, 32);
             this.label10.TabIndex = 19;
@@ -389,7 +393,7 @@
             this.label11_status.BackColor = System.Drawing.Color.White;
             this.label11_status.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label11_status.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.label11_status.Location = new System.Drawing.Point(106, 376);
+            this.label11_status.Location = new System.Drawing.Point(106, 335);
             this.label11_status.Name = "label11_status";
             this.label11_status.Size = new System.Drawing.Size(160, 32);
             this.label11_status.TabIndex = 20;
@@ -402,7 +406,7 @@
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold);
             this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(3, 417);
+            this.label6.Location = new System.Drawing.Point(3, 376);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(100, 32);
             this.label6.TabIndex = 7;
@@ -429,7 +433,7 @@
             this.lblInventoryRe.BackColor = System.Drawing.Color.White;
             this.lblInventoryRe.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblInventoryRe.Font = new System.Drawing.Font("微软雅黑", 12F);
-            this.lblInventoryRe.Location = new System.Drawing.Point(106, 417);
+            this.lblInventoryRe.Location = new System.Drawing.Point(106, 376);
             this.lblInventoryRe.Name = "lblInventoryRe";
             this.lblInventoryRe.Size = new System.Drawing.Size(160, 32);
             this.lblInventoryRe.TabIndex = 9;
@@ -711,6 +715,34 @@
             this.label2.Text = "复核明细";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // label8
+            // 
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
+            this.label8.ForeColor = System.Drawing.Color.Red;
+            this.label8.Location = new System.Drawing.Point(8, 685);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(104, 27);
+            this.label8.TabIndex = 48;
+            this.label8.Text = "正常件数：";
+            // 
+            // label9_num
+            // 
+            this.label9_num.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label9_num.AutoSize = true;
+            this.label9_num.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label9_num.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
+            this.label9_num.ForeColor = System.Drawing.Color.Red;
+            this.label9_num.Location = new System.Drawing.Point(120, 686);
+            this.label9_num.Name = "label9_num";
+            this.label9_num.Size = new System.Drawing.Size(23, 25);
+            this.label9_num.TabIndex = 47;
+            this.label9_num.Text = "0";
+            this.label9_num.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -778,6 +810,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn QTY;
         private System.Windows.Forms.DataGridViewTextBoxColumn MSG;
         private System.Windows.Forms.Button button3_clearData;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9_num;
     }
 }
 

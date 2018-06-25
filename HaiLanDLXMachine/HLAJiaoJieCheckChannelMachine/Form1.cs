@@ -508,21 +508,11 @@ namespace HLAJiaoJieCheckChannelMachine
 
             return re;
         }
+        
         bool boxSame(string hu)
         {
-            CJJBox box = mCurDanBoxList.First(i => i.hu == hu);
-            if (epcList.Count != box.epc.Count)
-                return false;
-
-            List<string> epcs = box.epc.ToList();
-            foreach(string ep in epcList)
-            {
-                epcs.Remove(ep);
-            }
-            if (epcs.Count > 0)
-                return false;
-
-            return true;
+            CJJBox box = mCurDanBoxList.FirstOrDefault(i => i.hu == hu);
+            return LocalDataService.compareListStr(box.epc, epcList);
         }
         CJJBox getCurBox(CheckResult cr)
         {

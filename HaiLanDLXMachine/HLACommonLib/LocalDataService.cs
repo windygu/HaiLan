@@ -4463,6 +4463,49 @@ SELECT Id ,
                 Log4netHelper.LogError(ex);
             }
         }
+
+        public static bool compareListStr(List<string> a ,List<string> b)
+        {
+            bool re = true;
+            try
+            {
+                if(a!=null && b!=null)
+                {
+                    if(a.Count == b.Count)
+                    {
+                        foreach(var v in a)
+                        {
+                            if(!b.Exists(i=>i == v))
+                            {
+                                re = false;
+                                break;
+                            }
+                        }
+                        foreach(var v in b)
+                        {
+                            if (!a.Exists(i => i == v))
+                            {
+                                re = false;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        re = false;
+                    }
+                }
+                else
+                {
+                    re = false;
+                }
+            }
+            catch(Exception)
+            {
+
+            }
+            return re;
+        }
     }
 
     public class CTimeLog

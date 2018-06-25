@@ -4571,7 +4571,17 @@ namespace HLACommonLib
         public static CDianShangDoc getDianShangDocData(string doc,out string errorMsg)
         {
             errorMsg = "";
+
+#if DEBUG
+            CDianShangDoc re2 = new CDianShangDoc();
+            re2.doc = doc;
+            re2.dsData.Add(new CBarQty("FNTAJ38508A18001A11", 23));
+            re2.dsData.Add(new CBarQty("FNTAJ38508A18002A11", 34));
+            return re2;
+#endif
+
             CDianShangDoc re = new CDianShangDoc();
+            re.doc = doc;
             try
             {
                 CPPInfo pi = new CPPInfo(@"test", @"http://172.16.202.33/iWMSPubSyncAPI_test/Router/XmlPost.ashx", @"1a2b3c4d5e6f7g8h9i10j11k12l");
@@ -4610,6 +4620,11 @@ namespace HLACommonLib
         }
         public static void uploadDianShangBox(CDianShangBox box,ref string sapRe,ref string sapMsg)
         {
+#if DEBUG
+            sapRe = FAILURE;
+            sapMsg = "sap";
+            return;            
+#endif
 
         }
 
