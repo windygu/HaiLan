@@ -164,26 +164,7 @@ namespace HLAJiaoJieCheckChannelMachine
                 MessageBox.Show("删除成功");
             }
         }
-        string getBarAddcd(string barcd)
-        {
-            string re = "";
-            try
-            {
-                if(!string.IsNullOrEmpty(barcd))
-                {
-                    HLATagInfo tg = hlaTagList.FirstOrDefault(i => i.BARCD == barcd);
-                    if(tg!=null && !string.IsNullOrEmpty(tg.BARCD_ADD))
-                    {
-                        return tg.BARCD_ADD;
-                    }
-                }
-            }
-            catch(Exception)
-            {
 
-            }
-            return re;
-        }
         public void loadDoc(CDianShangDoc jjd)
         {
             label13_jiaojiedocNO.Text = jjd.doc;
@@ -222,6 +203,46 @@ namespace HLAJiaoJieCheckChannelMachine
             return re;
 
         }
+        Dictionary<string,int> checkTagQty()
+        {
+            Dictionary<string, int> re = new Dictionary<string, int>();
+            try
+            {
+                List<string> barList = tagDetailList.Select(i => i.BARCD).Distinct().ToList();
+
+                foreach (var v in barList)
+                {
+                    if (!mJiaoJieDan.dsData.Exists(i => i.barcd == v))
+                    {
+                        re[v] = tagDetailList.Count(i => i.BARCD == v && !i.IsAddEpc);
+                    }
+                    else
+                    {
+                        int curQty = 0;
+                        foreach (var box in mCurDanBoxList)
+                        {
+                            if (box.inventoryRe == "S" && box.sapRe == SUCCESS)
+                            {
+                                curQty += box.tags.Count(j => j.BARCD == v && !j.IsAddEpc);
+                            }
+                        }
+                        int shouldQty = mJiaoJieDan.dsData.FirstOrDefault(i => i.barcd == v).qty;
+                        int curAllQty = curQty + tagDetailList.Count(j => j.BARCD == v && !j.IsAddEpc);
+                        if (curAllQty > shouldQty)
+                        {
+                            re[v] = curAllQty - shouldQty;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return re;
+        }
+
         List<string> checkTag()
         {
             List<string> re = new List<string>();
@@ -461,16 +482,16 @@ namespace HLAJiaoJieCheckChannelMachine
                 re.InventoryResult = false;
             }
 
-            List<string> moreBar = checkTag();
+            Dictionary<string, int> moreBar = checkTagQty();
             if(moreBar.Count>0)
             {
                 string msg = "";
                 foreach(var v in moreBar)
                 {
-                    msg += v;
+                    msg += string.Format(v.Key + "超量" + v.Value);
                     msg += " ";
                 }
-                re.UpdateMessage(msg + " 超量");
+                re.UpdateMessage(msg);
                 re.InventoryResult = false;
             }
 
@@ -501,19 +522,7 @@ namespace HLAJiaoJieCheckChannelMachine
             CDianShangBox box = mCurDanBoxList.First(i => i.hu == hu);
             return LocalDataService.compareListStr(box.epc, epcList);
         }
-        List<CBarQty> getDianShangData()
-        {
-            List<CBarQty> re = new List<CBarQty>();
-            try
-            {
 
-            }
-            catch(Exception)
-            {
-
-            }
-            return re;
-        }
         CDianShangBox getCurBox(CheckResult cr)
         {
             CDianShangBox re = new CDianShangBox();
@@ -720,42 +729,6 @@ namespace HLAJiaoJieCheckChannelMachine
         {
             UploadMsgForm uf = new UploadMsgForm(this);
             uf.ShowDialog();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            boxNoList.Enqueue(textBox1.Text.Trim());
-            StartInventory();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            errorEpcNumber = 0;
-            mainEpcNumber = 59;
-            addEpcNumber = 0;
-            {
-                for(int i=1;i<=23;i++)
-                {
-                    string epc = "500007B0850001000000" + i.ToString();
-                    epcList.Add(epc);
-                    tagDetailList.Add(GetTagDetailInfoByEpc(epc));
-                }
-
-                for (int i = 1; i <= 23; i++)
-                {
-                    string epc = "50000673950001000000" + i.ToString();
-                    epcList.Add(epc);
-                    tagDetailList.Add(GetTagDetailInfoByEpc(epc));
-                }
-                for (int i = 1; i <= 12; i++)
-                {
-                    string epc = "500006DEE50001000000" + i.ToString();
-                    epcList.Add(epc);
-                    tagDetailList.Add(GetTagDetailInfoByEpc(epc));
-                }
-            }
-
-            StopInventory();
         }
 
         private void button3_clearData_Click(object sender, EventArgs e)

@@ -34,6 +34,8 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9_num = new System.Windows.Forms.Label();
             this.button3_clearData = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.label20_okHu = new System.Windows.Forms.Label();
@@ -62,10 +64,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.lblReader = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.grid = new DMSkin.Metro.Controls.MetroGrid();
             this.HU = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ZSATNR = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,13 +72,10 @@
             this.QTY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MSG = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9_num = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,12 +122,39 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel1);
             this.splitContainer1.Panel2.Controls.Add(this.grid);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
             this.splitContainer1.Size = new System.Drawing.Size(995, 728);
             this.splitContainer1.SplitterDistance = 274;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // label8
+            // 
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
+            this.label8.ForeColor = System.Drawing.Color.Red;
+            this.label8.Location = new System.Drawing.Point(8, 685);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(104, 27);
+            this.label8.TabIndex = 48;
+            this.label8.Text = "正常件数：";
+            // 
+            // label9_num
+            // 
+            this.label9_num.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label9_num.AutoSize = true;
+            this.label9_num.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.label9_num.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
+            this.label9_num.ForeColor = System.Drawing.Color.Red;
+            this.label9_num.Location = new System.Drawing.Point(120, 686);
+            this.label9_num.Name = "label9_num";
+            this.label9_num.Size = new System.Drawing.Size(23, 25);
+            this.label9_num.TabIndex = 47;
+            this.label9_num.Text = "0";
+            this.label9_num.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button3_clearData
             // 
@@ -545,45 +567,6 @@
             this.label1.Text = "状态监控";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Location = new System.Drawing.Point(233, 272);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 200);
-            this.panel1.TabIndex = 46;
-            this.panel1.Visible = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(20, 76);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 21);
-            this.textBox1.TabIndex = 2;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(113, 13);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "stopInventory";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(20, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "startInventory";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // grid
             // 
             this.grid.AllowUserToAddRows = false;
@@ -715,34 +698,6 @@
             this.label2.Text = "复核明细";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label8
-            // 
-            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label8.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label8.ForeColor = System.Drawing.Color.Red;
-            this.label8.Location = new System.Drawing.Point(8, 685);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(104, 27);
-            this.label8.TabIndex = 48;
-            this.label8.Text = "正常件数：";
-            // 
-            // label9_num
-            // 
-            this.label9_num.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label9_num.AutoSize = true;
-            this.label9_num.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.label9_num.Font = new System.Drawing.Font("微软雅黑", 13F, System.Drawing.FontStyle.Bold);
-            this.label9_num.ForeColor = System.Drawing.Color.Red;
-            this.label9_num.Location = new System.Drawing.Point(120, 686);
-            this.label9_num.Name = "label9_num";
-            this.label9_num.Size = new System.Drawing.Size(23, 25);
-            this.label9_num.TabIndex = 47;
-            this.label9_num.Text = "0";
-            this.label9_num.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -760,8 +715,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             this.ResumeLayout(false);
 
@@ -799,10 +752,6 @@
         private System.Windows.Forms.Button btnInputDoc;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label20_okHu;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn HU;
         private System.Windows.Forms.DataGridViewTextBoxColumn ZSATNR;
         private System.Windows.Forms.DataGridViewTextBoxColumn ZCOLSN;

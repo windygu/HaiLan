@@ -4573,6 +4573,7 @@ namespace HLACommonLib
             errorMsg = "";
 
 #if DEBUG
+            
             CDianShangDoc re2 = new CDianShangDoc();
             re2.doc = doc;
             re2.dsData.Add(new CBarQty("FNTAJ38508A18001A11", 23));
@@ -4584,11 +4585,10 @@ namespace HLACommonLib
             re.doc = doc;
             try
             {
-                CPPInfo pi = new CPPInfo(@"test", @"http://172.16.202.33/iWMSPubSyncAPI_test/Router/XmlPost.ashx", @"1a2b3c4d5e6f7g8h9i10j11k12l");
+                CPPInfo pi = new CPPInfo(SysConfig.HttpKey, SysConfig.HttpUrl, SysConfig.HttpSec);
                 string postData = "";
                 postData = string.Format("<?xml version=\"1.0\" encoding=\"utf-8\"?><root><purchaseId>{0}</purchaseId></root>", doc.Trim());
                 string reData = HttpWebResponseUtility.Submit(postData, "SyncPurchaseInfoSearch", pi);
-
                 
                 XmlDocument xmldoc = new XmlDocument();
                 xmldoc.LoadXml(reData.Replace(xmlhead,""));
@@ -4612,20 +4612,78 @@ namespace HLACommonLib
                 }
 
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-
+                errorMsg = ex.ToString();
             }
             return re;
         }
         public static void uploadDianShangBox(CDianShangBox box,ref string sapRe,ref string sapMsg)
         {
+            sapRe = "";
+            sapMsg = "";
 #if DEBUG
             sapRe = FAILURE;
             sapMsg = "sap";
             return;            
 #endif
+            try
+            {
+                CPPInfo pi = new CPPInfo(SysConfig.HttpKey, SysConfig.HttpUrl, SysConfig.HttpSec);
 
+                string postData = string.Format("<?xml version=\"1.0\" encoding=\"utf-8\"?><root><purchaseId>{0}</purchaseId><boxId>{1}</boxId><products></products></root>", box.doc, box.hu);
+
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(postData);
+
+                XmlNode products = doc.SelectSingleNode("/root/products");
+
+                List<string> barList = box.tags.Select(i => i.BARCD).Distinct().ToList();
+                foreach (var v in barList)
+                {
+                    XmlNode product = doc.CreateElement("product");
+
+                    XmlNode barcode = doc.CreateElement("barcode");
+                    barcode.InnerText = v;
+                    XmlNode qty = doc.CreateElement("qty");
+                    qty.InnerText = box.tags.Count(i => i.BARCD == v && !i.IsAddEpc).ToString();
+
+                    product.AppendChild(barcode);
+                    product.AppendChild(qty);
+                    products.AppendChild(product);
+                }
+                string reData = HttpWebResponseUtility.Submit(doc.OuterXml, "SyncPurchaseInfoCheck", pi);
+
+                //parse response
+                XmlDocument resDoc = new XmlDocument();
+                resDoc.LoadXml(reData.Replace(xmlhead, ""));
+                if(resDoc!=null)
+                {
+                    XmlNode nodeRep = resDoc.SelectSingleNode("/ewmsResponseRoot/response/bizData");
+                    if(nodeRep!=null)
+                    {
+                        string flag = nodeRep.SelectSingleNode("flag").InnerText;
+                        if (flag == SUCCESS)
+                        {
+                            sapRe = SUCCESS;
+                        }
+                        if(flag == FAILURE)
+                        {
+                            sapRe = FAILURE;
+                            XmlNode error = nodeRep.SelectSingleNode("errorDescription");
+                            if(error!=null)
+                            {
+                                sapMsg = error.InnerText;
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                sapMsg = ex.ToString();
+            }
         }
 
     }

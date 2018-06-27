@@ -140,6 +140,10 @@ namespace HLACommonLib
 
         public static string ReaderComPort = "COM1";
         public static string ReaderPower = "23";
+
+        public static string HttpKey = "";
+        public static string HttpUrl = "";
+        public static string HttpSec = "";
         /// <summary>
         /// 初始化单位中英对照表
         /// </summary>

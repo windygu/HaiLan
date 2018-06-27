@@ -15,7 +15,9 @@ namespace HLAJiaoJieCheckChannelMachine
         public static void Load()
         {
             SysConfig.loadConfig();
-
+            SysConfig.HttpKey = ConfigurationManager.AppSettings["HttpKey"];
+            SysConfig.HttpUrl = ConfigurationManager.AppSettings["HttpUrl"];
+            SysConfig.HttpSec = ConfigurationManager.AppSettings["HttpSec"];
         }
 
     }
