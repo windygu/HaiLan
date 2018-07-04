@@ -23,7 +23,7 @@ using System.Data.SqlClient;
 
 namespace HLACancelCheckChannelMachine
 {
-    public partial class InventoryForm : CommonInventoryFormIMP
+    public partial class InventoryForm : CommonInventoryFormIMP,UploadMsgFormMethod
     {
         CLogManager mLog = new CLogManager(true);
 
@@ -330,7 +330,14 @@ namespace HLACancelCheckChannelMachine
                         cy.bar = v.barcd;
                         cy.barChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && !i.IsAddEpc) - v.qty;
                         cy.barAdd = getBarAdd(v.barcd);
-                        cy.barAddChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && i.IsAddEpc) - v.qty;
+                        if (string.IsNullOrEmpty(cy.barAdd))
+                        {
+                            cy.barAddChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && i.IsAddEpc) - 0;
+                        }
+                        else
+                        {
+                            cy.barAddChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && i.IsAddEpc) - v.qty;
+                        }
 
                         re.Add(cy);
                     }
@@ -380,8 +387,9 @@ namespace HLACancelCheckChannelMachine
             }
 
             if (result.Message.Contains(HU_IS_NULL) || result.Message.Contains(Consts.Default.XIANG_MA_BU_YI_ZHI))
-            {
+            {     
                 //直接返回
+                addGrid(result);
                 return result;
             }
 
@@ -407,19 +415,8 @@ namespace HLACancelCheckChannelMachine
                 v.inventoryRe = result.InventoryResult;
                 v.msg = result.Message;
             }
-                
-            if (mCurBoxNo == "")
-            {
-                grid.Rows.Insert(0, "", "", "", "", "", "", result.Message);
-                if (!result.InventoryResult)
-                {
-                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-                }
-            }
 
-            //save to local
-            saveToLocal(mDocNo, mCurBoxNo, result.InventoryResult ? "S" : "E", result.Message, chayi);
-
+            ShowLoading("正在打印...");
             //print
             bool isHZ = false;
             Utils.CPrintData printData = getPrintData(chayi, result, ref isHZ);
@@ -445,9 +442,12 @@ namespace HLACancelCheckChannelMachine
             uploadData.tagDetailList = tagDetailList.ToList();
             uploadData.isHZ = isHZ;
 
+            ShowLoading("正在上传SAP...");
             string sapRe = "";
             string sapMsg = "";
             uploadSAP(uploadData, out sapRe, out sapMsg);
+
+            playSound(result.InventoryResult && sapRe == "S");
 
             foreach (var v in chayi)
             {
@@ -455,20 +455,38 @@ namespace HLACancelCheckChannelMachine
                 v.sapRe = sapRe;
             }
 
+            ShowLoading("正在保存到本地...");
+            //save to local
+            saveToLocal(mDocNo, mCurBoxNo, result.InventoryResult ? "S" : "E", result.Message, chayi);
+
             addGrid(chayi);
 
             return result;
         }
-        void addGrid(List<CChaYi> chayi)
+        void addGrid(CheckResult cr)
         {
-            foreach(var v in chayi)
+            Invoke(new Action(() =>
             {
-                grid.Rows.Insert(0, v.hu, v.bar, v.barAdd, v.shouldQty, v.barChaYiQty, v.barAddChaYiQty, v.msg + " SAP:" + v.sapMsg);
-                if (!v.inventoryRe || v.sapRe != "S")
+                grid.Rows.Insert(0, "", "", "", "", "", "", cr.Message);
+                if (!cr.InventoryResult)
                 {
                     grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
                 }
-            }
+            }));
+        }
+        void addGrid(List<CChaYi> chayi)
+        {
+            Invoke(new Action(() =>
+            {
+                foreach (var v in chayi)
+                {
+                    grid.Rows.Insert(0, v.hu, v.bar, v.barAdd, v.shouldQty, v.barChaYiQty, v.barAddChaYiQty, v.msg + " SAP:" + v.sapMsg);
+                    if (!v.inventoryRe || v.sapRe != "S")
+                    {
+                        grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                    }
+                }
+            }));       
         }
         
         string getBarAdd(string bar)
@@ -606,19 +624,23 @@ namespace HLACancelCheckChannelMachine
                 }));
                 isInventory = false;
                 reader.StopInventory();
-                CheckResult cre = CheckData();
 
-                playSound(cre.InventoryResult);
-
-                if (cre.InventoryResult)
+                Thread t = new Thread(new ThreadStart(() =>
                 {
-                    SetInventoryResult(1);
-                }
-                else
-                {
-                    SetInventoryResult(1);
-                }
+                    CheckResult cre = CheckData();
+                    HideLoading();
 
+                    if (cre.InventoryResult)
+                    {
+                        SetInventoryResult(1);
+                    }
+                    else
+                    {
+                        SetInventoryResult(1);
+                    }
+                }));
+                t.IsBackground = true;
+                t.Start();
 
             }
         }
@@ -678,59 +700,6 @@ namespace HLACancelCheckChannelMachine
                 Log4netHelper.LogError(ex);
             }
         }
-        /*
-        //restore from sql
-        private void restoreSavingQueue(string docno)
-        {
-            try
-            {
-                List<CUploadData> data = SqliteDataService.GetAllUploadFromSqlite<CCancelUpload>();
-                if(data!=null)
-                {
-                    foreach(var v in data)
-                    {
-                        SqliteDataService.delUploadFromSqlite(v.Guid);
-                        addToSavingQueue(v.Data as CCancelUpload);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-            }
-        }
-        
-        //update from sap
-        public void addToSavingQueue(CCancelUpload uploadData)
-        {
-            CUploadData ud = new CUploadData();
-            ud.Guid = Guid.NewGuid().ToString();
-            ud.Data = uploadData;
-            ud.IsUpload = 0;
-            ud.CreateTime = DateTime.Now;
-            SqliteDataService.saveToSqlite(ud);
-
-            lock (savingDataLockObject)
-            {
-                savingData.Enqueue(ud);
-            }
-
-            updateUploadCount();
-        }
-        CUploadData getQueueData()
-        {
-            CUploadData re = null;
-            try
-            {
-                lock (savingDataLockObject)
-                {
-                    if (savingData.Count > 0)
-                        return savingData.Dequeue();
-                }
-            }
-            catch (Exception) { }
-            return re;
-        }*/
         void playSoundWarn()
         {
             try
@@ -765,47 +734,6 @@ namespace HLACancelCheckChannelMachine
                 SqliteDataService.delUploadFromSqlite(ud.Guid);
             }
         }
-        /*
-        private void savingDataThreadFunc()
-        {
-            while (true)
-            {
-                try
-                {
-                    CUploadData ud = getQueueData();
-                    if (ud != null)
-                    {
-                        CCancelUpload upData = ud.Data as CCancelUpload;
-                        if (upData != null)
-                        {
-                            //upload
-                            string uploadRe = "";
-                            string sapMsg = "";
-                            SAPDataService.UploadCancelData(upData, ref uploadRe, ref sapMsg);
-
-                            if (uploadRe == "E")
-                            {
-                                SqliteDataService.updateMsgToSqlite(ud.Guid, sapMsg);
-                                playSoundWarn();
-                            }
-                            else
-                            {
-                                SqliteDataService.delUploadFromSqlite(ud.Guid);
-                            }
-
-                            updateExpButton();
-                        }
-                    }
-
-                    Thread.Sleep(1000);
-                }
-                catch (Exception)
-                {
-                    //LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
-                }
-            }
-        }
-        */
         private void dmButton1_exception_query_Click(object sender, EventArgs e)
         {
             dmButton1_exception_query.DM_NormalColor = Color.WhiteSmoke;
@@ -824,6 +752,12 @@ namespace HLACancelCheckChannelMachine
             mDianShuBoCi = ComboBox_Boci.SelectedItem.ToString();
         }
 
+        public void Upload(CUploadData ud)
+        {
+            string re = "";
+            string msg = "";
+            uploadSAP(ud.Data as CCancelUpload, out re, out msg);
+        }
     }
     public class CChaYi
     {

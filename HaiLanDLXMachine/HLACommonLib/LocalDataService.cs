@@ -4093,92 +4093,6 @@ SELECT Id ,
             return re;
         }
 
-        public static int InsertCancelReData(string doc,string hu,int main,int add,int real,int mainDiff,int addDiff,int noReg,int noInnum,string msg,int re)
-        {
-            try
-            {
-                string sql = string.Format("insert into CancelInResult values('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}',GETDATE(),'{9}','{10}')", doc, hu, main, add, real, mainDiff, addDiff, noReg, noInnum, msg, re);
-                return DBHelper.ExecuteNonQuery(sql);
-            }
-            catch(Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
-            }
-
-            return 0;
-        }
-        public static DataTable GetCancelReData(string doc)
-        {
-            try
-            {
-                string sql = string.Format("select * from CancelInResult where docNo='{0}' order by insertTime", doc);
-                return DBHelper.GetTable(sql,false);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
-            }
-
-            return null;
-        }
-        public static DataTable GetCancelReData(string doc,bool inventory)
-        {
-            try
-            {
-                string sql = string.Format("select * from CancelInResult where docNo='{0}' and re={1} order by insertTime", doc, inventory ? 0 : 1);
-                return DBHelper.GetTable(sql, false);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
-            }
-
-            return null;
-        }
-        public static DataTable GetCancelReDataHu(string hu)
-        {
-            try
-            {
-                string sql = string.Format("select * from CancelInResult where hu='{0}' order by insertTime", hu);
-                return DBHelper.GetTable(sql, false);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace.ToString());
-            }
-
-            return null;
-        }
-
-        public static DataTable GetCancelUpload(string docno)
-        {
-            try
-            {
-                string sql = string.Format("select * from CancelUpload where docNo='{0}' order by doTime", docno);
-                return DBHelper.GetTable(sql, false);
-                
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-            }
-            return null;
-        }
-        public static DataTable GetCancelUpload(string docno,string hu)
-        {
-            try
-            {
-                string sql = string.Format("select * from CancelUpload where docNo='{0}' and hu='{1}' order by doTime", docno, hu);
-                return DBHelper.GetTable(sql, false);
-
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex.Message + "\r\n" + ex.StackTrace);
-            }
-            return null;
-        }
-
         public static DataTable getInfoFromEpc(string epc,bool jiaohuodan)
         {
             try
@@ -4421,6 +4335,22 @@ SELECT Id ,
             }
             return re;
         }
+        public static void saveDianShangBoxRecord(CDianShangBox box)
+        {
+            try
+            {
+                string sql = "";
+
+                sql = string.Format("insert into DianShangRecord (docNo,boxNo,re,msg,sapRe,sapMsg,inInfo,timestamp,deviceNo) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}', GETDATE(),'{7}')"
+                    , box.doc, box.hu, box.inventoryRe, box.inventoryMsg, box.sapRe, box.sapMsg, JsonConvert.SerializeObject(box), SysConfig.DeviceNO);
+                DBHelper.ExecuteNonQuery(sql);
+            }
+            catch (Exception ex)
+            {
+                Log4netHelper.LogError(ex);
+            }
+        }
+
         public static void saveDianShangBox(CDianShangBox box)
         {
             try
@@ -4469,40 +4399,11 @@ SELECT Id ,
             bool re = true;
             try
             {
-                if(a!=null && b!=null)
-                {
-                    if(a.Count == b.Count)
-                    {
-                        foreach(var v in a)
-                        {
-                            if(!b.Exists(i=>i == v))
-                            {
-                                re = false;
-                                break;
-                            }
-                        }
-                        foreach(var v in b)
-                        {
-                            if (!a.Exists(i => i == v))
-                            {
-                                re = false;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        re = false;
-                    }
-                }
-                else
-                {
-                    re = false;
-                }
+                re = a.Count == b.Count && a.Intersect(b).Count() == a.Count;
             }
-            catch(Exception)
+            catch (Exception)
             {
-
+                re = false;
             }
             return re;
         }

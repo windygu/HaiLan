@@ -357,4 +357,14 @@ namespace HLACommonLib.Model
         public string sapRe = "";
         public string sapMsg = "";
     }
+
+    public class CTagDetail
+    {
+        public string bar;
+        public string zsatnr;
+        public string zcolsn;
+        public string zsiztx;
+        public string charg;
+        public int quan;
+    }
 }

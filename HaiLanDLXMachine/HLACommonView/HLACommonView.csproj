@@ -188,6 +188,12 @@
       <DependentUpon>GxForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Interfaces\IInventoryForm.cs" />
+    <Compile Include="Views\UploadMsgForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\UploadMsgForm.Designer.cs">
+      <DependentUpon>UploadMsgForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HLACommonLib\HLACommonLib.csproj">
@@ -235,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GxForm.resx">
       <DependentUpon>GxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\UploadMsgForm.resx">
+      <DependentUpon>UploadMsgForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

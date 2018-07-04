@@ -4138,6 +4138,8 @@ namespace HLACommonLib
                             ch.mIsHz = isHz;
                             ch.mIsRFID = isRFID;
                             ch.addBarQty(barcd, qty);
+
+                            re.docData.Add(ch);
                         }
                         else
                         {
@@ -4145,7 +4147,6 @@ namespace HLACommonLib
                             ch.addBarQty(barcd, qty);
                         }
 
-                        re.docData.Add(ch);
                     }
 
                     RfcSessionManager.EndContext(dest);
@@ -4603,9 +4604,15 @@ namespace HLACommonLib
                         XmlNodeList productList = data.SelectNodes("Inner_SyncPurchaseSearchInfoData/products/product");
                         if(productList!=null)
                         {
-                            foreach(var v in productList)
+                            foreach(XmlNode v in productList)
                             {
-
+                                XmlNode pro = v.SelectSingleNode("sapCode");
+                                XmlNode qty = v.SelectSingleNode("qty");
+                                if(pro!=null && qty!=null)
+                                {
+                                    CBarQty barQty = new CBarQty(pro.InnerText, int.Parse(qty.InnerText));
+                                    re.dsData.Add(barQty);
+                                }
                             }
                         }
                     }

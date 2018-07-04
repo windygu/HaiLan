@@ -2,6 +2,7 @@
 using HLACommonLib;
 using HLACommonLib.Model;
 using HLACommonLib.Model.PK;
+using HLACommonView.Views.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,39 +10,46 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
-namespace HLAJiaoJieCheckChannelMachine
+namespace HLACommonView.Views
 {
-    
+    public interface UploadMsgFormMethod
+    {
+        void Upload(CUploadData ud);
+    }
     public partial class UploadMsgForm : MetroForm
     {
+        UploadMsgFormMethod mUploadMethod = null;
+        ProcessDialog pd = new ProcessDialog();
+
         bool mSelAll = false;
-        Form1 mParent = null;
-        public UploadMsgForm(Form1 parent)
+        public UploadMsgForm(UploadMsgFormMethod p)
         {
+            mUploadMethod = p;
             InitializeComponent();
-            mParent = parent;
         }
 
         private void initData()
         {
-            grid.Rows.Clear();
+            Invoke(new Action(() => {
+                grid.Rows.Clear();
 
-            List<CUploadData> list = SqliteDataService.GetExpUploadFromSqlite<CDianShangBox>();
-            if (list != null && list.Count > 0)
-            {
-                foreach (var item in list)
+                List<CUploadData> list = SqliteDataService.GetExpUploadFromSqlite<CCancelUpload>();
+                if (list != null && list.Count > 0)
                 {
-                    CDianShangBox ju = item.Data as CDianShangBox;
-                    if (ju != null)
+                    foreach (var item in list)
                     {
-                        grid.Rows.Insert(0, false, ju.hu, item.MSG);
-                        grid.Rows[0].Tag = item;
+                        CCancelUpload ju = item.Data as CCancelUpload;
+                        if (ju != null)
+                        {
+                            grid.Rows.Insert(0, false, ju.boxno, item.MSG);
+                            grid.Rows[0].Tag = item;
+                        }
                     }
                 }
-            }
-            
+            }));
         }
         private void UploadMgForm_Load(object sender, EventArgs e)
         {
@@ -76,22 +84,46 @@ namespace HLAJiaoJieCheckChannelMachine
                 grid.Rows[e.RowIndex].Cells[0].Value = !(Boolean)(grid.Rows[e.RowIndex].Cells[0].Value);
             }
         }
+        public virtual void ShowLoading(string message)
+        {
+            Invoke(new Action(() => {
+                pd.Show();
+                metroPanel1.Show();
+                lblText.Text = message;
+            }));
 
+        }
+
+        public virtual void HideLoading()
+        {
+            Invoke(new Action(() => {
+                pd.Hide();
+                metroPanel1.Hide();
+                lblText.Text = "";
+            }));
+        }
         private void btnReupload_Click(object sender, EventArgs e)
         {
             List<DataGridViewRow> rows = GetCheckedRows();
             if (rows!=null && rows.Count>0)
             {
-                foreach (DataGridViewRow row in rows)
+                Thread t = new Thread(new ThreadStart(() =>
                 {
-                    CUploadData data = row.Tag as CUploadData;
-                    SqliteDataService.delUploadFromSqlite(data.Guid);
-                    CDianShangBox box = data.Data as CDianShangBox;
-                    mParent.saveAndUpdate(box);
-                    mParent.addgrid(box);
-                }
-                initData();
+                    ShowLoading("正在上传...");
+                    foreach (DataGridViewRow row in rows)
+                    {
+                        CUploadData box = row.Tag as CUploadData;
+                        SqliteDataService.delUploadFromSqlite(box.Guid);
+                        mUploadMethod.Upload(box);
+                    }
+                    initData();
+                    HideLoading();
+                }));
+                t.IsBackground = true;
+                t.Start();
+
             }
+
         }
 
         private List<DataGridViewRow> GetCheckedRows()

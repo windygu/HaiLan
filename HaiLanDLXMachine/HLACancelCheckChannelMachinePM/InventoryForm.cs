@@ -22,7 +22,7 @@ using System.Data.SqlClient;
 
 namespace HLACancelCheckChannelMachine
 {
-    public partial class InventoryForm : CommonPMInventoryForm
+    public partial class InventoryForm : CommonPMInventoryForm,UploadMsgFormMethod
     {
         CLogManager mLog = new CLogManager(true);
 
@@ -121,8 +121,6 @@ namespace HLACancelCheckChannelMachine
                 hlaTagList = LocalDataService.GetAllRfidHlaTagList();
                 if (hlaTagList == null || hlaTagList.Count <= 0)
                 {
-
-
                     this.Invoke(new Action(() =>
                     {
                         HideLoading();
@@ -131,16 +129,16 @@ namespace HLACancelCheckChannelMachine
                         closed = true;
                         Close();
                     }));
-
                 }
 
-
-                if (closed) return;
+                if (closed)
+                    return;
 
                 Invoke(new Action(() =>
                 {
                     btnStart.Enabled = true;
                 }));
+
                 HideLoading();
 
             }));
@@ -186,7 +184,17 @@ namespace HLACancelCheckChannelMachine
                 lastReadTime = DateTime.Now;
             }
         }
-
+        void addGrid(CheckResult cr)
+        {
+            Invoke(new Action(() =>
+            {
+                grid.Rows.Insert(0, "", "", "", "", "", "", cr.Message);
+                if (!cr.InventoryResult)
+                {
+                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
+                }
+            }));
+        }
         void restoreGrid(string doc)
         {
             try
@@ -250,7 +258,14 @@ namespace HLACancelCheckChannelMachine
                         cy.bar = v.barcd;
                         cy.barChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && !i.IsAddEpc) - v.qty;
                         cy.barAdd = getBarAdd(v.barcd);
-                        cy.barAddChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && i.IsAddEpc) - v.qty;
+                        if (string.IsNullOrEmpty(cy.barAdd))
+                        {
+                            cy.barAddChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && i.IsAddEpc) - 0;
+                        }
+                        else
+                        {
+                            cy.barAddChaYiQty = tagDetailList.Count(i => i.BARCD == v.barcd && i.IsAddEpc) - v.qty;
+                        }
 
                         re.Add(cy);
                     }
@@ -292,14 +307,13 @@ namespace HLACancelCheckChannelMachine
         {
             CheckResult result = base.CheckData();
 
-            string curBoxNo = getBoxNo();
-            if (curBoxNo == "")
+            if (getBoxNo() == "")
             {
                 result.UpdateMessage(HU_IS_NULL);
                 result.InventoryResult = false;
             }
 
-            if (!mDocData.docData.Exists(i => i.hu == curBoxNo))
+            if (!mDocData.docData.Exists(i => i.hu == getBoxNo()))
             {
                 result.UpdateMessage(BU_ZAI_BEN_XIANG);
                 result.InventoryResult = false;
@@ -308,10 +322,11 @@ namespace HLACancelCheckChannelMachine
             if (result.Message.Contains(HU_IS_NULL) || result.Message.Contains(Consts.Default.XIANG_MA_BU_YI_ZHI))
             {
                 //直接返回
+                addGrid(result);
                 return result;
             }
 
-            List<CChaYi> chayi = piPei3(curBoxNo);
+            List<CChaYi> chayi = piPei3(getBoxNo());
 
             foreach (var v in chayi)
             {
@@ -334,18 +349,7 @@ namespace HLACancelCheckChannelMachine
                 v.msg = result.Message;
             }
 
-            if (curBoxNo == "")
-            {
-                grid.Rows.Insert(0, "", "", "", "", "", "", result.Message);
-                if (!result.InventoryResult)
-                {
-                    grid.Rows[0].DefaultCellStyle.BackColor = Color.OrangeRed;
-                }
-            }
-
-            //save to local
-            saveToLocal(mDocNo, curBoxNo, result.InventoryResult ? "S" : "E", result.Message, chayi);
-
+            ShowLoading("正在打印...");
             //print
             bool isHZ = false;
             Utils.CPrintData printData = getPrintData(chayi, result, ref isHZ);
@@ -360,7 +364,7 @@ namespace HLACancelCheckChannelMachine
 
             CCancelUpload uploadData = new CCancelUpload();
             uploadData.lgnum = SysConfig.LGNUM;
-            uploadData.boxno = curBoxNo;
+            uploadData.boxno = getBoxNo();
             uploadData.subuser = SysConfig.CurrentLoginUser.UserId;
             uploadData.inventoryRe = result.InventoryResult;
             uploadData.equipID = SysConfig.DeviceInfo.EQUIP_HLA;
@@ -371,15 +375,22 @@ namespace HLACancelCheckChannelMachine
             uploadData.tagDetailList = tagDetailList.ToList();
             uploadData.isHZ = isHZ;
 
+            ShowLoading("正在上传SAP...");
             string sapRe = "";
             string sapMsg = "";
             uploadSAP(uploadData, out sapRe, out sapMsg);
+
+            playSound(result.InventoryResult && sapRe == "S");
 
             foreach (var v in chayi)
             {
                 v.sapMsg = sapMsg;
                 v.sapRe = sapRe;
             }
+
+            ShowLoading("正在保存到本地...");
+            //save to local
+            saveToLocal(mDocNo, getBoxNo(), result.InventoryResult ? "S" : "E", result.Message, chayi);
 
             addGrid(chayi);
 
@@ -546,9 +557,13 @@ namespace HLACancelCheckChannelMachine
                 }));
                 isInventory = false;
                 base.StopInventory();
-                CheckResult cre = CheckData();
 
-                playSound(cre.InventoryResult);
+                Thread t = new Thread(new ThreadStart(() =>
+                {
+                    CheckResult cre = CheckData();
+                }));
+                t.IsBackground = true;
+                t.Start();
 
             }
         }
@@ -700,6 +715,13 @@ namespace HLACancelCheckChannelMachine
                 return;
 
 
+        }
+
+        public void Upload(CUploadData ud)
+        {
+            string re = "";
+            string msg = "";
+            uploadSAP(ud.Data as CCancelUpload, out re, out msg);
         }
     }
 

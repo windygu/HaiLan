@@ -53,6 +53,34 @@ namespace HLACommonView.Views
             mIgnoreEpcs = SAPDataService.getIngnoreEpcs();
         }
 
+        public List<CTagDetail> getTags()
+        {
+            List<CTagDetail> re = new List<CTagDetail>();
+
+            try
+            {
+                List<string> barList = tagDetailList.Select(i => i.BARCD).Distinct().ToList();
+                foreach (var v in barList)
+                {
+                    TagDetailInfo ti = tagDetailList.FirstOrDefault(i => i.BARCD == v);
+
+                    CTagDetail t = new CTagDetail();
+                    t.bar = ti.BARCD;
+                    t.zsatnr = ti.ZSATNR;
+                    t.zcolsn = ti.ZCOLSN;
+                    t.zsiztx = ti.ZSIZTX;
+                    t.charg = ti.CHARG;
+                    t.quan = tagDetailList.Count(i => i.BARCD == v && !i.IsAddEpc);
+
+                    re.Add(t);
+                }
+            }
+
+            catch (Exception)
+            { }
+
+            return re;
+        }
 
 
         public virtual CheckResult CheckData()

@@ -37,9 +37,13 @@ namespace HLACommonView.Views
         public Queue<string> boxNoList = new Queue<string>();
         private ErrorWarnForm mErrorForm = new ErrorWarnForm();
 
+        private List<string> mIgnoreEpcs = new List<string>();
+
         public CommonPMInventoryForm()
         {
             InitializeComponent();
+            mIgnoreEpcs = SAPDataService.getIngnoreEpcs();
+
         }
 
         public virtual void InitDevice(string comPort,string power = "23")
@@ -65,10 +69,34 @@ namespace HLACommonView.Views
 
             reportEpc(epc);
         }
+        public bool ignore(string epc)
+        {
+            try
+            {
+                if (mIgnoreEpcs != null && mIgnoreEpcs.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(epc) && epc.Length >= 14)
+                    {
+                        string rfidEpc = epc.Substring(0, 14);
+                        if (mIgnoreEpcs.Exists(i => i.Contains(rfidEpc)))
+                        {
+                            return true;
+                        }
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return false;
+        }
 
         public virtual void reportEpc(string epc)
         {
-            if (!isInventory || string.IsNullOrEmpty(epc)) return;
+            if (!isInventory || string.IsNullOrEmpty(epc) || ignore(epc)) return;
             if (!epcList.Contains(epc))
             {
                 lastReadTime = DateTime.Now;

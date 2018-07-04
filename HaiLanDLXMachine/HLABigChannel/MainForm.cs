@@ -328,5 +328,14 @@ namespace HLABigChannel
             closeMachine();
         }
 
+        private void dmButton2_dianshang_Click(object sender, EventArgs e)
+        {
+            dmButton2_dianshang.Enabled = false;
+
+            StartProgram(sender, "HLADianShangCheckChannelMachine.exe", "dianshang");
+
+            this.dmButton2_dianshang.Enabled = true;
+            this.WindowState = FormWindowState.Maximized;
+        }
     }
 }
