@@ -49,6 +49,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Codetag.Rfid.ClassLibrary">
+      <HintPath>..\packages\Codetag.Rfid.ClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeTagClassLibrary">
+      <HintPath>..\packages\CodeTagClassLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="DMSkin">
       <HintPath>..\packages\DMSkin.dll</HintPath>
     </Reference>
@@ -107,6 +113,12 @@
     <Compile Include="Views\ComboBoxList\CCBoxItem.cs" />
     <Compile Include="Views\ComboBoxList\CheckedComboBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\CommonInventoryFormYZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CommonInventoryFormYZ.Designer.cs">
+      <DependentUpon>CommonInventoryFormYZ.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\CommonInventoryFormIMP.cs">
       <SubType>Form</SubType>
@@ -205,6 +217,9 @@
     <EmbeddedResource Include="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CommonInventoryFormYZ.resx">
+      <DependentUpon>CommonInventoryFormYZ.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CommonInventoryFormIMP.resx">
       <DependentUpon>CommonInventoryFormIMP.cs</DependentUpon>
