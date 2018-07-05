@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{235D4E27-2EDF-4297-97EC-5EFD87A2EE3F}</ProjectGuid>
+    <ProjectGuid>{5D2910D8-B05D-43BF-BC95-2FB4028C8A11}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HLACancelCheckChannelMachine</RootNamespace>
-    <AssemblyName>HLACancelCheckChannelMachinePM</AssemblyName>
+    <RootNamespace>HLAChannel</RootNamespace>
+    <AssemblyName>海澜智能供应链系统%28大通道机%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -23,13 +23,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -44,32 +47,19 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DMSkin">
+    <Reference Include="DMSkin, Version=0.3.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DMSkin.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="OSharp.Utility">
-      <HintPath>..\packages\OSharp.Utility.dll</HintPath>
-    </Reference>
-    <Reference Include="Stimulsoft.Base, Version=2012.3.1500.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Stimulsoft.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="Stimulsoft.Report, Version=2012.3.1500.0, Culture=neutral, PublicKeyToken=ebe6666cba19647a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Stimulsoft.Report.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,44 +68,19 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="UARTRfidLink">
-      <HintPath>..\packages\UARTRfidLink.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocSel.cs">
+    <Compile Include="AppConfig.cs" />
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DocSel.Designer.cs">
-      <DependentUpon>DocSel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InventoryForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InventoryForm.Designer.cs">
-      <DependentUpon>InventoryForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="LoginForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LoginForm.Designer.cs">
-      <DependentUpon>LoginForm.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UploadMsgForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UploadMsgForm.Designer.cs">
-      <DependentUpon>UploadMsgForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\AppConfig.cs" />
-    <Compile Include="Utils\PrintHelper.cs" />
-    <EmbeddedResource Include="DocSel.resx">
-      <DependentUpon>DocSel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="InventoryForm.resx">
-      <DependentUpon>InventoryForm.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -127,19 +92,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UploadMsgForm.resx">
-      <DependentUpon>UploadMsgForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="App.config" />
-    <None Include="DB\HLA.sqlite">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="LabelMultiSku.mrt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="LabelMultiSkuCancel.mrt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -151,30 +104,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HLACommonLib\HLACommonLib.csproj">
-      <Project>{e936aa4c-e048-49eb-8755-4827453d1b10}</Project>
-      <Name>HLACommonLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HLACommonView\HLACommonView.csproj">
-      <Project>{65902545-3d81-4490-8a17-7aef8e94293a}</Project>
-      <Name>HLACommonView</Name>
-    </ProjectReference>
+    <Content Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Res\fail.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Res\success.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Res\warningwav.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\HLACommon\HLACommon.csproj">
+      <Project>{65902545-3d81-4490-8a17-7aef8e94293a}</Project>
+      <Name>HLACommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>xCopy /y $(TargetDir)*.*  $(SolutionDir)HLABigChannelPM\bin\x86\Release\cancelcheck\ /s</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

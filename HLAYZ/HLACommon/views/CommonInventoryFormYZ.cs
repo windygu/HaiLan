@@ -1,10 +1,4 @@
 ﻿using DMSkin;
-using HLACommonLib;
-using HLACommonLib.Model;
-using HLACommonView.Configs;
-using HLACommonView.Model;
-using HLACommonView.Views.Dialogs;
-using HLACommonView.Views.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +18,7 @@ using System.Configuration;
 using UARTRfidLink.Exparam;
 using Codetag.Rfid.ClassLibrary;
 
-namespace HLACommonView.Views
+namespace HLACommon.Views
 {
     public partial class CommonInventoryFormYZ : MetroForm
     {
@@ -85,12 +79,12 @@ namespace HLACommonView.Views
             CheckResult result = new CheckResult();
             if (mErrorEpcNumber > 0)
             {
-                result.UpdateMessage(Consts.Default.EPC_WEI_ZHU_CE);
+                result.UpdateMessage(CErrorMsg.EPC_WEI_ZHU_CE);
                 result.InventoryResult = false;
             }
             if (mMainEpcNumber != mAddEpcNumber && mAddEpcNumber > 0)
             {
-                result.UpdateMessage(Consts.Default.TWO_NUMBER_ERROR);
+                result.UpdateMessage(CErrorMsg.TWO_NUMBER_ERROR);
                 result.InventoryResult = false;
             }
 
@@ -98,7 +92,7 @@ namespace HLACommonView.Views
             {
                 if (mTagDetailList.Exists(i => !string.IsNullOrEmpty(i.BARCD_ADD)))
                 {
-                    result.UpdateMessage(Consts.Default.TWO_NUMBER_ERROR);
+                    result.UpdateMessage(CErrorMsg.TWO_NUMBER_ERROR);
                     result.InventoryResult = false;
                 }
             }
@@ -106,12 +100,12 @@ namespace HLACommonView.Views
             if (mBoxNoList.Count > 0)
             {
                 mBoxNoList.Clear();
-                result.UpdateMessage(Consts.Default.XIANG_MA_BU_YI_ZHI);
+                result.UpdateMessage(CErrorMsg.XIANG_MA_BU_YI_ZHI);
                 result.InventoryResult = false;
             }
             if (mEpcList.Count == 0)
             {
-                result.UpdateMessage(Consts.Default.WEI_SAO_DAO_EPC);
+                result.UpdateMessage(CErrorMsg.WEI_SAO_DAO_EPC);
                 result.InventoryResult = false;
             }
 
@@ -223,18 +217,20 @@ namespace HLACommonView.Views
             if (readerType == READER_TYPE.READER_IMP || readerType == READER_TYPE.READER_TM)
             {
                 mReader.OnTagReported += Reader_OnTagReported;
+
+                mPlc = new PLCController(CConfig.mPLCComPort);
+                if (connectBarcode)
+                {
+                    mBarcode1 = new BarcodeDevice(CConfig.mScannerPort_1);
+                    mBarcode2 = new BarcodeDevice(CConfig.mScannerPort_2);
+                }
             }
             if (readerType == READER_TYPE.READER_DLX_PM || readerType == READER_TYPE.READER_XD_PM)
             {
                 mReader.OnTagReported += Reader_OnTagReportedPM;
             }
 
-            mPlc = new PLCController(SysConfig.Port);
-            if (connectBarcode)
-            {
-                mBarcode1 = new BarcodeDevice(SysConfig.ScannerPort_1);
-                mBarcode2 = new BarcodeDevice(SysConfig.ScannerPort_2);
-            }
+            
         }
 
         public virtual void CloseWindow()
@@ -342,7 +338,7 @@ namespace HLACommonView.Views
             TagDetailInfo tag = GetTagDetailInfoByBar(bar);
 
             string errorMsg = "";
-            if (!checkTagOK(tag, out errorMsg))
+            if (!tag.IsAddEpc && !checkTagOK(tag, out errorMsg))
             {
                 mErrorForm.showErrorInfo(bar, tag, errorMsg);
                 return;
@@ -374,7 +370,7 @@ namespace HLACommonView.Views
                 TagDetailInfo tag = GetTagDetailInfoByEpc(epc);
 
                 string errorMsg = "";
-                if (!checkTagOK(tag, out errorMsg))
+                if (!tag.IsAddEpc && !checkTagOK(tag, out errorMsg))
                 {
                     mErrorForm.showErrorInfo(tag.EPC, tag, errorMsg);
                     return;
@@ -448,7 +444,7 @@ namespace HLACommonView.Views
             if (mIsInventory)
             {
                 //当前正在盘点，则判断上次读取时间和现在读取时间
-                if ((DateTime.Now - mLastReadTime).TotalMilliseconds >= SysConfig.DelayTime)
+                if ((DateTime.Now - mLastReadTime).TotalMilliseconds >= CConfig.mDelayTime)
                 {
                     StopInventory();
                 }
@@ -536,6 +532,8 @@ namespace HLACommonView.Views
         public RfidReader mReaderXDPM = null;
 
         public READER_TYPE mReaderType;
+        public PLC_TYPE mPLCType;
+
         public string mIp;
         public double mPower;
 
@@ -544,14 +542,15 @@ namespace HLACommonView.Views
         /*
          
         */
-        public CReader(READER_TYPE rt)
+        public CReader(READER_TYPE rt,PLC_TYPE pt)
         {
             mReaderType = rt;
+            mPLCType = pt;
 
             if(mReaderType == READER_TYPE.READER_IMP)
             {
-                mIp = ConfigurationManager.AppSettings["ReaderIP_IMP"];
-                mPower = double.Parse(ConfigurationManager.AppSettings["ReaderPower_IMP"]);
+                mIp = ConfigurationManager.AppSettings["ReaderIP_IMP_XD"];
+                mPower = double.Parse(ConfigurationManager.AppSettings["ReaderPower_IMP_XD"]);
             }
             if (mReaderType == READER_TYPE.READER_TM)
             {
@@ -877,12 +876,5 @@ namespace HLACommonView.Views
 
             }
         }
-    }
-    public enum READER_TYPE
-    {
-        READER_IMP,
-        READER_TM,
-        READER_DLX_PM,
-        READER_XD_PM
     }
 }

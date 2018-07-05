@@ -107,6 +107,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UploadMsgForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UploadMsgForm.Designer.cs">
+      <DependentUpon>UploadMsgForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\AppConfig.cs" />
     <Compile Include="Utils\PrintHelper.cs" />
     <EmbeddedResource Include="DocSel.resx">
@@ -125,6 +131,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UploadMsgForm.resx">
+      <DependentUpon>UploadMsgForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config" />
     <None Include="DB\HLA.sqlite">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

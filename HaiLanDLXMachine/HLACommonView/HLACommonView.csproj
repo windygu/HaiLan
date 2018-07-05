@@ -126,11 +126,23 @@
     <Compile Include="Views\CommonInventoryFormIMP.Designer.cs">
       <DependentUpon>CommonInventoryFormIMP.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\CommonLoginFormYZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CommonLoginFormYZ.Designer.cs">
+      <DependentUpon>CommonLoginFormYZ.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\CommonLoginFormPM.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\CommonLoginFormPM.Designer.cs">
       <DependentUpon>CommonLoginFormPM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigFormYZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ConfigFormYZ.Designer.cs">
+      <DependentUpon>ConfigFormYZ.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ConfigFormPM.cs">
       <SubType>Form</SubType>
@@ -200,12 +212,6 @@
       <DependentUpon>GxForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Interfaces\IInventoryForm.cs" />
-    <Compile Include="Views\UploadMsgForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\UploadMsgForm.Designer.cs">
-      <DependentUpon>UploadMsgForm.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HLACommonLib\HLACommonLib.csproj">
@@ -224,8 +230,14 @@
     <EmbeddedResource Include="Views\CommonInventoryFormIMP.resx">
       <DependentUpon>CommonInventoryFormIMP.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\CommonLoginFormYZ.resx">
+      <DependentUpon>CommonLoginFormYZ.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\CommonLoginFormPM.resx">
       <DependentUpon>CommonLoginFormPM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ConfigFormYZ.resx">
+      <DependentUpon>ConfigFormYZ.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ConfigFormPM.resx">
       <DependentUpon>ConfigFormPM.cs</DependentUpon>
@@ -256,9 +268,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GxForm.resx">
       <DependentUpon>GxForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\UploadMsgForm.resx">
-      <DependentUpon>UploadMsgForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

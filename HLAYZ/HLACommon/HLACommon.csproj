@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{65902545-3D81-4490-8A17-7AEF8E94293A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HLACommon</RootNamespace>
+    <AssemblyName>HLACommon</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Codetag.Rfid.ClassLibrary">
+      <HintPath>..\packages\Codetag.Rfid.ClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CodeTagClassLibrary">
+      <HintPath>..\packages\CodeTagClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="DMSkin">
+      <HintPath>..\packages\DMSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Impinj.OctaneSdk">
+      <HintPath>..\packages\Impinj.OctaneSdk.dll</HintPath>
+    </Reference>
+    <Reference Include="LLRP">
+      <HintPath>..\packages\LLRP.dll</HintPath>
+    </Reference>
+    <Reference Include="LLRP.Impinj">
+      <HintPath>..\packages\LLRP.Impinj.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MercuryAPI">
+      <HintPath>..\packages\MercuryAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\sapnco.dll</HintPath>
+    </Reference>
+    <Reference Include="sapnco_utils, Version=3.0.0.42, Culture=neutral, PublicKeyToken=50436dca5c7f7d23, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\sapnco_utils.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UARTRfidLink">
+      <HintPath>..\packages\UARTRfidLink.dll</HintPath>
+    </Reference>
+    <Reference Include="Xindeco.Device">
+      <HintPath>..\packages\Xindeco.Device.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AudioHelper.cs" />
+    <Compile Include="CommonConfig.cs" />
+    <Compile Include="CommonLogic.cs" />
+    <Compile Include="CommonService.cs" />
+    <Compile Include="DBHelper.cs" />
+    <Compile Include="Log4netHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SAPDataService.cs" />
+    <Compile Include="SqliteDataService.cs" />
+    <Compile Include="views\CommonInventoryFormYZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\CommonInventoryFormYZ.Designer.cs">
+      <DependentUpon>CommonInventoryFormYZ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\CommonLoginFormYZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\CommonLoginFormYZ.Designer.cs">
+      <DependentUpon>CommonLoginFormYZ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\ConfigFormYZ.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\ConfigFormYZ.Designer.cs">
+      <DependentUpon>ConfigFormYZ.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\ErrorWarnForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\ErrorWarnForm.Designer.cs">
+      <DependentUpon>ErrorWarnForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\SmallCommonInventoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\SmallCommonInventoryForm.Designer.cs">
+      <DependentUpon>SmallCommonInventoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\ProcessDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\ProcessDialog.designer.cs">
+      <DependentUpon>ProcessDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\GxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\GxForm.Designer.cs">
+      <DependentUpon>GxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="views\UploadMsgForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="views\UploadMsgForm.Designer.cs">
+      <DependentUpon>UploadMsgForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="views\CommonInventoryFormYZ.resx">
+      <DependentUpon>CommonInventoryFormYZ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\CommonLoginFormYZ.resx">
+      <DependentUpon>CommonLoginFormYZ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\ConfigFormYZ.resx">
+      <DependentUpon>ConfigFormYZ.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\ErrorWarnForm.resx">
+      <DependentUpon>ErrorWarnForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\SmallCommonInventoryForm.resx">
+      <DependentUpon>SmallCommonInventoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\ProcessDialog.resx">
+      <DependentUpon>ProcessDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\GxForm.resx">
+      <DependentUpon>GxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="views\UploadMsgForm.resx">
+      <DependentUpon>UploadMsgForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Codetag.Rfid.ClassLibrary.dll" />
+    <Analyzer Include="..\packages\CodeTagClassLibrary.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res\fail.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\success.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="res\warningwav.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\HLA.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -405,4 +405,16 @@ namespace HLACommonLib
             return AddressIP;
         }
     }
+
+    public class YZConfig
+    {
+        public static string mIp;
+        public static double mPower;
+        public static string mCom;
+
+        public static void loadConfig()
+        {
+
+        }
+    }
 }
